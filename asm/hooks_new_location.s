@@ -1,13 +1,26 @@
-LoadOverlayHook:
+LoadOverlayHook_Mp2:
+ADDIU sp, sp, -0x20 //restore from hook
+SW ra, 0x0018 (sp) //restore from hook
+ORI t0, r0, 0x0062 //opening scene overlay ID
+BNE t0, a0, normalExitMp2
+NOP
+//swap game
+//JAL ComboSwitchGameToMp3
+//NOP
+normalExitMp2:
+J 0x80018B38
+NOP
+
+LoadOverlayHook_Mp3:
 ADDIU sp, sp, -0x20 //restore from hook
 SW ra, 0x0018 (sp) //restore from hook
 ORI t0, r0, 0x007A //title screen overlay ID
-BNE t0, a0, normalExit
+BNE t0, a0, normalExitMp3
 NOP
-//not normal exit, swap game
-JAL ComboSwitchGame
+//swap game
+JAL ComboSwitchGameToMp2
 NOP
-normalExit:
+normalExitMp3:
 J 0x80048130
 NOP
 

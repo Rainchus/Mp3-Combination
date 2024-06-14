@@ -15,9 +15,15 @@ System_DisableInterrupts:
   jr   ra
    sw  a0, 0x0c(a1)
 
-ComboGameSwitch2:
+ComboGameSwitch2ToMp3:
   la sp,0xa0800000
-  la t0,(ComboSwitchGame3 + 0x20000000)
+  la t0,(ComboSwitchGame3ToMp3 + 0x20000000) //points to uncached ram
+  jr t0
+   nop
+
+ComboGameSwitch2ToMp2:
+  la sp,0xa0800000
+  la t0,(ComboSwitchGame3ToMp2 + 0x20000000) //points to uncached ram
   jr t0
    nop
 

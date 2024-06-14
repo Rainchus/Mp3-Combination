@@ -23,13 +23,18 @@
 
 //mp3
 .org 0x80048128
-J LoadOverlayHook
+J LoadOverlayHook_Mp3
 NOP
 
 //mp2
 .headersize 0x7DFFF400 //ROM Addr of combination rom, 0x3EFDB00
 .org 0x8009D950
 J mp2_osEPiRawStartDmaHook
+NOP
+
+//mp2
+.org 0x80018B30
+J LoadOverlayHook_Mp2
 NOP
 
 //mp2
