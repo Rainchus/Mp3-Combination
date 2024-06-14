@@ -1,4 +1,4 @@
-#include "mp1.h"
+#include "mp3.h"
 
 void WaitForSubSystems(void) {
     u32 tmp;

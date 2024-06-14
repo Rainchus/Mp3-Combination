@@ -2,7 +2,6 @@
 #define _MP1_H_
 
 #include "ultra64.h"
-#include "OS.h"
 #include "functions.h"
 
 typedef struct Vec3f {

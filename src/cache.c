@@ -1,10 +1,9 @@
-#include "mp1.h"
+#include "mp3.h"
 
 #define ICACHELINE 0x20
 #define DCACHELINE 0x10
 
-void System_InvalICache(void* addr, u32 size)
-{
+void System_InvalICache(void* addr, u32 size) {
     u32 iaddr;
     u32 iend;
     u32 count;
@@ -20,8 +19,7 @@ void System_InvalICache(void* addr, u32 size)
     }
 }
 
-void System_InvalDCache(void* addr, u32 size)
-{
+void System_InvalDCache(void* addr, u32 size) {
     u32 daddr;
     u32 dend;
     u32 count;
