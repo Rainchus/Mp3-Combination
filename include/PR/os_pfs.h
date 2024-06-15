@@ -21,7 +21,7 @@
 
 /*---------------------------------------------------------------------*
         Copyright (C) 1998 Nintendo. (Originated by SGI)
-        
+
         $RCSfile: os_pfs.h,v $
         $Revision: 1.1 $
         $Date: 1998/10/09 08:01:16 $
@@ -34,11 +34,11 @@
 extern "C" {
 #endif
 
-#include "ultratypes.h"
+#include <PR/ultratypes.h>
 #include "os_message.h"
 
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /**************************************************************************
  *
@@ -118,7 +118,7 @@ typedef struct {
 #define PFS_ERR_NOPACK          1   /* no memory card is plugged or */
 #define PFS_ERR_NEW_PACK        2   /* ram pack has been changed to a different one */
 #define PFS_ERR_INCONSISTENT    3   /* need to run Pfschecker*/
-#define PFS_ERR_CONTRFAIL       CONT_OVERRUN_ERROR              
+#define PFS_ERR_CONTRFAIL       CONT_OVERRUN_ERROR
 #define PFS_ERR_INVALID         5   /* invalid parameter or file not exist*/
 #define PFS_ERR_BAD_DATA        6   /* the data read from pack are bad*/
 #define PFS_DATA_FULL           7   /* no free pages on ram pack*/
@@ -150,7 +150,7 @@ typedef struct {
 #define PFS_SECTOR_SIZE     (PFS_INODE_SIZE_PER_PAGE/PFS_SECTOR_PER_BANK)
 
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /**************************************************************************
  *

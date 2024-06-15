@@ -15,10 +15,10 @@
  *
  *  Module: region.h
  *
- *  $Revision: 1.7 $
- *  $Date: 1995/06/07 05:11:42 $
- *  $Author: chn $
- *  $Source: /mdev2/PR/include/RCS/region.h,v $
+ *  $Revision: 1.8 $
+ *  $Date: 1997/11/26 00:30:56 $
+ *  $Author: mitu $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/region.h,v $
  *
  *  Description:
  *      This file contains macros and structure definitions for the region
@@ -35,25 +35,25 @@
 extern "C" {
 #endif
 
-#include "ultratypes.h"
+#include <PR/ultratypes.h>
 
 
 /***************************************
  *
- * Global defines 
+ * Global defines
  *
  */
 					/* Alignment sizes */
 #define	ALIGNSZ			(sizeof(long long))	/* 8 bytes */
-#define	ALIGNOFFST		(ALIGNSZ-1)	
+#define	ALIGNOFFST		(ALIGNSZ-1)
 
 				/* size for storing index to free buffer */
-#define	BUF_CTRL_SIZE		ALIGNSZ		
+#define	BUF_CTRL_SIZE		ALIGNSZ
 
 				/* Max bufcount = 32K */
-#define	MAX_BUFCOUNT		0x8000	
+#define	MAX_BUFCOUNT		0x8000
 				/* code for last free buffer */
-#define	BUF_FREE_WO_NEXT	0x8000	
+#define	BUF_FREE_WO_NEXT	0x8000
 
 /*
  * Global defines for alignment size (default is 8-byte alignment)
@@ -73,7 +73,7 @@ extern "C" {
  */
 
 /* Perform alignment on input 's' */
-#define	ALIGN(s, align)	(((u32)(s) + (align-1)) & ~(align-1))
+#define	ALIGN(s, align)	(((u32)(s) + ((align)-1)) & ~((align)-1))
 
 
 /***************************************
@@ -82,15 +82,15 @@ extern "C" {
  *
  */
 /*
- * Structure for region header/control area 
+ * Structure for region header/control area
  */
 typedef struct _Region_s {
 	u8	*r_startBufferAddress;	/* start address to data buffer */
 	u8	*r_endAddress;		/* end address of region */
 	s32	r_bufferSize;		/* size of buffers for this region */
-	s32	r_bufferCount;		/* up to 32K entries; MSB is used for 
+	s32	r_bufferCount;		/* up to 32K entries; MSB is used for
 					   setting end-of-list/used */
-	u16 	r_freeList;		/* point to array index of first 
+	u16 	r_freeList;		/* point to array index of first
 					   available memory buffer */
 	u16 	r_alignSize;		/* alignment size (# of bytes) */
 } OSRegion;
@@ -107,10 +107,10 @@ typedef struct _Region_s {
  *
  */
 extern void	*osCreateRegion(void *, u32, u32, u32);
-extern void 	*osMalloc(void *); 
-extern void	osFree(void *, void *); 
-extern s32	osGetRegionBufCount(void *); 
-extern s32	osGetRegionBufSize(void *); 
+extern void 	*osMalloc(void *);
+extern void	osFree(void *, void *);
+extern s32	osGetRegionBufCount(void *);
+extern s32	osGetRegionBufSize(void *);
 
 
 #ifdef _LANGUAGE_C_PLUS_PLUS

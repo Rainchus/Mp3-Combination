@@ -10,6 +10,14 @@
  *									  *
  **************************************************************************/
 
+/**************************************************************************
+ *
+ *  $Revision: 1.6 $
+ *  $Date: 1997/02/11 08:30:08 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/rmon.h,v $
+ *
+ **************************************************************************/
+
 #ifndef _RMON_H_
 #define	_RMON_H_
 
@@ -17,7 +25,7 @@
 extern "C" {
 #endif
 
-#include "ultratypes.h"
+#include <PR/ultratypes.h>
 #define RMON_DBG_BUF_SIZE  2048
 #define RMON_STACKSIZE 0x1000
 

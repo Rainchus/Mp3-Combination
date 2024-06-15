@@ -10,6 +10,14 @@
  *									  *
  **************************************************************************/
 
+/**************************************************************************
+ *
+ *  $Revision: 1.9 $
+ *  $Date: 1998/03/05 06:40:29 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/sptask.h,v $
+ *
+ **************************************************************************/
+
 #ifndef _SPTASK_H_
 #define	_SPTASK_H_
 
@@ -17,9 +25,9 @@
 extern "C" {
 #endif
 
-#include "ultratypes.h"
+#include <PR/ultratypes.h>
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /**************************************************************************
  *
@@ -42,7 +50,7 @@ extern "C" {
  *	- pointer to ucode
  *	- size of ucode
  *	- pointer to initial DMEM data
- *	- size of initial DMEM data 
+ *	- size of initial DMEM data
  *	- pointer to DRAM stack
  *	- size of DRAM stack (max)
  *	- pointer to output buffer
@@ -123,13 +131,17 @@ typedef u32 OSYieldResult;
 #define OS_TASK_USR3			0x0080
 
 /*
- * Size of Yield buffer.  The taskHdrPtr->t.yield_data_ptr must point to a 
+ * Size of Yield buffer.  The taskHdrPtr->t.yield_data_ptr must point to a
  * buffer of this size.  (The size is in bytes).  ONLY If the task will NEVER
  * yield it may be a null pointer.  The buffer must be aligned to a 64 bit
  * boundary.  The taskHdrPtr->t.yield_data_ptr must be set to point to the
  * buffer BEFORE the task is started.
  */
-#define OS_YIELD_DATA_SIZE		0xc00
+#if	(defined(F3DEX_GBI)||defined(F3DLP_GBI)||defined(F3DEX_GBI_2))
+#define	OS_YIELD_DATA_SIZE		0xc00
+#else
+#define OS_YIELD_DATA_SIZE		0x900
+#endif
 #define OS_YIELD_AUDIO_SIZE		0x400
 
 /**************************************************************************
@@ -140,7 +152,7 @@ typedef u32 OSYieldResult;
 
 
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /**************************************************************************
  *

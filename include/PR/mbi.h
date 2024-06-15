@@ -13,6 +13,14 @@
  *									  *
  **************************************************************************/
 
+/**************************************************************************
+ *
+ *  $Revision: 1.136 $
+ *  $Date: 1999/01/05 13:04:00 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/mbi.h,v $
+ *
+ **************************************************************************/
+
 /*
  * Header file for the Media Binary Interface
  *
@@ -24,10 +32,10 @@
 
 /*
  * the SHIFT macros are used to build display list commands, inserting
- * bit-fields into a 32-bit word. They take a value, a shift amount, 
+ * bit-fields into a 32-bit word. They take a value, a shift amount,
  * and a width.
  *
- * For the left shift, the lower bits of the value are masked, 
+ * For the left shift, the lower bits of the value are masked,
  * then shifted left.
  *
  * For the right shift, the value is shifted right, then the lower bits
@@ -41,8 +49,6 @@
 #define _SHIFTR(v, s, w)	\
     ((unsigned int)(((unsigned int)(v) >> (s)) & ((0x01 << (w)) - 1)))
 
-#define _SHIFT _SHIFTL	/* old, for compatibility only */
-
 #define G_ON	(1)
 #define G_OFF	(0)
 
@@ -52,7 +58,7 @@
  *
  **************************************************************************/
 
-#include "gbi.h"
+#include <PR/gbi.h>
 
 /**************************************************************************
  *
@@ -60,7 +66,7 @@
  *
  **************************************************************************/
 
-#include "abi.h"
+#include <PR/abi.h>
 
 /**************************************************************************
  *
@@ -71,6 +77,8 @@
 #define	M_GFXTASK	1
 #define	M_AUDTASK	2
 #define	M_VIDTASK	3
+#define M_HVQTASK	6
+#define M_HVQMTASK	7
 
 /**************************************************************************
  *
@@ -80,7 +88,7 @@
 
 #define	NUM_SEGMENTS		(16)
 #define	SEGMENT_OFFSET(a)	((unsigned int)(a) & 0x00ffffff)
-#define	SEGMENT_NUMBER(a)	((unsigned int)(a) >> 24)
+#define	SEGMENT_NUMBER(a)	(((unsigned int)(a) << 4) >> 28)
 #define	SEGMENT_ADDR(num, off)	(((num) << 24) + (off))
 
 #ifndef NULL

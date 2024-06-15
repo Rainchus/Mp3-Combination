@@ -1,3 +1,12 @@
+
+/**************************************************************************
+ *
+ *  $Revision: 1.6 $
+ *  $Date: 1997/02/11 08:29:31 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/rdb.h,v $
+ *
+ **************************************************************************/
+
 #ifndef _RDB_H
 #define _RDB_H
 
@@ -28,7 +37,7 @@
 #define RDB_TYPE_HtoG_DEBUG            	14
 #define RDB_TYPE_HtoG_DEBUG_CT          15
 #define RDB_TYPE_HtoG_DATA              16
-#define RDB_TYPE_HtoG_DATA_DONE		17 
+#define RDB_TYPE_HtoG_DATA_DONE		17
 #define RDB_TYPE_HtoG_REQ_RAMROM        18
 #define RDB_TYPE_HtoG_FREE_RAMROM	19
 #define RDB_TYPE_HtoG_KDEBUG            20
@@ -67,7 +76,7 @@
 #define DEBUG_STATE_RECEIVE	1
 #define DEBUG_STATE_INVALID	255
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /* Structure for debug port */
 typedef struct {

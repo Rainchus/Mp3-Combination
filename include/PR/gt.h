@@ -36,6 +36,14 @@
  *
  */
 
+/**************************************************************************
+ *
+ *  $Revision: 1.16 $
+ *  $Date: 1998/05/28 00:14:50 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/gt.h,v $
+ *
+ **************************************************************************/
+
 #ifndef _GT_H_
 #define	_GT_H_
 
@@ -47,16 +55,18 @@
 extern "C" {
 #endif	/* _LANGUAGE_C_PLUS_PLUS */
 
+#include <PR/ultratypes.h>
+
 /* the following #defines seem out of order, but we need them
  * for the microcode.
  */
 
-/* 
+/*
  * object state field: rendState
  *
  * This flag word is built up out of the bits from a
  * subset of the G_SETGEOMETRYMODE flags from gbi.h.
- * 
+ *
  * When each of these bits is '1', the comments below explain
  * the effect on the triangles.
  */
@@ -73,7 +83,7 @@ extern "C" {
  * texture tile.
  */
 
-/* 
+/*
  * object state field: flag
  *
  * This is a group of what would be pad bits. We use them for some
@@ -84,7 +94,7 @@ extern "C" {
 #define GT_FLAG_XFM_ONLY	0x04	/* xform vtx, write to *TriN */
 
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /* turbo 3D ucode: */
 extern long long int	gspTurbo3DTextStart[], gspTurbo3DTextEnd[];
@@ -95,7 +105,7 @@ extern long long int	gspTurbo3D_fifoTextStart[], gspTurbo3D_fifoTextEnd[];
 extern long long int	gspTurbo3D_fifoDataStart[], gspTurbo3D_fifoDataEnd[];
 
 /*
- * This is the global state structure. It's definition carefully 
+ * This is the global state structure. It's definition carefully
  * matches the ucode, so if this structure changes, you must also change
  * the ucode.
  */
@@ -178,8 +188,8 @@ typedef union {
  *
  * NOTE: The triangle list MUST be aligned to an 8-byte boundary.
  * Since this structure is only 4 bytes, we are REQUIRING that
- * this structure only be used as an array of triangles, and we 
- * depend on the MIPS C compiler (which always aligns arrays to 
+ * this structure only be used as an array of triangles, and we
+ * depend on the MIPS C compiler (which always aligns arrays to
  * 8-byte boundaries). THIS IS DANGEROUS!!!!
  *
  */
@@ -234,10 +244,10 @@ typedef union {
  * requires the RDP othermode command to be cached by the host,
  * therefore we provide a different interface in libultra to help cache
  * this in the gt state (this word is just bits, you could pack them
- * on your own). 
+ * on your own).
  *
- * gtStateSetOthermode() accomplishs this, taking as arguments 
- * the state, one of the following mode enums, and a piece of data 
+ * gtStateSetOthermode() accomplishs this, taking as arguments
+ * the state, one of the following mode enums, and a piece of data
  * (othermode parameters from gbi.h).
  *
  * By definition, the othermode word from the gt state structure is sent
@@ -245,11 +255,11 @@ typedef union {
  * othermode is *always* sent.
  *
  * Stated another way, NONE of the gbi RDP othermode commands equivalent
- * to those listed here are allowed in the rdpCmd[] field of the 
+ * to those listed here are allowed in the rdpCmd[] field of the
  * gt state structure.
  *
  * Notice also that many of these commands do not make sense for
- * the turbo ucode (they control features not supported, like mip-mapping). 
+ * the turbo ucode (they control features not supported, like mip-mapping).
  * They are only included here for completeness.
  *
  */
@@ -278,7 +288,7 @@ typedef enum {
  */
 extern void gtStateSetOthermode(Gfx *om, gtStateOthermode_t mode, int data);
 
-/* 
+/*
  * This call dumps a turbo display list for use with gbi2mem and RSPSIM
  */
 #define GT_DUMPTURBO_HANGAFTER           64

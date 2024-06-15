@@ -37,6 +37,50 @@ NOP
 J LoadOverlayHook_Mp2
 NOP
 
+.org 0x8001AD60
+//if this fails, the game hangs
+//it originally checks for a 4Kbit eeprom, but we want to check for 16Kbit since mp3 uses that
+ADDIU v1, r0, 0x0002 //set eeprom to 16Kbit check instead of 4Kbit check
+
 //mp2
-.org 0x8001AD6C //save file check ASSERT. TODO: fix this being needed
+//.org 0x8001AD6C //save file check ASSERT. TODO: fix this being needed
+//NOP
+
+//reimplement functions for mp2 eeprom
+//mp3 has 2 save files, and will use file slots 1 and 2.
+//slot 3 will be removed from mp3 to make room for mp2's save file
+.org 0x8001ACD0 //replace with decompiled version of function
+J GetEepType
+NOP
+
+//.org 0x8001AEDC
+//J func_8001AEDC_1BADC
+//NOP
+
+.org 0x8001AF0C
+J func_8001AF0C_1BB0C
+NOP
+
+.org 0x8001AFD8
+J func_8001AFD8_1BBD8
+NOP
+
+.org 0x8001B014
+J func_8001B014_1BC14
+NOP
+
+.org 0x8001B078
+J func_8001B078_1BC78
+NOP
+
+.org 0x8001B0B4
+J func_8001B0B4_1BCB4
+NOP
+
+.org 0x8001B0E8
+J func_8001B0E8_1BCE8
+NOP
+
+.org 0x8001B114
+J GetSaveFileChecksum
 NOP

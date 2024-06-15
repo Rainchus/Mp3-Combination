@@ -1,3 +1,11 @@
+/**************************************************************************
+ *
+ *  $Revision: 1.4 $
+ *  $Date: 1997/11/26 00:30:50 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/PRimage.h,v $
+ *
+ **************************************************************************/
+
 #ifndef	__GL_IMAGE_H__
 #define	__GL_IMAGE_H__
 #ifdef __cplusplus
@@ -18,13 +26,13 @@ extern "C" {
 #define IMAGIC 	0732
 
 /* colormap of images */
-#define CM_NORMAL		0	/* file contains rows of values which 
-					 * are either RGB values (zsize == 3) 
+#define CM_NORMAL		0	/* file contains rows of values which
+					 * are either RGB values (zsize == 3)
 					 * or greyramp values (zsize == 1) */
 #define CM_DITHERED		1
 #define CM_SCREEN		2	/* file contains data which is a screen
-					 * image; getrow returns buffer which 
-					 * can be displayed directly with 
+					 * image; getrow returns buffer which
+					 * can be displayed directly with
 					 * writepixels */
 #define CM_COLORMAP		3	/* a colormap file */
 
@@ -37,7 +45,7 @@ extern "C" {
 #define BPP(type)		((type) & BPPMASK)
 #define RLE(bpp)		(ITYPE_RLE | (bpp))
 #define VERBATIM(bpp)		(ITYPE_VERBATIM | (bpp))
-#define	IBUFSIZE(pixels)	((pixels+(pixels>>6))<<2)
+#define	IBUFSIZE(pixels)	(((pixels)+((pixels)>>6))<<2)
 #define	RLE_NOP			0x00
 
 #define	ierror(p)		(((p)->flags&_IOERR)!=0)
@@ -56,7 +64,7 @@ typedef struct {
     unsigned short 	zsize;
     unsigned long 	min;
     unsigned long 	max;
-    unsigned long	wastebytes;	
+    unsigned long	wastebytes;
     char 		name[80];
     unsigned long	colormap;
 
@@ -83,7 +91,7 @@ IMAGE *icreate();
  * IMAGE *fiopen(int f, char *mode, unsigned int type, unsigned int dim,
  * 		unsigned int xsize, unsigned int ysize, unsigned int zsize);
  *
- * ...while iopen and fiopen can take an extended set of parameters, the 
+ * ...while iopen and fiopen can take an extended set of parameters, the
  * last five are optional, so a more correct prototype would be:
  *
  */
@@ -91,7 +99,7 @@ IMAGE *iopen(char *file, char *mode, ...);
 IMAGE *fiopen(int f, char *mode, ...);
 
 /*
- * 
+ *
  * unsigned short *ibufalloc(IMAGE *image);
  * int ifilbuf(IMAGE *image);
  * int iflush(IMAGE *image);

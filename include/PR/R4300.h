@@ -10,10 +10,18 @@
  *									  *
  **************************************************************************/
 
+/**************************************************************************
+ *
+ *  $Revision: 1.13 $
+ *  $Date: 1997/02/11 08:15:34 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/R4300.h,v $
+ *
+ **************************************************************************/
+
 #ifndef __R4300_H__
 #define __R4300_H__
 
-#include "ultratypes.h"
+#include <PR/ultratypes.h>
 
 /*
  * Segment base addresses and sizes
@@ -416,10 +424,10 @@
 #endif	/* _LANGUAGE_ASSEMBLY */
 
 /*
- * floating-point status register 
+ * floating-point status register
  */
 #define FPCSR_FS	0x01000000	/* flush denorm to zero */
-#define	FPCSR_C		0x00800000	/* condition bit */	
+#define	FPCSR_C		0x00800000	/* condition bit */
 #define	FPCSR_CE	0x00020000	/* cause: unimplemented operation */
 #define	FPCSR_CV	0x00010000	/* cause: invalid operation */
 #define	FPCSR_CZ	0x00008000	/* cause: division by zero */

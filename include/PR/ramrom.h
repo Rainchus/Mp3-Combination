@@ -13,9 +13,17 @@
  *									  *
  **************************************************************************/
 
+/**************************************************************************
+ *
+ *  $Revision: 1.20 $
+ *  $Date: 1997/02/11 08:26:47 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/ramrom.h,v $
+ *
+ **************************************************************************/
+
 /*
  * Defines for the GIO card in the Nintendo Development Station
- * 
+ *
  * The RAM on the GIO card acts as ROM for the game
  * Interrupts available between the game and the Indy host
  *
@@ -30,7 +38,7 @@
 #define RAMROM_BUF_SIZE		(4096)
 #define RAMROM_MSG_SIZE		(RAMROM_BUF_SIZE*6)
 #define RAMROM_MSG_ADDR		(RAMROM_SIZE - RAMROM_MSG_SIZE)
-#define RAMROM_MSG_HDR_SIZE	(3*sizeof(long))
+#define RAMROM_MSG_HDR_SIZE	(3*4) // TODO: Used to be (3*sizeof(long))
 #define RAMROM_USER_DATA_SIZE	(RAMROM_MSG_SIZE-RAMROM_MSG_HDR_SIZE)
 
 #define RAMROM_APP_READ_ADDR	(RAMROM_MSG_ADDR + (0*RAMROM_BUF_SIZE))
@@ -54,7 +62,7 @@
 #else
 #define RAMROM_BOOTSTRAP_OFFSET	0x400
 #define RAMROM_GAME_OFFSET	0x2000
-#endif 
+#endif
 #define RAMROM_CLOCKRATE_OFFSET	0x4
 #define RAMROM_CLOCKRATE_MASK	0xfffffff0
 #define RAMROM_BOOTADDR_OFFSET	0x8

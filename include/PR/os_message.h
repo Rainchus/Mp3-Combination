@@ -21,23 +21,22 @@
 
 /*---------------------------------------------------------------------*
         Copyright (C) 1998 Nintendo. (Originated by SGI)
-        
+
         $RCSfile: os_message.h,v $
         $Revision: 1.1 $
         $Date: 1998/10/09 08:01:15 $
  *---------------------------------------------------------------------*/
 
 #ifndef _OS_MESSAGE_H_
-#define _OS_MESSAGE_H_
+#define	_OS_MESSAGE_H_
 
 #ifdef _LANGUAGE_C_PLUS_PLUS
 extern "C" {
 #endif
 
-#include "ultratypes.h"
-#include "os_thread.h"
+#include <PR/ultratypes.h>
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /**************************************************************************
  *
@@ -50,19 +49,21 @@ typedef u32 OSEvent;
 /*
  * Structure for message
  */
-typedef void *OSMesg;
+typedef void *	OSMesg;
 
 /*
  * Structure for message queue
  */
 typedef struct OSMesgQueue_s {
-    OSThread    *mtqueue;       /* Queue to store threads blocked on empty mailboxes (receive) */
-    OSThread    *fullqueue;     /* Queue to store threads blocked on full mailboxes (send) */
-    s32          validCount;    /* Contains number of valid message */
-    s32          first;         /* Points to first valid message */
-    s32          msgCount;      /* Contains total # of messages */
-    OSMesg      *msg;           /* Points to message buffer array */
-} OSMesgQueue;
+	OSThread	*mtqueue;	/* Queue to store threads blocked
+					   on empty mailboxes (receive) */
+	OSThread	*fullqueue;	/* Queue to store threads blocked
+					   on full mailboxes (send) */
+	s32		validCount;	/* Contains number of valid message */
+	s32		first;		/* Points to first valid message */
+	s32		msgCount;	/* Contains total # of messages */
+	OSMesg		*msg;		/* Points to message buffer array */
+} OSMesgQueue; // size = 0x18
 
 
 #endif /* defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) */
@@ -74,8 +75,15 @@ typedef struct OSMesgQueue_s {
  */
 
 /* Events */
-
-#define OS_NUM_EVENTS           15
+#ifdef _FINALROM
+#  ifndef BBPLAYER
+#    define OS_NUM_EVENTS           15
+#  else
+#    define OS_NUM_EVENTS           32
+#  endif
+#else
+#define OS_NUM_EVENTS           23
+#endif
 
 #define OS_EVENT_SW1              0     /* CPU SW1 interrupt */
 #define OS_EVENT_SW2              1     /* CPU SW2 interrupt */
@@ -105,11 +113,11 @@ typedef struct OSMesgQueue_s {
 
 /* Flags to turn blocking on/off when sending/receiving message */
 
-#define OS_MESG_NOBLOCK     0
-#define OS_MESG_BLOCK       1
+#define	OS_MESG_NOBLOCK		0
+#define	OS_MESG_BLOCK		1
 
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /**************************************************************************
  *
@@ -118,11 +126,11 @@ typedef struct OSMesgQueue_s {
  */
 
 /* Get count of valid messages in queue */
-#define MQ_GET_COUNT(mq)    ((mq)->validCount)
+#define MQ_GET_COUNT(mq)        ((mq)->validCount)
 
 /* Figure out if message queue is empty or full */
-#define MQ_IS_EMPTY(mq)     (MQ_GET_COUNT(mq) == 0)
-#define MQ_IS_FULL(mq)      (MQ_GET_COUNT(mq) >= (mq)->msgCount)
+#define MQ_IS_EMPTY(mq)		(MQ_GET_COUNT(mq) == 0)
+#define MQ_IS_FULL(mq)		(MQ_GET_COUNT(mq) >= (mq)->msgCount)
 
 
 /**************************************************************************
@@ -140,14 +148,14 @@ typedef struct OSMesgQueue_s {
 
 /* Message operations */
 
-extern void     osCreateMesgQueue(OSMesgQueue *, OSMesg *, s32);
-extern s32      osSendMesg(OSMesgQueue *, OSMesg, s32);
-extern s32      osJamMesg(OSMesgQueue *, OSMesg, s32);
-extern s32      osRecvMesg(OSMesgQueue *, OSMesg *, s32);
+extern void		osCreateMesgQueue(OSMesgQueue *, OSMesg *, s32);
+extern s32		osSendMesg(OSMesgQueue *, OSMesg, s32);
+extern s32		osJamMesg(OSMesgQueue *, OSMesg, s32);
+extern s32		osRecvMesg(OSMesgQueue *, OSMesg *, s32);
 
 /* Event operations */
 
-extern void     osSetEventMesg(OSEvent, OSMesgQueue *, OSMesg);
+extern void		osSetEventMesg(OSEvent, OSMesgQueue *, OSMesg);
 
 
 #endif  /* defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) */

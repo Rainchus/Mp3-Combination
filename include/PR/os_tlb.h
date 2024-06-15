@@ -21,7 +21,7 @@
 
 /*---------------------------------------------------------------------*
         Copyright (C) 1998 Nintendo. (Originated by SGI)
-        
+
         $RCSfile: os_tlb.h,v $
         $Revision: 1.1 $
         $Date: 1998/10/09 08:01:20 $
@@ -34,9 +34,9 @@
 extern "C" {
 #endif
 
-#include "ultratypes.h"
+#include <PR/ultratypes.h>
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /**************************************************************************
  *
@@ -67,7 +67,7 @@ typedef u32 OSPageMask;
 #define OS_PM_16M	0x1ffe000
 
 
-#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) || defined(_LANGUAGE_C_CUSTOM)
+#if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
 /**************************************************************************
  *

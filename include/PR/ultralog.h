@@ -18,6 +18,14 @@
  * Copyright Laws of the United States.
  *====================================================================*/
 
+/**************************************************************************
+ *
+ *  $Revision: 1.6 $
+ *  $Date: 1997/02/11 08:39:05 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/ultralog.h,v $
+ *
+ **************************************************************************/
+
 #ifndef __log__
 #define __log__
 
@@ -25,13 +33,13 @@
 extern "C" {
 #endif
 
-#include "ultratypes.h"
+#include <PR/ultratypes.h>
 
 #define OS_LOG_MAX_ARGS         16
 #define OS_LOG_MAGIC            0x20736a73
 #define OS_LOG_FLOAT(x)         (*(int *) &(x))
 #define OS_LOG_VERSION          1
-    
+
 typedef struct {
     u32 magic;          /* log identifier                       */
     u32 len;            /* length of log data + log structure   */

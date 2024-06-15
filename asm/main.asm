@@ -11,6 +11,7 @@ PAYLOAD_START_RAM:
 .include "asm/hooks_new_location.s"
 .importobj "obj/cache.o"
 .importobj "obj/main.o"
+.importobj "obj/mp2_hooks.o"
 .importobj "obj/system.o"
  .align 8
  PAYLOAD_END_RAM:

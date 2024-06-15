@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "functions.h"
+#include "macros.h"
 
 typedef struct Vec3f {
     f32 x;

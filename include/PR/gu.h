@@ -13,9 +13,17 @@
  *									  *
  **************************************************************************/
 
-#include "mbi.h"
-#include "ultratypes.h"
-#include "sptask.h"
+/**************************************************************************
+ *
+ *  $Revision: 1.48 $
+ *  $Date: 1999/07/13 08:00:20 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/gu.h,v $
+ *
+ **************************************************************************/
+
+#include <PR/mbi.h>
+#include <PR/ultratypes.h>
+#include <PR/sptask.h>
 
 #ifndef MAX
 #define MAX(a,b) (((a)>(b))?(a):(b))
@@ -27,9 +35,9 @@
 #define M_PI		3.14159265358979323846
 #define M_DTOR		(3.14159265358979323846/180.0)
 
-#define	FTOFIX32(x)	((x) * 0x10000)
-#define	FIX32TOF(x)	((float)(((float)x) / (float)(0x10000)))
-#define	FTOFRAC8(x)	((int) MIN(((x) * (128.0)),127.0) & 0xff)
+#define	FTOFIX32(x)	(long)((x) * (float)0x00010000)
+#define	FIX32TOF(x)	((float)(x) * (1.0f / (float)0x00010000))
+#define	FTOFRAC8(x)	((int) MIN(((x) * (128.0f)), 127.0f) & 0xff)
 
 #define  FILTER_WRAP 0
 #define  FILTER_CLAMP 1
@@ -61,10 +69,10 @@ typedef struct {
  * Function Prototypes
  */
 
-extern int guLoadTextureBlockMipMap(Gfx **glist, unsigned char *tbuf, Image *im, 
-		unsigned char startTile, unsigned char pal, unsigned char cms, 
-		unsigned char cmt, unsigned char masks, unsigned char maskt, 
-		unsigned char shifts, unsigned char shiftt, unsigned char cfs, 
+extern int guLoadTextureBlockMipMap(Gfx **glist, unsigned char *tbuf, Image *im,
+		unsigned char startTile, unsigned char pal, unsigned char cms,
+		unsigned char cmt, unsigned char masks, unsigned char maskt,
+		unsigned char shifts, unsigned char shiftt, unsigned char cfs,
 		unsigned char cft);
 
 extern int 	guGetDPLoadTextureTileSz (int ult, int lrt);
@@ -78,7 +86,7 @@ extern void 	guDPLoadTextureTile (Gfx *glistp, void *timg,
 			int shifts, int shiftt);
 
 
-/* 
+/*
  * matrix operations:
  *
  * The 'F' version is floating point, in case the application wants
@@ -87,19 +95,19 @@ extern void 	guDPLoadTextureTile (Gfx *glistp, void *timg,
  */
 extern void guMtxIdent(Mtx *m);
 extern void guMtxIdentF(float mf[4][4]);
-extern void guOrtho(Mtx *m, float l, float r, float b, float t, 
+extern void guOrtho(Mtx *m, float l, float r, float b, float t,
 		    float n, float f, float scale);
-extern void guOrthoF(float mf[4][4], float l, float r, float b, float t, 
+extern void guOrthoF(float mf[4][4], float l, float r, float b, float t,
 		     float n, float f, float scale);
-extern void guFrustum(Mtx *m, float l, float r, float b, float t, 
+extern void guFrustum(Mtx *m, float l, float r, float b, float t,
 		      float n, float f, float scale);
-extern void guFrustumF(float mf[4][4], float l, float r, float b, float t, 
+extern void guFrustumF(float mf[4][4], float l, float r, float b, float t,
 		       float n, float f, float scale);
-extern void guPerspective(Mtx *m, u16 *perspNorm, float fovy, 
+extern void guPerspective(Mtx *m, u16 *perspNorm, float fovy,
 			  float aspect, float near, float far, float scale);
-extern void guPerspectiveF(float mf[4][4], u16 *perspNorm, float fovy, 
+extern void guPerspectiveF(float mf[4][4], u16 *perspNorm, float fovy,
 			   float aspect, float near, float far, float scale);
-extern void guLookAt(Mtx *m, 
+extern void guLookAt(Mtx *m,
 			float xEye, float yEye, float zEye,
 			float xAt,  float yAt,  float zAt,
 			float xUp,  float yUp,  float zUp);
@@ -110,7 +118,7 @@ extern void guLookAtReflect(Mtx *m, LookAt *l,
 			float xEye, float yEye, float zEye,
 			float xAt,  float yAt,  float zAt,
 			float xUp,  float yUp,  float zUp);
-extern void guLookAtReflectF(float mf[4][4], LookAt *l, 
+extern void guLookAtReflectF(float mf[4][4], LookAt *l,
 		      float xEye, float yEye, float zEye,
 		      float xAt,  float yAt,  float zAt,
 		      float xUp,  float yUp,  float zUp);
@@ -121,22 +129,23 @@ extern void guLookAtHilite(Mtx *m, LookAt *l, Hilite *h,
                 float xl1,  float yl1,  float zl1,
                 float xl2,  float yl2,  float zl2,
 		int   twidth, int theight);
-extern void guLookAtHiliteF(float mf[4][4], LookAt *l, Hilite *h, 
+extern void guLookAtHiliteF(float mf[4][4], LookAt *l, Hilite *h,
 		float xEye, float yEye, float zEye,
 		float xAt,  float yAt,  float zAt,
 		float xUp,  float yUp,  float zUp,
 		float xl1,  float yl1,  float zl1,
 		float xl2,  float yl2,  float zl2,
 		int twidth, int theight);
-extern void guLookAtStereo(Mtx *m, 
+extern void guLookAtStereo(Mtx *m,
 			float xEye, float yEye, float zEye,
 			float xAt,  float yAt,  float zAt,
-			float xUp,  float yUp,  float zUp, 
+			float xUp,  float yUp,  float zUp,
 			float eyedist);
-extern void guLookAtStereoF(float mf[4][4], 
+extern void guLookAtStereoF(float mf[4][4],
 		      	float xEye, float yEye, float zEye,
 		      	float xAt,  float yAt,  float zAt,
-		      	float xUp,  float yUp,  float zUp);
+		      	float xUp,  float yUp,  float zUp,
+			float eyedist);
 extern void guRotate(Mtx *m, float a, float x, float y, float z);
 extern void guRotateF(float mf[4][4], float a, float x, float y, float z);
 extern void guRotateRPY(Mtx *m, float r, float p, float y);
@@ -155,9 +164,9 @@ extern void guMtxF2L(float mf[4][4], Mtx *m);
 extern void guMtxL2F(float mf[4][4], Mtx *m);
 extern void guMtxCatF(float m[4][4], float n[4][4], float r[4][4]);
 extern void guMtxCatL(Mtx *m, Mtx *n, Mtx *res);
-extern void guMtxXFMF(float mf[4][4], float x, float y, float z, 
+extern void guMtxXFMF(float mf[4][4], float x, float y, float z,
 		      float *ox, float *oy, float *oz);
-extern void guMtxXFML(Mtx *m, float x, float y, float z, 
+extern void guMtxXFML(Mtx *m, float x, float y, float z,
 		      float *ox, float *oy, float *oz);
 
 /* vector utility: */
@@ -183,6 +192,9 @@ extern float cosf(float angle);
 extern signed short sins (unsigned short angle);
 extern signed short coss (unsigned short angle);
 extern float sqrtf(float value);
+#ifdef __sgi
+#pragma intrinsic(sqrtf);
+#endif
 
 /*
  *  Dump routines for low-level display lists
@@ -198,8 +210,8 @@ extern float sqrtf(float value);
 extern void guParseRdpDL(u64 *rdp_dl, u64 nbytes, u8 flags);
 extern void guParseString(char *StringPointer, u64 nbytes);
 
-/* 
- * NO LONGER SUPPORTED, 
+/*
+ * NO LONGER SUPPORTED,
  * use guParseRdpDL with GU_PARSERDP_DUMPONLY flags
  */
 /* extern void guDumpRawRdpDL(u64 *rdp_dl, u64 nbytes); */
@@ -214,7 +226,7 @@ guBlinkRdpDL(u64 *rdp_dl_in, u64 nbytes_in,
              u32 x, u32 y, u32 radius,
              u8  red, u8 green, u8 blue,
              u8 flags);
- 
+
 /* flag values for guParseGbiDL() */
 #define GU_PARSEGBI_ROWMAJOR	        1
 #define GU_PARSEGBI_NONEST		2
@@ -243,7 +255,7 @@ typedef struct {
     u32    paddr;
 } guDLPrintCB;
 
-void guSprite2DInit(uSprite *SpritePointer,   
+void guSprite2DInit(uSprite *SpritePointer,
 		    void *SourceImagePointer,
 		    void *TlutPointer,
 		    int Stride,
@@ -251,13 +263,7 @@ void guSprite2DInit(uSprite *SpritePointer,
 		    int SubImageHeight,
 		    int SourceImageType,
 		    int SourceImageBitSize,
-		    int ScaleX,
-		    int ScaleY,
-		    int FlipTextureX,
-		    int FlipTextureY,
 		    int SourceImageOffsetS,
-		    int SourceImageOffsetT,
-		    int PScreenX,
-		    int PScreenY);
+		    int SourceImageOffsetT);
 
 #endif /* !_GU_H_ */

@@ -18,6 +18,14 @@
  * Copyright Laws of the United States.
  *====================================================================*/
 
+/**************************************************************************
+ *
+ *  $Revision: 1.173 $
+ *  $Date: 1997/12/01 12:42:21 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/libaudio.h,v $
+ *
+ **************************************************************************/
+
 #ifndef __LIB_AUDIO__
 #define __LIB_AUDIO__
 
@@ -25,12 +33,12 @@
 extern "C" {
 #endif
 
-#include "ultratypes.h"
-#include "mbi.h"
-    
+#include <PR/ultratypes.h>
+#include <PR/mbi.h>
+
 /***********************************************************************
  * misc defines
- ***********************************************************************/    
+ ***********************************************************************/
 #ifndef _EMULATOR
 #	ifdef AUD_PROFILE
 
@@ -49,14 +57,16 @@ extern "C" {
 #	endif /* AUD_PROFILE */
 #endif /* EMULATOR */
 
+#ifndef NULL
 #define NULL 0
+#endif
 
 #define AL_FX_BUFFER_SIZE       8192
 #define AL_FRAME_INIT           -1
 #define AL_USEC_PER_FRAME       16000
 #define AL_MAX_PRIORITY         127
-#define AL_GAIN_CHANGE_TIME     1000    
-    
+#define AL_GAIN_CHANGE_TIME     1000
+
 typedef s32     ALMicroTime;
 typedef u8      ALPan;
 
@@ -88,7 +98,7 @@ typedef u8      ALPan;
 #ifdef _DEBUG
 #define ALFlagFailIf(condition, flag, error)	\
             if (condition) {		\
-                if(flag) __osError(error, 0);	\
+                if (flag) __osError(error, 0);	\
                 return; }
 
 #else
@@ -152,7 +162,7 @@ typedef void    *ALFxRef;
  * data structures for sound banks
  ***********************************************************************/
 
-#define AL_BANK_VERSION    'B1'
+#define AL_BANK_VERSION    0x4231	/* 'B1' */
 
 /* Possible wavetable types */
 enum    {AL_ADPCM_WAVE = 0,
@@ -327,9 +337,9 @@ typedef struct {
     s32         curSamples;     /* samples from start of game           */
     ALDMANew    dma;
     ALHeap      *heap;
-    
+
     struct ALParam_s    *paramList;
-    
+
     struct ALMainBus_s  *mainBus;
     struct ALAuxBus_s   *auxBus;        /* ptr to array of aux bus structs */
     struct ALFilter_s   *outputFilter;  /* last filter in the filter chain */
@@ -517,7 +527,7 @@ typedef struct {
 typedef struct {
     s32         ticks;    /* MIDI, Tempo and End events must start with ticks */
     u8          status;
-    u8          byte1; 
+    u8          byte1;
     u8          byte2;
     u32         duration;
 } ALMIDIEvent;
@@ -790,7 +800,7 @@ f32     alCSeqTicksToSec(ALCSeq *seq, s32 ticks, u32 tempo);
 u32     alCSeqSecToTicks(ALCSeq *seq, f32 sec, u32 tempo);
 void    alCSeqNewMarker(ALCSeq *seq, ALCSeqMarker *m, u32 ticks);
 void    alCSeqSetLoc(ALCSeq *seq, ALCSeqMarker *marker);
-void    alCSeqGetLoc(ALCSeq *seq, ALCSeqMarker *marker); 
+void    alCSeqGetLoc(ALCSeq *seq, ALCSeqMarker *marker);
 
 /*
  * Sequence Player routines
@@ -902,7 +912,7 @@ typedef struct {
 } ALSndPlayer;
 
 typedef s16   ALSndId;
-    
+
 void            alSndpNew(ALSndPlayer *sndp, ALSndpConfig *c);
 void            alSndpDelete(ALSndPlayer *sndp);
 

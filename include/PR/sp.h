@@ -10,6 +10,16 @@
  *									  *
  **************************************************************************/
 
+/**************************************************************************
+ *
+ * Sprite library include file
+ *
+ *  $Revision: 1.16 $
+ *  $Date: 1998/04/17 05:03:46 $
+ *  $Source: /hosts/gate3/exdisk2/cvs/N64OS/Master/cvsmdev2/PR/include/sp.h,v $
+ *
+ **************************************************************************/
+
 #ifndef _SP_H_
 #define _SP_H_
 
@@ -17,14 +27,8 @@
 extern "C" {
 #endif
 
-#include "mbi.h"
-#include "ultratypes.h"
-
-/*
- * Sprite library include file
- *
- * $Id: sp.h,v 1.14 1995/11/15 23:41:25 hsa Exp $
- */
+#include <PR/mbi.h>
+#include <PR/ultratypes.h>
 
 struct bitmap {
 	s16	width;		/* Size across to draw in texels */
@@ -150,6 +154,25 @@ typedef struct sprite Sprite;
 #define SP_FRACPOS		0x00000100
 #define SP_TEXSHUF		0x00000200
 #define SP_EXTERN		0x00000400
+
+/*
+ * Function wrapper
+ */
+#if	defined(F3DEX_GBI_2)
+#define	spMove			spX2Move
+#define	spSetZ			spX2SetZ
+#define	spScissor		spX2Scissor
+#define	spDraw			spX2Draw
+#define	spInit			spX2Init
+#define	spFinish		spX2Finish
+#elif	defined(F3DEX_GBI)
+#define	spMove			spXMove
+#define	spSetZ			spXSetZ
+#define	spScissor		spXScissor
+#define	spDraw			spXDraw
+#define	spInit			spXInit
+#define	spFinish		spXFinish
+#endif
 
 /*
  * Function prototypes
