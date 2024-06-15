@@ -26,6 +26,14 @@
 J LoadOverlayHook_Mp3
 NOP
 
+//mp3 file select overlay
+.headersize 0x80109690 - 0x51A7D0
+.org 0x80109690 //only allow use of 2 save files
+ADDIU s0, r0, 0x0001
+
+.org 0x8010969C //only allow use of 2 save files
+SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
+
 //mp2
 .headersize 0x7DFFF400 //ROM Addr of combination rom, 0x3EFDB00
 .org 0x8009D950
@@ -83,4 +91,14 @@ NOP
 
 .org 0x8001B114
 J GetSaveFileChecksum
+NOP
+
+//mp2 checksum searching patches
+//.headersize 0x8007DC50 - 0x207E850 //0x7E850
+.org 0x8007DC50
+J func_8007DC50_7E850
+NOP
+
+.org 0x80068720
+J func_80068720_69320
 NOP

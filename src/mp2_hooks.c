@@ -4,6 +4,8 @@
 
 #define NEW_EEP_OFFSET 0x600
 
+#define EEP_BLOCK_OFFSET NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE
+
 extern u8 mp2_HUDSON_Header[];
 extern u8 eepromBuffer[(EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)];
 //u8 eepromBuffer[(EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)];
@@ -53,8 +55,8 @@ s32 GetEepType(s8** arg0) {
 
     //ASSERT(eepromProbeResult == EEPROM_TYPE_4K);
 
-    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
-        return EEPROM_TYPE_16K;
+    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
+        //return EEPROM_TYPE_16K;
     }
 
     i = 1;
@@ -73,14 +75,14 @@ s32 GetEepType(s8** arg0) {
 
                 //write actual save data (write all eeprom blocks except first)
                 if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, (0x600 / EEPROM_BLOCK_SIZE) + 1, &eepromBuffer[8], (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - EEPROM_BLOCK_SIZE) != 0) {
-                    return EEPROM_TYPE_16K;
+                    //return EEPROM_TYPE_16K;
                 }
                 //write "HUDSON\0\0" header (only write 1 eeprom block)
                 if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, (0x600 / EEPROM_BLOCK_SIZE), &eepromBuffer[0], EEPROM_BLOCK_SIZE) == 0) {
                     **arg0 = var_s1;
                     return 0;
                 }
-                return EEPROM_TYPE_16K;
+                //return EEPROM_TYPE_16K;
             }      
             i++;
             if (mp2_HUDSON_Header[i] == 0) {
@@ -129,7 +131,7 @@ void func_8001AFD8_1BBD8(s32 arg0, unkfunc_8001AFD8* arg1, s16 arg2) {
     unkfunc_8007EE0C sp10;
     unkfunc_8001AFD8 sp20;
 
-    sp20.unk0 = arg0 + 8 + NEW_EEP_OFFSET;
+    sp20.unk0 = arg0 + 8;
     sp20.unk4 = arg1;
     sp20.unk8 = arg2;
 
@@ -137,7 +139,7 @@ void func_8001AFD8_1BBD8(s32 arg0, unkfunc_8001AFD8* arg1, s16 arg2) {
 }
 
 s32 func_8001B014_1BC14(UnkEep* arg0) {
-    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
+    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
         return 2;
     }
     mp2_bcopy(&eepromBuffer[arg0->unk0], arg0->unk4, arg0->unk8);
@@ -148,7 +150,7 @@ void func_8001B078_1BC78(s32 arg0, unkfunc_8001AFD8* arg1, s16 arg2) {
     unkfunc_8007EE0C sp10;
     unkfunc_8001AFD8 sp20;
 
-    sp20.unk0 = arg0 + 8 + NEW_EEP_OFFSET;
+    sp20.unk0 = arg0 + 8;
     sp20.unk4 = arg1;
     sp20.unk8 = arg2;
 
@@ -181,4 +183,13 @@ s32 GetSaveFileChecksum(u16 checksumAddrOffset, u16 size) {
         }
     }
     return checksumTotal;
+}
+
+
+u16 func_8007DC50_7E850(void) {
+    return GetSaveFileChecksum(NEW_EEP_OFFSET, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
+}
+
+u16 func_80068720_69320(void) {
+    return GetSaveFileChecksum(NEW_EEP_OFFSET, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
 }

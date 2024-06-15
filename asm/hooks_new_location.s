@@ -14,7 +14,7 @@ NOP
 LoadOverlayHook_Mp3:
 ADDIU sp, sp, -0x20 //restore from hook
 SW ra, 0x0018 (sp) //restore from hook
-ORI t0, r0, 0x007A //title screen overlay ID
+ORI t0, r0, 0x0077 //party mode select
 BNE t0, a0, normalExitMp3
 NOP
 //swap game
