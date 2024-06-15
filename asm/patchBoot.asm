@@ -102,3 +102,17 @@ NOP
 .org 0x80068720
 J func_80068720_69320
 NOP
+
+.headersize 0x800DFFA4 - 0xF3BC4
+.org 0x800DFFA4
+NOP
+NOP
+ORI v0, r0, 1 //always display names of minigames
+
+.org 0x800DFFD4
+J getNewMinigameString1
+NOP
+
+.org 0x800DF478 //display minigame name index when chosen
+ADDIU a2, r0, 0xFFFE
+

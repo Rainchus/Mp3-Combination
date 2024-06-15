@@ -11,6 +11,8 @@
 #define FOREIGN_CART_MP2 0x2001000 //ROM start addr + 0x1000
 #define NORETURN    __attribute__((noreturn))
 
+
+
 void cBootFunction(void) {
     //crash_screen_init();
 }

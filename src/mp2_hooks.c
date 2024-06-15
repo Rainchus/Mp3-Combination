@@ -74,11 +74,11 @@ s32 GetEepType(s8** arg0) {
                 }
 
                 //write actual save data (write all eeprom blocks except first)
-                if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, (0x600 / EEPROM_BLOCK_SIZE) + 1, &eepromBuffer[8], (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - EEPROM_BLOCK_SIZE) != 0) {
+                if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET + 1, &eepromBuffer[8], (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - EEPROM_BLOCK_SIZE) != 0) {
                     //return EEPROM_TYPE_16K;
                 }
                 //write "HUDSON\0\0" header (only write 1 eeprom block)
-                if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, (0x600 / EEPROM_BLOCK_SIZE), &eepromBuffer[0], EEPROM_BLOCK_SIZE) == 0) {
+                if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, &eepromBuffer[0], EEPROM_BLOCK_SIZE) == 0) {
                     **arg0 = var_s1;
                     return 0;
                 }
@@ -119,7 +119,7 @@ s32 func_8001AF0C_1BB0C(UnkEep* arg0) {
         
         eepromBlockOffset = (arg0->unk0 / EEPROM_BLOCK_SIZE);
         eepromBufferOffset = eepromBlockOffset;
-        eepromBlockOffset = eepromBlockOffset + (0x600 / EEPROM_BLOCK_SIZE);
+        eepromBlockOffset = eepromBlockOffset + EEP_BLOCK_OFFSET;
         alignmentOffset = arg0->unk0 & 7;
         size = (arg0->unk8 + alignmentOffset + 7) & 0xFFF8;
         return (mp2_osEepromLongWrite(&mp2_D_800FA5E0, eepromBlockOffset, &eepromBuffer[eepromBufferOffset * EEPROM_BLOCK_SIZE], size) != 0) * 2;
@@ -193,3 +193,14 @@ u16 func_8007DC50_7E850(void) {
 u16 func_80068720_69320(void) {
     return GetSaveFileChecksum(NEW_EEP_OFFSET, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
 }
+
+
+u8 fourPlayerMinigamesSet0[] = {0x15, 0x16, 0x17, 0x18, 0x19, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x2C};
+u8 fourPlayerMinigamesSet1[] = {0x15, 0x19, 0x1C, 0x1D, 0x1E, 0x21, 0x22, 0x26, 0x28};
+
+
+//80100DC0
+u8 oneVersusThreeMinigamesSet0[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A};
+u8 oneVersusThreeMinigamesSet1[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A};
+
+//800DFC1C
