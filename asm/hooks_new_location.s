@@ -45,6 +45,7 @@ getNewMinigameString1:
     LI a3, MinigameList
     ADDU a1, a1, a3
     LW a1, 0x0000 (a1)
+    ADDIU a2, r0, 0xFFFE
     JAL 0x8005B43C
     ADDIU a3, r0, 0x0004
     J 0x800DFFE0
@@ -58,6 +59,7 @@ getNewMinigameString2:
     LI a3, MinigameList
     ADDU a1, a1, a3
     LW a1, 0x0000 (a1)
+    ADDIU a2, r0, 0xFFFE
     JAL 0x8005B43C
     ADDIU a3, r0, 0x0004
     J 0x800DF488
