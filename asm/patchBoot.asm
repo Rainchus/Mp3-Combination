@@ -117,3 +117,13 @@ NOP
 J getNewMinigameString2
 NOP
 
+//mp3 load minigame index and short after converts to overlay id
+//80105A60
+
+.headersize 0x80105A60 - 0x4DEC20
+.org 0x80105A60
+    J setCustomMinigameIndex
+    NOP
+    NOP
+
+
