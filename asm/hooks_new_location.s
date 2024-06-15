@@ -40,20 +40,26 @@ NOP
 //800DFE84 reads 4p minigame indexes
 
 getNewMinigameString1:
-ADDIU sp, sp, -0x30
-SW a0, 0x0010 (sp)
-SW a1, 0x0014 (sp)
-SW a2, 0x0018 (sp)
-SW a3, 0x001C (sp)
-SW ra, 0x0020 (sp)
+    ADDIU a1, a1, 0xB900 //revert minigame str index back to minigame ID
+    SLL a1, a1, 2 //multiply by sizeof(char*)
+    LI a3, MinigameList
+    ADDU a1, a1, a3
+    LW a1, 0x0000 (a1)
+    JAL 0x8005B43C
+    ADDIU a3, r0, 0x0004
+    J 0x800DFFE0
+    NOP
+    
 
-JAL GetNewMinigameString
-NOP
 
-LW a0, 0x0010 (sp)
-ADDU a1, v0, r0 //new str pointer to use for minigame name
-LW a2, 0x0018 (sp)
-LW a3, 0x001C (sp)
-LW ra, 0x0020 (sp)
-JR RA
-ADDIU sp, sp, 0x30
+getNewMinigameString2:
+    ADDIU a1, a1, 0xB900 //revert minigame str index back to minigame ID
+    SLL a1, a1, 2 //multiply by sizeof(char*)
+    LI a3, MinigameList
+    ADDU a1, a1, a3
+    LW a1, 0x0000 (a1)
+    JAL 0x8005B43C
+    ADDIU a3, r0, 0x0004
+    J 0x800DF488
+    NOP
+    

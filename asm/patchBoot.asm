@@ -113,6 +113,7 @@ ORI v0, r0, 1 //always display names of minigames
 J getNewMinigameString1
 NOP
 
-.org 0x800DF478 //display minigame name index when chosen
-ADDIU a2, r0, 0xFFFE
+.org 0x800DF47C //display minigame name index when chosen
+J getNewMinigameString2
+NOP
 
