@@ -1,4 +1,4 @@
-#include "mp3.h"
+#include "marioparty.h"
 
 #define ICACHELINE 0x20
 #define DCACHELINE 0x10

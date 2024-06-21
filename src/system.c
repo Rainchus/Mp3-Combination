@@ -1,4 +1,4 @@
-#include "mp3.h"
+#include "marioparty.h"
 
 void WaitForSubSystems(void) {
     u32 tmp;

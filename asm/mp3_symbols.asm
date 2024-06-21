@@ -10,7 +10,7 @@
 .definelabel debugPrintBool, 0x800A1760
 .definelabel num_board_spaces, 0x80105210
 .definelabel hydrated_space_data, 0x80105214
-.definelabel gPlayers, 0x800D1108
+.definelabel mp3_gPlayers, 0x800D1108
 
 //functions
 .definelabel GetCurrentPlayerIndex, 0x800F2130
@@ -40,3 +40,6 @@
 .definelabel osCreateMesgQueue, 0x8007BF00
 .definelabel osCreateThread, 0x8007C810
 .definelabel osStartThread, 0x8007CAE0
+
+//hardcoded symbols
+.definelabel mp3_PlayersCopy, 0x807FFE00

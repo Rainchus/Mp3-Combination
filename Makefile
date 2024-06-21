@@ -40,7 +40,7 @@ obj/%.o: src/%.c | obj
 
 assemble: $(OBJECTS)
 	@$(PRINT)$(GREEN)Assembling with armips: $(ENDGREEN)$(BLUE)asm/main.asm$(ENDBLUE)$(ENDCOLOR)$(ENDLINE)
-	@armips asm/main.asm
+	@armips asm/main.asm -sym syms.txt
 	@$(PRINT)$(GREEN)n64crc $(ENDGREEN)$(BLUE)"rom/mp3-mp2.mod.z64"$(ENDBLUE)$(ENDCOLOR)$(ENDLINE)
 	@./n64crc.exe "rom/mp3-mp2.mod.z64"
 

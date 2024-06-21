@@ -9,6 +9,7 @@
 PAYLOAD_START_RAM:
 .include "asm/combo.s"
 .include "asm/hooks_new_location.s"
+.include "asm/mp2_crash_screen.s"
 .importobj "obj/cache.o"
 .importobj "obj/main.o"
 .importobj "obj/mp2_hooks.o"
