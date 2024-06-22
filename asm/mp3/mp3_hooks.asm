@@ -16,7 +16,7 @@ SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
 .org 0x800DFFA4
     NOP
     NOP
-    ORI v0, r0, 1 //always display names of minigames
+    ORI v0, r0, 1 //always display names of minigames (remove "???" from appearing)
 
 .org 0x800DFFD4
     J getNewMinigameString1

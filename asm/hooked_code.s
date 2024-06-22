@@ -81,14 +81,9 @@ getNewMinigameString2:
     NOP
 
 ConvertMinigameIndexFromMp3ToMp2OverlayID:
-//    ORI t0, r0, 0x0048 //hardcoded test
-//    BEQL t0, a0, bowserSlots
-//   ADDIU a0, r0, 1 //overlay ID of bowser slots in mp2
     LI v0, mp2_base
     LW v0, 0x0000 (v0)
-    ADDIU v0, v0, 1
     SUBU a0, a0, v0
-    bowserSlots:
     JR RA
     ADDU v0, a0, r0
 

@@ -47,3 +47,9 @@
     LI a3, PAYLOAD_END_RAM - PAYLOAD_START_RAM
     JAL osPiRawStartDma
     NOP
+
+.org 0x8000C2A8 //remove save type check assert
+NOP
+
+.org 0x8000C2C0 //remove another save type check assert
+NOP
