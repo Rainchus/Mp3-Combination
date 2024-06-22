@@ -184,9 +184,9 @@ NOP
 J threadInfiniteLoop
 NOP
 
-//.org 0x8001C730
-//JAL LoadMinigameFromBoot
-//NOP
+.org 0x8001C730
+JAL LoadMinigameFromBoot2
+NOP
 
 .org 0x8007C74C //remove debug text drawing
 JR RA
@@ -234,16 +234,16 @@ NOP
 NOP
 
 .org 0x80105030 //
-LUI v1, hi(mp2_OverlayToLoad)
-LW v1, lo(mp2_OverlayToLoad) (v1)
+LUI v1, hi(mp2_MinigameIndexToLoad)
+LW v1, lo(mp2_MinigameIndexToLoad) (v1)
 
 .org 0x8010387C
 J ifSkipDebugTextDraw
 NOP
 
-.org 0x80102D4C
-J LoadMinigameData
-ADDIU sp, sp, 0x40
+//.org 0x80102D4C
+//J LoadMinigameData
+//ADDIU sp, sp, 0x40
 
 .org 0x80103670
 NOP //dont set initial page to -1

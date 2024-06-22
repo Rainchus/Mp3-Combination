@@ -9,7 +9,7 @@ LoadOverlayHook_Mp2:
     BNE a0, t1, notBootSequence
     NOP
     //if it is boot sequence
-    ADDU a0, r0, r0 //set overlay to 0 (debug)
+    //ADDU a0, r0, r0 //set overlay to 0 (debug)
 
     LI t0, loadingBackFromMinigame
     LW t1, 0x0000 (t0)
@@ -97,7 +97,6 @@ setCustomMinigameIndex:
     LBU v0, 0xD068 (v0) //get minigame chosen
     LI at, mp2_base
     LW at, 0x0000 (at)
-    ADDIU at, at, 1 //not index, add 1
     SLT at, v0, at //first mp2 minigame
     BNEZ at, isMp3Minigame
     NOP
@@ -105,8 +104,7 @@ setCustomMinigameIndex:
     JAL ConvertMinigameIndexFromMp3ToMp2OverlayID
     ADDU a0, v0, r0
 
-    ADDIU v0, v0, 1
-    LI a0, mp2_OverlayToLoad
+    LI a0, mp2_MinigameIndexToLoad
     SW v0, 0x0000 (a0) //store overlay mp2 should load on boot
     
     JAL ComboSwitchGameToMp2

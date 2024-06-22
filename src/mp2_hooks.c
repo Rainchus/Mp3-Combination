@@ -4,9 +4,11 @@
 #include "marioparty.h"
 
 extern s32 loadingBackFromMinigame;
+NORETURN void ComboSwitchGameToMp3(void);
+void CopyMp3_gPlayerCopy_To_Mp2(void);
+void func_800683BC_68FBC(s32);
 
 #define NEW_EEP_OFFSET 0x600
-
 #define EEP_BLOCK_OFFSET NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE
 
 extern u8 mp2_HUDSON_Header[];
@@ -222,7 +224,7 @@ extern u16 D_800F93C6;
 extern u16 D_800F93C8;
 
 extern mp2_PlayerData debug_gPlayers[4];
-extern s32 mp2_OverlayToLoad;
+extern s32 mp2_MinigameIndexToLoad;
 
 enum overlayBaseID {
    DEBUG = 0x00,
@@ -342,6 +344,123 @@ enum overlayBaseID {
    NAME_72 = 0x72,
 };
 
+u8 mp2_MinigameOverlayIndexes[] = {
+   BOWSERSLOTS,
+   ROLLOUTTHEBARRELS,
+   COFFINCONGESTION,
+   HAMMERSLAMMER,
+   GIVEMEABRAKE,
+   MALLETGOROUND,
+   GRABBAG,
+   LAVATILEISLE,
+   BUMPERBALLOONCARS,
+   RAKINEMIN,
+   DAYATTHERACES,
+   HOTROPEJUMP,
+   HOTBOBOMB,
+   BOWLOVER,
+   RAINBOWRUN,
+   CRANEGAME,
+   MOVETOTHEMUSIC,
+   BOBOMBBARRAGE,
+   LOOKAWAY,
+   SHOCKDROPORROLL,
+   LIGHTSOUT,
+   FILETRELAY,
+   ARCHERIVAL,
+   TOADBANDSTAND,
+   BOBSLEDRUN,
+   HANDCARHAVOC,
+   BALLONBURST,
+   SKYPILOTS,
+   SPEEDHOCKEY,
+   CAKEFACTORY,
+   DUNGEONDASH,
+   MAGNETCARTA,
+   FACELIFT,
+   SHELLSHOCKED,
+   CRAZYCUTTERS,
+   TOADINTHEBOX,
+   MECHAMARATHON,
+   ROLLCALL,
+   ABANDONSHIP,
+   PLATFORMPERIL,
+   TOTEMPOLEPOUND,
+   BUMPERBALLS,
+   BOMBSAWAY,
+   TIPSYTOURNEY,
+   HONEYCOMBHAVOC,
+   HEXAGONHEAT,
+   SKATEBOARDSCAMPER,
+   SLOTCARDERBY,
+   SHYGUYSAYS,
+   SNEAKNSNORE,
+   DRIVERSED,
+   CHANCETIME,
+   LOONEYLUMBERJACKS,
+   DIZZYDANCING,
+   TILEDRIVER,
+   QUICKSANDCACHE,
+   BOWSERSBIGBLAST,
+   TORPEDOTARGETS,
+   DESTRUCTIONDUET,
+   DEEPSEASALVAGE,
+   NAME_3D,
+   NAME_3E,
+   DESERTDUEL,
+   LAST5TURNS,
+   NAME_41,
+   PIRATEDUEL,
+   NAME_43,
+   NAME_44,
+   NAME_45,
+   NAME_46,
+   NAME_47,
+   NAME_48,
+   NAME_49,
+   NAME_4A,
+   NAME_4B,
+   NAME_4C,
+   RULESLAND,
+   NAME_4E,
+   NAME_4F,
+   NAME_50,
+   NAME_51,
+   NAME_52,
+   NAME_53,
+   NAME_54,
+   NAME_55,
+   NAME_56,
+   NAME_57,
+   NAME_58,
+   NAME_59,
+   NAME_5A,
+   NAME_5B,
+   NAME_5C,
+   NAME_5D,
+   NAME_5E,
+   NAME_5F,
+   NAME_60,
+   NAME_61,
+   NAME_62,
+   NAME_63,
+   NAME_64,
+   NAME_65,
+   NAME_66,
+   NAME_67,
+   NAME_68,
+   NAME_69,
+   NAME_6A,
+   NAME_6B,
+   NAME_6C,
+   NAME_6D,
+   NAME_6E,
+   NAME_6F,
+   NAME_70,
+   NAME_71,
+   NAME_72,
+};
+
 ovlTableCustom ovl_table_custom[] = {
 	{0x0001, 0x0B00, 0x00000001, 0x0064, 0x80107138},
 	{0x0002, 0x0B00, 0x00000002, 0x0064, 0x80107120},
@@ -413,65 +532,26 @@ ovlTableCustom ovl_table_custom[] = {
 
 s32 check = 0;
 
-// void LoadMinigameFromBoot(s32 arg0, s32 arg1, s32 arg2) {
-//     if (mp2_OverlayToLoad == -1) {
-//         //original code
-//         //can load either corrupt save data screen or boot logos
-//         // mp2_omOvlCallEx(arg0, arg1, arg2);
-//     } else if (check == 1) {
-//         ComboSwitchGameToMp3(); //doesn't return
-//     } else if (check == 0) { 
-//         D_800F93C8 = ovl_table_custom[mp2_OverlayToLoad].overlayID;
-//         D_800F93C6 = 0;
-//         CopyMp3_gPlayerCopy_To_Mp2();
-//         func_800683BC_68FBC(0xC); //?
-//         mp2_omOvlCallEx(ovl_table_custom[mp2_OverlayToLoad].overlayID, 0, 0x92);
-//         mp2_omOvlHisChg(1, ovl_table_custom[mp2_OverlayToLoad].overlayID, 0, 0x192);        
-//         check = 1;
-//         return;
-//     }
-// }
+extern u8 mp2_MinigameOverlayIndexes[];
+
+void LoadMinigameFromBoot2(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp2_MinigameIndexToLoad == -1) {
+        //original code
+        //can load either corrupt save data screen or boot logos
+        mp2_omOvlCallEx(arg0, arg1, arg2);
+    } else if (check == 1) {
+        ComboSwitchGameToMp3(); //doesn't return
+    } else if (check == 0) { 
+        D_800F93C8 = ovl_table_custom[mp2_MinigameIndexToLoad].overlayID;
+        D_800F93C6 = 0;
+        CopyMp3_gPlayerCopy_To_Mp2();
+        func_800683BC_68FBC(0xC); //?
+        mp2_omOvlCallEx(func_8003F6F0_402F0(D_800F93C8), 0, 0x84); //gets explanation screen
+        check = 1;
+        return;
+    }
+}
 
 
 extern u16 mp2_pageID;
 extern u16 mp2_debugCursorIndex;
-
-
-
-void LoadMinigameData(void) {
-    if (mp2_OverlayToLoad != -1) {
-        //mp2_debugMode = 1;
-        CopyMp3_gPlayerCopy_To_Mp2();
-        mp2_pageID = 0;
-        if (mp2_OverlayToLoad == 0) {
-            mp2_debugCursorIndex = 0;
-        } else {
-            mp2_debugCursorIndex = mp2_OverlayToLoad; //
-        }
-        loadingBackFromMinigame = 1;
-    }
-}
-
-// void LoadMinigameFromBoot(s32 arg0, s32 arg1, s32 arg2) {
-//     if (mp2_OverlayToLoad == -1) {
-//         //original code
-//         //can load either corrupt save data screen or boot logos
-//         mp2_omOvlCallEx(arg0, arg1, arg2);
-//     } else if (check == 1) {
-//         ComboSwitchGameToMp3(); //doesn't return
-//     } else if (check == 0) { 
-//         D_800F93C8 = ovl_table_custom[mp2_OverlayToLoad].overlayID;
-//         D_800F93C6 = 0;
-
-//         CopyMp3_gPlayerCopy_To_Mp2();
-
-//         func_800683BC_68FBC(0xC);
-        
-//         //mp2_omOvlCallEx(func_8003F6F0_402F0(ovl_table_custom[mp2_OverlayToLoad].overlayID), 0, 0x92);
-//         //mp2_omOvlCallEx(func_8003F6F0_402F0(ovl_table_custom[mp2_OverlayToLoad].overlayID), 0, 0x92);
-//         omOvlCallEx(ovl_table_custom[mp2_OverlayToLoad].overlayID, 0, 0x92);
-//         omOvlHisChg(1, ovl_table_custom[mp2_OverlayToLoad].overlayID, 0, 0x192);        
-//         check = 1;
-//         return;
-//     }
-// }
