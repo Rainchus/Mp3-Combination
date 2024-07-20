@@ -270,7 +270,7 @@ u8 newItemMinigameListEasyMp3[] = {0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40};
 u8 newCategoryAmountsEasy[] = {
     ARRAY_COUNT(new4PMinigameListEasyMp3),
     ARRAY_COUNT(new1v3MinigameListEasyMp3),
-    ARRAY_COUNT(new2v2MinigameListEasyMp3), //this is a guess
+    ARRAY_COUNT(new2v2MinigameListEasyMp3),
     ARRAY_COUNT(newBattleMinigameListEasyMp3),
     ARRAY_COUNT(newItemMinigameListEasyMp3),
 };

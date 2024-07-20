@@ -27,6 +27,12 @@ ComboGameSwitch2ToMp2:
   jr t0
    nop
 
+ComboGameSwitch2ToMp1:
+  la sp,0xa0800000
+  la t0,(ComboSwitchGameToMp1 + 0x20000000) //points to uncached ram
+  jr t0
+   nop
+
 ComboGameSwitch4:
   /* Reset the icache */
   la t0,0x80000000

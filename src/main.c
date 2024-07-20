@@ -2,13 +2,18 @@
 
 #define MAIN_DRAM 0x80000400
 #define MAIN_OFF 0x400
-#define MAIN_SIZE 0xBE940 //TODO: what should this actually be?
+#define MAIN_SIZE 0xBE940 //main segment size
 #define MAIN_CART 0x0001000
 
 #define FOREIGN_DRAM 0x80000400 //mp1, mp2 and mp3 all share this addr
 #define FOREIGN_OFF 0x400
-#define FOREIGN_SIZE_MP2 0x0D57F0 //TODO: what should this actually be?
+#define FOREIGN_SIZE_MP2 0x0D57F0
 #define FOREIGN_CART_MP2 0x2001000 //ROM start addr + 0x1000
+
+// #define FOREIGN_DRAM 0x80000400 //mp1, mp2 and mp3 all share this addr
+#define FOREIGN_OFF 0x400
+#define FOREIGN_SIZE_MP1 0xCDA50
+#define FOREIGN_CART_MP1 0x4001000 //ROM start addr + 0x1000
 
 void System_DisableInterrupts(void);
 NORETURN void ComboGameSwitch2ToMp2(void);
@@ -118,6 +123,26 @@ NORETURN void ComboSwitchGame3ToMp2(void) {
     System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
     System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
     comboDma_NoCacheInval((void*)FOREIGN_OFF, FOREIGN_CART_MP2, FOREIGN_SIZE_MP2);
+    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
+    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
+    ComboGameSwitch4(FOREIGN_DRAM);
+    __builtin_unreachable();
+}
+
+
+
+NORETURN void ComboSwitchGameToMp1(void) {
+    //SaveMp3PlayerStructs();
+    System_DisableInterrupts();
+    WaitForSubSystems();
+    ComboGameSwitch2ToMp1(); //doesn't return
+    __builtin_unreachable();
+}
+
+NORETURN void ComboSwitchGame3ToMp1(void) {
+    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
+    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
+    comboDma_NoCacheInval((void*)FOREIGN_OFF, FOREIGN_CART_MP1, FOREIGN_SIZE_MP1);
     System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
     System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
     ComboGameSwitch4(FOREIGN_DRAM);

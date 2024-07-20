@@ -107,3 +107,10 @@ NOP
 //.org 0x80102904
 //J LoadMinigameFromBoot
 //ADDIU sp, sp, 0x20
+
+
+//mp1
+.headersize 0x7BFFF400 //ROM Addr of combination rom, 0x3EFDB00
+.org 0x80090300
+J mp1_osEPiRawStartDmaHook
+NOP
