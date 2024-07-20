@@ -1,3 +1,9 @@
 *.z64
 obj/
 .vscode/
+.ninja_deps
+.ninja_log
+bin/
+build.ninja
+flipscfg.bin
+syms.txt

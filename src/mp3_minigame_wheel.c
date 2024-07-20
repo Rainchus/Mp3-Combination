@@ -1,158 +1,6 @@
-#include "mp3.h"
+#include "marioparty.h"
 
-s32 mp2_OverlayToLoad = 0;
-
-enum MinigameNameStringIDs {
-    STR_HAND_LINE_AND_SINKER = 0x4700,
-    STR_COCONUT_CONK = 0x4701,
-    STR_SPOTLIGHT_SWIM = 0x4702,
-    STR_BOULDER_BALL = 0x4703,
-    STR_CRAZY_COGS = 0x4704,
-    STR_HIDE_AND_SNEAK = 0x4705,
-    STR_RIDICULOUS_RELAY = 0x4706,
-    STR_THWOMP_PULL = 0x4707,
-    STR_RIVER_RAIDERS = 0x4708,
-    STR_TIDAL_TOSS = 0x4709,
-    STR_EATSA_PIZZA = 0x470A,
-    STR_BABY_BOWSER_BROADSIDE = 0x470B,
-    STR_PUMP_PUMP_AND_AWAY = 0x470C,
-    STR_HYPER_HYDRANTS = 0x470D,
-    STR_PICKING_PANIC = 0x470E,
-    STR_COSMIC_COASTER = 0x470F,
-    STR_PUDDLE_PADDLE = 0x4710,
-    STR_ETCH_N_CATCH = 0x4711,
-    STR_LOG_JAM = 0x4712,
-    STR_SLOT_SYNCH = 0x4713,
-    STR_TREADMILL_GRILL = 0x4714,
-    STR_TOADSTOOL_TITAN = 0x4715,
-    STR_ACES_HIGH = 0x4716,
-    STR_BOUNCE_N_TROUNCE = 0x4717,
-    STR_ICE_RINK_RISK = 0x4718,
-    STR_LOCKED_OUT = 0x4719,
-    STR_CHIP_SHOT_CHALLENGE = 0x471A,
-    STR_PARASOL_PLUMMET = 0x471B,
-    STR_MESSY_MEMORY = 0x471C,
-    STR_PICTURE_IMPERFECT = 0x471D,
-    STR_MARIOS_PUZZLE_PARTY = 0x471E,
-    STR_THE_BEAT_GOES_ON = 0x471F,
-    STR_MPIQ = 0x4720,
-    STR_CURTAIN_CALL = 0x4721,
-    STR_WATER_WHIRLED = 0x4722,
-    STR_FRIGID_BRIDGES = 0x4723,
-    STR_AWFUL_TOWER = 0x4724,
-    STR_CHEEP_CHEEP_CHASE = 0x4725,
-    STR_PIPE_CLEANERS = 0x4726,
-    STR_SNOWBALL_SUMMIT = 0x4727,
-    STR_ALL_FIRED_UP = 0x4728,
-    STR_STACKED_DECK = 0x4729,
-    STR_THREE_DOOR_MONTY = 0x472A,
-    STR_ROCKIN_RACEWAY = 0x472B,
-    STR_MERRY_GO_CHOMP = 0x472C,
-    STR_SLAP_DOWN = 0x472D,
-    STR_STORM_CHASERS = 0x472E,
-    STR_EYE_SORE = 0x472F,
-    STR_VINE_WITH_ME = 0x4730,
-    STR_POPGUN_PICK_OFF = 0x4731,
-    STR_END_OF_THE_LINE = 0x4732,
-    STR_BOWSER_TOSS = 0x4733,
-    STR_BABY_BOWSER_BONKERS = 0x4734,
-    STR_MOTOR_ROOTER = 0x4735,
-    STR_SILLY_SCREWS = 0x4736,
-    STR_CROWD_COVER = 0x4737,
-    STR_TICK_TOCK_HOP = 0x4738,
-    STR_FOWL_PLAY = 0x4739,
-    STR_WINNERS_WHEEL = 0x473A,
-    STR_HEY_BATTER_BATTER = 0x473B,
-    STR_BOBBING_BOW_LOONS = 0x473C,
-    STR_DORRIE_DIP = 0x473D,
-    STR_SWINGING_WITH_SHARKS = 0x473E,
-    STR_SWING_N_SWIPE = 0x473F,
-    STR_CHANCE_TIME = 0x4740,
-    STR_STARDUST_BATTLE = 0x4741,
-    STR_GAME_GUYS_ROULETTE = 0x4742,
-    STR_GAME_GUYS_LUCKY_7 = 0x4743,
-    STR_GAME_GUYS_MAGIC_BOXES = 0x4744,
-    STR_GAME_GUYS_SWEET_SURPRISE = 0x4745,
-    STR_DIZZY_DINGHIES = 0x4746,
-    STR_MARIO_PUZZLE_PARTY_PRO = 0x4747,
-    STR_QUESTION_MARKS = 0x4748,
-};
-
-enum MinigameIDs {
-    HAND_LINE_AND_SINKER = 0,
-    COCONUT_CONK = 1,
-    SPOTLIGHT_SWIM = 2,
-    BOULDER_BALL = 3,
-    CRAZY_COGS = 4,
-    HIDE_AND_SNEAK = 5,
-    RIDICULOUS_RELAY = 6,
-    THWOMP_PULL = 7,
-    RIVER_RAIDERS = 8,
-    TIDAL_TOSS = 9,
-    EATSA_PIZZA = 10,
-    BABY_BOWSER_BROADSIDE = 11,
-    PUMP_PUMP_AND_AWAY = 12,
-    HYPER_HYDRANTS = 13,
-    PICKING_PANIC = 14,
-    COSMIC_COASTER = 15,
-    PUDDLE_PADDLE = 16,
-    ETCH_N_CATCH = 17,
-    LOG_JAM = 18,
-    SLOT_SYNC = 19,
-    TREADMILL_GRILL = 20,
-    TOADSTOOL_TITAN = 21,
-    ACES_HIGH = 22,
-    BOUNCE_N_TROUNCE = 23,
-    ICE_RINK_RISK = 24,
-    LOCKED_OUT = 25,
-    CHIP_SHOT_CHALLENGE = 26,
-    PARASOL_PLUMMET = 27,
-    MESSY_MEMORY = 28,
-    PICTURE_IMPERFECT = 29,
-    MARIOS_PUZZLE_PARTY = 30,
-    THE_BEAT_GOES_ON = 31,
-    MPIQ = 32,
-    CURTAIN_CALL = 33,
-    WATER_WHIRLED = 34,
-    FRIGID_BRIDGES = 35,
-    AWFUL_TOWER = 36,
-    CHEEP_CHEEP_CHASE = 37,
-    PIPE_CLEANERS = 38,
-    SNOWBALL_SUMMIT = 39,
-    ALL_FIRED_UP = 40,
-    STACKED_DECK = 41,
-    THREE_DOOR_MONTY = 42,
-    ROCKIN_RACEWAY = 43,
-    MERRY_GO_CHOMP = 44,
-    SLAP_DOWN = 45,
-    STORM_CHASERS = 46,
-    EYE_SORE = 47,
-    VINE_WITH_ME = 48,
-    POPGUN_PICK_OFF = 49,
-    END_OF_THE_LINE = 50,
-    BOWSER_TOSS = 51,
-    BABY_BOWSER_BONKERS = 52,
-    MOTOR_ROOTER = 53,
-    SILLY_SCREWS = 54,
-    CROWD_COVER = 55,
-    TICK_TOCK_HOP = 56,
-    FOWL_PLAY = 57,
-    WINNERS_WHEEL = 58,
-    HEY_BATTER_BATTER = 59,
-    BOBBING_BOW_LOONS = 60,
-    DORRIE_DIP = 61,
-    SWINGING_WITH_SHARKS = 62,
-    SWING_N_SWIPE = 63,
-    CHANCE_TIME = 64,
-    STARDUST_BATTLE = 65,
-    GAME_GUYS_ROULETTE = 66,
-    GAME_GUYS_LUCKY_7 = 67,
-    GAME_GUYS_MAGIC_BOXES = 68,
-    GAME_GUYS_SWEET_SURPRISE = 69,
-    DIZZY_DINGHIES = 70,
-    MARIO_PUZZLE_PARTY_PRO = 71,
-    BOWSER_SLOTS = 72, //test mp2 import
-};
+s32 mp2_MinigameIndexToLoad = -1;
 
 char HookLineAndSinkerStr[] = {"\x0B""Hand""\x82"" Line and Sinker"};
 char CoconutConkStr[] = {"\x0B""Coconut Conk"};
@@ -227,6 +75,51 @@ char GameGuysSweetSurpriseStr[] = {"\x0B""Game Guy""\x5C""s Sweet Surprise"};
 char DizzyDinghiesStr[] = {"\x0B""Dizzy Dinghies"};
 char MariosPuzzlePartyPro2Str[] = {"\x0B""Mario""\x5C""s Puzzle Party Pro"};
 char BowserSlotsStr[] = {"\x0B""Bowser Slots"};
+char RollOutTheBarrelsStr[] = {"\x0B""Roll Out The Barrels"};
+char CoffinCongestionStr[] = {"\x0B""Coffin Congestion"};
+char HammerSlammerStr[] = {"\x0B""Hammer Slammer"};
+char GiveMeABrakeStr[] = {"\x0B" "Give Me A Brake\xC2"};
+char MalletGoRoundStr[] = {"\x0B""Mallet""\x3D""Go""\x3D""Round"};
+char GrabBagStr[] = {"\x0B""Grab Bag"};
+char LavaTileIsleStr[] = {"\x0B""Lava Tile Isle"};
+char BumperBalloonCarsStr[] = {"\x0B""Bumper Balloon Cars"};
+char RakinEmInStr[] = {"\x0B""Rakin""\x5C"" ""\x5C""em In"};
+char DayAtTheRacesStr[] = {"\x0B""Day At The Races"};
+char HotRopeJumpStr[] = {"\x0B""Hot Rope Jump"};
+char HotBobOmbStr[] = {"\x0B""Hot Bob""\x3D""omb"};
+char BowlOverStr[] = {"\x0B""Bowl Over"};
+char RainbowRunStr[] = {"\x0B""Rainbow Run"};
+char CraneGameStr[] = {"\x0B""Crane Game"};
+char MoveToTheMusicStr[] = {"\x0B""Move To The Music"};
+char BobOmbBarrageStr[] = {"\x0B""Bob""\x3D""omb Barrage"};
+char LookAwayStr[] = {"\x0B""Look Away"};
+char ShockDropOrRollStr[] = {"\x0B""Shock""\x82"" Drop or Roll"};
+char LightsOutStr[] = {"\x0B""Lights Out"};
+char FiletRelayStr[] = {"\x0B""Filet Relay"};
+char ArcherivalStr[] = {"\x0B""Archer""\x3D""ival"};
+char ToadBandstandStr[] = {"\x0B""Toad Bandstand"};
+char BobsledRunMp2Str[] = {"\x0B""Bobsled Run"};
+char HandcarHavocMp2Str[] = {"\x0B""Handcar Havoc"};
+//char MechaMarathonStr[] = {"\x0B""Mecha""\x3D""Marathon"};
+
+u8 unkFontTable[] = {
+    0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+};
 
 char* MinigameList[] = { //add 1 to this value and stick into table
 /* 0x00 */ HookLineAndSinkerStr,
@@ -302,6 +195,84 @@ char* MinigameList[] = { //add 1 to this value and stick into table
 /* 0x46 */ DizzyDinghiesStr,
 /* 0x47 */ MariosPuzzlePartyPro2Str,
 /* 0x48 */ BowserSlotsStr,
+/* 0x49 */ RollOutTheBarrelsStr,
+/* 0x4A */ CoffinCongestionStr,
+/* 0x4B */ HammerSlammerStr,
+/* 0x4C */ GiveMeABrakeStr,
+/* 0x4D */ MalletGoRoundStr,
+/* 0x4E */ GrabBagStr,
+/* 0x4F */ BumperBalloonCarsStr,
+/* 0x50 */ LavaTileIsleStr,
+/* 0x51 */ RakinEmInStr,
+/* 0x52 */ DayAtTheRacesStr,
+/* 0x53 */ HotRopeJumpStr,
+/* 0x54 */ HotBobOmbStr,
+/* 0x55 */ BowlOverStr,
+/* 0x56 */ RainbowRunStr,
+/* 0x57 */ CraneGameStr,
+/* 0x58 */ MoveToTheMusicStr,
+/* 0x59 */ BobOmbBarrageStr,
+/* 0x5A */ LookAwayStr,
+/* 0x5B */ ShockDropOrRollStr,
+/* 0x5C */ LightsOutStr,
+/* 0x5D */ FiletRelayStr,
+/* 0x5E */ ArcherivalStr,
+/* 0x5F */ ToadBandstandStr,
+/* 0x60 */ BobsledRunMp2Str,
+/* 0x61 */ HandcarHavocMp2Str
+};
+
+u8 new4PMinigameListNormalMp3[] = {
+    // TREADMILL_GRILL,        TOADSTOOL_TITAN,    ACES_HIGH,      BOUNCE_N_TROUNCE,       ICE_RINK_RISK,
+    // CHIP_SHOT_CHALLENGE,    PARASOL_PLUMMET,    MESSY_MEMORY,   PICTURE_IMPERFECT,      MARIOS_PUZZLE_PARTY,
+    // THE_BEAT_GOES_ON,       MPIQ,               CURTAIN_CALL,   WATER_WHIRLED,          FRIGID_BRIDGES,
+    // AWFUL_TOWER,            CHEEP_CHEEP_CHASE,  PIPE_CLEANERS,  SNOWBALL_SUMMIT,        ROCKIN_RACEWAY,
+    //mp2 minigame
+    TOADSTOOL_TITAN, GRAB_BAG_MP2, LAVA_TILE_ISLE, HOT_ROPE_JUMP_MP2, TREADMILL_GRILL
+};
+u8 new1v3MinigameListNormalMp3[] = {
+    // HAND_LINE_AND_SINKER,   COCONUT_CONK,       SPOTLIGHT_SWIM, BOULDER_BALL,   CRAZY_COGS,
+    // HIDE_AND_SNEAK,         RIDICULOUS_RELAY,   THWOMP_PULL,    RIVER_RAIDERS,  TIDAL_TOSS
+    //mp2 minigames
+    MOVE_TO_THE_MUSIC, CRANE_GAME, LOOK_AWAY, SHOCK_DROP_OR_ROLL, TOAD_BANDSTAND,
+    ARCHER_IVAL, FILET_RELAY, LIGHTS_OUT
+};
+u8 new2v2MinigameListNormalMp3[] = {
+    // EATSA_PIZZA,    BABY_BOWSER_BROADSIDE,  PUMP_PUMP_AND_AWAY,     HYPER_HYDRANTS, PICKING_PANIC,
+    // COSMIC_COASTER, PUDDLE_PADDLE,          ETCH_N_CATCH, LOG_JAM,  SLOT_SYNC
+
+    HANDCAR_HAVOC, BOBSLED_RUN, EATSA_PIZZA, PUMP_PUMP_AND_AWAY
+};
+u8 newBattleMinigameListNormalMp3[] = {
+    LOCKED_OUT, ALL_FIRED_UP, STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP,
+    SLAP_DOWN, STORM_CHASERS, EYE_SORE
+};
+u8 newItemMinigameListNormalMp3[] = {
+    WINNERS_WHEEL, HEY_BATTER_BATTER, BOBBING_BOW_LOONS, DORRIE_DIP, SWINGING_WITH_SHARKS, SWING_N_SWIPE
+};
+
+//at 80100EEC originally (normal minigame list, amount of minigames in each category)
+u8 newCategoryAmountsNormal[] = {
+    ARRAY_COUNT(new4PMinigameListNormalMp3),
+    ARRAY_COUNT(new1v3MinigameListNormalMp3),
+    ARRAY_COUNT(new2v2MinigameListNormalMp3),
+    ARRAY_COUNT(newItemMinigameListNormalMp3),
+    ARRAY_COUNT(newBattleMinigameListNormalMp3),
+};
+
+u8 new4PMinigameListEasyMp3[] = {0x15, 0x19, 0x1C, 0x1D, 0x1E, 0x21, 0x22, 0x26, 0x28};
+u8 new1v3MinigameListEasyMp3[] = {0x02, 0x03, 0x04, 0x05, 0x06, 0x09, 0x0A};
+u8 new2v2MinigameListEasyMp3[] = {0x0B, 0x0C, 0x10, 0x11, 0x13};
+u8 newBattleMinigameListEasyMp3[] = {0x2A, 0x2B, 0x2D, 0x2E};
+u8 newItemMinigameListEasyMp3[] = {0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40};
+
+//at 80100EF4 originally (east minigame list, amount of minigames in each category)
+u8 newCategoryAmountsEasy[] = {
+    ARRAY_COUNT(new4PMinigameListEasyMp3),
+    ARRAY_COUNT(new1v3MinigameListEasyMp3),
+    ARRAY_COUNT(new2v2MinigameListEasyMp3),
+    ARRAY_COUNT(newBattleMinigameListEasyMp3),
+    ARRAY_COUNT(newItemMinigameListEasyMp3),
 };
 
 char* GetNewMinigameString(s32 minigameIndex) {

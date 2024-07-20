@@ -17,3 +17,21 @@
 .definelabel mp2_D_800FA5E0, 0x800FA5E0;
 .definelabel mp2_bcopy, 0x800a5210; //rom:0xa5e10
 .definelabel mp2_func_8007ee0c_7fa0c, 0x8007ee0c; //rom:0xa5e10
+.definelabel func_80062BE0_637E0, 0x80062BE0; //rom:0x637E0
+.definelabel func_8000e9e8, 0x8000e9e8;
+.definelabel func_800770ec, 0x800770ec;
+.definelabel debug_gPlayers, 0x801072B8;
+.definelabel mp2_gPlayers, 0x800FD2C0;
+.definelabel func_800683BC_68FBC, 0x800683bc; //rom:0x68fbc
+.definelabel func_8003f6f0_402f0, 0x8003f6f0; //rom:0x402f0
+.definelabel mp2_omOvlCallEx, 0x800770EC; //rom:0x77CEC
+.definelabel mp2_omOvlHisChg, 0x80077538; // rom:0x78138
+.definelabel D_800F93C6, 0x800F93C6;
+.definelabel D_800F93C8, 0x800F93C8;
+
+.definelabel mp2_pageID, 0x801072A0;
+.definelabel mp2_debugCursorIndex, 0x801072A2;
+.definelabel mp2_debugMode, 0x800CD40E;
+
+//hardcoded symbols
+.definelabel mp2_PlayersCopy, 0x807FFF00
