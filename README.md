@@ -5,7 +5,7 @@ https://hack64.net/Thread-Importing-C-Code-Into-SM64-Using-n64chain-and-armips
 
 After armips is set up, clone this repo
 
-Create a folder in the root of the project named `rom`<br>
-Put a mario party 1 z64 US rom in the folder with the name `mp1.z64`<br>
-Run `make` to build the modded rom<br>
-The modded rom will output as `mp1.mod.z64`
+Copy a big endian mario party 2 rom named `mp2.z64` to `rom/mp2.z64`</br>
+Also copy a big endian mario party 3 rom named `mp3.z64` to `rom/mp3.z64`</br>
+Run `python ./configure.py` to combine the roms and generate a ninja build file</br>
+Run `ninja` to build the project, which will output to `rom/mp3-mp2.mod.z64`</br>
