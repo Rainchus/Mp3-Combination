@@ -29,6 +29,24 @@
 .definelabel D_800F93C6, 0x800F93C6;
 .definelabel D_800F93C8, 0x800F93C8;
 
+.definelabel mp2_D_800CD2C4, 0x800CD2C4;
+.definelabel mp2_D_800F93C8, 0x800F93C8;
+.definelabel mp2_D_801062A0, 0x801062A0;
+.definelabel mp2_D_801062A4, 0x801062A4;
+
+.definelabel mp2_omOvlReturnEx, 0x80077160;
+
+.definelabel mp2_func_8008f618_90218, 0x8008f618;
+.definelabel mp2_func_8005e584_5f184, 0x8005e584;
+.definelabel mp2_func_8006836c_68f6c, 0x8006836c;
+.definelabel mp2_func_80067e6c_68a6c, 0x80067e6c;
+.definelabel mp2_func_80075424_76024, 0x80075424;
+.definelabel mp2_func_8007e018_7ec18, 0x8007e018;
+.definelabel mp2_func_8007e070_7ec70, 0x8007e070;
+.definelabel mp2_func_800740ac_74cac, 0x800740ac;
+.definelabel mp2_func_8008ce5c_8da5c, 0x8008ce5c;
+.definelabel mp2_func_800683bc_68fbc, 0x800683bc;
+
 .definelabel mp2_pageID, 0x801072A0;
 .definelabel mp2_debugCursorIndex, 0x801072A2;
 .definelabel mp2_debugMode, 0x800CD40E;

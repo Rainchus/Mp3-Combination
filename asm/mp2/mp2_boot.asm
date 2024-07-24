@@ -96,8 +96,8 @@ NOP
         NOP
 
 .org 0x8001C730
-    JAL LoadMinigameFromBoot2
-    NOP
+    //JAL LoadMinigameFromBoot4
+    //NOP
 
 //.org 0x8007C74C //remove debug text drawing
     //JR RA

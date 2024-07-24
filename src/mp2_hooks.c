@@ -6,7 +6,7 @@
 extern s32 loadingBackFromMinigame;
 NORETURN void ComboSwitchGameToMp3(void);
 void CopyMp3_gPlayerCopy_To_Mp2(void);
-void func_800683BC_68FBC(s32);
+void mp2_func_800683BC_68FBC(s32);
 
 #define NEW_EEP_OFFSET 0x600
 #define EEP_BLOCK_OFFSET NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE
@@ -533,6 +533,56 @@ ovlTableCustom ovl_table_custom[] = {
 s32 check = 0;
 
 extern u8 mp2_MinigameOverlayIndexes[];
+extern s32 mp2_D_800CD2C4; //mp2_D_800CD2C4
+extern s16 mp2_D_800F93C8; //mp2_D_800F93C8
+extern s32 mp2_D_801062A0; //mp2_D_801062A0
+extern s32 mp2_D_801062A4; //mp2_D_801062A4
+
+
+s32 mp2_func_8008f618_90218(void);
+void mp2_func_8008ce5c_8da5c(void);
+void mp2_func_8006836c_68f6c(s32);
+void mp2_func_80067e6c_68a6c(s32);
+void mp2_func_80075424_76024(s32);
+void mp2_func_8007e018_7ec18(void);
+void mp2_func_8007e070_7ec70(void);
+void mp2_func_800740ac_74cac(void);
+void mp2_func_8005e584_5f184(void);
+
+s32 mp2_omOvlReturnEx(s16);
+void LoadMinigameFromBoot4(void) {
+    mp2_func_8006836c_68f6c(0xE);
+    mp2_D_800CD2C4++;
+    mp2_func_80067e6c_68a6c(0x27);
+    mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93C8), 0, 0x94);
+    mp2_omOvlHisChg(1, 0x6D, 1, 0x192);
+}
+
+void LoadMinigameFromBoot3(void) { //func_80105EC0_409D00
+    if (mp2_func_8008f618_90218() == 0) {
+        if (mp2_D_801062A0 != 0) {
+            mp2_func_80075424_76024(0);
+            mp2_func_800683BC_68FBC(0);
+            mp2_func_8007e018_7ec18();
+            mp2_func_8007e070_7ec70();
+            mp2_func_800740ac_74cac();
+        }
+        //func_80106214_40A054();
+        //func_80106054_409E94();
+        mp2_func_8008ce5c_8da5c();
+        mp2_func_8005e584_5f184();
+        if (mp2_D_801062A4 != 0) {
+            mp2_func_8006836c_68f6c(0xE);
+            mp2_D_800CD2C4++;
+            mp2_func_80067e6c_68a6c(0x27);
+            mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93C8), 0, 0x94);
+            mp2_omOvlHisChg(1, 0x6D, 1, 0x192);
+            return;
+        }
+        mp2_func_800683BC_68FBC(0xE);
+        mp2_omOvlReturnEx(1);
+    }
+}
 
 void LoadMinigameFromBoot2(s32 arg0, s32 arg1, s32 arg2) {
     if (mp2_MinigameIndexToLoad == -1) {
