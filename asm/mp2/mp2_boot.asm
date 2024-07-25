@@ -110,7 +110,7 @@ NOP
 
 
 //mp1
-.headersize 0x7BFFF400 //ROM Addr of combination rom, 0x3EFDB00
-.org 0x80090300
-J mp1_osEPiRawStartDmaHook
-NOP
+//.headersize 0x7BFFF400 //ROM Addr of combination rom, 0x3EFDB00
+//.org 0x80090300
+//J mp1_osEPiRawStartDmaHook
+//NOP
