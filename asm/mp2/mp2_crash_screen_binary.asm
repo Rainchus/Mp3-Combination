@@ -1,3 +1,5 @@
+//I copied this from another project of mine, but I didn't have my source code for it...
+//so it's getting injected as a binary at the same address (which is unused font data)
 .headersize 0x7DFFF400
 .org 0x800C0A00
 CrashScreenBin:

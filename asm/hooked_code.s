@@ -33,7 +33,7 @@ LoadOverlayHook_Mp3:
     BNE t0, a0, normalExitMp3
     NOP
     //swap game
-    //JAL ComboSwitchGameToMp1
+    //JAL ComboSwitchGameToMp2
     //NOP
     normalExitMp3:
     J 0x80048130
@@ -95,8 +95,9 @@ ConvertMinigameIndexFromMp3ToMp2OverlayID:
     LI v0, mp2_base
     LW v0, 0x0000 (v0)
     SUBU a0, a0, v0
-    JR RA
     ADDU v0, a0, r0
+    JR RA
+    ADDIU v0, v0, 1 //minigame 0 doesn't exist, so add 1
 
 setCustomMinigameIndex:
     LUI v0, 0x800D
@@ -112,6 +113,9 @@ setCustomMinigameIndex:
 
     LI a0, mp2_MinigameIndexToLoad
     SW v0, 0x0000 (a0) //store overlay mp2 should load on boot
+
+    JAL SaveMp3PlayerStructs
+    NOP
     
     JAL ComboSwitchGameToMp2
     NOP

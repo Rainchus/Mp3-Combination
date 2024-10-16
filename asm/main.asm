@@ -20,6 +20,7 @@ PAYLOAD_START_RAM:
 .importobj "obj\mp2_hooks.o"
 .importobj "obj\mp3_minigame_wheel.o"
 .importobj "obj\system.o"
+.importobj "obj\mp2\ovl_00_Debug\ovl_00_main.o"
 
 .align 8
 PAYLOAD_END_RAM:

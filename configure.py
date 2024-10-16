@@ -2,6 +2,18 @@ import glob
 import os
 import ninja_syntax
 
+pj64_rdb_path = "C:/Users/Rainchus/Desktop/Desktop/newest_pj64/Config/Project64.rdb"
+# mp3_custom_rom = f"""
+# [{crc1}-{crc2}-C:45]
+# Good Name=Mario Party 3 Mod (U)
+# Internal Name=MarioParty3
+# Status=Compatible
+# 32bit=1
+# Counter Factor=1
+# RDRAM Size=8
+# Save Type=16kbit Eeprom
+# """   
+
 def check_and_create_rom():
     mp3_mp2_path = 'rom/mp3-mp2.z64'
     mp3_path = 'rom/mp3.z64'

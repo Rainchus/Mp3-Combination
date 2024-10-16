@@ -29,10 +29,6 @@ NOP
     J GetEepType
     NOP
 
-//.org 0x8001AEDC
-    //J func_8001AEDC_1BADC
-    //NOP
-
 .org 0x8001AF0C
     J func_8001AF0C_1BB0C
     NOP
@@ -95,22 +91,5 @@ NOP
         J threadInfiniteLoop
         NOP
 
-.org 0x8001C730
-    JAL LoadMinigameFromBoot2
-    NOP
-
-//.org 0x8007C74C //remove debug text drawing
-    //JR RA
-    //NOP
-
-//.headersize 0x80102904 - 0x236DAA4
-//.org 0x80102904
-//J LoadMinigameFromBoot
-//ADDIU sp, sp, 0x20
-
-
-//mp1
-//.headersize 0x7BFFF400 //ROM Addr of combination rom, 0x3EFDB00
-//.org 0x80090300
-//J mp1_osEPiRawStartDmaHook
-//NOP
+.org 0x8001C734
+    ORI a0, r0, 0 //always load overlay 0 instead of boot up logos

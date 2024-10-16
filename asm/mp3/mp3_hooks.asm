@@ -36,6 +36,25 @@ SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
     ADDU v0, v0, s2
     LBU v0, lo(newCategoryAmountsNormal) (v0)
 
+//patch a bunch of LB -> LBU
+.org 0x800DFEAC
+    LBU v1, 0x2C08 (v1)
+
+.org 0x800DFEB8
+    LBU v0, 0x2C08 (v0)
+
+.org 0x800DFF1C
+    LBU a1, 0x2C08 (a1)
+
+.org 0x800DFF60
+    LBU v1, 0x2C08 (v1)
+
+.org 0x800DFFC0
+    LBU a1, 0x2C08 (a1)
+
+.org 0x800DFFE8
+    LBU v0, 0x2C08 (v0)
+
 //mp3 load minigame index and short after converts to overlay id
 .headersize 0x80105A60 - 0x4DEC20
 .org 0x80105A60
