@@ -340,3 +340,9 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         mp3_HuObjCreate(arg0, arg1, arg2, arg3, arg4);
     }
 }
+
+void drawMessageOnBootLogos(void) {
+    mp3_DrawDebugText(20, 210, "MOD BY: RAINCHUS");
+    mp3_DrawDebugText(20, 220, "IF YOU WOULD LIKE TO SUPPORT MY MODS:");
+    mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+}
