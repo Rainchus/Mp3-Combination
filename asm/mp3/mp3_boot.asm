@@ -6,12 +6,14 @@
 .word new2v2MinigameListNormalMp3
 .word newItemMinigameListNormalMp3
 .word newBattleMinigameListNormalMp3
+.word newDuelMinigameListNormalMp3
 
 .word new4PMinigameListEasyMp3
 .word new1v3MinigameListEasyMp3
 .word new2v2MinigameListEasyMp3
 .word newItemMinigameListEasyMp3
 .word newBattleMinigameListEasyMp3
+.word newDuelMinigameListEasyMp3
 
 //advanced homebrew rom header
 .orga 0x34
@@ -55,8 +57,10 @@
     JAL checkosAppNmiBufferReset
     ADDU a0, s0, r0
 
-//.org 0x8000C2A8 //remove save type check assert
-//NOP
+.org 0x8000C2A8 //remove save type check assert
+JAL SetInvalidEepromFound
+NOP
 
-//.org 0x8000C2C0 //remove another save type check assert
-//NOP
+.org 0x8000C2C0 //remove another save type check assert
+JAL SetInvalidEepromFound
+NOP

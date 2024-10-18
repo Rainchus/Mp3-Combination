@@ -4,10 +4,11 @@
 .open "rom/mp3-mp2.z64", "rom/mp3-mp2.mod.z64", 0 // Open the ROM file
 .include "asm\mp2\mp2_boot.asm"
 .include "asm\mp2\mp2_crash_screen_binary.asm"
+.include "asm\mp2\mp2_ovl_00_hooks.asm"
 .include "asm\mp2\mp2_symbols.asm"
-.include "asm\mp2\ovl_00_hooks.asm"
 .include "asm\mp3\mp3_boot.asm"
 .include "asm\mp3\mp3_hooks.asm"
+.include "asm\mp3\mp3_ovl_00_hooks.asm"
 .include "asm\mp3\mp3_symbols.asm"
 
 .headersize 0x7E502580

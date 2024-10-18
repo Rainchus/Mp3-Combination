@@ -17,7 +17,8 @@
 .definelabel GetPlayerStruct, 0x800F213C
 .definelabel unknownDMAFunc, 0x8004DB14
 .definelabel PlaySound, 0x8004AA88
-.definelabel DrawDebugText, 0x8004DD7C
+.definelabel mp3_DrawDebugText, 0x8004DD7C
+.definelabel mp3_SleepVProcess, 0x8004F074
 .definelabel _sprintf, 0x8007BDC0
 .definelabel HuGetRandomByte, 0x8000B16C
 .definelabel DrawBox, 0x8004DE24
@@ -43,6 +44,12 @@
 .definelabel mp3_omovlhis, 0x800D2010
 .definelabel mp3_omovlhisidx, 0x800A1768
 .definelabel mp3_D_800CD2A2, 0x800CD2A2
+.definelabel mp3_SetSpriteCenter, 0x8000BBD4
+.definelabel mp3_HuObjCreate, 0x80047620
+
+.definelabel D_800D20F0, 0x800D20F0
+.definelabel D_800D6B60, 0x800D6B60
+.definelabel D_800CD0AA, 0x800CD0AA
 
 .definelabel mp3___osInitialize_common, 0x8007ED78
 .definelabel mp3___osInitialize_autodetect, 0x8007F048
@@ -52,6 +59,9 @@
 
 .definelabel mp3_omOvlCallEx, 0x80048128
 .definelabel mp3_boardstate, 0x800CD058
+.definelabel func_800F8610_10C230, 0x800F8610
+
+.definelabel func_80108910_119290, 0x80108910
 
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD90

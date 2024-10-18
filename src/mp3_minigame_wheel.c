@@ -170,7 +170,7 @@ u8 unkFontTable[] = {
     7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
 };
 
-//this array is constructed from the indexes below that have NullStr and then minus 1 from the index
+//this array is constructed from the indexes below that have NullStr and then add 1 to the index
 u8 minigameBlacklistIDs[] = {
     0x52, 0x61, 0x65, 0x6A, 0x77, 0x80
 };
@@ -323,10 +323,10 @@ char* MinigameList[] = { //add 1 to this value and stick into table
 };
 
 u8 new4PMinigameListNormalMp3[] = {
-    // TREADMILL_GRILL,        TOADSTOOL_TITAN,    ACES_HIGH,      BOUNCE_N_TROUNCE,       ICE_RINK_RISK,
-    // CHIP_SHOT_CHALLENGE,    PARASOL_PLUMMET,    MESSY_MEMORY,   PICTURE_IMPERFECT,      MARIOS_PUZZLE_PARTY,
-    // THE_BEAT_GOES_ON,       MPIQ,               CURTAIN_CALL,   WATER_WHIRLED,          FRIGID_BRIDGES,
-    // AWFUL_TOWER,            CHEEP_CHEEP_CHASE,  PIPE_CLEANERS,  SNOWBALL_SUMMIT,        ROCKIN_RACEWAY,
+    TREADMILL_GRILL,        TOADSTOOL_TITAN,    ACES_HIGH,      BOUNCE_N_TROUNCE,       ICE_RINK_RISK,
+    CHIP_SHOT_CHALLENGE,    PARASOL_PLUMMET,    MESSY_MEMORY,   PICTURE_IMPERFECT,      MARIOS_PUZZLE_PARTY,
+    THE_BEAT_GOES_ON,       MPIQ,               CURTAIN_CALL,   WATER_WHIRLED,          FRIGID_BRIDGES,
+    AWFUL_TOWER,            CHEEP_CHEEP_CHASE,  PIPE_CLEANERS,  SNOWBALL_SUMMIT,        ROCKIN_RACEWAY,
     //mp2 minigame
     LAVA_TILE_ISLE, HOT_ROPE_JUMP_MP2, SHELL_SHOCKED, TOAD_IN_THE_BOX, MECHA_MARATHON,
     ROLL_CALL, ABANDON_SHIP, PLATFORM_PERIL_MP2, TOTEM_POLE_POUND, BUMPER_BALLS_MP2, 
@@ -335,30 +335,35 @@ u8 new4PMinigameListNormalMp3[] = {
     DEEP_SEA_SALVAGE
 };
 u8 new1v3MinigameListNormalMp3[] = {
-    // HAND_LINE_AND_SINKER,   COCONUT_CONK,       SPOTLIGHT_SWIM, BOULDER_BALL,   CRAZY_COGS,
-    // HIDE_AND_SNEAK,         RIDICULOUS_RELAY,   THWOMP_PULL,    RIVER_RAIDERS,  TIDAL_TOSS
+    HAND_LINE_AND_SINKER,   COCONUT_CONK,       SPOTLIGHT_SWIM, BOULDER_BALL,   CRAZY_COGS,
+    HIDE_AND_SNEAK,         RIDICULOUS_RELAY,   THWOMP_PULL,    RIVER_RAIDERS,  TIDAL_TOSS,
     //mp2 minigames
     BOWL_OVER_MP2, CRANE_GAME_MP2, MOVE_TO_THE_MUSIC, BOB_OMB_BARRAGE, LOOK_AWAY,
     SHOCK_DROP_OR_ROLL, LIGHTS_OUT, FILET_RELAY, ARCHERIVAL, QUICKSAND_CACHE,
     RAINBOW_RUN
 };
 u8 new2v2MinigameListNormalMp3[] = {
-    // EATSA_PIZZA,    BABY_BOWSER_BROADSIDE,  PUMP_PUMP_AND_AWAY,     HYPER_HYDRANTS, PICKING_PANIC,
-    // COSMIC_COASTER, PUDDLE_PADDLE,          ETCH_N_CATCH, LOG_JAM,  SLOT_SYNC
+    EATSA_PIZZA,    BABY_BOWSER_BROADSIDE,  PUMP_PUMP_AND_AWAY,     HYPER_HYDRANTS, PICKING_PANIC,
+    COSMIC_COASTER, PUDDLE_PADDLE,          ETCH_N_CATCH, LOG_JAM,  SLOT_SYNC,
 
     TOAD_BANDSTAND, BOBSLED_RUN, HANDCAR_HAVOC_MP2, BALLOON_BURST_MP2, SKY_PILOTS,
     SPEED_HOCKEY, CAKE_FACTORY, MAGNET_CARTA, LOONEY_LUMBERJACKS, TORPEDO_TARGETS,
     DESTRUCTION_DUET, DUNGEON_DASH
 };
 u8 newBattleMinigameListNormalMp3[] = {
-    // LOCKED_OUT, ALL_FIRED_UP, STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP,
-    // SLAP_DOWN, STORM_CHASERS, EYE_SORE
+    LOCKED_OUT, ALL_FIRED_UP, STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP,
+    SLAP_DOWN, STORM_CHASERS, EYE_SORE,
     GRAB_BAG_MP2, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, FACE_LIFT_MP2,
     CRAZY_CUTTERS, HOT_BOB_OMB_MP2, BOWSERS_BIG_BLAST
 };
 u8 newItemMinigameListNormalMp3[] = {
     //no mp2 minigames currently for these
     WINNERS_WHEEL, HEY_BATTER_BATTER, BOBBING_BOW_LOONS, DORRIE_DIP, SWINGING_WITH_SHARKS, SWING_N_SWIPE
+};
+u8 newDuelMinigameListNormalMp3[] = {
+    VINE_WITH_ME, POPGUN_PICK_OFF, END_OF_THE_LINE, BABY_BOWSER_BONKERS, SILLY_SCREWS,
+    CROWD_COVER, TICK_TOCK_HOP, BOWSER_TOSS, MOTOR_ROOTER, FOWL_PLAY,
+    //mp2 minigames
 };
 
 //at 80100EEC originally (normal minigame list, amount of minigames in each category)
@@ -368,6 +373,7 @@ u8 newCategoryAmountsNormal[] = {
     ARRAY_COUNT(new2v2MinigameListNormalMp3),
     ARRAY_COUNT(newItemMinigameListNormalMp3),
     ARRAY_COUNT(newBattleMinigameListNormalMp3),
+    ARRAY_COUNT(newDuelMinigameListNormalMp3),
 };
 
 u8 new4PMinigameListEasyMp3[] = {0x15, 0x19, 0x1C, 0x1D, 0x1E, 0x21, 0x22, 0x26, 0x28};
@@ -375,6 +381,7 @@ u8 new1v3MinigameListEasyMp3[] = {0x02, 0x03, 0x04, 0x05, 0x06, 0x09, 0x0A};
 u8 new2v2MinigameListEasyMp3[] = {0x0B, 0x0C, 0x10, 0x11, 0x13};
 u8 newBattleMinigameListEasyMp3[] = {0x2A, 0x2B, 0x2D, 0x2E};
 u8 newItemMinigameListEasyMp3[] = {0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40};
+u8 newDuelMinigameListEasyMp3[] = {0x31, 0x32, 0x33, 0x35, 0x37, 0x38, 0x39};
 
 //at 80100EF4 originally (east minigame list, amount of minigames in each category)
 u8 newCategoryAmountsEasy[] = {
@@ -383,6 +390,7 @@ u8 newCategoryAmountsEasy[] = {
     ARRAY_COUNT(new2v2MinigameListEasyMp3),
     ARRAY_COUNT(newBattleMinigameListEasyMp3),
     ARRAY_COUNT(newItemMinigameListEasyMp3),
+    ARRAY_COUNT(newDuelMinigameListEasyMp3),
 };
 
 char* GetNewMinigameString(s32 minigameIndex) {

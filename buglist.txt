@@ -1,0 +1,2 @@
+Wont fix - Waluigi and Daisy will crash when loading an mp2 minigame
+Exiting the board after loading the last 5 turns/mp2 minigame does not go to the correct overlay
