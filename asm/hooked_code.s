@@ -74,9 +74,9 @@ checkIfMinigameIndexIsBlacklisted:
     BNEZ t2, minigameBlacklistLoop
     ADDIU v1, v1, 1 //increment blacklist array pointer
     //otherwise, we looped all blacklisted ids and none appeared. minigame is good to use
-    LW v1, 0x0018 (s3)
-    ADDU v1, v1, v0
-    J 0x800DFE84
+    LUI at, 0x8010
+    ADDU at, at, s0
+    J 0x800DFE90
     NOP
     //reroll for a new id that isn't blacklisted
     isBlacklisted:

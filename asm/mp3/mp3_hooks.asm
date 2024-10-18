@@ -26,7 +26,7 @@ SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
     J getNewMinigameString1
     NOP
 
-.org 0x800DFE7C
+.org 0x800DFE88
     J checkIfMinigameIndexIsBlacklisted
     NOP
 

@@ -172,7 +172,7 @@ u8 unkFontTable[] = {
 
 //this array is constructed from the indexes below that have NullStr and then minus 1 from the index
 u8 minigameBlacklistIDs[] = {
-    0x50, 0x5F, 0x63, 0x68, 0x75, 0x7E
+    0x52, 0x61, 0x65, 0x6A, 0x77, 0x80
 };
 
 char* MinigameList[] = { //add 1 to this value and stick into table
