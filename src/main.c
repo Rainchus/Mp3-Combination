@@ -22,6 +22,7 @@ void System_InvalICache(void* addr, u32 size);
 void comboDma_NoCacheInval(void* dramAddr, u32 cartAddr, u32 size);
 void ComboGameSwitch4(u32);
 void ComboGameSwitch2ToMp3(void);
+NORETURN void ComboGameSwitch2ToMp1(void);
 
 extern s32 mp2_MinigameIndexToLoad;
 
@@ -37,41 +38,73 @@ extern mp2_PlayerData mp2_PlayersCopy[4];
 
 mp2_PlayerData mp2_gPlayerBlank = {0};
 
-void CopyMp3_gPlayerCopy_To_Mp2(void) {
+typedef struct omOvlHisData { //Object Manager History Data
+/* 0x00 */ s32 overlayID;
+/* 0x04 */ s16 event;
+/* 0x06 */ u16 stat;
+} omOvlHisData; //sizeof 0x08
+
+//these are hardcoded to avoid them being written when mp3 boots
+extern omOvlHisData mp3_omovlhis_copy[12];
+extern s16 mp3_omovlhisidx_copy;
+
+extern omOvlHisData mp3_omovlhis[12];
+extern s16 mp3_omovlhisidx;
+
+#define BOARD_STATE_STRUCT_SIZE 0x80
+
+extern u8 mp3_BoardState[BOARD_STATE_STRUCT_SIZE];
+u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE] = {0};
+
+void PushMp3OvlHis(void) {
     s32 i;
-    for (i = 0; i < 4; i++) {
-        mp2_gPlayers[i] = mp2_gPlayerBlank;
-        mp2_gPlayers[i].cpu_difficulty = mp3_PlayersCopy[i].cpu_difficulty;
-        mp2_gPlayers[i].cpu_difficulty2 = mp3_PlayersCopy[i].cpu_difficulty;
-        mp2_gPlayers[i].controller_port = mp3_PlayersCopy[i].controller_port;
-        mp2_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
-        mp2_gPlayers[i].group = mp3_PlayersCopy[i].group;
-        mp2_gPlayers[i].characterID = mp3_PlayersCopy[i].characterID;
+
+    for (i = 0; i < 12; i++) {
+        mp3_omovlhis_copy[i] = mp3_omovlhis[i];
+    }
+    mp3_omovlhisidx_copy = mp3_omovlhisidx;
+}
+
+void PushMp3BoardState(void) {
+    s32 i;
+
+    for (i = 0; i < BOARD_STATE_STRUCT_SIZE; i++) {
+        mp3_BoardStateCopy[i] = mp3_BoardState[i];
     }
 }
 
-//for use when loading back into mp3 after a minigame
-// void RetrieveMp3PlayerData(void) {
-//     s32 i;
-
-//     for (i = 0; i < 4; i++) {
-//         mp3_gPlayers[i] = mp3_PlayersCopy[i];
-//     }
-
-//     //get minigame coins won
-//     for (i = 0; i < 4; i++) {
-//         mp3_gPlayers[i].minigameCoins = mp2_PlayersCopy[i].minigame_coins_collected;
-//         mp3_gPlayers[i].minigameCoinsWon = mp2_PlayersCopy[i].extra_coins_collected_during_minigame;
-//     }
-// }
-
-
-void CopyMp2_gPlayerCopy_To_Mp3(void) {
+void PopMp3BoardState(void) {
     s32 i;
+
+    for (i = 0; i < BOARD_STATE_STRUCT_SIZE; i++) {
+        mp3_BoardState[i] = mp3_BoardStateCopy[i];
+    }
+}
+
+void PopMp3OvlHis(void) {
+    s32 i;
+
+    for (i = 0; i < 12; i++) {
+        mp3_omovlhis[i] = mp3_omovlhis_copy[i];
+    }
+    mp3_omovlhisidx = mp3_omovlhisidx_copy;
+}
+
+//we only want to copy the necessary data so that the mp2 results screen is correct
+void CopyMp3_gPlayerCopy_To_Mp2(void) {
+    s32 i;
+
     for (i = 0; i < 4; i++) {
-        mp3_gPlayers[i].cpu_difficulty = mp2_PlayersCopy[i].cpu_difficulty;
-        mp3_gPlayers[i].controller_port = mp2_PlayersCopy[i].controller_port;
-        mp3_gPlayers[i].flags1 = mp2_PlayersCopy[i].flags;
+        mp2_gPlayers[i].group = mp3_PlayersCopy[i].group;
+        mp2_gPlayers[i].cpu_difficulty = mp3_PlayersCopy[i].cpu_difficulty;
+        mp2_gPlayers[i].cpu_difficulty2 = mp3_PlayersCopy[i].cpu_difficulty;
+        mp2_gPlayers[i].controller_port = mp3_PlayersCopy[i].controller_port;
+        mp2_gPlayers[i].characterID = mp3_PlayersCopy[i].characterID;
+        mp2_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
+        mp2_gPlayers[i].coins = mp3_PlayersCopy[i].coins;
+        mp2_gPlayers[i].extra_coins_collected_during_minigame = mp3_PlayersCopy[i].minigameCoinsWon;
+        mp2_gPlayers[i].minigameCoinsWon = mp3_PlayersCopy[i].minigameCoins;
+        mp2_gPlayers[i].stars = mp3_PlayersCopy[i].stars;
     }
 }
 
@@ -86,6 +119,13 @@ void SaveMp3PlayerStructs(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
         mp3_PlayersCopy[i] = mp3_gPlayers[i];
+    }
+}
+
+void LoadMp3PlayerStructs(void) {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        mp3_gPlayers[i] = mp3_PlayersCopy[i];
     }
 }
 
@@ -107,12 +147,8 @@ NORETURN void ComboSwitchGame3ToMp3(void) {
     __builtin_unreachable();
 }
 
-
-
-
 //start loading into Mp2
 NORETURN void ComboSwitchGameToMp2(void) {
-    SaveMp3PlayerStructs();
     System_DisableInterrupts();
     WaitForSubSystems();
     ComboGameSwitch2ToMp2(); //doesn't return
@@ -128,8 +164,6 @@ NORETURN void ComboSwitchGame3ToMp2(void) {
     ComboGameSwitch4(FOREIGN_DRAM);
     __builtin_unreachable();
 }
-
-
 
 NORETURN void ComboSwitchGameToMp1(void) {
     //SaveMp3PlayerStructs();
@@ -147,4 +181,57 @@ NORETURN void ComboSwitchGame3ToMp1(void) {
     System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
     ComboGameSwitch4(FOREIGN_DRAM);
     __builtin_unreachable();
+}
+
+#define COLD_BOOT 0
+#define WARM_BOOT 1
+#define osAppNmiBufferSize 64
+
+extern u8 osAppNmiBuffer[osAppNmiBufferSize];
+void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat);
+extern s32 mp3_LoadBackFromMp2;
+
+void checkosAppNmiBufferReset(s32 resetType) {
+    s32 i;
+
+    if (resetType == COLD_BOOT) {
+        for (i = 0; i < osAppNmiBufferSize; i++) {
+            osAppNmiBuffer[i] = 0;
+        }        
+    }
+}
+
+extern s16 mp3_D_800CD2A2;
+
+omOvlHisData endgameScene[] = {
+    {0x7A, 0x0002, 0x0092},
+    {0x7A, 0x0002, 0x0092},
+    {0x77, 0x0000, 0x0091},
+    {0x47, 0x0001, 0x0192},
+    {0x71, 0x0000, 0x0012},
+    {0x02, 0x0000, 0x0014},
+};
+
+void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
+    if (mp3_LoadBackFromMp2 == TRUE) {
+        mp3_LoadBackFromMp2 = FALSE;
+        PopMp3BoardState();
+        LoadMp3PlayerStructs();
+
+        if (mp3_BoardState[3] > mp3_BoardState[2]) {
+            // s32 i;
+            // for (i = 0; i < ARRAY_COUNT(endgameScene); i++) {
+            //     mp3_omovlhis[i] = endgameScene[i];
+            // }
+            // mp3_omovlhisidx = 3;
+            mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
+            return;
+        } else {
+            mp3_omOvlCallEx(0x48, 2, 0x192); //hardcoded load chilly waters atm
+        }
+        PopMp3OvlHis();
+        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+    } else {
+        mp3_omOvlCallEx(overlayID, event, stat);
+    }
 }

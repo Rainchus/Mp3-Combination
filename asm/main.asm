@@ -15,6 +15,7 @@
 PAYLOAD_START_RAM:
 .include "asm\combo.s"
 .include "asm\hooked_code.s"
+.importobj "obj\boot.o"
 .importobj "obj\cache.o"
 .importobj "obj\main.o"
 .importobj "obj\mp2_hooks.o"

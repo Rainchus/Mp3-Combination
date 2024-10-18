@@ -1,6 +1,7 @@
 #include "marioparty.h"
 
 s32 mp2_MinigameIndexToLoad = -1;
+s32 mp3_LoadBackFromMp2 = FALSE;
 
 char HookLineAndSinkerStr[] = {"\x0B""Hand""\x82"" Line and Sinker"};
 char CoconutConkStr[] = {"\x0B""Coconut Conk"};
@@ -147,7 +148,7 @@ char DizzyDancingStr[] = {"\x0B""Dizzy Dancing"}; //mp2 69
 char TileDriverStr[] = {"\x0B""Tile Driver"}; //mp2 70
 char QuicksandCacheStr[] = {"\x0B""Quicksand Cache"}; //mp2 71
 char DeepSeaSalvageStr[] = {"\x0B""Deep Sea Salvage"}; //mp2 72
-char NullStr[] = {"\x00"};
+char NullStr[] = {"\x0B""This Shouldn""\x5C""t Appear"};
 
 //is this font colors for the strings?
 u8 unkFontTable[] = {
@@ -167,6 +168,11 @@ u8 unkFontTable[] = {
     7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
     7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
     7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+};
+
+//this array is constructed from the indexes below that have NullStr and then minus 1 from the index
+u8 minigameBlacklistIDs[] = {
+    0x50, 0x5F, 0x63, 0x68, 0x75, 0x7E
 };
 
 char* MinigameList[] = { //add 1 to this value and stick into table
@@ -276,7 +282,6 @@ char* MinigameList[] = { //add 1 to this value and stick into table
 /* 0x67 */ SpeedHockeyStr, //mp2 32
 /* 0x68 */ CakeFactoryStr, //mp2 33
 /* 0x69 */ NullStr, //mp2 34
-
 /* 0x6A */ DungeonDashStr, //mp2 35
 /* 0x6B */ MagnetCartaStar, //mp2 36
 /* 0x6C */ LavaTileIsleStr, //mp2 37

@@ -19,7 +19,6 @@
 .definelabel mp2_func_8007ee0c_7fa0c, 0x8007ee0c; //rom:0xa5e10
 .definelabel func_80062BE0_637E0, 0x80062BE0; //rom:0x637E0
 .definelabel func_8000e9e8, 0x8000e9e8;
-.definelabel func_800770ec, 0x800770ec;
 .definelabel debug_gPlayers, 0x801072B8;
 .definelabel mp2_gPlayers, 0x800FD2C0;
 .definelabel func_800683BC_68FBC, 0x800683bc; //rom:0x68fbc

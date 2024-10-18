@@ -3,6 +3,10 @@
 J LoadOverlayHook_Mp3
 NOP
 
+.org 0x8000E658
+JAL checkIfLoadingFromMp2Minigame
+NOP
+
 //mp3 file select overlay
 .headersize 0x80109690 - 0x51A7D0
 .org 0x80109690 //only allow use of 2 save files
@@ -20,6 +24,10 @@ SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
 
 .org 0x800DFFD4
     J getNewMinigameString1
+    NOP
+
+.org 0x800DFE7C
+    J checkIfMinigameIndexIsBlacklisted
     NOP
 
 .org 0x800DF47C //display minigame name index when chosen
@@ -54,6 +62,18 @@ SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
 
 .org 0x800DFFE8
     LBU v0, 0x2C08 (v0)
+
+.org 0x800DF468
+    LBU a1, 0x2C08 (a1)
+
+.org 0x800DF690
+    LBU a0, 0x2C08 (a0)
+
+//there is an LB here that needs to be patched, but patching it might cause issues
+//because there is a BLTZ check
+.org 0x800FEF60
+    JAL CustomFuncTest
+    NOP
 
 //mp3 load minigame index and short after converts to overlay id
 .headersize 0x80105A60 - 0x4DEC20

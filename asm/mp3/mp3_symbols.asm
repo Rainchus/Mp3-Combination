@@ -38,8 +38,22 @@
 .definelabel osRecvMesg, 0x8007C070
 .definelabel osStopThread, 0x80086B70
 .definelabel osCreateMesgQueue, 0x8007BF00
-.definelabel osCreateThread, 0x8007C810
-.definelabel osStartThread, 0x8007CAE0
+.definelabel mp3_osCreateThread, 0x8007C810
+.definelabel mp3_osStartThread, 0x8007CAE0
+.definelabel mp3_omovlhis, 0x800D2010
+.definelabel mp3_omovlhisidx, 0x800A1768
+.definelabel mp3_D_800CD2A2, 0x800CD2A2
+
+.definelabel mp3___osInitialize_common, 0x8007ED78
+.definelabel mp3___osInitialize_autodetect, 0x8007F048
+.definelabel mp3_func_80050F50_51B50, 0x80050F50
+.definelabel mp3_func_800357AC_363AC, 0x800357AC
+.definelabel osAppNmiBuffer, 0x8000031C //global location for both games
+
+.definelabel mp3_omOvlCallEx, 0x80048128
+.definelabel mp3_boardstate, 0x800CD058
 
 //hardcoded symbols
+.definelabel mp3_omovlhisidx_copy, 0x807FFD90
+.definelabel mp3_omovlhis_copy, 0x807FFDA0
 .definelabel mp3_PlayersCopy, 0x807FFE00

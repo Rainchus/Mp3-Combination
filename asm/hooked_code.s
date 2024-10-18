@@ -61,6 +61,29 @@ mp1_osEPiRawStartDmaHook:
     NOP
 
 
+checkIfMinigameIndexIsBlacklisted:
+    //v0 holds the current minigame index
+    LI v1, minigameBlacklistIDs
+    ADDU t0, r0, r0 //loop counter
+    minigameBlacklistLoop:
+    LBU t1, 0x0000 (v1) //blacklisted id
+    BEQ t1, v0, isBlacklisted
+    NOP
+    ADDIU t0, t0, 1 //increment loop
+    SLTI t2, t0, 6 //
+    BNEZ t2, minigameBlacklistLoop
+    ADDIU v1, v1, 1 //increment blacklist array pointer
+    //otherwise, we looped all blacklisted ids and none appeared. minigame is good to use
+    LW v1, 0x0018 (s3)
+    ADDU v1, v1, v0
+    J 0x800DFE84
+    NOP
+    //reroll for a new id that isn't blacklisted
+    isBlacklisted:
+    J 0x800DFE60
+    NOP
+
+
 
 //mp3 notes
 //800DFE84 reads 4p minigame indexes
@@ -114,9 +137,19 @@ setCustomMinigameIndex:
     LI a0, mp2_MinigameIndexToLoad
     SW v0, 0x0000 (a0) //store overlay mp2 should load on boot
 
+    //make a copy of the mp3 player structs
     JAL SaveMp3PlayerStructs
     NOP
-    
+
+    //also make a copy of the overlay history
+    //JAL PushMp3OvlHis
+    //NOP
+
+    //push the current board state
+    JAL PushMp3BoardState
+    NOP
+
+    //swap to mp2
     JAL ComboSwitchGameToMp2
     NOP
 
@@ -157,3 +190,35 @@ ifSkipDebugTextDraw:
     ADDIU s2, s2, 0x1081 //normally is ADDIU s2, s2, 0x1080 (makes first byte of all strings )
     J 0x80103884
     SB r0, 0xFFFF (s2) //set beginning of all debug drawing strings to '\0', and move printf buffer to not write first byte
+
+mp3_ClearBss:
+    LUI t0, 0x800B
+    ADDIU t0, t0, 0x8AF0
+    LUI t1, 0x0003
+    ADDIU t1, t1, 0xE080
+    mp3_bss_clear_loop:
+    SD r0, 0x0000 (t0)
+    ADDI t1, t1, 0xFFF8
+    BNEZ t1, mp3_bss_clear_loop
+    ADDI t0, t0, 0x0008
+    JR RA
+    NOP
+
+CustomFuncTest:
+    JAL 0x8004EE18
+    NOP
+    JAL PushMp3OvlHis
+    NOP
+
+    //if the value is less than 0, it should do something different
+    //however, we need this to be a LBU not a LB. so let's check if it's 0xFF directly
+    LBU v0, 0x0010 (s4)
+    ORI v1, r0, 0x00FF
+    BEQ v0, v1, isNegative
+    NOP
+    //otherwise, not negative
+    J 0x800FEF74
+    NOP
+    isNegative:
+    J 0x800FEFEC
+    NOP
