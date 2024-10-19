@@ -222,3 +222,21 @@ CustomFuncTest:
     isNegative:
     J 0x800FEFEC
     NOP
+
+newStarliftOverlayCheck:
+    BLTZ v0, lockedCharacter
+    SRL t1, v0, 16
+    ORI v1, r0, 7
+    BEQ t1, v1, lockedCharacter
+    NOP
+    ORI v1, r0, 3
+    BEQ t1, v1, lockedCharacter
+    NOP
+
+    //isn't waluigi or daisy, allow cursor to go to character
+    J 0x801112E4
+    NOP
+
+    lockedCharacter:
+    J 0x80111364
+    NOP
