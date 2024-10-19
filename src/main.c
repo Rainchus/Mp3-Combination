@@ -262,6 +262,9 @@ void func_800F8610_10C230_Copy(s32 arg0, s16 arg1, s16 arg2, s32 curBoardIndex) 
     }
 }
 
+extern s8 D_800B23B0;
+extern s32 mp3_D_800B1A30;
+
 void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
     s8 curTurn;
     s8 totalTurns;
@@ -289,7 +292,12 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
         totalTurns = mp3_BoardState[2];
         curBoardIndex = mp3_BoardState[1];
 
+        mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
+
         if (curTurn > totalTurns) {
+            PopMp3OvlHis();
+            mp3_omovlhisidx--;
+            D_800B23B0 = 1; //is party mode
             mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
             return;
         } else if ((totalTurns - curTurn) == 4) {
@@ -368,7 +376,7 @@ typedef struct UnkCastleGroundMessage {
 } UnkCastleGroundMessage;
 
 void func_80019C00_1A800(s32);
-void func_8005B43C_5C03C(s16, u32, s32, s32); //RefreshMsg
+void func_8005B43C_5C03C(s16, char*, s32, s32); //RefreshMsg
 void func_8005D294_5DE94(s16);
 u32 func_80106B38_4F9028(s32);
 extern UnkCastleGroundMessage mp3_D_80110998[];
@@ -405,7 +413,7 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     if (temp_v0 > 0x80000000U) {
         mp3_D_80110998[arg0].unk_04 = temp_v0;
     }
-    func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, temp_v0, -1, -1);
+    func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, (char*)temp_v0, -1, -1);
 }
 
 void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
