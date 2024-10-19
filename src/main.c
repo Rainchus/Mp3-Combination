@@ -28,6 +28,8 @@ void func_80108910_119290(s32, s32, char*);
 void mp3_SetSpriteCenter(s32, s32, s32);
 void mp3_HuObjCreate(s32, s32, s32, s32, s32);
 
+s32 printTimer = 0;
+
 extern s16 D_800CD0AA;
 extern s32 mp2_MinigameIndexToLoad;
 
@@ -341,8 +343,87 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     }
 }
 
+extern s16 mp2_D_800CDA7C[];
+
 void drawMessageOnBootLogos(void) {
-    mp3_DrawDebugText(20, 210, "MOD BY: RAINCHUS");
-    mp3_DrawDebugText(20, 220, "IF YOU WOULD LIKE TO SUPPORT MY MODS:");
-    mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+    //if R is held on boot, load mp2
+    if ((printTimer == 0) && mp2_D_800CDA7C[0] & 0x10) {
+        mp2_MinigameIndexToLoad = -2;
+        ComboSwitchGameToMp2();
+        return;
+    }
+    if (printTimer < 150) {
+        printTimer++;
+        mp3_DrawDebugText(20, 210, "MOD BY: RAINCHUS");
+        mp3_DrawDebugText(20, 220, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
+        mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+    }
+}
+
+typedef struct UnkCastleGroundMessage {
+    s16 unk_00;
+    char unk_02[2];
+    s32 unk_04;
+    char unk_06[4];
+} UnkCastleGroundMessage;
+
+void func_80019C00_1A800(s32);
+void func_8005B43C_5C03C(s16, u32, s32, s32); //RefreshMsg
+void func_8005D294_5DE94(s16);
+u32 func_80106B38_4F9028(s32);
+extern UnkCastleGroundMessage mp3_D_80110998[];
+void mp3_HuPrcSleep(s32 frames);
+
+extern omOvlHisData mp2_omovlhis[12];
+extern s16 mp2_omovlhisidx;
+
+void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
+    //i wanted to make this a choice textbox, but that's tricky
+    //for now, it will say loading mario party 2 and then sleep for 1 second and load
+
+    char newMessage[] = {"\x0B""Loading Mario Party 2""\xFF"};
+    //char newMessage[] = {"\x0B""Huh""\xC3"" Do you want to swap to Mario Party 2""\xC3""\xFF"};
+    //char newMessage[] = {"\x0B""Huh" "\xC3" " Do you want to swap to\nMario Party 2" "\xC3" "\x0C Yes\x0D   \x0C No\x0D"};
+    u32 temp_v0; //pointer to message
+
+    //Huh? My suggestion? textbox
+    if (messageID == 0x3125) {
+        func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, newMessage, -1, -1);
+        mp2_MinigameIndexToLoad = -2;
+        mp3_HuPrcSleep(30);
+        ComboSwitchGameToMp2();
+        return;
+    }
+
+    func_8005D294_5DE94(mp3_D_80110998[arg0].unk_00);
+    if (mp3_D_80110998[arg0].unk_04 != 0) {
+        func_80019C00_1A800(mp3_D_80110998[arg0].unk_04);
+        mp3_D_80110998[arg0].unk_04 = 0;
+    }
+    temp_v0 = func_80106B38_4F9028(messageID);
+    //pointer check
+    if (temp_v0 > 0x80000000U) {
+        mp3_D_80110998[arg0].unk_04 = temp_v0;
+    }
+    func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, temp_v0, -1, -1);
+}
+
+void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
+    if (mp2_MinigameIndexToLoad == -2) {
+        s32 i;
+        //load directly into title screen
+        omOvlHisData titleScreen[] = {
+            {0x62, 0x0000, 0x192},
+            {0x62, 0x0001, 0x193}
+        };
+
+        for (i = 0; i < ARRAY_COUNT(titleScreen); i++) {
+            mp2_omovlhis[i] = titleScreen[i];
+        }
+
+        mp2_omovlhisidx = 1;
+        mp2_omOvlCallEx(0x5B, 0, 0x1081); //load mode select
+    } else { //otherwise, load debug overlay
+        mp2_omOvlCallEx(0, event, stat);
+    }
 }

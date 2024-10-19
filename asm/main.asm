@@ -11,6 +11,7 @@
 .include "asm\mp3\mp3_ovl_00_hooks.asm"
 .include "asm\mp3\mp3_ovl_58_hooks.asm"
 .include "asm\mp3\mp3_symbols.asm"
+.include "asm\mp3\ovl_castlegrounds_hooks.asm"
 
 .headersize 0x7E502580
 .org 0x80400000

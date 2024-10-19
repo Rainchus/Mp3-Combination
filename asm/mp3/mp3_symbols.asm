@@ -50,6 +50,14 @@
 .definelabel D_800D20F0, 0x800D20F0
 .definelabel D_800D6B60, 0x800D6B60
 .definelabel D_800CD0AA, 0x800CD0AA
+.definelabel mp3_D_80110998, 0x80110998
+
+
+.definelabel func_80019C00_1A800, 0x80019C00
+.definelabel func_8005B43C_5C03C, 0x8005B43C
+.definelabel func_8005D294_5DE94, 0x8005D294
+.definelabel func_80106B38_4F9028, 0x80106B38
+.definelabel mp3_HuPrcSleep, 0x8004F010
 
 .definelabel mp3___osInitialize_common, 0x8007ED78
 .definelabel mp3___osInitialize_autodetect, 0x8007F048

@@ -28,6 +28,11 @@
 .definelabel D_800F93C6, 0x800F93C6;
 .definelabel D_800F93C8, 0x800F93C8;
 
+.definelabel mp2_omovlhis, 0x800FDBE8;
+.definelabel mp2_omovlhisidx, 0x800CD418;
+.definelabel mp2_D_800CDA7C, 0x800CDA7C;
+
+
 .definelabel mp2_pageID, 0x801072A0;
 .definelabel mp2_debugCursorIndex, 0x801072A2;
 .definelabel mp2_debugMode, 0x800CD40E;

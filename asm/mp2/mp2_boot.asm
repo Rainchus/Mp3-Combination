@@ -91,5 +91,6 @@ NOP
         J threadInfiniteLoop
         NOP
 
-.org 0x8001C734
-    ORI a0, r0, 0 //always load overlay 0 instead of boot up logos
+.org 0x8001C730 //check if we should change the overlay loaded in mp2's boot sequence
+    JAL mp2BootOverlaySwapCheck
+    NOP
