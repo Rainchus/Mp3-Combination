@@ -58,9 +58,13 @@
     ADDU a0, s0, r0
 
 .org 0x8000C2A8 //remove save type check assert
-JAL SetInvalidEepromFound
-NOP
+    JAL SetInvalidEepromFound
+    NOP
 
 .org 0x8000C2C0 //remove another save type check assert
-JAL SetInvalidEepromFound
-NOP
+    JAL SetInvalidEepromFound
+    NOP
+
+//.org 0x8000EE7C
+    //JAL checkOsViBlack
+    //ADDU a0, s1, r0

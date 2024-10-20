@@ -29,7 +29,6 @@ void mp3_SetSpriteCenter(s32, s32, s32);
 void mp3_HuObjCreate(s32, s32, s32, s32, s32);
 
 s32 printTimer = 0;
-
 extern s16 D_800CD0AA;
 extern s32 mp2_MinigameIndexToLoad;
 
@@ -38,7 +37,7 @@ s32 eepromLoadFailed = 0;
 
 //also prevents wacky watches from being found from this point on if not 0
 s32 wackyWatchUsedCopy = 0;
-
+s32 osViBlackTimer = 0;
 
 void cBootFunction(void) {
     //crash_screen_init();
@@ -298,6 +297,7 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
             PopMp3OvlHis();
             mp3_omovlhisidx--;
             D_800B23B0 = 1; //is party mode
+            osViBlackTimer = 50;
             mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
             return;
         } else if ((totalTurns - curTurn) == 4) {
@@ -311,7 +311,8 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
             mp3_omovlhisidx = 3;
             mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
             // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
-            mp3_omOvlCallEx(0x51, 2, 0x192); //hardcoded load chilly waters atm
+            osViBlackTimer = 50;
+            mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
             return;
         }
 
@@ -360,7 +361,7 @@ void drawMessageOnBootLogos(void) {
         ComboSwitchGameToMp2();
         return;
     }
-    if (printTimer < 150) {
+    if (printTimer < 90) {
         printTimer++;
         mp3_DrawDebugText(20, 210, "MOD BY: RAINCHUS");
         mp3_DrawDebugText(20, 220, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
@@ -381,6 +382,7 @@ void func_8005D294_5DE94(s16);
 u32 func_80106B38_4F9028(s32);
 extern UnkCastleGroundMessage mp3_D_80110998[];
 void mp3_HuPrcSleep(s32 frames);
+void mp3_HuPrcVSleep(void);
 
 extern omOvlHisData mp2_omovlhis[12];
 extern s16 mp2_omovlhisidx;
@@ -433,5 +435,81 @@ void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
         mp2_omOvlCallEx(0x5B, 0, 0x1081); //load mode select
     } else { //otherwise, load debug overlay
         mp2_omOvlCallEx(0, event, stat);
+    }
+}
+
+void HuWipeFadeIn(s32, s32);
+void HuWipeFadeOut(s32, s32);
+s32 HuWipeStatGet(void);
+s32 InitEspriteSlot(s16, s32, s32);
+u16 func_8000B838_C438(s32);
+void func_8000BB54_C754(s32);
+void func_8000BBD4_C7D4(s32, s32, s32);
+void func_8000BCC8_C8C8(s32, s32);
+void func_8000C184_CD84(s32);
+void func_80055670_56270(s16);
+extern s16 D_800D530C;
+
+#define N64_LOGO 0x00110000
+#define NINTENO_LOGO 0x00110001
+#define HUDSON_LOGO 0x00110002
+
+void newBootLogos(void) {
+    s16 temp_v0;
+    s16 temp_v0_3;
+    s32 temp_s0;
+    s32 temp_s0_2;
+    s32 temp_s0_3;
+    s32 temp_v0_2;
+    s32 temp_v0_4;
+
+    temp_v0 = func_8000B838_C438(N64_LOGO);
+    temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
+    temp_s0 = temp_v0_2 & 0xFFFF;
+    func_8000BBD4_C7D4(temp_s0, 0xA0, 0x78);
+    func_8000BB54_C754(temp_s0);
+    func_8000BCC8_C8C8(temp_s0, 0xFFFF);
+    HuWipeFadeIn(0xB, 0x1E);
+    while (HuWipeStatGet() != 0) {
+        mp3_HuPrcVSleep();
+    }
+    mp3_HuPrcSleep(10);
+    HuWipeFadeOut(0xB, 9);
+    while (HuWipeStatGet() != 0) {
+        mp3_HuPrcVSleep();
+    }
+    func_8000C184_CD84(temp_v0_2 & 0xFFFF);
+    func_80055670_56270(temp_v0);
+    mp3_HuPrcSleep(9);
+    temp_v0_3 = func_8000B838_C438(NINTENO_LOGO);
+    temp_v0_4 = InitEspriteSlot(temp_v0_3, 0, 1);
+    temp_s0_2 = temp_v0_4 & 0xFFFF;
+    func_8000BBD4_C7D4(temp_s0_2, 0xA0, 0x78);
+    func_8000BB54_C754(temp_s0_2);
+    func_8000BCC8_C8C8(temp_s0_2, 0xFFFF);
+    HuWipeFadeIn(0xB, 9);
+    while (HuWipeStatGet() != 0) {
+        mp3_HuPrcVSleep();
+    }
+    mp3_HuPrcSleep(10);
+    HuWipeFadeOut(0xB, 9);
+    while (HuWipeStatGet() != 0) {
+        mp3_HuPrcVSleep();
+    }
+    func_8000C184_CD84(temp_v0_4 & 0xFFFF);
+    func_80055670_56270(temp_v0_3);
+    mp3_HuPrcSleep(9);
+    temp_s0_3 = InitEspriteSlot(func_8000B838_C438(HUDSON_LOGO), 0, 1) & 0xFFFF;
+    func_8000BBD4_C7D4(temp_s0_3, 0xA0, 0x78);
+    func_8000BB54_C754(temp_s0_3);
+    func_8000BCC8_C8C8(temp_s0_3, 0xFFFF);
+    HuWipeFadeIn(0xB, 9);
+    while (HuWipeStatGet() != 0) {
+        mp3_HuPrcVSleep();
+    }
+    mp3_HuPrcSleep(10);
+    D_800D530C = 1;
+    while (1) {
+        mp3_HuPrcVSleep();
     }
 }
