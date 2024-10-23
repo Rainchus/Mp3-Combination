@@ -99,8 +99,6 @@ getNewMinigameString1:
     ADDIU a3, r0, 0x0004
     J 0x800DFFE0
     NOP
-    
-
 
 getNewMinigameString2:
     ADDIU a1, a1, 0xB900 //revert minigame str index back to minigame ID
@@ -122,19 +120,63 @@ ConvertMinigameIndexFromMp3ToMp2OverlayID:
     JR RA
     ADDIU v0, v0, 1 //minigame 0 doesn't exist, so add 1
 
+ConvertMinigameIndexFromMp3ToMp1OverlayID:
+    LI v0, mp1_base
+    LW v0, 0x0000 (v0)
+    SUBU a0, a0, v0
+    JR RA
+    ADDU v0, a0, r0
+
 setCustomMinigameIndex:
     LUI v0, 0x800D
     LBU v0, 0xD068 (v0) //get minigame chosen
+
+
     LI at, mp2_base
     LW at, 0x0000 (at)
     SLT at, v0, at //first mp2 minigame
     BNEZ at, isMp3Minigame
     NOP
+
+    //check if mp1 or mp2 minigame
+    LI at, mp1_base
+    LW at, 0x0000 (at)
+    SLT at, v0, at //first mp1 minigame
+    BNEZ at, isMp2Minigame
+    NOP
+
+    //otherwise, is mp1 minigame. swap to mp1
+    JAL ConvertMinigameIndexFromMp3ToMp1OverlayID
+    ADDU a0, v0, r0    
+
+    LI a0, ForeignMinigameIndexToLoad
+    SW v0, 0x0000 (a0) //store overlay mp2 should load on boot
+
+    //make a copy of the mp3 player structs
+    JAL SaveMp3PlayerStructs
+    NOP
+
+    //also make a copy of the overlay history
+    //JAL PushMp3OvlHis
+    //NOP
+
+    //push the current board state
+    JAL PushMp3BoardState
+    NOP
+
+    //swap to mp1
+    JAL ComboSwitchGameToMp1
+    NOP
+
+
+
+
+    isMp2Minigame:
     //otherwise, is mp2 minigame. swap to mp2
     JAL ConvertMinigameIndexFromMp3ToMp2OverlayID
     ADDU a0, v0, r0
 
-    LI a0, mp2_MinigameIndexToLoad
+    LI a0, ForeignMinigameIndexToLoad
     SW v0, 0x0000 (a0) //store overlay mp2 should load on boot
 
     //make a copy of the mp3 player structs
@@ -159,31 +201,6 @@ setCustomMinigameIndex:
     NOP
 
 //80016D0C
-
-//hookOvlDebugStart:
-    //JAL 0x8006836C
-    //ADDIU a0, r0, 0x0019
-    //JAL CopyMp3_gPlayerCopy_To_Mp2
-    //NOP
-    //JAL LoadMinigameFromBoot
-    //NOP
-    //J 0x80102834
-    //NOP
-
-//hookOvlDebugSetStats:
-//ADDIU sp, sp, 0x20 //restore from hook
-    //J 0x80077DE0
-    //NOP
-
-hookOvlDebugStart2:
-    ADDIU sp, sp, -0x20
-    SW ra, 0x0018 (sp)
-    JAL CopyMp3_gPlayerCopy_To_Mp2
-    NOP
-    LW ra, 0x0018 (sp)
-    JR RA
-    ADDIU sp, sp, 0x20
-
 
 ifSkipDebugTextDraw:
     LUI s2, 0x8010

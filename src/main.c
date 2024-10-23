@@ -48,13 +48,14 @@ void func_80055670_56270(s16);
 
 s32 printTimer = 0;
 s32 mp2_base = MP2_BASE;
+s32 mp1_base = MP1_BASE;
 s32 eepromLoadFailed = 0;
 //also prevents wacky watches from being found from this point on if not 0
 s32 wackyWatchUsedCopy = 0;
 s32 osViBlackTimer = 0;
 
 extern s16 D_800CD0AA;
-extern s32 mp2_MinigameIndexToLoad;
+extern s32 ForeignMinigameIndexToLoad;
 extern mp3_PlayerData mp3_PlayersCopy[4];
 extern mp2_PlayerData mp2_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
@@ -132,6 +133,31 @@ void CopyMp3_gPlayerCopy_To_Mp2(void) {
         mp2_gPlayers[i].extra_coins_collected_during_minigame = mp3_PlayersCopy[i].minigameCoinsWon;
         mp2_gPlayers[i].minigameCoinsWon = mp3_PlayersCopy[i].minigameCoins;
         mp2_gPlayers[i].stars = mp3_PlayersCopy[i].stars;
+    }
+}
+
+// /* 0x08 */ s16 coinAmount;
+// /* 0x0A */ s16 miniGameCoins; //coins to give to player after minigame
+
+
+// /* 0x06 */ s16 minigameCoinsWon; //extra coins collected in minigames
+// /* 0x08 */ s16 minigameCoins; //coins for winning current minigame
+// /* 0x0A */ s16 coins; //referenced as u16 and s16 (usually if u16 it's casted to s16)
+void CopyMp3_gPlayerCopy_To_Mp1(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        mp1_gPlayers[i].group = mp3_PlayersCopy[i].group;
+        mp1_gPlayers[i].cpuDifficulty = mp3_PlayersCopy[i].cpu_difficulty;
+        mp1_gPlayers[i].cpuDifficultyCopy = mp3_PlayersCopy[i].cpu_difficulty;
+        mp1_gPlayers[i].controller_port = mp3_PlayersCopy[i].controller_port;
+        mp1_gPlayers[i].characterID = mp3_PlayersCopy[i].characterID;
+        mp1_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
+        //these need to be double checked
+        // mp1_gPlayers[i].coinAmount = mp3_PlayersCopy[i].coins;
+        // mp1_gPlayers[i].miniGameCoins = mp3_PlayersCopy[i].minigameCoinsWon;
+        // mp1_gPlayers[i].minigameCoinsWon = mp3_PlayersCopy[i].minigameCoins;
+        mp1_gPlayers[i].starAmount = mp3_PlayersCopy[i].stars;
     }
 }
 
@@ -293,7 +319,7 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 void drawMessageOnBootLogos(void) {
     //if R is held on boot, load mp2
     if ((printTimer == 0) && mp2_D_800CDA7C[0] & 0x10) {
-        mp2_MinigameIndexToLoad = -2;
+        ForeignMinigameIndexToLoad = -2;
         ComboSwitchGameToMp2();
         return;
     }
@@ -317,7 +343,7 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     //Huh? My suggestion? textbox
     if (messageID == 0x3125) {
         func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, newMessage, -1, -1);
-        mp2_MinigameIndexToLoad = -2;
+        ForeignMinigameIndexToLoad = -1;
         mp3_HuPrcSleep(30);
         ComboSwitchGameToMp2();
         return;
@@ -341,7 +367,7 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
 }
 
 void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
-    if (mp2_MinigameIndexToLoad == -2) {
+    if (ForeignMinigameIndexToLoad == -2) {
         s32 i;
         //load directly into title screen
         omOvlHisData titleScreen[] = {
@@ -360,7 +386,7 @@ void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
     }
 }
 
-void newBootLogos(void) {
+void mp3_newBootLogos(void) {
     s16 temp_v0;
     s16 temp_v0_copy;
     s16 temp_v0_3;

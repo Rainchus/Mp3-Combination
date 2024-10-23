@@ -70,8 +70,6 @@
 .definelabel func_800F8610_10C230, 0x800F8610
 .definelabel func_80108910_119290, 0x80108910
 
-
-
 .definelabel HuWipeFadeIn, 0x80061FE8
 .definelabel HuWipeFadeOut, 0x80062050
 .definelabel HuWipeStatGet, 0x800620BC

@@ -64,7 +64,4 @@
 .org 0x8000C2C0 //remove another save type check assert
     JAL SetInvalidEepromFound
     NOP
-
-//.org 0x8000EE7C
-    //JAL checkOsViBlack
-    //ADDU a0, s1, r0
+    

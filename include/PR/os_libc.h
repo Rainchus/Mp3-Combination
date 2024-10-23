@@ -85,6 +85,14 @@ extern void     bcopy(const void *, void *, int);
 extern int      bcmp(const void *, const void *, int);
 extern void     bzero(void *, int);
 
+extern void     mp2_bcopy(const void *, void *, int);
+extern int      mp2_bcmp(const void *, const void *, int);
+extern void     mp2_bzero(void *, int);
+
+extern void     mp1_bcopy(const void *, void *, int);
+extern int      mp1_bcmp(const void *, const void *, int);
+extern void     mp1_bzero(void *, int);
+
 /* Printf */
 
 extern int		sprintf(char *s, const char *fmt, ...);

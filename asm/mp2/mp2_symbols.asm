@@ -41,23 +41,16 @@
 .definelabel mp2_D_800CD2C4_CDEC4, 0x800cd2c4;
 .definelabel mp2_D_800F93C8_F9FC8, 0x800F93C8;
 
-//hardcoded symbols
-.definelabel mp2_PlayersCopy, 0x807FFF00
-
 .definelabel mp2_func_800794A8, 0x800794A8
 .definelabel mp2_func_800683BC_68FBC, 0x800683BC
-
 .definelabel mp2_omInitObjMan, 0x800760C0
 .definelabel mp2_omAddObj, 0x80076598
 .definelabel mp2_func_80079E60_7AA60, 0x80079E60
-
 .definelabel mp2_InitFadeIn, 0x8008F544
 .definelabel mp2_InitFadeOut, 0x8008F5AC
 .definelabel mp2_HuPrcSleep, 0x8007D9E0
 .definelabel mp2_HuPrcVSleep, 0x8007DA44
 .definelabel mp2_func_8007959C_7A19C, 0x8007959C
-
-
 .definelabel mp2_D_80107400_DA3F0_Debug, 0x80107400
 .definelabel mp2__SetFlag, 0x8006836C
 .definelabel mp2_D_800F93CD_F9FCD, 0x800F93CD
@@ -67,3 +60,17 @@
 .definelabel mp2_func_80026DAC_279AC, 0x80026DAC
 .definelabel mp2_func_80026E00_27A00, 0x80026E00
 .definelabel mp2_D_800F93A8, 0x800F93A8
+
+.definelabel mp2_func_8001A2F8_1AEF8, 0x8001A2F8
+.definelabel mp2_func_8001AAAC_1B6AC, 0x8001AAAC
+.definelabel mp2_espPosSet, 0x8001A694
+.definelabel mp2_espDispOn, 0x8001A614
+.definelabel mp2_func_8001A788_1B388, 0x8001A788
+.definelabel mp2_func_8008F618_90218, 0x8008F618
+.definelabel mp2_func_8001AC44_1B844, 0x8001AC44
+.definelabel mp2_SprAnimKill, 0x80082660
+.definelabel mp2_SprAnimKillAll, 0x80082790
+.definelabel mp2_D_801011FC_101DFC, 0x801011FC
+
+//hardcoded symbols
+.definelabel mp2_PlayersCopy, 0x807FFF00

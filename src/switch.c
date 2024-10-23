@@ -24,21 +24,21 @@ void ComboGameSwitch4(u32);
 void ComboGameSwitch2ToMp3(void);
 NORETURN void ComboGameSwitch2ToMp1(void);
 
-//start loading into Mp3
-NORETURN void ComboSwitchGameToMp3(void) {
+//start loading into Mp1
+NORETURN void ComboSwitchGameToMp1(void) {
     System_DisableInterrupts();
     WaitForSubSystems();
-    ComboGameSwitch2ToMp3(); //doesn't return
+    ComboGameSwitch2ToMp1(); //doesn't return
     __builtin_unreachable();
 }
 
-NORETURN void ComboSwitchGame3ToMp3(void) {
-    System_InvalDCache((void*)MAIN_DRAM, MAIN_SIZE);
-    System_InvalICache((void*)MAIN_DRAM, MAIN_SIZE);
-    comboDma_NoCacheInval((void*)MAIN_OFF, MAIN_CART, MAIN_SIZE);
-    System_InvalDCache((void*)MAIN_DRAM, MAIN_SIZE);
-    System_InvalICache((void*)MAIN_DRAM, MAIN_SIZE);
-    ComboGameSwitch4(MAIN_DRAM);
+NORETURN void ComboClearCacheAndExecuteMp1(void) {
+    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP1);
+    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP1);
+    comboDma_NoCacheInval((void*)FOREIGN_OFF, FOREIGN_CART_MP1, FOREIGN_SIZE_MP1);
+    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP1);
+    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP1);
+    ComboGameSwitch4(FOREIGN_DRAM);
     __builtin_unreachable();
 }
 
@@ -50,17 +50,7 @@ NORETURN void ComboSwitchGameToMp2(void) {
     __builtin_unreachable();
 }
 
-NORETURN void ComboSwitchGame3ToMp1(void) {
-    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP1);
-    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP1);
-    comboDma_NoCacheInval((void*)FOREIGN_OFF, FOREIGN_CART_MP1, FOREIGN_SIZE_MP1);
-    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP1);
-    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP1);
-    ComboGameSwitch4(FOREIGN_DRAM);
-    __builtin_unreachable();
-}
-
-NORETURN void ComboSwitchGame3ToMp2(void) {
+NORETURN void ComboClearCacheAndExecuteMp2(void) {
     System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
     System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
     comboDma_NoCacheInval((void*)FOREIGN_OFF, FOREIGN_CART_MP2, FOREIGN_SIZE_MP2);
@@ -70,10 +60,20 @@ NORETURN void ComboSwitchGame3ToMp2(void) {
     __builtin_unreachable();
 }
 
-NORETURN void ComboSwitchGameToMp1(void) {
-    //SaveMp3PlayerStructs();
+//start loading into Mp3
+NORETURN void ComboSwitchGameToMp3(void) {
     System_DisableInterrupts();
     WaitForSubSystems();
-    ComboGameSwitch2ToMp1(); //doesn't return
+    ComboGameSwitch2ToMp3(); //doesn't return
+    __builtin_unreachable();
+}
+
+NORETURN void ComboClearCacheAndExecuteMp3(void) {
+    System_InvalDCache((void*)MAIN_DRAM, MAIN_SIZE);
+    System_InvalICache((void*)MAIN_DRAM, MAIN_SIZE);
+    comboDma_NoCacheInval((void*)MAIN_OFF, MAIN_CART, MAIN_SIZE);
+    System_InvalDCache((void*)MAIN_DRAM, MAIN_SIZE);
+    System_InvalICache((void*)MAIN_DRAM, MAIN_SIZE);
+    ComboGameSwitch4(MAIN_DRAM);
     __builtin_unreachable();
 }

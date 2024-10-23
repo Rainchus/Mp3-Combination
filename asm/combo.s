@@ -17,19 +17,19 @@ System_DisableInterrupts:
 
 ComboGameSwitch2ToMp3:
   la sp,0xa0800000
-  la t0,(ComboSwitchGame3ToMp3 + 0x20000000) //points to uncached ram
+  la t0,(ComboClearCacheAndExecuteMp3 + 0x20000000) //points to uncached ram
   jr t0
    nop
 
 ComboGameSwitch2ToMp2:
   la sp,0xa0800000
-  la t0,(ComboSwitchGame3ToMp2 + 0x20000000) //points to uncached ram
+  la t0,(ComboClearCacheAndExecuteMp2 + 0x20000000) //points to uncached ram
   jr t0
    nop
 
 ComboGameSwitch2ToMp1:
   la sp,0xa0800000
-  la t0,(ComboSwitchGame3ToMp1 + 0x20000000) //points to uncached ram
+  la t0,(ComboClearCacheAndExecuteMp1 + 0x20000000) //points to uncached ram
   jr t0
    nop
 

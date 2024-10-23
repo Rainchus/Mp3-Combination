@@ -35,8 +35,6 @@ typedef struct UnkEep {
     u16 unk8;
 } UnkEep;
 
-void mp2_bcopy(u8*, u8*, u16);
-
 s32 GetEepType(s8** arg0) {
     s16 eepromProbeResult;
     s32 var_s1;
@@ -113,13 +111,12 @@ s32 func_8001AF0C_1BB0C(UnkEep* arg0) {
     s32 size;
 
     if (arg0->unk0 >= 8) {
-            for (i = 0; i < arg0->unk8; i++) {
-                if (arg0->unk0 + i >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) {
-                    break;
-                }
-                eepromBuffer[arg0->unk0 + i] = arg0->unk4[i];
+        for (i = 0; i < arg0->unk8; i++) {
+            if (arg0->unk0 + i >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) {
+                break;
             }
-        
+            eepromBuffer[arg0->unk0 + i] = arg0->unk4[i];
+        }
         
         eepromBlockOffset = (arg0->unk0 / EEPROM_BLOCK_SIZE);
         eepromBufferOffset = eepromBlockOffset;
@@ -198,9 +195,9 @@ s32 mp2_func_8001B014_1BC14_New(UnkEep* arg0) {
 }
 
 u16 func_8007DC50_7E850(void) {
-    return GetSaveFileChecksum(NEW_EEP_OFFSET, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
+    return GetSaveFileChecksum(0, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
 }
 
 u16 func_80068720_69320(void) {
-    return GetSaveFileChecksum(NEW_EEP_OFFSET, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
+    return GetSaveFileChecksum(0, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
 }

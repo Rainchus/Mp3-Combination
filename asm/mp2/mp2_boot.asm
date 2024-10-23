@@ -94,7 +94,3 @@
         NOP
         J threadInfiniteLoop
         NOP
-
-.org 0x8001C730 //check if we should change the overlay loaded in mp2's boot sequence
-    JAL mp2BootOverlaySwapCheck
-    NOP

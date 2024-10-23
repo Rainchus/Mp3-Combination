@@ -51,9 +51,9 @@
     NOP
 
 .org 0x800DFFF0
-    LUI a1, hi(unkFontTable)
+    LUI a1, hi(minigameTextColor)
     ADDU a1, a1, v0
-    LBU a1, lo(unkFontTable) (a1)
+    LBU a1, lo(minigameTextColor) (a1)
 
 .org 0x800DFE60 //new normal minigame list maxes
     LUI v0, hi(newCategoryAmountsNormal)

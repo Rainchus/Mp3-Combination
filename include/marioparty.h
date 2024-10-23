@@ -45,6 +45,40 @@ typedef struct Vec3f {
 #define R_CBUTTONS	CONT_F
 #define D_CBUTTONS	CONT_D
 
+typedef struct mp1_PlayerData {
+/* 0x00 */ u8 group;
+/* 0x01 */ u8 cpuDifficulty;
+/* 0x02 */ u8 cpuDifficultyCopy;
+/* 0x03 */ u8 controller_port;
+/* 0x04 */ u8 characterID;
+/* 0x05 */ char unk_05;
+/* 0x06 */ u16 flags; //including CPU flag
+/* 0x08 */ s16 coinAmount;
+/* 0x0A */ s16 miniGameCoins; //coins to give to player after minigame
+/* 0x0C */ s16 starAmount;
+/* 0x0E */ s16 curChainIndex;
+/* 0x10 */ u16 curSpaceIndex;
+/* 0x12 */ u16 nextChainIndex;
+/* 0x14 */ u16 nextSpaceIndex;
+/* 0x16 */ u8 poisonedFlag;
+/* 0x17 */ u8 turn_status; //space type player landed on
+/* 0x18 */ u8 playerIndex; //0, 1, 2, or 3
+/* 0x19 */ char unk_19[3]; //likely padding
+/* 0x1C */ void* process; //some heap instance
+/* 0x20 */ void* playerObj; //ptr to playerObj on heap
+/* 0x24 */ u16 totalMinigameCoins;
+/* 0x26 */ s16 coinPeak;
+/* 0x28 */ u8 happeningSpacesTotal;
+/* 0x29 */ u8 redSpacesTotal;
+/* 0x2A */ u8 blueSpacesTotal;
+/* 0x2B */ u8 minigameSpacesTotal;
+/* 0x2C */ u8 chanceSpacesTotal;
+/* 0x2D */ u8 mushroomSpacesTotal;
+/* 0x2E */ u8 bowserSpacesTotal;
+/* 0x2F */ char unk_2F;
+} mp1_PlayerData; //sizeof 0x30
+//P1 800F32B0, P2 800F32E0, P3 800F3310, P4 800F3340
+
 typedef struct mp2_PlayerData {
 /* 0x00 */ u8  group; //for which group you belong to in a minigame
 /* 0x01 */ u8 cpu_difficulty;
@@ -270,7 +304,7 @@ enum MinigameIDs {
     DORRIE_DIP = 62,
     SWINGING_WITH_SHARKS = 63,
     SWING_N_SWIPE = 64,
-    CHANCE_TIME = 65,
+    MP3_CHANCE_TIME = 65,
     STARDUST_BATTLE = 66,
     GAME_GUYS_ROULETTE = 67,
     GAME_GUYS_LUCKY_7 = 68,
@@ -336,7 +370,7 @@ enum MinigameIDs {
     SNEAK_N_SNORE = 126, //mp2 55
     NONE_7 = 127, //mp2 56
     DRIVERS_ED = 128, //mp2 57
-    CHANCE_TIME_MP2 = 129, //mp2 58
+    MP2_CHANCE_TIME = 129, //mp2 58
     WESTERN_LAND_DUEL = 130, //mp2 59
     PIRATE_LAND_DUEL = 131, //mp2 60
     HORROR_LAND_DUEL = 132, //mp2 61
@@ -351,10 +385,42 @@ enum MinigameIDs {
     TILE_DRIVER = 141, //mp2 70
     QUICKSAND_CACHE = 141, //mp2 71
     DEEP_SEA_SALVAGE = 142, //mp2 72
+    MP1_BASE = 143,
+    MEMORY_MATCH = 143, //mp1 0
+    MP1_CHANCE_TIME = 144, //mp1 1
+    SLOT_MACHINE = 145, //mp1 2
+    BURIED_TREASURE = 146, //mp1 3
+    TREASURE_DIVERS = 147, //mp1 4
+    SHELL_GAME = 148, //mp1 5
 };
+
+typedef struct mp2_omObjData {
+/* 0x00 */ u16 stat;
+/* 0x02 */ s16 next_idx_alloc;
+/* 0x04 */ s16 prio;
+/* 0x06 */ s16 prev;
+/* 0x08 */ s16 next;
+/* 0x0A */ s16 next_idx;
+/* 0x0C */ s16 group;
+/* 0x0E */ s16 group_idx;
+/* 0x10 */ s32 unk_10;
+/* 0x14 */ void* func_ptr;
+/* 0x18 */ Vec3f trans;
+/* 0x24 */ Vec3f rot;
+/* 0x30 */ Vec3f scale;
+/* 0x3C */ u16 mdlcnt;
+// /* 0x3E */ char unk_3E[2];
+/* 0x40 */ s16* model;
+/* 0x44 */ u16 mtncnt;
+// /* 0x46 */ char unk_46[2];
+/* 0x48 */ s16* motion;
+/* 0x4C */ u8 work[4];
+/* 0x50 */ void* unk_50;
+} mp2_omObjData; //sizeof 0x54
 
 extern mp3_PlayerData mp3_gPlayers[4];
 extern mp2_PlayerData mp2_gPlayers[4];
+extern mp1_PlayerData mp1_gPlayers[4];
 
 extern u8 mp2_debugMode;
 

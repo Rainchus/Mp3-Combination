@@ -3,11 +3,12 @@
 .n64 // Let armips know we're coding for the N64 architecture
 .open "rom/mp3-mp2-mp1.z64", "rom/mp3-mp2-mp1.mod.z64", 0 // Open the ROM file
 .include "asm\mp1\mp1_boot.asm"
+.include "asm\mp1\mp1_boot_logos.asm"
 .include "asm\mp1\mp1_hooks.asm"
 .include "asm\mp1\mp1_symbols.asm"
 .include "asm\mp2\mp2_boot.asm"
+.include "asm\mp2\mp2_boot_logos.asm"
 .include "asm\mp2\mp2_crash_screen_binary.asm"
-.include "asm\mp2\mp2_ovl_00_hooks.asm"
 .include "asm\mp2\mp2_symbols.asm"
 .include "asm\mp3\mp3_boot.asm"
 .include "asm\mp3\mp3_hooks.asm"
@@ -30,7 +31,8 @@ PAYLOAD_START_RAM:
 .importobj "obj\switch.o"
 .importobj "obj\system.o"
 .importobj "obj\mp1\mp1_hooks.o"
-.importobj "obj\mp2\ovl_00_Debug\ovl_00_main.o"
+.importobj "obj\mp1\ovl_66_BootLogos\ovl_66_BootLogos.o"
+.importobj "obj\mp2\ovl_57_BootLogos\ovl_57_BootLogos.o"
 
 .align 8
 PAYLOAD_END_RAM:

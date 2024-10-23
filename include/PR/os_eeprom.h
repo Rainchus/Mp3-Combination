@@ -104,6 +104,12 @@ extern s32 mp2_osEepromWrite(OSMesgQueue *, u8, u8 *);
 extern s32 mp2_osEepromLongRead(OSMesgQueue *, u8, u8 *, int);
 extern s32 mp2_osEepromLongWrite(OSMesgQueue *, u8, u8 *, int);
 
+extern s32 mp1_osEepromProbe(OSMesgQueue *);
+extern s32 mp1_osEepromRead(OSMesgQueue *, u8, u8 *);
+extern s32 mp1_osEepromWrite(OSMesgQueue *, u8, u8 *);
+extern s32 mp1_osEepromLongRead(OSMesgQueue *, u8, u8 *, int);
+extern s32 mp1_osEepromLongWrite(OSMesgQueue *, u8, u8 *, int);
+
 
 #endif  /* defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS) */
 

@@ -1,6 +1,6 @@
 #include "marioparty.h"
 
-s32 mp2_MinigameIndexToLoad = -1;
+s32 ForeignMinigameIndexToLoad = -1;
 //there's probably a better way to track this
 s32 mp3_LoadBackFromMp2 = FALSE;
 
@@ -149,26 +149,47 @@ char DizzyDancingStr[] = {"\x0B""Dizzy Dancing"}; //mp2 69
 char TileDriverStr[] = {"\x0B""Tile Driver"}; //mp2 70
 char QuicksandCacheStr[] = {"\x0B""Quicksand Cache"}; //mp2 71
 char DeepSeaSalvageStr[] = {"\x0B""Deep Sea Salvage"}; //mp2 72
+//mp1 minigames start
+char MemoryMatchStr[] = {"\x0B""Memory Match"}; //mp1 00
+char ChanceTimeMp1Str[] = {"\x0B""Chance Time"}; //mp1 01
+char SlotMachineStr[] = {"\x0B""Slot Machine"}; //mp1 02
+char BuriedTreasureStr[] = {"\x0B""Slot Machine"}; //mp1 03
+char TreasureDiversStr[] = {"\x0B""Treasure Divers"}; //mp1 04
+char ShellGameStr[] = {"\x0B""Shell Game"}; //mp1 05
+
 char NullStr[] = {"\x0B""This Shouldn""\x5C""t Appear"};
 
-//is this font colors for the strings?
-u8 unkFontTable[] = {
-    0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-    7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+u8 minigameTextColor[] = {
+    0, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7,
+    //start of mp2 minigames (offset 0x48), make them cyan
+    7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7,
+    //start of mp1 minigames, make them green
+    7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+    7, 7, 7, 7, 7,
 };
 
 //this array is constructed from the indexes below that have NullStr and then add 1 to the index
@@ -321,6 +342,14 @@ char* MinigameList[] = { //add 1 to this value and stick into table
 /* 0x8D */ TileDriverStr, //mp2 70
 /* 0x8E */ QuicksandCacheStr, //mp2 71
 /* 0x8F */ DeepSeaSalvageStr, //mp2 72
+#ifdef MP1
+/* 0x90 */ MemoryMatchStr, //mp1 00
+/* 0x91 */ ChanceTimeMp1Str, //mp1 01
+/* 0x92 */ SlotMachineStr, //mp1 02
+/* 0x93 */ BuriedTreasureStr, //mp1 03
+/* 0x94 */ TreasureDiversStr, //mp1 04
+/* 0x95 */ ShellGameStr, //mp1 05
+#endif
 };
 
 u8 new4PMinigameListNormalMp3[] = {
@@ -333,7 +362,10 @@ u8 new4PMinigameListNormalMp3[] = {
     ROLL_CALL, ABANDON_SHIP, PLATFORM_PERIL_MP2, TOTEM_POLE_POUND, BUMPER_BALLS_MP2, 
     BOMBS_AWAY, TIPSY_TOURNEY, HONEYCOMB_HAVOC, HEXAGON_HEAT, SKATEBOARD_SCAMPER,
     SLOT_CAR_DERBY, SHY_GUY_SAYS_MP2, SNEAK_N_SNORE, DIZZY_DANCING, TILE_DRIVER,
-    DEEP_SEA_SALVAGE
+    DEEP_SEA_SALVAGE,
+    //mp1 minigames
+    MEMORY_MATCH, MP1_CHANCE_TIME, SLOT_MACHINE, BURIED_TREASURE, TREASURE_DIVERS,
+    SHELL_GAME
 };
 u8 new1v3MinigameListNormalMp3[] = {
     HAND_LINE_AND_SINKER,   COCONUT_CONK,       SPOTLIGHT_SWIM, BOULDER_BALL,   CRAZY_COGS,
