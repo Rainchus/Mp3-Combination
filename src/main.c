@@ -8,6 +8,8 @@
 #define NINTENO_LOGO 0x00110001
 #define HUDSON_LOGO 0x00110002
 
+//in the eeprom, 0x2C0 through 0x400 is free to use
+
 typedef struct omOvlHisData { //Object Manager History Data
 /* 0x00 */ s32 overlayID;
 /* 0x04 */ s16 event;
