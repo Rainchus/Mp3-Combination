@@ -1,0 +1,11 @@
+.definelabel mp1_func_800195E0, 0x800195E0
+.definelabel mp1_func_80019540, 0x80019540
+.definelabel mp1_func_80019438, 0x80019438
+.definelabel mp1_D_800D1B20, 0x800D1B20
+.definelabel mp1_D_800D1B28, 0x800D1B28
+.definelabel mp1_D_800EE960, 0x800EE960
+.definelabel mp1_D_800C30B0, 0x800C30B0
+.definelabel mp1_GetEepType, 0x80019270
+.definelabel mp1_osEepromLongWrite, 0x8008BD50
+.definelabel mp1_osEepromProbe, 0x8008FAD0
+.definelabel mp1_osEepromLongRead, 0x8008BE40

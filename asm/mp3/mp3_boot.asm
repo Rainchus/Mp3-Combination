@@ -41,7 +41,7 @@
     ORI t2, r0, 1
     
     //set to warm boot
-    SB t2, 0x0000 (t0) //fake warm boot
+    SB t2, 0x0000 (t0) //fake warm boot (does this actually work on console?)
 
     //else, is cold boot
     ADDU a0, r0, r0

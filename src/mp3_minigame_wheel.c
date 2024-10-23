@@ -1,6 +1,7 @@
 #include "marioparty.h"
 
 s32 mp2_MinigameIndexToLoad = -1;
+//there's probably a better way to track this
 s32 mp3_LoadBackFromMp2 = FALSE;
 
 char HookLineAndSinkerStr[] = {"\x0B""Hand""\x82"" Line and Sinker"};

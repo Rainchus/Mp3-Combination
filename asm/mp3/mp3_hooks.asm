@@ -1,22 +1,35 @@
 //mp3
 .org 0x80048128
-J LoadOverlayHook_Mp3
-NOP
+    J LoadOverlayHook_Mp3
+    NOP
 
 .org 0x8000E658
-JAL checkIfLoadingFromMp2Minigame
-NOP
+    JAL checkIfLoadingFromMp2Minigame
+    NOP
+
+.org 0x8004FFB8 //only check file 1's checksum
+    SLTI v0, s0, 0x0001 //was SLTI v0, s0, 0x0003
+
+.org 0x8000C3F0 //only check file 1's checksum
+    SLTI v0, v0, 0x0001 //SLTI v0, v0, 0x0003
 
 //mp3 file select overlay
 .headersize 0x80109690 - 0x51A7D0
-.org 0x80109690 //only allow use of 2 save files
-    ADDIU s0, r0, 0x0001
+.org 0x801095B4
+    J checkIfCursorShouldMove
+    NOP
+    
+//.org 0x80109690 //only allow use of 1 save files
+    //ADDIU s0, r0, 0x0001
 
-.org 0x801097BC //when going down from erase, go to file 2
-    ADDIU s0, r0, 0x0001
+.org 0x80109768 //when going down from copy, go to file 1
+    ADDIU s0, r0, 0x0000
 
-.org 0x8010969C //only allow use of 2 save files
-    SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
+.org 0x801097BC //when going down from erase, go to file 1
+    ADDIU s0, r0, 0x0000
+
+//.org 0x8010969C //only allow use of 2 save files
+    //SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
 
 //hook shared board overlay?
 .headersize 0x800DFFA4 - 0xF3BC4

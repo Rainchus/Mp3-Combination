@@ -1,52 +1,12 @@
 #include "marioparty.h"
 
-#define MAIN_DRAM 0x80000400
-#define MAIN_OFF 0x400
-#define MAIN_SIZE 0xBE940 //main segment size
-#define MAIN_CART 0x0001000
-
-#define FOREIGN_DRAM 0x80000400 //mp1, mp2 and mp3 all share this addr
-#define FOREIGN_OFF 0x400
-#define FOREIGN_SIZE_MP2 0x0D57F0
-#define FOREIGN_CART_MP2 0x2001000 //ROM start addr + 0x1000
-
-// #define FOREIGN_DRAM 0x80000400 //mp1, mp2 and mp3 all share this addr
-#define FOREIGN_OFF 0x400
-#define FOREIGN_SIZE_MP1 0xCDA50
-#define FOREIGN_CART_MP1 0x4001000 //ROM start addr + 0x1000
-
-void System_DisableInterrupts(void);
-NORETURN void ComboGameSwitch2ToMp2(void);
-void System_InvalDCache(void* addr, u32 size);
-void System_InvalICache(void* addr, u32 size);
-void comboDma_NoCacheInval(void* dramAddr, u32 cartAddr, u32 size);
-void ComboGameSwitch4(u32);
-void ComboGameSwitch2ToMp3(void);
-NORETURN void ComboGameSwitch2ToMp1(void);
-void mp3_DrawDebugText(s32 xPos, s32 yPos, char* str);
-void func_80108910_119290(s32, s32, char*);
-void mp3_SetSpriteCenter(s32, s32, s32);
-void mp3_HuObjCreate(s32, s32, s32, s32, s32);
-
-s32 printTimer = 0;
-extern s16 D_800CD0AA;
-extern s32 mp2_MinigameIndexToLoad;
-
-s32 mp2_base = MP2_BASE;
-s32 eepromLoadFailed = 0;
-
-//also prevents wacky watches from being found from this point on if not 0
-s32 wackyWatchUsedCopy = 0;
-s32 osViBlackTimer = 0;
-
-void cBootFunction(void) {
-    //crash_screen_init();
-}
-
-extern mp3_PlayerData mp3_PlayersCopy[4];
-extern mp2_PlayerData mp2_PlayersCopy[4];
-
-mp2_PlayerData mp2_gPlayerBlank = {0};
+#define BOARD_STATE_STRUCT_SIZE 0x80
+#define COLD_BOOT 0
+#define WARM_BOOT 1
+#define osAppNmiBufferSize 64
+#define N64_LOGO 0x00110000
+#define NINTENO_LOGO 0x00110001
+#define HUDSON_LOGO 0x00110002
 
 typedef struct omOvlHisData { //Object Manager History Data
 /* 0x00 */ s32 overlayID;
@@ -54,17 +14,71 @@ typedef struct omOvlHisData { //Object Manager History Data
 /* 0x06 */ u16 stat;
 } omOvlHisData; //sizeof 0x08
 
-//these are hardcoded to avoid them being written when mp3 boots
+typedef struct UnkCastleGroundMessage {
+    s16 unk_00;
+    char unk_02[2];
+    s32 unk_04;
+    char unk_06[4];
+} UnkCastleGroundMessage;
+
+void mp3_DrawDebugText(s32 xPos, s32 yPos, char* str);
+void func_80108910_119290(s32, s32, char*);
+void mp3_SetSpriteCenter(s32, s32, s32);
+void mp3_HuObjCreate(s32, s32, s32, s32, s32);
+void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat);
+NORETURN void ComboSwitchGameToMp2(void);
+void func_80019C00_1A800(s32);
+void func_8005B43C_5C03C(s16, char*, s32, s32); //RefreshMsg
+void func_8005D294_5DE94(s16);
+u32 func_80106B38_4F9028(s32);
+void mp3_HuPrcSleep(s32 frames);
+void mp3_HuPrcVSleep(void);
+void HuWipeFadeIn(s32, s32);
+void HuWipeFadeOut(s32, s32);
+s32 HuWipeStatGet(void);
+s32 InitEspriteSlot(s16, s32, s32);
+u16 func_8000B838_C438(s32);
+void func_8000BB54_C754(s32);
+void func_8000BBD4_C7D4(s32, s32, s32);
+void func_8000BCC8_C8C8(s32, s32);
+void func_8000C184_CD84(s32);
+void func_80055670_56270(s16);
+
+s32 printTimer = 0;
+s32 mp2_base = MP2_BASE;
+s32 eepromLoadFailed = 0;
+//also prevents wacky watches from being found from this point on if not 0
+s32 wackyWatchUsedCopy = 0;
+s32 osViBlackTimer = 0;
+
+extern s16 D_800CD0AA;
+extern s32 mp2_MinigameIndexToLoad;
+extern mp3_PlayerData mp3_PlayersCopy[4];
+extern mp2_PlayerData mp2_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
 extern s16 mp3_omovlhisidx_copy;
-
 extern omOvlHisData mp3_omovlhis[12];
 extern s16 mp3_omovlhisidx;
+extern u8 osAppNmiBuffer[osAppNmiBufferSize];
+extern s32 mp3_LoadBackFromMp2;
+extern s16 mp3_D_800CD2A2;
+extern UnkCastleGroundMessage mp3_D_80110998[];
+extern omOvlHisData mp2_omovlhis[12];
+extern s16 mp2_omovlhisidx;
+extern s16 D_800D530C;
+extern s8 D_800B23B0;
+extern s32 mp3_D_800B1A30;
+extern s16 D_800D6B60;
+extern omOvlHisData D_800D20F0[];
+extern s16 mp2_D_800CDA7C[];
 
-#define BOARD_STATE_STRUCT_SIZE 0x80
-
+//mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 extern u8 mp3_BoardState[BOARD_STATE_STRUCT_SIZE];
 u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE] = {0};
+
+void cBootFunction(void) {
+    //crash_screen_init();
+}
 
 void PushMp3OvlHis(void) {
     s32 i;
@@ -100,7 +114,8 @@ void PopMp3OvlHis(void) {
     mp3_omovlhisidx = mp3_omovlhisidx_copy;
 }
 
-//we only want to copy the necessary data so that the mp2 results screen is correct
+//we only want to copy the necessary data so that the mp2 results screen is correct,
+//and the human/cpu flags and characters are copied over
 void CopyMp3_gPlayerCopy_To_Mp2(void) {
     s32 i;
 
@@ -140,68 +155,6 @@ void LoadMp3PlayerStructs(void) {
     }
 }
 
-//start loading into Mp3
-NORETURN void ComboSwitchGameToMp3(void) {
-    System_DisableInterrupts();
-    WaitForSubSystems();
-    ComboGameSwitch2ToMp3(); //doesn't return
-    __builtin_unreachable();
-}
-
-NORETURN void ComboSwitchGame3ToMp3(void) {
-    System_InvalDCache((void*)MAIN_DRAM, MAIN_SIZE);
-    System_InvalICache((void*)MAIN_DRAM, MAIN_SIZE);
-    comboDma_NoCacheInval((void*)MAIN_OFF, MAIN_CART, MAIN_SIZE);
-    System_InvalDCache((void*)MAIN_DRAM, MAIN_SIZE);
-    System_InvalICache((void*)MAIN_DRAM, MAIN_SIZE);
-    ComboGameSwitch4(MAIN_DRAM);
-    __builtin_unreachable();
-}
-
-//start loading into Mp2
-NORETURN void ComboSwitchGameToMp2(void) {
-    System_DisableInterrupts();
-    WaitForSubSystems();
-    ComboGameSwitch2ToMp2(); //doesn't return
-    __builtin_unreachable();
-}
-
-NORETURN void ComboSwitchGame3ToMp2(void) {
-    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
-    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
-    comboDma_NoCacheInval((void*)FOREIGN_OFF, FOREIGN_CART_MP2, FOREIGN_SIZE_MP2);
-    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
-    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
-    ComboGameSwitch4(FOREIGN_DRAM);
-    __builtin_unreachable();
-}
-
-NORETURN void ComboSwitchGameToMp1(void) {
-    //SaveMp3PlayerStructs();
-    System_DisableInterrupts();
-    WaitForSubSystems();
-    ComboGameSwitch2ToMp1(); //doesn't return
-    __builtin_unreachable();
-}
-
-NORETURN void ComboSwitchGame3ToMp1(void) {
-    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
-    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
-    comboDma_NoCacheInval((void*)FOREIGN_OFF, FOREIGN_CART_MP1, FOREIGN_SIZE_MP1);
-    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
-    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_SIZE_MP2);
-    ComboGameSwitch4(FOREIGN_DRAM);
-    __builtin_unreachable();
-}
-
-#define COLD_BOOT 0
-#define WARM_BOOT 1
-#define osAppNmiBufferSize 64
-
-extern u8 osAppNmiBuffer[osAppNmiBufferSize];
-void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat);
-extern s32 mp3_LoadBackFromMp2;
-
 void checkosAppNmiBufferReset(s32 resetType) {
     s32 i;
 
@@ -211,17 +164,6 @@ void checkosAppNmiBufferReset(s32 resetType) {
         }        
     }
 }
-
-extern s16 mp3_D_800CD2A2;
-
-// omOvlHisData endgameScene[] = {
-//     {0x7A, 0x0002, 0x0092},
-//     {0x7A, 0x0002, 0x0092},
-//     {0x77, 0x0000, 0x0091},
-//     {0x47, 0x0001, 0x0192},
-//     {0x71, 0x0000, 0x0012},
-//     {0x02, 0x0000, 0x0014},
-// };
 
 omOvlHisData last5Turns[] = {
     {0x7A, 0x0002, 0x0092},
@@ -235,9 +177,6 @@ omOvlHisData last5Turns[] = {
 s32 D_80101B40_115760_Copy[] = {
     0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x48
 };
-
-extern s16 D_800D6B60;
-extern omOvlHisData D_800D20F0[];
 
 void func_800F8610_10C230_Copy(s32 arg0, s16 arg1, s16 arg2, s32 curBoardIndex) {
     omOvlHisData* temp_v1;
@@ -260,9 +199,6 @@ void func_800F8610_10C230_Copy(s32 arg0, s16 arg1, s16 arg2, s32 curBoardIndex) 
         D_800D6B60 = 4;
     }
 }
-
-extern s8 D_800B23B0;
-extern s32 mp3_D_800B1A30;
 
 void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
     s8 curTurn;
@@ -352,8 +288,6 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     }
 }
 
-extern s16 mp2_D_800CDA7C[];
-
 void drawMessageOnBootLogos(void) {
     //if R is held on boot, load mp2
     if ((printTimer == 0) && mp2_D_800CDA7C[0] & 0x10) {
@@ -368,24 +302,6 @@ void drawMessageOnBootLogos(void) {
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
 }
-
-typedef struct UnkCastleGroundMessage {
-    s16 unk_00;
-    char unk_02[2];
-    s32 unk_04;
-    char unk_06[4];
-} UnkCastleGroundMessage;
-
-void func_80019C00_1A800(s32);
-void func_8005B43C_5C03C(s16, char*, s32, s32); //RefreshMsg
-void func_8005D294_5DE94(s16);
-u32 func_80106B38_4F9028(s32);
-extern UnkCastleGroundMessage mp3_D_80110998[];
-void mp3_HuPrcSleep(s32 frames);
-void mp3_HuPrcVSleep(void);
-
-extern omOvlHisData mp2_omovlhis[12];
-extern s16 mp2_omovlhisidx;
 
 void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     //i wanted to make this a choice textbox, but that's tricky
@@ -406,15 +322,19 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     }
 
     func_8005D294_5DE94(mp3_D_80110998[arg0].unk_00);
+
     if (mp3_D_80110998[arg0].unk_04 != 0) {
         func_80019C00_1A800(mp3_D_80110998[arg0].unk_04);
         mp3_D_80110998[arg0].unk_04 = 0;
     }
+
     temp_v0 = func_80106B38_4F9028(messageID);
+
     //pointer check
     if (temp_v0 > 0x80000000U) {
         mp3_D_80110998[arg0].unk_04 = temp_v0;
     }
+
     func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, (char*)temp_v0, -1, -1);
 }
 
@@ -438,29 +358,16 @@ void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
     }
 }
 
-void HuWipeFadeIn(s32, s32);
-void HuWipeFadeOut(s32, s32);
-s32 HuWipeStatGet(void);
-s32 InitEspriteSlot(s16, s32, s32);
-u16 func_8000B838_C438(s32);
-void func_8000BB54_C754(s32);
-void func_8000BBD4_C7D4(s32, s32, s32);
-void func_8000BCC8_C8C8(s32, s32);
-void func_8000C184_CD84(s32);
-void func_80055670_56270(s16);
-extern s16 D_800D530C;
-
-#define N64_LOGO 0x00110000
-#define NINTENO_LOGO 0x00110001
-#define HUDSON_LOGO 0x00110002
-
 void newBootLogos(void) {
     s16 temp_v0;
+    s16 temp_v0_copy;
     s16 temp_v0_3;
     s32 temp_s0;
+    s32 temp_s0_copy;
     s32 temp_s0_2;
     s32 temp_s0_3;
     s32 temp_v0_2;
+    s32 temp_v0_2_copy;
     s32 temp_v0_4;
 
     temp_v0 = func_8000B838_C438(N64_LOGO);
@@ -469,15 +376,26 @@ void newBootLogos(void) {
     func_8000BBD4_C7D4(temp_s0, 0xA0, 0x78);
     func_8000BB54_C754(temp_s0);
     func_8000BCC8_C8C8(temp_s0, 0xFFFF);
+
+    // temp_v0_copy = func_8000B838_C438(0x000C0000);
+    // temp_v0_2_copy = InitEspriteSlot(temp_v0_copy, 0, 1);
+    // temp_s0_copy = temp_v0_2_copy & 0xFFFF;
+    // func_8000BBD4_C7D4(temp_s0_copy, 160, 200);
+    // func_8000BB54_C754(temp_s0_copy);
+    // func_8000BCC8_C8C8(temp_s0_copy, 0xFFFF);
+
     HuWipeFadeIn(0xB, 0x1E);
     while (HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
+
     mp3_HuPrcSleep(10);
     HuWipeFadeOut(0xB, 9);
+
     while (HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
+
     func_8000C184_CD84(temp_v0_2 & 0xFFFF);
     func_80055670_56270(temp_v0);
     mp3_HuPrcSleep(9);
@@ -488,14 +406,18 @@ void newBootLogos(void) {
     func_8000BB54_C754(temp_s0_2);
     func_8000BCC8_C8C8(temp_s0_2, 0xFFFF);
     HuWipeFadeIn(0xB, 9);
+
     while (HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
+
     mp3_HuPrcSleep(10);
     HuWipeFadeOut(0xB, 9);
+
     while (HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
+
     func_8000C184_CD84(temp_v0_4 & 0xFFFF);
     func_80055670_56270(temp_v0_3);
     mp3_HuPrcSleep(9);
@@ -504,11 +426,14 @@ void newBootLogos(void) {
     func_8000BB54_C754(temp_s0_3);
     func_8000BCC8_C8C8(temp_s0_3, 0xFFFF);
     HuWipeFadeIn(0xB, 9);
+
     while (HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
+
     mp3_HuPrcSleep(10);
     D_800D530C = 1;
+
     while (1) {
         mp3_HuPrcVSleep();
     }

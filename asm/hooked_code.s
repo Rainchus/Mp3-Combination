@@ -33,7 +33,7 @@ LoadOverlayHook_Mp3:
     BNE t0, a0, normalExitMp3
     NOP
     //swap game
-    //JAL ComboSwitchGameToMp2
+    //JAL ComboSwitchGameToMp1
     //NOP
     normalExitMp3:
     J 0x80048130
@@ -240,3 +240,16 @@ newStarliftOverlayCheck:
     lockedCharacter:
     J 0x80111364
     NOP
+
+checkIfCursorShouldMove:
+    //v0 currently holds input pressed
+    //s0 holds current file index selected
+    BEQZ s0, stripLeftRightInput
+    NOP
+    IfCursorMoveEnd:
+    ADDU v1, v0, r0
+    J 0x801095BC
+    ADDIU v0, r0, 0xFFFF
+    stripLeftRightInput:
+    J IfCursorMoveEnd
+    ANDI v0, v0, 0xFCFF
