@@ -191,6 +191,14 @@ s32 GetSaveFileChecksum(u16 checksumAddrOffset, u16 size) {
     return checksumTotal;
 }
 
+s32 mp2_func_8001B014_1BC14_New(UnkEep* arg0) {
+    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
+        return 2;
+    }
+    mp2_bcopy(&eepromBuffer[arg0->unk0], arg0->unk4, arg0->unk8);
+    return 0;
+}
+
 u16 func_8007DC50_7E850(void) {
     return GetSaveFileChecksum(NEW_EEP_OFFSET, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
 }

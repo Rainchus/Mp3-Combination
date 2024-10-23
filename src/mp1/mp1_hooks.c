@@ -13,11 +13,6 @@ typedef struct UnkEep {
     u16 unk8;
 } UnkEep;
 
-s32 mp1_func_800195E0(void);
-s32 mp1_func_80019540(UnkEep* arg0);
-s32 mp1_func_80019438(UnkEep* arg0);
-s32 mp1_GetEepType(s8** arg0);
-
 extern u8 mp1_D_800D1B20[];
 extern u8 mp1_D_800D1B28[];
 extern OSMesgQueue mp1_D_800EE960;
@@ -27,6 +22,14 @@ s32 mp1_func_800195E0(void);
 s32 mp1_func_80019540(UnkEep* arg0);
 s32 mp1_func_80019438(UnkEep* arg0);
 s32 mp1_GetEepType(s8** arg0);
+
+s32 mp1_func_80019540_New(UnkEep* arg0) {
+    if (mp1_osEepromLongRead(&mp1_D_800EE960, EEP_BLOCK_OFFSET, mp1_D_800D1B20, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
+        return 2;
+    }
+    mp1_bcopy(&mp1_D_800D1B20[arg0->unk0], arg0->unk4, arg0->unk8);
+    return 0;
+}
 
 s32 mp1_func_80019438_New(UnkEep* arg0) {
     u8 eepromBlockCount;

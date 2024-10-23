@@ -9,3 +9,4 @@
 .definelabel mp1_osEepromLongWrite, 0x8008BD50
 .definelabel mp1_osEepromProbe, 0x8008FAD0
 .definelabel mp1_osEepromLongRead, 0x8008BE40
+.definelabel mp1_bcopy, 0x8008C040

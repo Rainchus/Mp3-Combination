@@ -10,3 +10,7 @@
 .org 0x80019438
     J mp1_func_80019438_New
     NOP
+
+.org 0x80019540
+    J mp1_func_80019540_New
+    NOP
