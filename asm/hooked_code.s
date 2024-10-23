@@ -33,8 +33,8 @@ LoadOverlayHook_Mp3:
     BNE t0, a0, normalExitMp3
     NOP
     //swap game
-    //JAL ComboSwitchGameToMp1
-    //NOP
+    JAL ComboSwitchGameToMp1
+    NOP
     normalExitMp3:
     J 0x80048130
     NOP

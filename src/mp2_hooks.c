@@ -12,9 +12,7 @@ void func_800683BC_68FBC(s32);
 #define EEP_BLOCK_OFFSET NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE
 
 extern u8 mp2_HUDSON_Header[];
-// extern u8 eepromBuffer[(EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)];
-extern u8 eepromBuffer[(EEP16K_MAXBLOCKS * EEPROM_BLOCK_SIZE)]; //extend this array
-//u8 eepromBuffer[(EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)];
+extern u8 eepromBuffer[(EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)];
 extern OSMesgQueue mp2_D_800FA5E0;
 
 typedef struct unkfunc_8001AFD8 {
@@ -184,7 +182,7 @@ s32 GetSaveFileChecksum(u16 checksumAddrOffset, u16 size) {
         offset = checksumAddrOffset;
         checksumAddrOffset++;
         checksumTotal += eepromBuffer[offset];
-        if ((checksumAddrOffset) >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) {
+        if ((checksumAddrOffset) >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE + NEW_EEP_OFFSET)) {
             break;
         }
     }
