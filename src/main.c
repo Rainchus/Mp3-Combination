@@ -136,13 +136,6 @@ void CopyMp3_gPlayerCopy_To_Mp2(void) {
     }
 }
 
-// /* 0x08 */ s16 coinAmount;
-// /* 0x0A */ s16 miniGameCoins; //coins to give to player after minigame
-
-
-// /* 0x06 */ s16 minigameCoinsWon; //extra coins collected in minigames
-// /* 0x08 */ s16 minigameCoins; //coins for winning current minigame
-// /* 0x0A */ s16 coins; //referenced as u16 and s16 (usually if u16 it's casted to s16)
 void CopyMp3_gPlayerCopy_To_Mp1(void) {
     s32 i;
 
@@ -154,7 +147,7 @@ void CopyMp3_gPlayerCopy_To_Mp1(void) {
         mp1_gPlayers[i].characterID = mp3_PlayersCopy[i].characterID;
         mp1_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
         //these need to be double checked
-        // mp1_gPlayers[i].coinAmount = mp3_PlayersCopy[i].coins;
+        mp1_gPlayers[i].coinAmount = mp3_PlayersCopy[i].coins;
         // mp1_gPlayers[i].miniGameCoins = mp3_PlayersCopy[i].minigameCoinsWon;
         // mp1_gPlayers[i].minigameCoinsWon = mp3_PlayersCopy[i].minigameCoins;
         mp1_gPlayers[i].starAmount = mp3_PlayersCopy[i].stars;

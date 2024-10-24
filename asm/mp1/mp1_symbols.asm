@@ -28,3 +28,4 @@
 .definelabel mp1_D_800ED5E3, 0x800ED5E3
 .definelabel mp1_gPlayers, 0x800F32B0
 .definelabel mp1_omInitObjMan, 0x8005CF30
+.definelabel mp1_D_800ED5DE, 0x800ED5DE

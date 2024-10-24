@@ -116,9 +116,8 @@ ConvertMinigameIndexFromMp3ToMp2OverlayID:
     LI v0, mp2_base
     LW v0, 0x0000 (v0)
     SUBU a0, a0, v0
-    ADDU v0, a0, r0
     JR RA
-    ADDIU v0, v0, 1 //minigame 0 doesn't exist, so add 1
+    ADDU v0, a0, r0
 
 ConvertMinigameIndexFromMp3ToMp1OverlayID:
     LI v0, mp1_base
@@ -130,7 +129,6 @@ ConvertMinigameIndexFromMp3ToMp1OverlayID:
 setCustomMinigameIndex:
     LUI v0, 0x800D
     LBU v0, 0xD068 (v0) //get minigame chosen
-
 
     LI at, mp2_base
     LW at, 0x0000 (at)
@@ -167,9 +165,6 @@ setCustomMinigameIndex:
     //swap to mp1
     JAL ComboSwitchGameToMp1
     NOP
-
-
-
 
     isMp2Minigame:
     //otherwise, is mp2 minigame. swap to mp2

@@ -18,6 +18,7 @@ extern s32 mp3_LoadBackFromMp2;
 NORETURN void ComboSwitchGameToMp3(void);
 s32 mp1_omOvlCallEx(s32 arg0, s16 arg1, u16 arg2);
 extern u8 mp1_D_800ED5E3;
+extern u16 mp1_D_800ED5DE;
 
 //func_800F686C_LogosSequence
 void mp1_OriginalBootLogos(void) {
@@ -111,6 +112,7 @@ void mp1_newBootLogo(void) {
         // mp2_D_800F93A8.unk_20 = ForeignMinigameIndexToLoad;
         // mp2_D_800F93A8.unk_22 = 0x55;
         mp1_D_800ED5E3 = 1; //minigame explanations off
+        mp1_D_800ED5DE = ForeignMinigameIndexToLoad;
         ForeignMinigameIndexToLoad = -2;
         mp3_LoadBackFromMp2 = TRUE;
         mp1_omOvlCallEx(0x6F, 0, 0x84); //load explanation screen overlay (might be skipped depending on mp1_D_800ED5E3)
