@@ -8,3 +8,4 @@ Feature - Add mp2 and mp3 minigames to mp1
 Feature - Add mp1 and mp3 minigames to mp2
 Feature - Add 3 item slots to mp2
 Feature - Add Item minigames and battle minigames between games
+Feature - Some kind of minigame selector that gets saved to the eeprom
