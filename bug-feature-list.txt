@@ -1,0 +1,10 @@
+Bug - Wont fix - Waluigi and Daisy will crash when loading an mp2 minigame
+Bug - Sync up gPlayers between games when loading different games
+Bug - When leaving mp3, the previous minigame buffer gets cleared
+Bug - Invalid minigames with "This shouldn't appear" appear
+Bug - You can select daisy/waluigi if the cursor auto selects them
+
+Feature - Add mp2 and mp3 minigames to mp1
+Feature - Add mp1 and mp3 minigames to mp2
+Feature - Add 3 item slots to mp2
+Feature - Add Item minigames and battle minigames between games
