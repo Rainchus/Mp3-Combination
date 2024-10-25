@@ -16,17 +16,17 @@
 .word newDuelMinigameListEasyMp3
 
 //advanced homebrew rom header
-//.orga 0x34
-//.byte 0x00 //p1
-//.byte 0x00 //p2
-//.byte 0x00 //p3
-//.byte 0x00 //p4
+.orga 0x34
+.byte 0x00 //p1
+.byte 0x00 //p2
+.byte 0x00 //p3
+.byte 0x00 //p4
 
-//.orga 0x3C //for emualtors to know to use advanced header
-//.ascii "ED"
+.orga 0x3C //for emualtors to know to use advanced header
+.ascii "ED"
 
-//.orga 0x3F //set save type of game to 16K eeprom
-//.byte 0x20
+.orga 0x3F //set save type of game to 16K eeprom
+.byte 0x20
 
 .headersize 0x7FFFF400 //ran once on boot
 .org 0x80000400
@@ -51,11 +51,16 @@
     LI a3, PAYLOAD_END_RAM - PAYLOAD_START_RAM
     JAL osPiRawStartDma
     NOP
+    LI t0, 0xA4600010
+    pi_loop:
+    LW t1, 0x0000 (t0)
+    ANDI t2, t1, 0x0001
+    BNEZ t2, pi_loop
+    NOP
     alreadyDMAed:
     JAL mp3_ClearBss
-    NOP
-    JAL checkosAppNmiBufferReset
     ADDU a0, s0, r0
+
 
 .org 0x8000C2A8 //remove save type check assert
     JAL SetInvalidEepromFound

@@ -213,7 +213,8 @@ mp3_ClearBss:
     ADDI t1, t1, 0xFFF8
     BNEZ t1, mp3_bss_clear_loop
     ADDI t0, t0, 0x0008
-    JR RA
+
+    J checkosAppNmiBufferReset
     NOP
 
 CustomFuncTest:
