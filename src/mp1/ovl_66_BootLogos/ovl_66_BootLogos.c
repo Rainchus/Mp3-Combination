@@ -19,6 +19,8 @@ NORETURN void ComboSwitchGameToMp3(void);
 s32 mp1_omOvlCallEx(s32 arg0, s16 arg1, u16 arg2);
 extern u8 mp1_D_800ED5E3;
 extern u16 mp1_D_800ED5DE;
+void CopyMp3_gPlayerCopy_To_Mp1(void);
+void mp1_omInitObjMan(s32, s32);
 
 //func_800F686C_LogosSequence
 void mp1_OriginalBootLogos(void) {

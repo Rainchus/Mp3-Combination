@@ -16,16 +16,23 @@ extern u8 D_800D09A8;
 OSMesgQueue customMesgQueue = {0};
 extern OSMesgQueue mp3_D_800CE1A0;
 u8 customEepromData[0x140] = {0};
-
+extern int		mp3_sprintf(char *s, const char *fmt, ...);
+void mp3_HuAudSeqPlay(s32);
 extern s16 mp3_D_800CDA7C[];
 extern s16 mp3_D_800C9520;
 extern s32 eepromLoadFailed;
 extern char* MinigameList[];
 extern u32 mp3_debug_font_color;
-
+void mp3_DrawDebugText(s32, s32, char*);
+u16 func_8000B838_C438(s32);
 extern s32 mp3_osEepromLongRead(OSMesgQueue *, u8, u8 *, int);
 void func_8000BBD4_C7D4(s32, s32, s32);
 void mp3_ScaleESprite(s32 eSpriteID, f32 xScale, f32 yScale);
+s32 InitEspriteSlot(s16, s32, s32);
+void mp3_HuPrcVSleep(void);
+void mp3_HuWipeFadeIn(s32, s32);
+void mp3_bzero(void*, s32);
+void ComboSwitchGameToMp3(void);
 
 void to_uppercase(const char* input, char* output) {
     while (*input) {
@@ -113,7 +120,7 @@ void newDebugMenuMain(void) {
     mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
     mp3_HuPrcVSleep();
 
-    HuWipeFadeIn(0xFF, 0x10);
+    mp3_HuWipeFadeIn(0xFF, 0x10);
 
     eSprite0 = DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
     eSprite1 = DrawImageWrapper(MENU_BACKGROUND_IMAGE_ID, 200, 120);

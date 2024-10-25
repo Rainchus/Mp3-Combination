@@ -38,7 +38,7 @@ void func_8005D294_5DE94(s16);
 u32 func_80106B38_4F9028(s32);
 void mp3_HuPrcSleep(s32 frames);
 void mp3_HuPrcVSleep(void);
-void HuWipeFadeIn(s32, s32);
+void mp3_HuWipeFadeIn(s32, s32);
 void HuWipeFadeOut(s32, s32);
 s32 HuWipeStatGet(void);
 s32 InitEspriteSlot(s16, s32, s32);
@@ -48,6 +48,7 @@ void func_8000BBD4_C7D4(s32, s32, s32);
 void func_8000BCC8_C8C8(s32, s32);
 void func_8000C184_CD84(s32);
 void func_80055670_56270(s16);
+void ComboSwitchGameToMp1(void);
 
 s32 printTimer = 0;
 s32 mp2_base = MP2_BASE;
@@ -413,7 +414,7 @@ void mp3_newBootLogos(void) {
         func_8000BB54_C754(temp_s0);
         func_8000BCC8_C8C8(temp_s0, 0xFFFF);
 
-        HuWipeFadeIn(0xB, 0x1E);
+        mp3_HuWipeFadeIn(0xB, 0x1E);
         while (HuWipeStatGet() != 0) {
             mp3_HuPrcVSleep();
         }
@@ -427,14 +428,18 @@ void mp3_newBootLogos(void) {
                     mp3_HuPrcVSleep();
                 }
                 ComboSwitchGameToMp2();
-            } else if (mp3_D_800CDA7C[0] & 0x20) { //if L is pressed, load mario party 1
+            }
+            #ifdef MP1
+            else if (mp3_D_800CDA7C[0] & 0x20) { //if L is pressed, load mario party 1
                 HuWipeFadeOut(0xB, 9);
 
                 while (HuWipeStatGet() != 0) {
                     mp3_HuPrcVSleep();
                 }
                 ComboSwitchGameToMp1();
-            } else if (mp3_D_800CDA7C[0] & 0x2000) { //if Z is pressed, load minigame selection
+            }
+            #endif
+            else if (mp3_D_800CDA7C[0] & 0x2000) { //if Z is pressed, load minigame selection
                 ForeignMinigameIndexToLoad = -1;
                 HuWipeFadeOut(0xB, 9);
 
@@ -447,8 +452,6 @@ void mp3_newBootLogos(void) {
             }
             mp3_HuPrcVSleep();
         }
-
-        mp3_HuPrcSleep(10);
         HuWipeFadeOut(0xB, 9);
 
         while (HuWipeStatGet() != 0) {
@@ -464,7 +467,7 @@ void mp3_newBootLogos(void) {
     func_8000BB54_C754(temp_s0_copy);
     func_8000BCC8_C8C8(temp_s0_copy, 0xFFFF);
 
-    HuWipeFadeIn(0xB, 0x1E);
+    mp3_HuWipeFadeIn(0xB, 0x1E);
     while (HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
@@ -482,7 +485,7 @@ void mp3_newBootLogos(void) {
     func_8000BBD4_C7D4(temp_s0_2, 0xA0, 0x78);
     func_8000BB54_C754(temp_s0_2);
     func_8000BCC8_C8C8(temp_s0_2, 0xFFFF);
-    HuWipeFadeIn(0xB, 9);
+    mp3_HuWipeFadeIn(0xB, 9);
 
     while (HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
@@ -502,7 +505,7 @@ void mp3_newBootLogos(void) {
     func_8000BBD4_C7D4(temp_s0_3, 0xA0, 0x78);
     func_8000BB54_C754(temp_s0_3);
     func_8000BCC8_C8C8(temp_s0_3, 0xFFFF);
-    HuWipeFadeIn(0xB, 9);
+    mp3_HuWipeFadeIn(0xB, 9);
 
     while (HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();

@@ -2,6 +2,10 @@ import subprocess
 import os
 import shutil
 
+# Path to the temporary ROM file
+rom_path = 'rom/mp3-temp.z64'
+target_size = 0x2000000  # Target size of 32 MB
+
 # List of files to check and delete if they exist
 files_to_delete = [
     'rom/mp3-mp2-mp1.mod.z64',
@@ -31,12 +35,10 @@ if os.path.exists(source_dir):
 else:
     print(f'Source directory {source_dir} does not exist. Skipping copy.')
 
+print(f"Repacking mainfs into {rom_path}")
+
 # Run the mpromtool.exe command to repack everything
 subprocess.run(['./mpromtool.exe', '-b', '-a', 'rom/mp3.z64', 'mp3_extract/', 'rom/mp3-temp.z64'], check=True)
-
-# Path to the temporary ROM file
-rom_path = 'rom/mp3-temp.z64'
-target_size = 0x2000000  # Target size of 32 MB
 
 # Pad the file with 0xFF if it's smaller than the target size
 with open(rom_path, 'ab') as rom_file:
