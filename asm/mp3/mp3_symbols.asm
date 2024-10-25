@@ -19,7 +19,7 @@
 .definelabel PlaySound, 0x8004AA88
 .definelabel mp3_DrawDebugText, 0x8004DD7C
 .definelabel mp3_SleepVProcess, 0x8004F074
-.definelabel _sprintf, 0x8007BDC0
+.definelabel mp3_sprintf, 0x8007BDC0
 .definelabel HuGetRandomByte, 0x8000B16C
 .definelabel DrawBox, 0x8004DE24
 .definelabel RedrawSpaces, 0x800EBDAC
@@ -82,7 +82,21 @@
 .definelabel func_8000C184_CD84, 0x8000C184
 .definelabel func_80055670_56270, 0x80055670
 .definelabel D_800D530C, 0x800D530C
+.definelabel mp3_HuAudSeqPlay, 0x8004A520
+.definelabel mp3_D_800CDA7C, 0x800CDA7C;
+.definelabel mp3_D_800C9520, 0x800C9520
+.definelabel mp3_func_800605A4, 0x800605A4
+.definelabel mp3_debug_font_color, 0x800CB8A4
+.definelabel mp3_ScaleESprite, 0x8000BE5C
+.definelabel mp3_bzero, 0x8007BC90
+.definelabel mp3_osEepromLongWrite, 0x800724A0
+.definelabel mp3_osEepromLongRead, 0x80072590
+.definelabel mp3_D_800CE1A0, 0x800CE1A0
+.definelabel mp3_osEepromProbe, 0x80072420
 
+.definelabel mp3_WriteEepromCommonBuf, 0x8000C8F0
+.definelabel mp3_ReadEepromCommonBuf, 0x8000C954
+.definelabel D_800D09A8, 0x800D09A8
 
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD90

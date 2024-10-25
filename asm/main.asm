@@ -33,6 +33,7 @@ PAYLOAD_START_RAM:
 .importobj "obj\mp1\mp1_hooks.o"
 .importobj "obj\mp1\ovl_66_BootLogos\ovl_66_BootLogos.o"
 .importobj "obj\mp2\ovl_57_BootLogos\ovl_57_BootLogos.o"
+.importobj "obj\mp3\ovl_00_Debug\ovl_00_Debug.o"
 
 .align 8
 PAYLOAD_END_RAM:

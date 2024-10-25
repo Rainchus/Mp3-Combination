@@ -42,9 +42,10 @@
     J getNewMinigameString1
     NOP
 
-.org 0x800DFE88
-    J checkIfMinigameIndexIsBlacklisted
-    NOP
+//this shouldn't need to exist...something is wrong if invalid minigames get selected
+//.org 0x800DFE88
+    //J checkIfMinigameIndexIsBlacklisted
+    //NOP
 
 .org 0x800DF47C //display minigame name index when chosen
     J getNewMinigameString2

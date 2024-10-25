@@ -30,7 +30,6 @@
 
 .definelabel mp2_omovlhis, 0x800FDBE8;
 .definelabel mp2_omovlhisidx, 0x800CD418;
-.definelabel mp2_D_800CDA7C, 0x800CDA7C;
 
 .definelabel mp2_pageID, 0x801072A0;
 .definelabel mp2_debugCursorIndex, 0x801072A2;

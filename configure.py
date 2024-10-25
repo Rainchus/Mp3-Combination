@@ -86,7 +86,7 @@ rom_name = 'mp3-mp2-mp1' if mp1_flag else 'mp3-mp2'
 rom_mod_name = f'{rom_name}.mod.z64'
 
 # Conditionally add -DMP1 to STANDARDFLAGS if -mp1 flag is passed
-standard_flags = '-O2 -Wall -Wno-missing-braces -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0'
+standard_flags = '-O2 -Wall -Wno-missing-braces -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 -fno-inline'
 if mp1_flag:
     standard_flags += ' -DMP1'
 

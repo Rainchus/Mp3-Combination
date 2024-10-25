@@ -73,7 +73,7 @@ extern s8 D_800B23B0;
 extern s32 mp3_D_800B1A30;
 extern s16 D_800D6B60;
 extern omOvlHisData D_800D20F0[];
-extern s16 mp2_D_800CDA7C[];
+extern s16 mp3_D_800CDA7C[];
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 extern u8 mp3_BoardState[BOARD_STATE_STRUCT_SIZE];
@@ -286,16 +286,6 @@ void SetInvalidEepromFound(void) {
     eepromLoadFailed = 1;
 }
 
-void InvalidEepCheck(s32 arg0, s32 arg1, char* arg2) {
-    if (eepromLoadFailed == 1) {
-        mp3_DrawDebugText(20, 20, "INVALID SAVE TYPE FOUND");
-        mp3_DrawDebugText(20, 30, "PLEASE SET THE SAVE TYPE TO");
-        mp3_DrawDebugText(20, 40, "EEPROM 16KBIT");
-    } else {
-        func_80108910_119290(arg0, arg1, arg2);
-    }
-}
-
 void InvalidEep2(s32 arg0, s32 arg1, s32 arg2) {
     if (eepromLoadFailed == 1) {
         arg1 = 0x01BC; //draw coin off screen
@@ -310,17 +300,30 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 
 void drawMessageOnBootLogos(void) {
+    //TODO: this should only be possible on initial boot, or players might accidentally enter these menus
     //if R is held on boot, load mp2
-    if ((printTimer == 0) && mp2_D_800CDA7C[0] & 0x10) {
-        ForeignMinigameIndexToLoad = -2;
+    if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x10) {
+        ForeignMinigameIndexToLoad = -1;
         ComboSwitchGameToMp2();
+        return;
+    }
+    // if L is held on boot, load mp1
+    if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x20) {
+        ForeignMinigameIndexToLoad = -1;
+        ComboSwitchGameToMp1();
+        return;
+    }
+    // if Z is held on boot, load minigame selection screen
+    if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x2000) {
+        ForeignMinigameIndexToLoad = -1;
+        mp3_omOvlCallEx(0, 0, 0);
         return;
     }
     if (printTimer < 90) {
         printTimer++;
-        mp3_DrawDebugText(20, 210, "MOD BY: RAINCHUS");
-        mp3_DrawDebugText(20, 220, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
-        mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+        // mp3_DrawDebugText(20, 210, "MOD BY: RAINCHUS");
+        // mp3_DrawDebugText(20, 220, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
+        // mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
 }
 
