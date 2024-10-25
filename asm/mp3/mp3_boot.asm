@@ -45,7 +45,7 @@
 
     //else, is cold boot
     ADDU a0, r0, r0
-    LI a1, 0x1EFDA80
+    LI a1, ROM_START
     //these ram symbols are defined in main.asm
     LI a2, PAYLOAD_START_RAM
     LI a3, PAYLOAD_END_RAM - PAYLOAD_START_RAM

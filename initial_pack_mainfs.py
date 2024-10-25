@@ -40,6 +40,20 @@ print(f"Repacking mainfs into {rom_path}")
 # Run the mpromtool.exe command to repack everything
 subprocess.run(['./mpromtool.exe', '-b', '-a', 'rom/mp3.z64', 'mp3_extract/', 'rom/mp3-temp.z64'], check=True)
 
+# Get the current size of the ROM file
+current_size = os.path.getsize(rom_path)
+
+# Write the current size in hex format to temp.asm
+with open('headersize.asm', 'w') as asm_file:
+    headersize = 0x80400000 - current_size
+    asm_file.write(f'.headersize 0x{headersize:08X}\n')
+    asm_file.write(f'.org 0x80400000\n')
+    asm_file.write('PAYLOAD_START_RAM:\n')
+    print(f'Current size written to headersize.asm: 0x{current_size:08X}')
+
+with open('rom_start.asm', 'w') as asm_file:
+    asm_file.write(f'.definelabel ROM_START, 0x{current_size:08X}\n')
+
 # Pad the file with 0xFF if it's smaller than the target size
 with open(rom_path, 'ab') as rom_file:
     current_size = rom_file.tell()  # Get the current file size

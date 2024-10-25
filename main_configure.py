@@ -96,12 +96,6 @@ header = f"""
 .open "rom/{rom_name}.z64", "rom/{rom_mod_name}", 0 // Open the ROM file
 """
 
-payload_start_text = """
-.headersize 0x7E502580
-.org 0x80400000
-PAYLOAD_START_RAM:
-"""
-
 footer = """
 .align 8
 PAYLOAD_END_RAM:
@@ -158,12 +152,14 @@ with open('build.ninja', 'w') as buildfile:
 with open("asm/main.asm", 'w') as file:
     file.write(header)
 
+    file.write(".include \"rom_start.asm\"\n")
+
     for asm_file in asm_files:
         if asm_file.endswith('main.asm'):
             continue
         file.write(f".include \"{asm_file}\"\n")
 
-    file.write(payload_start_text)
+    file.write(".include \"headersize.asm\"\n")
 
     for s_file in s_files:
         file.write(f".include \"{s_file}\"\n")

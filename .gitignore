@@ -8,3 +8,5 @@ build.ninja
 flipscfg.bin
 syms.txt
 mp3_extract/*
+headersize.asm
+rom_start.asm
