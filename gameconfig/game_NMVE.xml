@@ -1,0 +1,289 @@
+<gamedesc game="mp3">
+	<filedata segname="filedata" origaddr="0x557E20">
+		<datadir id="0" name="common"></datadir>
+		<datadir id="1" name="test"></datadir>
+		<datadir id="2" name="mario"></datadir>
+		<datadir id="3" name="luigi"></datadir>
+		<datadir id="4" name="yoshi"></datadir>
+		<datadir id="5" name="wario"></datadir>
+		<datadir id="6" name="donkey"></datadir>
+		<datadir id="7" name="peach"></datadir>
+		<datadir id="8" name="waluigi"></datadir>
+		<datadir id="9" name="daisy"></datadir>
+		<datadir id="10" name="boardobj"></datadir>
+		<datadir id="12" name="gamemes"></datadir>
+		<datadir id="13" name="modesel"></datadir>
+		<datadir id="14" name="option"></datadir>
+		<datadir id="15" name="intro"></datadir>
+		<datadir id="16" name="title"></datadir>
+		<datadir id="17" name="boot"></datadir>
+		<datadir id="18" name="mgroom"></datadir>
+		<datadir id="19" name="board"></datadir>
+		<datadir id="20" name="starlift"></datadir>
+		<datadir id="21" name="storyresult"></datadir>
+		<datadir id="22" name="staff"></datadir>
+		<datadir id="23" name="inst"></datadir>
+		<datadir id="24" name="result"></datadir>
+		<datadir id="25" name="result2"></datadir>
+		<datadir id="27" name="resultbattle"></datadir>
+		<datadir id="28" name="chance"></datadir>
+		<datadir id="29" name="ending"></datadir>
+		<datadir id="30" name="mlangsel"></datadir>
+		<datadir id="31" name="filesel"></datadir>
+		<datadir id="32" name="savemess"></datadir>
+		<datadir id="33" name="mgconst"></datadir>
+		<datadir id="34" name="m201"></datadir>
+		<datadir id="35" name="m202"></datadir>
+		<datadir id="36" name="m203"></datadir>
+		<datadir id="37" name="m204"></datadir>
+		<datadir id="38" name="m205"></datadir>
+		<datadir id="39" name="m206"></datadir>
+		<datadir id="40" name="m207"></datadir>
+		<datadir id="41" name="m208"></datadir>
+		<datadir id="42" name="m209"></datadir>
+		<datadir id="43" name="m210"></datadir>
+		<datadir id="44" name="m211"></datadir>
+		<datadir id="45" name="m212"></datadir>
+		<datadir id="46" name="m213"></datadir>
+		<datadir id="47" name="m214"></datadir>
+		<datadir id="48" name="m215"></datadir>
+		<datadir id="49" name="m216"></datadir>
+		<datadir id="50" name="m217"></datadir>
+		<datadir id="51" name="m218"></datadir>
+		<datadir id="52" name="m219"></datadir>
+		<datadir id="53" name="m220"></datadir>
+		<datadir id="54" name="m221"></datadir>
+		<datadir id="55" name="m222"></datadir>
+		<datadir id="56" name="m223"></datadir>
+		<datadir id="57" name="m224"></datadir>
+		<datadir id="58" name="m225"></datadir>
+		<datadir id="59" name="m226"></datadir>
+		<datadir id="60" name="m227"></datadir>
+		<datadir id="61" name="m228"></datadir>
+		<datadir id="62" name="m229"></datadir>
+		<datadir id="63" name="m230"></datadir>
+		<datadir id="64" name="m231"></datadir>
+		<datadir id="65" name="m232"></datadir>
+		<datadir id="66" name="m233"></datadir>
+		<datadir id="67" name="m234"></datadir>
+		<datadir id="68" name="m235"></datadir>
+		<datadir id="69" name="m236"></datadir>
+		<datadir id="70" name="m237"></datadir>
+		<datadir id="71" name="m238"></datadir>
+		<datadir id="72" name="m239"></datadir>
+		<datadir id="73" name="m240"></datadir>
+		<datadir id="74" name="m241"></datadir>
+		<datadir id="75" name="m242"></datadir>
+		<datadir id="76" name="m243"></datadir>
+		<datadir id="77" name="m244"></datadir>
+		<datadir id="78" name="m245"></datadir>
+		<datadir id="79" name="m246"></datadir>
+		<datadir id="80" name="m247"></datadir>
+		<datadir id="81" name="m248"></datadir>
+		<datadir id="82" name="m249"></datadir>
+		<datadir id="83" name="m250"></datadir>
+		<datadir id="84" name="m251"></datadir>
+		<datadir id="85" name="m252"></datadir>
+		<datadir id="86" name="m253"></datadir>
+		<datadir id="87" name="m254"></datadir>
+		<datadir id="88" name="m255"></datadir>
+		<datadir id="89" name="m256"></datadir>
+		<datadir id="90" name="m257"></datadir>
+		<datadir id="91" name="m258"></datadir>
+		<datadir id="92" name="m259"></datadir>
+		<datadir id="93" name="m260"></datadir>
+		<datadir id="94" name="m261"></datadir>
+		<datadir id="95" name="m262"></datadir>
+		<datadir id="96" name="m263"></datadir>
+		<datadir id="97" name="m264"></datadir>
+		<datadir id="98" name="m266"></datadir>
+		<datadir id="99" name="m267"></datadir>
+		<datadir id="100" name="m268"></datadir>
+		<datadir id="101" name="m269"></datadir>
+		<datadir id="102" name="m270"></datadir>
+		<datadir id="103" name="m271"></datadir>
+	</filedata>
+	<messdir_map>
+		<messdir id="1" name="B1_lake"></messdir>
+		<messdir id="2" name="B1_snowman"></messdir>
+		<messdir id="3" name="B1_turuturu"></messdir>
+		<messdir id="4" name="B2_ankou"></messdir>
+		<messdir id="5" name="B2_ika"></messdir>
+		<messdir id="6" name="B2_submarine"></messdir>
+		<messdir id="7" name="B3_saboten"></messdir>
+		<messdir id="8" name="B3_star"></messdir>
+		<messdir id="9" name="B4_kinokio"></messdir>
+		<messdir id="10" name="B4_mori"></messdir>
+		<messdir id="11" name="B4_tyorobu"></messdir>
+		<messdir id="12" name="B5_battan"></messdir>
+		<messdir id="13" name="B5_torokko"></messdir>
+		<messdir id="14" name="B6_ana"></messdir>
+		<messdir id="15" name="B6_bomb"></messdir>
+		<messdir id="16" name="B6_guruguru"></messdir>
+		<messdir id="17" name="B6_hasi"></messdir>
+		<messdir id="18" name="bankmasu"></messdir>
+		<messdir id="19" name="battlemasu"></messdir>
+		<messdir id="20" name="B_kekka"></messdir>
+		<messdir id="21" name="B_P_starlift"></messdir>
+		<messdir id="22" name="B_Rule"></messdir>
+		<messdir id="23" name="B_R_starlift"></messdir>
+		<messdir id="24" name="B_start"></messdir>
+		<messdir id="25" name="B_syousai"></messdir>
+		<messdir id="26" name="B_S_starlift"></messdir>
+		<messdir id="27" name="chancetime"></messdir>
+		<messdir id="28" name="charname"></messdir>
+		<messdir id="29" name="Dhelp"></messdir>
+		<messdir id="30" name="D_battle"></messdir>
+		<messdir id="31" name="D_event"></messdir>
+		<messdir id="32" name="D_kekka"></messdir>
+		<messdir id="33" name="D_map1"></messdir>
+		<messdir id="34" name="D_map5"></messdir>
+		<messdir id="35" name="D_map6"></messdir>
+		<messdir id="36" name="D_P_starlift"></messdir>
+		<messdir id="37" name="D_Rule"></messdir>
+		<messdir id="38" name="D_R_starlift"></messdir>
+		<messdir id="39" name="D_start"></messdir>
+		<messdir id="40" name="D_syousai"></messdir>
+		<messdir id="41" name="D_S_starlift"></messdir>
+		<messdir id="42" name="fileselect"></messdir>
+		<messdir id="43" name="gamble1"></messdir>
+		<messdir id="44" name="gamble2"></messdir>
+		<messdir id="45" name="gamble3"></messdir>
+		<messdir id="46" name="gamble4"></messdir>
+		<messdir id="47" name="gamblemasu"></messdir>
+		<messdir id="48" name="help"></messdir>
+		<messdir id="49" name="hiroba"></messdir>
+		<messdir id="50" name="inst_1vs3"></messdir>
+		<messdir id="51" name="inst_2vs2"></messdir>
+		<messdir id="52" name="inst_4player"></messdir>
+		<messdir id="53" name="inst_battle"></messdir>
+		<messdir id="54" name="inst_duel"></messdir>
+		<messdir id="55" name="inst_item"></messdir>
+		<messdir id="56" name="inst_omake"></messdir>
+		<messdir id="57" name="inst_practice"></messdir>
+		<messdir id="58" name="item"></messdir>
+		<messdir id="59" name="itemkinopio"></messdir>
+		<messdir id="60" name="itemmasu"></messdir>
+		<messdir id="61" name="itemminikoopa"></messdir>
+		<messdir id="62" name="itemsetumei"></messdir>
+		<messdir id="63" name="kakusiblock"></messdir>
+		<messdir id="64" name="kettou"></messdir>
+		<messdir id="65" name="keyman"></messdir>
+		<messdir id="66" name="koopamasu"></messdir>
+		<messdir id="67" name="last5"></messdir>
+		<messdir id="68" name="minigame_book"></messdir>
+		<messdir id="69" name="minigame_record"></messdir>
+		<messdir id="70" name="minigame_settei"></messdir>
+		<messdir id="71" name="minigame_title"></messdir>
+		<messdir id="72" name="Mstar"></messdir>
+		<messdir id="73" name="M_P_starlift"></messdir>
+		<messdir id="74" name="M_S_starlift"></messdir>
+		<messdir id="75" name="name"></messdir>
+		<messdir id="76" name="narebox"></messdir>
+		<messdir id="77" name="OPdemo"></messdir>
+		<messdir id="78" name="option"></messdir>
+		<messdir id="79" name="otachara"></messdir>
+		<messdir id="80" name="party_record"></messdir>
+		<messdir id="81" name="pause"></messdir>
+		<messdir id="82" name="playername"></messdir>
+		<messdir id="83" name="quizparty_a"></messdir>
+		<messdir id="84" name="quizparty_b"></messdir>
+		<messdir id="85" name="quizparty_c"></messdir>
+		<messdir id="86" name="Room_battle"></messdir>
+		<messdir id="87" name="Room_freeplay"></messdir>
+		<messdir id="88" name="Room_gamble"></messdir>
+		<messdir id="89" name="save"></messdir>
+		<messdir id="90" name="Sdemo"></messdir>
+		<messdir id="91" name="Sdemo_L"></messdir>
+		<messdir id="92" name="select"></messdir>
+		<messdir id="93" name="soundbox"></messdir>
+		<messdir id="94" name="stariti"></messdir>
+		<messdir id="95" name="starlevel"></messdir>
+		<messdir id="96" name="storymode"></messdir>
+		<messdir id="97" name="story_record"></messdir>
+		<messdir id="98" name="teresa"></messdir>
+		<messdir id="99" name="wakarukana"></messdir>
+		<messdir id="100" name="yakusyoku"></messdir>
+	</messdir_map>
+	<messdata segname="messdata" origaddr="0x1209850"></messdata>
+	<messdata segname="messdata_eng" use_dirmap="true" origaddr="0x121CAA0"></messdata>
+	<messdata segname="messdata_ger" origaddr="0x12355C0"></messdata>
+	<messdata segname="messdata_fra" origaddr="0x124D440"></messdata>
+	<messdata segname="messdata_ita" origaddr="0x1261F90"></messdata>
+	<messdata segname="messdata_spa" origaddr="0x12765C0"></messdata>
+	<hvqdata segname="hvqdata" origaddr="0x128CC60">
+		<hvqbg id="0" name="bg_cannon"></hvqbg>
+		<hvqbg id="1" name="bg_result"></hvqbg>
+		<hvqbg id="2" name="bg_bowser"></hvqbg>
+		<hvqbg id="3" name="bg_board1"></hvqbg>
+		<hvqbg id="4" name="bg_board1_start"></hvqbg>
+		<hvqbg id="5" name="bg_board1_over"></hvqbg>
+		<hvqbg id="6" name="bg_board2"></hvqbg>
+		<hvqbg id="7" name="bg_board2_start"></hvqbg>
+		<hvqbg id="8" name="bg_board2_over"></hvqbg>
+		<hvqbg id="9" name="bg_board3"></hvqbg>
+		<hvqbg id="10" name="bg_board3_start"></hvqbg>
+		<hvqbg id="11" name="bg_board3_over"></hvqbg>
+		<hvqbg id="12" name="bg_board4"></hvqbg>
+		<hvqbg id="13" name="bg_board4_start"></hvqbg>
+		<hvqbg id="14" name="bg_board4_over"></hvqbg>
+		<hvqbg id="15" name="bg_board5"></hvqbg>
+		<hvqbg id="16" name="bg_board5_start"></hvqbg>
+		<hvqbg id="17" name="bg_board5_over"></hvqbg>
+		<hvqbg id="18" name="bg_board6"></hvqbg>
+		<hvqbg id="19" name="bg_board5_start"></hvqbg>
+		<hvqbg id="20" name="bg_board6_over"></hvqbg>
+		<hvqbg id="21" name="bg_board_rule"></hvqbg>
+		<hvqbg id="22" name="bg_board_rule_start"></hvqbg>
+		<hvqbg id="23" name="bg_duel_start"></hvqbg>
+		<hvqbg id="24" name="bg_duel1"></hvqbg>
+		<hvqbg id="25" name="bg_duel2"></hvqbg>
+		<hvqbg id="26" name="bg_duel3"></hvqbg>
+		<hvqbg id="27" name="bg_duel4"></hvqbg>
+		<hvqbg id="28" name="bg_duel5"></hvqbg>
+		<hvqbg id="29" name="bg_duel6"></hvqbg>
+		<hvqbg id="30" name="bg_duel_rule"></hvqbg>
+		<hvqbg id="31" name="bg_intro"></hvqbg>
+		<hvqbg id="32" name="bg_intro2"></hvqbg>
+		<hvqbg id="33" name="bg_intro3"></hvqbg>
+		<hvqbg id="34" name="bg_intro4"></hvqbg>
+	</hvqdata>
+	<musbank segname="musbank" origaddr="0x1881C40"></musbank>
+	<sfxbank segname="sndbank" origaddr="0x1A56870"></sfxbank>
+	<fxdata segname="fxdata" origaddr="0x1EFD040"></fxdata>
+	<segrefs>
+		<segref segname="filedata" hi="0x3619E" lo="0x361A6"></segref>
+		<segref segname="messdata" hi="0xF142" lo="0xF14A"></segref>
+		<segref segname="messdata" hi="0x5B3CA" lo="0x5B3D2"></segref>
+		<segref segname="messdata_eng" hi="0x5B412" lo="0x5B41A"></segref>
+		<segref segname="messdata_ger" hi="0x5B42A" lo="0x5B432"></segref>
+		<segref segname="messdata_spa" hi="0x5B436" lo="0x5B43E"></segref>
+		<segref segname="messdata_ita" hi="0x5B442" lo="0x5B446"></segref>
+		<segref segname="messdata_fra" hi="0x5B41E" lo="0x5B426"></segref>
+		<segref segname="musbank" hi="0xF26A" lo="0xF26E"></segref>
+		<segref segname="musbank" hi="0x4BEF2" lo="0x4BEF6"></segref>
+		<segref segname="sndbank" hi="0xF276" lo="0xF27A"></segref>
+		<segref segname="sndbank" hi="0x4BEFE" lo="0x4BF02"></segref>
+		<segref segname="fxdata" hi="0xF29E" lo="0xF2A2"></segref>
+		<segref segname="hvqdata" hi="0xD07A6" lo="0xD07AE"></segref>
+		<segref segname="hvqdata" hi="0xE4056" lo="0xE405E"></segref>
+		<segref segname="hvqdata" hi="0xFD7DA" lo="0xFD7E2"></segref>
+		<segref segname="hvqdata" hi="0x10C616" lo="0x10C61E"></segref>
+		<segref segname="hvqdata" hi="0x3BF99A" lo="0x3BF9A2"></segref>
+		<segref segname="hvqdata" hi="0x3C6106" lo="0x3C610E"></segref>
+		<segref segname="hvqdata" hi="0x3C7D72" lo="0x3C7D7A"></segref>
+		<segref segname="hvqdata" hi="0x3CDB72" lo="0x3CDB7A"></segref>
+		<segref segname="hvqdata" hi="0x3CFA96" lo="0x3CFA9E"></segref>
+		<segref segname="hvqdata" hi="0x45A696" lo="0x45A69E"></segref>
+		<segref segname="hvqdata" hi="0x463F9A" lo="0x463FA2"></segref>
+		<segref segname="hvqdata" hi="0x4672AA" lo="0x4672B2"></segref>
+		<segref segname="hvqdata" hi="0x4CCF8A" lo="0x4CCF8E"></segref>
+		<segref segname="hvqdata" hi="0x4E83F2" lo="0x4E83FA"></segref>
+		<segref segname="hvqdata" hi="0x4F031A" lo="0x4F0322"></segref>
+		<segref segname="hvqdata" hi="0x4F3CDE" lo="0x4F3CE6"></segref>
+		<segref segname="hvqdata" hi="0x52671A" lo="0x526722"></segref>
+		<segref segname="hvqdata" hi="0x549A9A" lo="0x549A9E"></segref>
+		<segref segname="hvqdata" hi="0x54F5FE" lo="0x54F606"></segref>
+		<segref segname="hvqdata" hi="0x5505C6" lo="0x5505CE"></segref>
+	</segrefs>
+</gamedesc>

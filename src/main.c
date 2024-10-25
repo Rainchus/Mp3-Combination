@@ -7,6 +7,9 @@
 #define N64_LOGO 0x00110000
 #define NINTENO_LOGO 0x00110001
 #define HUDSON_LOGO 0x00110002
+#define CUSTOM_LOGO 0x00110013
+
+s32 initialBoot = 0;
 
 //in the eeprom, 0x2C0 through 0x400 is free to use
 
@@ -394,19 +397,58 @@ void mp3_newBootLogos(void) {
     s32 temp_v0_2_copy;
     s32 temp_v0_4;
 
-    temp_v0 = func_8000B838_C438(N64_LOGO);
-    temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
-    temp_s0 = temp_v0_2 & 0xFFFF;
-    func_8000BBD4_C7D4(temp_s0, 0xA0, 0x78);
-    func_8000BB54_C754(temp_s0);
-    func_8000BCC8_C8C8(temp_s0, 0xFFFF);
+    // temp_v0 = func_8000B838_C438(N64_LOGO);
+    // temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
+    // temp_s0 = temp_v0_2 & 0xFFFF;
+    // func_8000BBD4_C7D4(temp_s0, 0xA0, 0x78);
+    // func_8000BB54_C754(temp_s0);
+    // func_8000BCC8_C8C8(temp_s0, 0xFFFF);
 
-    // temp_v0_copy = func_8000B838_C438(0x000C0000);
-    // temp_v0_2_copy = InitEspriteSlot(temp_v0_copy, 0, 1);
-    // temp_s0_copy = temp_v0_2_copy & 0xFFFF;
-    // func_8000BBD4_C7D4(temp_s0_copy, 160, 200);
-    // func_8000BB54_C754(temp_s0_copy);
-    // func_8000BCC8_C8C8(temp_s0_copy, 0xFFFF);
+    if (initialBoot == 0) {
+        initialBoot = 1;
+        temp_v0 = func_8000B838_C438(CUSTOM_LOGO);
+        temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
+        temp_s0 = temp_v0_2 & 0xFFFF;
+        func_8000BBD4_C7D4(temp_s0, 210, 0x78);
+        func_8000BB54_C754(temp_s0);
+        func_8000BCC8_C8C8(temp_s0, 0xFFFF);
+
+        HuWipeFadeIn(0xB, 0x1E);
+        while (HuWipeStatGet() != 0) {
+            mp3_HuPrcVSleep();
+        }
+
+        //check for button inputs
+        while (1) {
+            if (mp3_D_800CDA7C[0] & 0x10) { //if R is pressed, load mario party 2
+                ComboSwitchGameToMp2();
+            } else if (mp3_D_800CDA7C[0] & 0x20) { //if L is pressed, load mario party 2
+                ComboSwitchGameToMp1();
+            } else if (mp3_D_800CDA7C[0] & 0x2000) { //if Z is pressed, load minigame selection
+                ForeignMinigameIndexToLoad = -1;
+                mp3_omOvlCallEx(0, 0, 0);
+            } else if (mp3_D_800CDA7C[0] & 0x8000) { //if A is pressed, load mario party 3
+                break;
+            }
+            mp3_HuPrcVSleep();
+        }
+
+        mp3_HuPrcSleep(10);
+
+        HuWipeFadeOut(0xB, 9);
+
+        while (HuWipeStatGet() != 0) {
+            mp3_HuPrcVSleep();
+        }
+    }
+
+
+    temp_v0_copy = func_8000B838_C438(N64_LOGO);
+    temp_v0_2_copy = InitEspriteSlot(temp_v0_copy, 0, 1);
+    temp_s0_copy = temp_v0_2_copy & 0xFFFF;
+    func_8000BBD4_C7D4(temp_s0_copy, 0xA0, 0x78);
+    func_8000BB54_C754(temp_s0_copy);
+    func_8000BCC8_C8C8(temp_s0_copy, 0xFFFF);
 
     HuWipeFadeIn(0xB, 0x1E);
     while (HuWipeStatGet() != 0) {
@@ -415,10 +457,6 @@ void mp3_newBootLogos(void) {
 
     mp3_HuPrcSleep(10);
     HuWipeFadeOut(0xB, 9);
-
-    while (HuWipeStatGet() != 0) {
-        mp3_HuPrcVSleep();
-    }
 
     func_8000C184_CD84(temp_v0_2 & 0xFFFF);
     func_80055670_56270(temp_v0);

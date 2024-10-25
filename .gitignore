@@ -7,3 +7,5 @@ bin/
 build.ninja
 flipscfg.bin
 syms.txt
+mp3_extract/*
+!mp3_extract/filedata/boot/19.anm

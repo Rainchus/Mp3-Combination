@@ -1,0 +1,199 @@
+<gamedesc game="mp2">
+	<filedata segname="filedata" origaddr="0x41DD30">
+		<datadir id="0" name="common"></datadir>
+		<datadir id="1" name="mgcommon"></datadir>
+		<datadir id="2" name="mario"></datadir>
+		<datadir id="3" name="luigi"></datadir>
+		<datadir id="4" name="yoshi"></datadir>
+		<datadir id="5" name="wario"></datadir>
+		<datadir id="6" name="donkey"></datadir>
+		<datadir id="7" name="peach"></datadir>
+		<datadir id="8" name="toad"></datadir>
+		<datadir id="9" name="menu"></datadir>
+		<datadir id="10" name="board"></datadir>
+		<datadir id="11" name="inst"></datadir>
+		<datadir id="12" name="battle"></datadir>
+		<datadir id="13" name="quest"></datadir>
+		<datadir id="14" name="opening"></datadir>
+		<datadir id="15" name="staff"></datadir>
+		<datadir id="16" name="ddmess"></datadir>
+		<datadir id="17" name="m100"></datadir>
+		<datadir id="18" name="m101"></datadir>
+		<datadir id="19" name="m102"></datadir>
+		<datadir id="20" name="m103"></datadir>
+		<datadir id="21" name="m104"></datadir>
+		<datadir id="22" name="m105"></datadir>
+		<datadir id="23" name="m106"></datadir>
+		<datadir id="24" name="m107"></datadir>
+		<datadir id="25" name="m108"></datadir>
+		<datadir id="26" name="m109"></datadir>
+		<datadir id="27" name="m111"></datadir>
+		<datadir id="28" name="m113"></datadir>
+		<datadir id="29" name="m112"></datadir>
+		<datadir id="30" name="m114"></datadir>
+		<datadir id="31" name="m115"></datadir>
+		<datadir id="32" name="m117"></datadir>
+		<datadir id="33" name="m118"></datadir>
+		<datadir id="34" name="m119"></datadir>
+		<datadir id="35" name="m120"></datadir>
+		<datadir id="36" name="m122"></datadir>
+		<datadir id="37" name="m123"></datadir>
+		<datadir id="38" name="m124"></datadir>
+		<datadir id="39" name="m126"></datadir>
+		<datadir id="40" name="m128"></datadir>
+		<datadir id="41" name="m129"></datadir>
+		<datadir id="42" name="m130"></datadir>
+		<datadir id="43" name="m132"></datadir>
+		<datadir id="44" name="m134"></datadir>
+		<datadir id="45" name="m135"></datadir>
+		<datadir id="46" name="m136"></datadir>
+		<datadir id="47" name="m138"></datadir>
+		<datadir id="48" name="m141"></datadir>
+		<datadir id="49" name="m142"></datadir>
+		<datadir id="50" name="m143"></datadir>
+		<datadir id="51" name="m145"></datadir>
+		<datadir id="52" name="m146"></datadir>
+		<datadir id="53" name="m147"></datadir>
+		<datadir id="54" name="m148"></datadir>
+		<datadir id="55" name="m149"></datadir>
+		<datadir id="56" name="m150"></datadir>
+		<datadir id="57" name="m151"></datadir>
+		<datadir id="58" name="m152"></datadir>
+		<datadir id="59" name="m154"></datadir>
+		<datadir id="60" name="m156"></datadir>
+		<datadir id="61" name="m157"></datadir>
+		<datadir id="62" name="m158"></datadir>
+		<datadir id="63" name="m159"></datadir>
+		<datadir id="64" name="m160"></datadir>
+		<datadir id="65" name="m161"></datadir>
+		<datadir id="66" name="m162"></datadir>
+		<datadir id="67" name="m164"></datadir>
+		<datadir id="68" name="m165"></datadir>
+		<datadir id="69" name="m172"></datadir>
+		<datadir id="70" name="m173"></datadir>
+		<datadir id="71" name="m174"></datadir>
+		<datadir id="72" name="m175"></datadir>
+		<datadir id="73" name="m176"></datadir>
+		<datadir id="74" name="m177"></datadir>
+		<datadir id="75" name="m178"></datadir>
+		<datadir id="76" name="m179"></datadir>
+	</filedata>
+	<messdata segname="messdata" origaddr="0x1142DD0"></messdata>
+	<hvqdata segname="hvqdata" origaddr="0x1164160">
+		<hvqbg id="0" name="bg_magic"></hvqbg>
+		<hvqbg id="1" name="bg_bowser"></hvqbg>
+		<hvqbg id="2" name="bg_board1"></hvqbg>
+		<hvqbg id="3" name="bg_board1_duel"></hvqbg>
+		<hvqbg id="4" name="bg_board1_start"></hvqbg>
+		<hvqbg id="5" name="bg_bank"></hvqbg>
+		<hvqbg id="6" name="bg_lightray"></hvqbg>
+		<hvqbg id="7" name="bg_board1_result"></hvqbg>
+		<hvqbg id="8" name="bg_board1_over"></hvqbg>
+		<hvqbg id="9" name="bg_laser"></hvqbg>
+		<hvqbg id="10" name="bg_board2"></hvqbg>
+		<hvqbg id="11" name="bg_board2_duel"></hvqbg>
+		<hvqbg id="12" name="bg_board2_start"></hvqbg>
+		<hvqbg id="13" name="bg_goldvault"></hvqbg>
+		<hvqbg id="14" name="bg_board2_result"></hvqbg>
+		<hvqbg id="15" name="bg_board2_over"></hvqbg>
+		<hvqbg id="16" name="bg_board3"></hvqbg>
+		<hvqbg id="17" name="bg_board3_duel"></hvqbg>
+		<hvqbg id="18" name="bg_board3_start"></hvqbg>
+		<hvqbg id="19" name="bg_horror"></hvqbg>
+		<hvqbg id="20" name="bg_board3_result"></hvqbg>
+		<hvqbg id="21" name="bg_board3_night"></hvqbg>
+		<hvqbg id="22" name="bg_board3_over"></hvqbg>
+		<hvqbg id="23" name="bg_board3_over_night"></hvqbg>
+		<hvqbg id="24" name="bg_board4"></hvqbg>
+		<hvqbg id="25" name="bg_board4_duel"></hvqbg>
+		<hvqbg id="26" name="bg_board4_start"></hvqbg>
+		<hvqbg id="27" name="bg_patrol"></hvqbg>
+		<hvqbg id="28" name="bg_board4_result"></hvqbg>
+		<hvqbg id="29" name="bg_board4_over"></hvqbg>
+		<hvqbg id="30" name="bg_board5"></hvqbg>
+		<hvqbg id="31" name="bg_board5_duel"></hvqbg>
+		<hvqbg id="32" name="bg_board5_start"></hvqbg>
+		<hvqbg id="33" name="bg_riddle"></hvqbg>
+		<hvqbg id="34" name="bg_board5_result"></hvqbg>
+		<hvqbg id="35" name="bg_board5_over"></hvqbg>
+		<hvqbg id="36" name="bg_bowser_suck"></hvqbg>
+		<hvqbg id="37" name="bg_board6"></hvqbg>
+		<hvqbg id="38" name="bg_board6_duel"></hvqbg>
+		<hvqbg id="39" name="bg_board6_start"></hvqbg>
+		<hvqbg id="40" name="bg_volcano"></hvqbg>
+		<hvqbg id="41" name="bg_board6_result"></hvqbg>
+		<hvqbg id="42" name="bg_board6_over"></hvqbg>
+		<hvqbg id="43" name="bg_trial"></hvqbg>
+		<hvqbg id="44" name="bg_trial_start"></hvqbg>
+		<hvqbg id="45" name="bg_trial_over"></hvqbg>
+		<hvqbg id="46" name="bg_quest_start"></hvqbg>
+		<hvqbg id="47" name="bg_quest_world1"></hvqbg>
+		<hvqbg id="48" name="bg_quest_world2"></hvqbg>
+		<hvqbg id="49" name="bg_quest_world3"></hvqbg>
+		<hvqbg id="50" name="bg_quest_world4"></hvqbg>
+		<hvqbg id="51" name="bg_quest_world5"></hvqbg>
+		<hvqbg id="52" name="bg_quest_world6"></hvqbg>
+		<hvqbg id="53" name="bg_quest_world7"></hvqbg>
+		<hvqbg id="54" name="bg_quest_world8"></hvqbg>
+		<hvqbg id="55" name="bg_quest_world9"></hvqbg>
+		<hvqbg id="56" name="bg_quest_goal_easy"></hvqbg>
+		<hvqbg id="57" name="bg_quest_goal_normal"></hvqbg>
+		<hvqbg id="58" name="bg_quest_goal_hard"></hvqbg>
+		<hvqbg id="59" name="bg_board_rules"></hvqbg>
+		<hvqbg id="60" name="bg_board_rules_start"></hvqbg>
+		<hvqbg id="61" name="bg_m103"></hvqbg>
+		<hvqbg id="62" name="bg_title"></hvqbg>
+		<hvqbg id="63" name="bg_title_nologo"></hvqbg>
+		<hvqbg id="64" name="bg_flash"></hvqbg>
+		<hvqbg id="65" name="bg_staff"></hvqbg>
+		<hvqbg id="66" name="bg_volcano2"></hvqbg>
+	</hvqdata>
+	<bganimdata segname="bganimdata" origaddr="0x16EC470">
+		<bganim id="0" name="bg_anim_board1"></bganim>
+		<bganim id="1" name="bg_anim_board2"></bganim>
+		<bganim id="2" name="bg_anim_board3_night"></bganim>
+		<bganim id="3" name="bg_anim_board4"></bganim>
+		<bganim id="4" name="bg_anim_board6"></bganim>
+	</bganimdata>
+	<musbank segname="musbank" origaddr="0x1750450"></musbank>
+	<sfxbank segname="sndbank1" origaddr="0x190A090"></sfxbank>
+	<sfxbank segname="sndbank2" origaddr="0x1CBF410"></sfxbank>
+	<fxdata segname="fxdata" origaddr="0x1E2A560"></fxdata>
+	<segrefs>
+		<segref segname="filedata" hi="0x416E6" lo="0x416EE"></segref>
+		<segref segname="messdata" hi="0x1D22A" lo="0x1D232"></segref>
+		<segref segname="messdata" hi="0x89356" lo="0x8935E"></segref>
+		<segref segname="messdata" hi="0x8936A" lo="0x89372"></segref>
+		<segref segname="musbank" hi="0x1D342" lo="0x1D346"></segref>
+		<segref segname="musbank" hi="0x7A9EE" lo="0x7A9F2"></segref>
+		<segref segname="musbank" hi="0x7AA12" lo="0x7AA16"></segref>
+		<segref segname="sndbank1" hi="0x7A9FA" lo="0x7A9FE"></segref>
+		<segref segname="sndbank2" hi="0x1D34E" lo="0x1D352"></segref>
+		<segref segname="sndbank2" hi="0x7AA1E" lo="0x7AA22"></segref>
+		<segref segname="fxdata" hi="0x1D382" lo="0x1D386"></segref>
+		<segref segname="bganimdata" hi="0x546C6" lo="0x546CA"></segref>
+		<segref segname="hvqdata" hi="0x54BD2" lo="0x54BDA"></segref>
+		<segref segname="hvqdata" hi="0x63A36" lo="0x63A3E"></segref>
+		<segref segname="hvqdata" hi="0x74D6A" lo="0x74D6E"></segref>
+		<segref segname="hvqdata" hi="0x2A8A3A" lo="0x2A8A42"></segref>
+		<segref segname="hvqdata" hi="0x2AEE46" lo="0x2AEE4E"></segref>
+		<segref segname="hvqdata" hi="0x2C081A" lo="0x2C0822"></segref>
+		<segref segname="hvqdata" hi="0x2DA94A" lo="0x2DA952"></segref>
+		<segref segname="hvqdata" hi="0x2F17CE" lo="0x2F17D6"></segref>
+		<segref segname="hvqdata" hi="0x306C42" lo="0x306C4A"></segref>
+		<segref segname="hvqdata" hi="0x31EEDA" lo="0x31EEE2"></segref>
+		<segref segname="hvqdata" hi="0x329842" lo="0x32984A"></segref>
+		<segref segname="hvqdata" hi="0x3354E6" lo="0x3354EE"></segref>
+		<segref segname="hvqdata" hi="0x343106" lo="0x34310E"></segref>
+		<segref segname="hvqdata" hi="0x35860A" lo="0x358612"></segref>
+		<segref segname="hvqdata" hi="0x35C1EE" lo="0x35C1F6"></segref>
+		<segref segname="hvqdata" hi="0x35D1AA" lo="0x35D1B2"></segref>
+		<segref segname="hvqdata" hi="0x3615DE" lo="0x3615E6"></segref>
+		<segref segname="hvqdata" hi="0x36178E" lo="0x361796"></segref>
+		<segref segname="hvqdata" hi="0x3D4DEE" lo="0x3D4DF6"></segref>
+		<segref segname="hvqdata" hi="0x40A022" lo="0x40A02A"></segref>
+		<segref segname="hvqdata" hi="0x40B8E6" lo="0x40B8EE"></segref>
+		<segref segname="hvqdata" hi="0x4107BA" lo="0x4107C2"></segref>
+		<segref segname="hvqdata" hi="0x4157AE" lo="0x4157B6"></segref>
+	</segrefs>
+</gamedesc>

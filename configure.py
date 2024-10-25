@@ -8,7 +8,7 @@ pj64_rdb_path = "C:/Users/Rainchus/Desktop/Desktop/newest_pj64/Config/Project64.
 def check_and_create_rom(mp1=False):
     mp3_mp2_path = 'rom/mp3-mp2.z64'
     mp3_mp2_mp1_path = 'rom/mp3-mp2-mp1.z64'
-    mp3_path = 'rom/mp3.z64'
+    mp3_path = 'rom/mp3-temp.z64'
     mp2_path = 'rom/mp2.z64'
     mp1_path = 'rom/mp1.z64'
 

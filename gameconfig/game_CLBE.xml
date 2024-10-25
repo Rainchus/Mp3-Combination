@@ -1,0 +1,227 @@
+<gamedesc game="mp1">
+	<filedata segname="filedata" origaddr="0x31C7E0">
+		<datadir id="0" name="common"></datadir>
+		<datadir id="1" name="mario"></datadir>
+		<datadir id="2" name="luigi"></datadir>
+		<datadir id="3" name="yoshi"></datadir>
+		<datadir id="4" name="wario"></datadir>
+		<datadir id="5" name="donkey"></datadir>
+		<datadir id="6" name="peach"></datadir>
+		<datadir id="7" name="toad"></datadir>
+		<datadir id="8" name="board_old"></datadir>
+		<datadir id="9" name="menu"></datadir>
+		<datadir id="10" name="board"></datadir>
+		<datadir id="11" name="inst"></datadir>
+		<datadir id="12" name="ending"></datadir>
+		<datadir id="13" name="quest"></datadir>
+		<datadir id="14" name="intro"></datadir>
+		<datadir id="15" name="staff"></datadir>
+		<datadir id="16" name="char_icon"></datadir>
+		<datadir id="17" name="dd_mess"></datadir>
+		<datadir id="18" name="mg01"></datadir>
+		<datadir id="19" name="mg02"></datadir>
+		<datadir id="20" name="mg03"></datadir>
+		<datadir id="21" name="mg04"></datadir>
+		<datadir id="22" name="mg05"></datadir>
+		<datadir id="23" name="mg06"></datadir>
+		<datadir id="24" name="mg08"></datadir>
+		<datadir id="25" name="mg10"></datadir>
+		<datadir id="26" name="mg11"></datadir>
+		<datadir id="27" name="mg12"></datadir>
+		<datadir id="28" name="mg13"></datadir>
+		<datadir id="29" name="mg14"></datadir>
+		<datadir id="30" name="mg15"></datadir>
+		<datadir id="31" name="mg16"></datadir>
+		<datadir id="32" name="mg17"></datadir>
+		<datadir id="33" name="mg18"></datadir>
+		<datadir id="34" name="mg21"></datadir>
+		<datadir id="35" name="mg22"></datadir>
+		<datadir id="36" name="mg23"></datadir>
+		<datadir id="37" name="mg24"></datadir>
+		<datadir id="38" name="mg25"></datadir>
+		<datadir id="39" name="mg26"></datadir>
+		<datadir id="40" name="mg27"></datadir>
+		<datadir id="41" name="mg29"></datadir>
+		<datadir id="42" name="mg30"></datadir>
+		<datadir id="43" name="mg31"></datadir>
+		<datadir id="44" name="mg32"></datadir>
+		<datadir id="46" name="mg35"></datadir>
+		<datadir id="47" name="mg36"></datadir>
+		<datadir id="48" name="mg37"></datadir>
+		<datadir id="49" name="mg38"></datadir>
+		<datadir id="50" name="mg39"></datadir>
+		<datadir id="51" name="mg40"></datadir>
+		<datadir id="52" name="mg41"></datadir>
+		<datadir id="53" name="mg42"></datadir>
+		<datadir id="54" name="mg43"></datadir>
+		<datadir id="55" name="mg44"></datadir>
+		<datadir id="56" name="mg47"></datadir>
+		<datadir id="57" name="mg50"></datadir>
+		<datadir id="58" name="mg51"></datadir>
+		<datadir id="59" name="mg52"></datadir>
+		<datadir id="60" name="mg53"></datadir>
+		<datadir id="61" name="mg55"></datadir>
+		<datadir id="62" name="mg56"></datadir>
+		<datadir id="63" name="mg57"></datadir>
+		<datadir id="64" name="mg58"></datadir>
+		<datadir id="65" name="mg59"></datadir>
+		<datadir id="66" name="mg60"></datadir>
+		<datadir id="67" name="mg64"></datadir>
+		<datadir id="68" name="mg66"></datadir>
+		<datadir id="69" name="mg67"></datadir>
+		<datadir id="70" name="mg68"></datadir>
+		<datadir id="71" name="mg69"></datadir>
+		<datadir id="72" name="mgmaze"></datadir>
+	</filedata>
+	<messdata segname="messdata" origaddr="0xFCB860"></messdata>
+	<hvqdata segname="hvqdata" origaddr="0xFE2310">
+		<hvqbg id="0" name="bg_board1"></hvqbg>
+		<hvqbg id="1" name="bg_board1_start"></hvqbg>
+		<hvqbg id="2" name="bg_board1_mgresult"></hvqbg>
+		<hvqbg id="4" name="bg_board1_over"></hvqbg>
+		<hvqbg id="5" name="bg_board1_end"></hvqbg>
+		<hvqbg id="6" name="bg_board1_intro"></hvqbg>
+		<hvqbg id="7" name="bg_board2"></hvqbg>
+		<hvqbg id="8" name="bg_board2_start"></hvqbg>
+		<hvqbg id="9" name="bg_board2_mgresult"></hvqbg>
+		<hvqbg id="14" name="bg_board2_over"></hvqbg>
+		<hvqbg id="16" name="bg_board2_end"></hvqbg>
+		<hvqbg id="17" name="bg_board2_intro"></hvqbg>
+		<hvqbg id="18" name="bg_board3"></hvqbg>
+		<hvqbg id="19" name="bg_board3_start"></hvqbg>
+		<hvqbg id="20" name="bg_board3_mgresult"></hvqbg>
+		<hvqbg id="24" name="bg_board3_end"></hvqbg>
+		<hvqbg id="25" name="bg_board3_over"></hvqbg>
+		<hvqbg id="26" name="bg_board3_intro"></hvqbg>
+		<hvqbg id="27" name="bg_board4"></hvqbg>
+		<hvqbg id="28" name="bg_board4_start"></hvqbg>
+		<hvqbg id="29" name="bg_board4_mgresult"></hvqbg>
+		<hvqbg id="35" name="bg_board4_end"></hvqbg>
+		<hvqbg id="36" name="bg_board4_over"></hvqbg>
+		<hvqbg id="38" name="bg_board4_intro"></hvqbg>
+		<hvqbg id="39" name="bg_board5"></hvqbg>
+		<hvqbg id="40" name="bg_board5_start"></hvqbg>
+		<hvqbg id="41" name="bg_board5_mgresult"></hvqbg>
+		<hvqbg id="42" name="bg_board5_end"></hvqbg>
+		<hvqbg id="44" name="bg_board5_over"></hvqbg>
+		<hvqbg id="46" name="bg_board5_intro"></hvqbg>
+		<hvqbg id="47" name="bg_board6"></hvqbg>
+		<hvqbg id="48" name="bg_board6_start"></hvqbg>
+		<hvqbg id="49" name="bg_board6_mgresult"></hvqbg>
+		<hvqbg id="52" name="bg_board6_end"></hvqbg>
+		<hvqbg id="53" name="bg_board6_over"></hvqbg>
+		<hvqbg id="55" name="bg_board6_intro"></hvqbg>
+		<hvqbg id="56" name="bg_board7"></hvqbg>
+		<hvqbg id="57" name="bg_board7_start"></hvqbg>
+		<hvqbg id="58" name="bg_board7_mgresult"></hvqbg>
+		<hvqbg id="63" name="bg_board7_end"></hvqbg>
+		<hvqbg id="64" name="bg_board7_over"></hvqbg>
+		<hvqbg id="67" name="bg_board7_intro"></hvqbg>
+		<hvqbg id="68" name="bg_board8"></hvqbg>
+		<hvqbg id="69" name="bg_board8_start"></hvqbg>
+		<hvqbg id="71" name="bg_board8_mgresult"></hvqbg>
+		<hvqbg id="72" name="bg_board8_over"></hvqbg>
+		<hvqbg id="75" name="bg_board8_end"></hvqbg>
+		<hvqbg id="76" name="bg_board8_intro"></hvqbg>
+		<hvqbg id="77" name="bg_board_rules"></hvqbg>
+		<hvqbg id="78" name="bg_board_rules_intro"></hvqbg>
+		<hvqbg id="79" name="bg_quest"></hvqbg>
+		<hvqbg id="80" name="bg_quest_volcano"></hvqbg>
+		<hvqbg id="81" name="bg_quest_pipe"></hvqbg>
+		<hvqbg id="82" name="bg_quest_castle"></hvqbg>
+		<hvqbg id="83" name="bg_quest_castle2"></hvqbg>
+		<hvqbg id="84" name="bg_quest_intro"></hvqbg>
+		<hvqbg id="85" name="bg_quest_save_start"></hvqbg>
+		<hvqbg id="86" name="bg_quest_save_cave"></hvqbg>
+		<hvqbg id="87" name="bg_quest_save_castle"></hvqbg>
+		<hvqbg id="88" name="bg_quest_save_castle2"></hvqbg>
+		<hvqbg id="89" name="bg_quest_ending"></hvqbg>
+		<hvqbg id="90" name="bg_quest_mgresult1"></hvqbg>
+		<hvqbg id="91" name="bg_quest_mgresult2"></hvqbg>
+		<hvqbg id="92" name="bg_quest_mgresult3"></hvqbg>
+		<hvqbg id="93" name="bg_quest_mgresult4"></hvqbg>
+		<hvqbg id="94" name="bg_quest_mgresult5"></hvqbg>
+		<hvqbg id="95" name="bg_quest_mgresult6"></hvqbg>
+		<hvqbg id="96" name="bg_quest_mgresult7"></hvqbg>
+		<hvqbg id="97" name="bg_quest_mgresult8"></hvqbg>
+		<hvqbg id="98" name="bg_quest_mgresult9"></hvqbg>
+		<hvqbg id="99" name="bg_trial"></hvqbg>
+		<hvqbg id="100" name="bg_trial_start"></hvqbg>
+		<hvqbg id="102" name="bg_trial_ending"></hvqbg>
+		<hvqbg id="103" name="bg_trial_result"></hvqbg>
+		<hvqbg id="105" name="bg_trial_mgresult"></hvqbg>
+	</hvqdata>
+	<musbank segname="musbank1" origaddr="0x15396A0"></musbank>
+	<musbank segname="musbank2" origaddr="0x1778BC0"></musbank>
+	<sfxbank segname="sfxbank1" origaddr="0x1832AE0"></sfxbank>
+	<sfxbank segname="sfxbank2" origaddr="0x1BB8460"></sfxbank>
+	<fxdata segname="fxdata" origaddr="0x1CECC60"></fxdata>
+	<segrefs>
+		<segref segname="filedata" hi="0x3C016" lo="0x3C01E"></segref>
+		<segref segname="messdata" hi="0x1AE6E" lo="0x1AE76"></segref>
+		<segref segname="hvqdata" hi="0x57626" lo="0x5762A"></segref>
+		<segref segname="hvqdata" hi="0x5D012" lo="0x5D016"></segref>
+		<segref segname="hvqdata" hi="0xD5416" lo="0xD541E"></segref>
+		<segref segname="hvqdata" hi="0x259D76" lo="0x259D7E"></segref>
+		<segref segname="hvqdata" hi="0x25F8AE" lo="0x25F8B6"></segref>
+		<segref segname="hvqdata" hi="0x260392" lo="0x26039A"></segref>
+		<segref segname="hvqdata" hi="0x27C76A" lo="0x27C772"></segref>
+		<segref segname="hvqdata" hi="0x280992" lo="0x28099A"></segref>
+		<segref segname="hvqdata" hi="0x281A96" lo="0x281A9E"></segref>
+		<segref segname="hvqdata" hi="0x2825CA" lo="0x2825D2"></segref>
+		<segref segname="hvqdata" hi="0x2850B6" lo="0x2850BE"></segref>
+		<segref segname="hvqdata" hi="0x285AE6" lo="0x285AEE"></segref>
+		<segref segname="hvqdata" hi="0x28660A" lo="0x286612"></segref>
+		<segref segname="hvqdata" hi="0x2871AA" lo="0x2871B2"></segref>
+		<segref segname="hvqdata" hi="0x288742" lo="0x28874A"></segref>
+		<segref segname="hvqdata" hi="0x289A2E" lo="0x289A36"></segref>
+		<segref segname="hvqdata" hi="0x28AA5E" lo="0x28AA66"></segref>
+		<segref segname="hvqdata" hi="0x28BB92" lo="0x28BB9A"></segref>
+		<segref segname="hvqdata" hi="0x28CE76" lo="0x28CE7E"></segref>
+		<segref segname="hvqdata" hi="0x28DEDE" lo="0x28DEE6"></segref>
+		<segref segname="hvqdata" hi="0x28E526" lo="0x28E52E"></segref>
+		<segref segname="hvqdata" hi="0x28EC02" lo="0x28EC0A"></segref>
+		<segref segname="hvqdata" hi="0x2906E6" lo="0x2906EE"></segref>
+		<segref segname="hvqdata" hi="0x291232" lo="0x29123A"></segref>
+		<segref segname="hvqdata" hi="0x291EC2" lo="0x291ECA"></segref>
+		<segref segname="hvqdata" hi="0x29311E" lo="0x293126"></segref>
+		<segref segname="hvqdata" hi="0x2939EA" lo="0x2939F2"></segref>
+		<segref segname="hvqdata" hi="0x295306" lo="0x29530E"></segref>
+		<segref segname="hvqdata" hi="0x295CFA" lo="0x295D02"></segref>
+		<segref segname="hvqdata" hi="0x2969FE" lo="0x296A06"></segref>
+		<segref segname="hvqdata" hi="0x297AD2" lo="0x297ADA"></segref>
+		<segref segname="hvqdata" hi="0x297F42" lo="0x297F4A"></segref>
+		<segref segname="hvqdata" hi="0x2989E2" lo="0x2989EA"></segref>
+		<segref segname="hvqdata" hi="0x29A27A" lo="0x29A282"></segref>
+		<segref segname="hvqdata" hi="0x29AA22" lo="0x29AA2A"></segref>
+		<segref segname="hvqdata" hi="0x29B15E" lo="0x29B166"></segref>
+		<segref segname="hvqdata" hi="0x2A090A" lo="0x2A0912"></segref>
+		<segref segname="hvqdata" hi="0x2A51A2" lo="0x2A51AA"></segref>
+		<segref segname="hvqdata" hi="0x2B70D6" lo="0x2B70DE"></segref>
+		<segref segname="hvqdata" hi="0x2FD79A" lo="0x2FD7A2"></segref>
+		<segref segname="hvqdata" hi="0x3002B6" lo="0x3002BE"></segref>
+		<segref segname="hvqdata" hi="0x3013AE" lo="0x3013B6"></segref>
+		<segref segname="hvqdata" hi="0x306322" lo="0x306326"></segref>
+		<segref segname="hvqdata" hi="0x309F8E" lo="0x309F96"></segref>
+		<segref segname="hvqdata" hi="0x30D82A" lo="0x30D832"></segref>
+		<segref segname="hvqdata" hi="0x3146EA" lo="0x3146F2"></segref>
+		<segref segname="hvqdata" hi="0x317762" lo="0x31776A"></segref>
+		<segref segname="musbank1" hi="0x61746" lo="0x6174A"></segref>
+		<segref segname="musbank1" end="true" hi="0x6174E" lo="0x61752"></segref>
+		<segref segname="musbank1" hi="0x2DA3D2" lo="0x2DA3D6"></segref>
+		<segref segname="musbank1" end="true" hi="0x2DA3DA" lo="0x2DA3DE"></segref>
+		<segref segname="musbank2" hi="0x1AF2A" lo="0x1AF2E"></segref>
+		<segref segname="musbank2" hi="0x6177E" lo="0x61782"></segref>
+		<segref segname="musbank2" end="true" hi="0x61786" lo="0x6178A"></segref>
+		<segref segname="musbank2" hi="0x2DA402" lo="0x2DA406"></segref>
+		<segref segname="musbank2" end="true" hi="0x2DA40A" lo="0x2DA40E"></segref>
+		<segref segname="sfxbank1" hi="0x1AF32" lo="0x1AF36"></segref>
+		<segref segname="sfxbank1" hi="0x6172E" lo="0x61732"></segref>
+		<segref segname="sfxbank1" hi="0x2DA3BE" lo="0x2DA3C2"></segref>
+		<segref segname="sfxbank2" hi="0x1AF0E" lo="0x1AF12"></segref>
+		<segref segname="sfxbank2" hi="0x61762" lo="0x61766"></segref>
+		<segref segname="sfxbank2" hi="0x2DA3EA" lo="0x2DA3EE"></segref>
+		<segref segname="fxdata" hi="0x1AF5A" lo="0x1AF5E"></segref>
+		<segref segname="fxdata" end="true" hi="0x1AF66" lo="0x1AF6A"></segref>
+	</segrefs>
+</gamedesc>
