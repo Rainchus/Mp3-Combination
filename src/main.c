@@ -421,11 +421,26 @@ void mp3_newBootLogos(void) {
         //check for button inputs
         while (1) {
             if (mp3_D_800CDA7C[0] & 0x10) { //if R is pressed, load mario party 2
+                HuWipeFadeOut(0xB, 9);
+
+                while (HuWipeStatGet() != 0) {
+                    mp3_HuPrcVSleep();
+                }
                 ComboSwitchGameToMp2();
-            } else if (mp3_D_800CDA7C[0] & 0x20) { //if L is pressed, load mario party 2
+            } else if (mp3_D_800CDA7C[0] & 0x20) { //if L is pressed, load mario party 1
+                HuWipeFadeOut(0xB, 9);
+
+                while (HuWipeStatGet() != 0) {
+                    mp3_HuPrcVSleep();
+                }
                 ComboSwitchGameToMp1();
             } else if (mp3_D_800CDA7C[0] & 0x2000) { //if Z is pressed, load minigame selection
                 ForeignMinigameIndexToLoad = -1;
+                HuWipeFadeOut(0xB, 9);
+
+                while (HuWipeStatGet() != 0) {
+                    mp3_HuPrcVSleep();
+                }
                 mp3_omOvlCallEx(0, 0, 0);
             } else if (mp3_D_800CDA7C[0] & 0x8000) { //if A is pressed, load mario party 3
                 break;
@@ -434,7 +449,6 @@ void mp3_newBootLogos(void) {
         }
 
         mp3_HuPrcSleep(10);
-
         HuWipeFadeOut(0xB, 9);
 
         while (HuWipeStatGet() != 0) {
@@ -458,9 +472,10 @@ void mp3_newBootLogos(void) {
     mp3_HuPrcSleep(10);
     HuWipeFadeOut(0xB, 9);
 
-    func_8000C184_CD84(temp_v0_2 & 0xFFFF);
-    func_80055670_56270(temp_v0);
-    mp3_HuPrcSleep(9);
+    while (HuWipeStatGet() != 0) {
+        mp3_HuPrcVSleep();
+    }
+
     temp_v0_3 = func_8000B838_C438(NINTENO_LOGO);
     temp_v0_4 = InitEspriteSlot(temp_v0_3, 0, 1);
     temp_s0_2 = temp_v0_4 & 0xFFFF;
