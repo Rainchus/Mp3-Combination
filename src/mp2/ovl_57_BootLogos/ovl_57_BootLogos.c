@@ -20,6 +20,7 @@ extern s32 ForeignMinigameIndexToLoad;
 extern UnkBoardStatus mp2_D_800F93A8;
 extern s8 mp2_D_800F93CD_F9FCD;
 extern s32 mp3_LoadBackFromMp2;
+extern mp3_PlayerData mp3_PlayersCopy[4];
 
 s16 mp2_func_8001A2F8_1AEF8(s32);
 u16 mp2_func_8001AAAC_1B6AC(s16, s16, u16);
@@ -40,6 +41,7 @@ void mp2_func_80026D28_27928(s32);
 void mp2_func_80026DAC_279AC(s32, s32, s32, s32);
 void mp2_func_80026E00_27A00(s32, f32, f32, f32);
 NORETURN void ComboSwitchGameToMp3(void);
+extern u32 mp2_rnd_seed;
 
 void mp2_OriginalBootLogos(void) {
     s16 temp_v0;
@@ -56,7 +58,7 @@ void mp2_OriginalBootLogos(void) {
         mp2_HuPrcVSleep();
     }
 
-    mp2_HuPrcSleep(45);
+    mp2_HuPrcSleep(5);
     mp2_InitFadeOut(0, 9);
     
     while (mp2_func_8008F618_90218() != 0) {
@@ -77,7 +79,7 @@ void mp2_OriginalBootLogos(void) {
         mp2_HuPrcVSleep();
     }
 
-    mp2_HuPrcSleep(45);
+    mp2_HuPrcSleep(5);
     mp2_InitFadeOut(0, 9);
     
     while (mp2_func_8008F618_90218() != 0) {
@@ -97,7 +99,7 @@ void mp2_OriginalBootLogos(void) {
         mp2_HuPrcVSleep();
     }
     
-    mp2_HuPrcSleep(45);
+    mp2_HuPrcSleep(5);
     mp2_D_801011FC_101DFC = 1;
 
     while (1) {
@@ -107,9 +109,27 @@ void mp2_OriginalBootLogos(void) {
 
 //func_80102AD8_36DC78_BootLogos
 void mp2_newBootLogo(void) {
+    //we need to initialize rng in a better way than vanilla's static value
+    //TODO: push current count before swapping game, seed against that
+    mp2_rnd_seed = mp2_osGetCount() ^ 0xD826BC89;
+
     if (ForeignMinigameIndexToLoad == -1) {
         mp2_OriginalBootLogos();
     } else if (ForeignMinigameIndexToLoad == -2) {
+        s32 i;
+        //copy over player changes
+        for (i = 0; i < 4; i++) {
+            s32 coinsEarned = mp2_gPlayers[i].coins - mp3_PlayersCopy[i].coins;
+            mp3_PlayersCopy[i].coins += coinsEarned;
+            if (mp3_PlayersCopy[i].coins < 0) {
+                mp3_PlayersCopy[i].coins = 0;
+            }
+            
+            mp3_PlayersCopy[i].minigameCoinsTotal += coinsEarned;
+            if (mp3_PlayersCopy[i].coins > mp3_PlayersCopy[i].coinsPeak) {
+                mp3_PlayersCopy[i].coinsPeak = mp3_PlayersCopy[i].coins;
+            }
+        }
         ComboSwitchGameToMp3();
     } else {
         mp2__SetFlag(0x19); //no idea what this does, might be important might not
@@ -122,7 +142,7 @@ void mp2_newBootLogo(void) {
         // mp2_func_80026E00_27A00(1, 100.0f, -100.0f, 100.0f);
         //otherwise, load into minigame from boot
         mp2_D_800F93CD_F9FCD = 1; //skips instructions screen
-        mp2_D_800F93A8.unk_20 = ForeignMinigameIndexToLoad;
+        mp2_D_800F93A8.unk_20 = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
         mp2_D_800F93A8.unk_22 = 0x55;
         ForeignMinigameIndexToLoad = -2;
         mp3_LoadBackFromMp2 = TRUE;

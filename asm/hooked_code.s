@@ -61,27 +61,27 @@ mp1_osEPiRawStartDmaHook:
     NOP
 
 
-checkIfMinigameIndexIsBlacklisted:
+//checkIfMinigameIndexIsBlacklisted:
     //v0 holds the current minigame index
-    LI v1, minigameBlacklistIDs
-    ADDU t0, r0, r0 //loop counter
-    minigameBlacklistLoop:
-    LBU t1, 0x0000 (v1) //blacklisted id
-    BEQ t1, v0, isBlacklisted
-    NOP
-    ADDIU t0, t0, 1 //increment loop
-    SLTI t2, t0, 6 //
-    BNEZ t2, minigameBlacklistLoop
-    ADDIU v1, v1, 1 //increment blacklist array pointer
+    //LI v1, minigameBlacklistIDs
+    //ADDU t0, r0, r0 //loop counter
+    //minigameBlacklistLoop:
+    //LBU t1, 0x0000 (v1) //blacklisted id
+    //BEQ t1, v0, isBlacklisted
+    //NOP
+    //ADDIU t0, t0, 1 //increment loop
+    //SLTI t2, t0, 6 //
+    //BNEZ t2, minigameBlacklistLoop
+    //ADDIU v1, v1, 1 //increment blacklist array pointer
     //otherwise, we looped all blacklisted ids and none appeared. minigame is good to use
-    LUI at, 0x8010
-    ADDU at, at, s0
-    J 0x800DFE90
-    NOP
+    //LUI at, 0x8010
+    //ADDU at, at, s0
+    //J 0x800DFE90
+    //NOP
     //reroll for a new id that isn't blacklisted
-    isBlacklisted:
-    J 0x800DFE60
-    NOP
+    //isBlacklisted:
+    //J 0x800DFE60
+    //NOP
 
 
 
@@ -112,40 +112,38 @@ getNewMinigameString2:
     J 0x800DF488
     NOP
 
-ConvertMinigameIndexFromMp3ToMp2OverlayID:
-    LI v0, mp2_base
-    LW v0, 0x0000 (v0)
-    SUBU a0, a0, v0
-    JR RA
-    ADDU v0, a0, r0
+//ConvertMinigameIndexFromMp3ToMp2OverlayID:
+    //LI v0, mp2_base
+    //LW v0, 0x0000 (v0)
+    //SUBU a0, a0, v0
+    //JR RA
+    //ADDU v0, a0, r0
 
-ConvertMinigameIndexFromMp3ToMp1OverlayID:
-    LI v0, mp1_base
-    LW v0, 0x0000 (v0)
-    SUBU a0, a0, v0
-    JR RA
-    ADDU v0, a0, r0
+//ConvertMinigameIndexFromMp3ToMp1OverlayID:
+    //LI v0, mp1_base
+    //LW v0, 0x0000 (v0)
+    //SUBU a0, a0, v0
+    //JR RA
+    //ADDU v0, a0, r0
 
 setCustomMinigameIndex:
     LUI v0, 0x800D
     LBU v0, 0xD068 (v0) //get minigame chosen
 
-    LI at, mp2_base
-    LW at, 0x0000 (at)
+    ORI at, r0, 72
     SLT at, v0, at //first mp2 minigame
     BNEZ at, isMp3Minigame
     NOP
 
     //check if mp1 or mp2 minigame
-    LI at, mp1_base
-    LW at, 0x0000 (at)
+    ORI at, r0, 138
     SLT at, v0, at //first mp1 minigame
     BNEZ at, isMp2Minigame
     NOP
 
     //otherwise, is mp1 minigame. swap to mp1
-    JAL ConvertMinigameIndexFromMp3ToMp1OverlayID
-    ADDU a0, v0, r0    
+    //JAL ConvertMinigameIndexFromMp3ToMp1OverlayID
+    //ADDU a0, v0, r0    
 
     LI a0, ForeignMinigameIndexToLoad
     SW v0, 0x0000 (a0) //store overlay mp2 should load on boot
@@ -168,8 +166,8 @@ setCustomMinigameIndex:
 
     isMp2Minigame:
     //otherwise, is mp2 minigame. swap to mp2
-    JAL ConvertMinigameIndexFromMp3ToMp2OverlayID
-    ADDU a0, v0, r0
+    //JAL ConvertMinigameIndexFromMp3ToMp2OverlayID
+    //ADDU a0, v0, r0
 
     LI a0, ForeignMinigameIndexToLoad
     SW v0, 0x0000 (a0) //store overlay mp2 should load on boot

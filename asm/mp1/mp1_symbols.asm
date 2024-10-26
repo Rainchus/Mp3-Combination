@@ -29,3 +29,5 @@
 .definelabel mp1_gPlayers, 0x800F32B0
 .definelabel mp1_omInitObjMan, 0x8005CF30
 .definelabel mp1_D_800ED5DE, 0x800ED5DE
+.definelabel mp1_rnd_seed, 0x800C2FF4
+.definelabel mp1_osGetCount, 0x80093780

@@ -21,6 +21,8 @@ extern u8 mp1_D_800ED5E3;
 extern u16 mp1_D_800ED5DE;
 void CopyMp3_gPlayerCopy_To_Mp1(void);
 void mp1_omInitObjMan(s32, s32);
+extern mp3_PlayerData mp3_PlayersCopy[4];
+extern u32 mp1_rnd_seed;
 
 //func_800F686C_LogosSequence
 void mp1_OriginalBootLogos(void) {
@@ -44,7 +46,7 @@ void mp1_OriginalBootLogos(void) {
         mp1_HuPrcVSleep();
     }
     
-    mp1_HuPrcSleep(45);
+    mp1_HuPrcSleep(5);
     mp1_func_800726AC(0, 9);
     
     while (mp1_func_80072718() != 0) {
@@ -66,7 +68,7 @@ void mp1_OriginalBootLogos(void) {
         mp1_HuPrcVSleep();
     }
     
-    mp1_HuPrcSleep(45);
+    mp1_HuPrcSleep(5);
     mp1_func_800726AC(0, 9);
     
     while (mp1_func_80072718() != 0) {
@@ -86,7 +88,7 @@ void mp1_OriginalBootLogos(void) {
         mp1_HuPrcVSleep();
     }
     
-    mp1_HuPrcSleep(45);
+    mp1_HuPrcSleep(5);
     mp1_D_800F5144 = 1;
     
     while (1) {
@@ -96,25 +98,35 @@ void mp1_OriginalBootLogos(void) {
 
 //func_80102AD8_36DC78_BootLogos
 void mp1_newBootLogo(void) {
+    //we need to initialize rng in a better way than vanilla's static value
+    //TODO: push current count before swapping game, seed against that
+    mp1_rnd_seed = mp1_osGetCount() ^ 0xD826BC89;
+
     if (ForeignMinigameIndexToLoad == -1) {
         mp1_OriginalBootLogos();
     } else if (ForeignMinigameIndexToLoad == -2) {
+        s32 i;
+        //copy over player changes
+        for (i = 0; i < 4; i++) {
+            s32 coinsEarned = mp1_gPlayers[i].coins - mp3_PlayersCopy[i].coins;
+            mp3_PlayersCopy[i].coins += coinsEarned;
+            if (mp3_PlayersCopy[i].coins < 0) {
+                mp3_PlayersCopy[i].coins = 0;
+            }
+            
+            mp3_PlayersCopy[i].minigameCoinsTotal += coinsEarned;
+            if (mp3_PlayersCopy[i].coins > mp3_PlayersCopy[i].coinsPeak) {
+                mp3_PlayersCopy[i].coinsPeak = mp3_PlayersCopy[i].coins;
+            }
+        }
+        
         ComboSwitchGameToMp3();
     } else {
         // mp2__SetFlag(0x19); //no idea what this does, might be important might not
         CopyMp3_gPlayerCopy_To_Mp1();
         mp1_omInitObjMan(16, 4);
-        // //i dont believe this is needed
-        // // mp2_func_80026D28_27928(1);
-        // // mp2_func_80026DAC_279AC(0, 0x80, 0x80, 0x80);
-        // // mp2_func_80026DAC_279AC(1, 0x60, 0x60, 0x10);
-        // // mp2_func_80026E00_27A00(1, 100.0f, -100.0f, 100.0f);
-        // //otherwise, load into minigame from boot
-        // mp2_D_800F93CD_F9FCD = 1; //skips instructions screen
-        // mp2_D_800F93A8.unk_20 = ForeignMinigameIndexToLoad;
-        // mp2_D_800F93A8.unk_22 = 0x55;
         mp1_D_800ED5E3 = 1; //minigame explanations off
-        mp1_D_800ED5DE = ForeignMinigameIndexToLoad;
+        mp1_D_800ED5DE = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
         ForeignMinigameIndexToLoad = -2;
         mp3_LoadBackFromMp2 = TRUE;
         mp1_omOvlCallEx(0x6F, 0, 0x84); //load explanation screen overlay (might be skipped depending on mp1_D_800ED5E3)

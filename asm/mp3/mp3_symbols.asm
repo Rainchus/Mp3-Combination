@@ -97,6 +97,7 @@
 .definelabel mp3_WriteEepromCommonBuf, 0x8000C8F0
 .definelabel mp3_ReadEepromCommonBuf, 0x8000C954
 .definelabel D_800D09A8, 0x800D09A8
+.definelabel mp3_HuPrcExit, 0x8004EFD4
 
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD90

@@ -117,16 +117,23 @@ void newDebugMenuMain(void) {
     char buffer[100];
     s32 i;
 
+
     mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
     mp3_HuPrcVSleep();
-
     mp3_HuWipeFadeIn(0xFF, 0x10);
-
     eSprite0 = DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
-    eSprite1 = DrawImageWrapper(MENU_BACKGROUND_IMAGE_ID, 200, 120);
-
-    mp3_ScaleESprite(eSprite1, 1.70f, 1.0f);
+    
     mp3_HuAudSeqPlay(4);
+
+    if (eepromLoadFailed == 1) {
+        while (1) {
+            InvalidEepCheck();
+            mp3_HuPrcVSleep();
+        }
+    }
+
+    eSprite1 = DrawImageWrapper(MENU_BACKGROUND_IMAGE_ID, 200, 120);
+    mp3_ScaleESprite(eSprite1, 1.70f, 1.0f);
 
     while (1) {
         s32 xPos = 105;

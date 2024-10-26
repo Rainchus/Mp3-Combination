@@ -49,19 +49,19 @@ void func_8000BCC8_C8C8(s32, s32);
 void func_8000C184_CD84(s32);
 void func_80055670_56270(s16);
 void ComboSwitchGameToMp1(void);
+void mp3_HuPrcExit(void);
 
 s32 printTimer = 0;
-s32 mp2_base = MP2_BASE;
-s32 mp1_base = MP1_BASE;
+//s32 mp2_base = MP2_BASE;
+//s32 mp1_base = MP1_BASE;
 s32 eepromLoadFailed = 0;
 //also prevents wacky watches from being found from this point on if not 0
 s32 wackyWatchUsedCopy = 0;
-s32 osViBlackTimer = 0;
 
 extern s16 D_800CD0AA;
 extern s32 ForeignMinigameIndexToLoad;
 extern mp3_PlayerData mp3_PlayersCopy[4];
-extern mp2_PlayerData mp2_PlayersCopy[4];
+extern mp2_GW_PLAYER mp2_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
 extern s16 mp3_omovlhisidx_copy;
 extern omOvlHisData mp3_omovlhis[12];
@@ -130,12 +130,10 @@ void CopyMp3_gPlayerCopy_To_Mp2(void) {
         mp2_gPlayers[i].group = mp3_PlayersCopy[i].group;
         mp2_gPlayers[i].cpu_difficulty = mp3_PlayersCopy[i].cpu_difficulty;
         mp2_gPlayers[i].cpu_difficulty2 = mp3_PlayersCopy[i].cpu_difficulty;
-        mp2_gPlayers[i].controller_port = mp3_PlayersCopy[i].controller_port;
-        mp2_gPlayers[i].characterID = mp3_PlayersCopy[i].characterID;
+        mp2_gPlayers[i].port = mp3_PlayersCopy[i].controller_port;
+        mp2_gPlayers[i].character = mp3_PlayersCopy[i].characterID;
         mp2_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
         mp2_gPlayers[i].coins = mp3_PlayersCopy[i].coins;
-        mp2_gPlayers[i].extra_coins_collected_during_minigame = mp3_PlayersCopy[i].minigameCoinsWon;
-        mp2_gPlayers[i].minigameCoinsWon = mp3_PlayersCopy[i].minigameCoins;
         mp2_gPlayers[i].stars = mp3_PlayersCopy[i].stars;
     }
 }
@@ -145,16 +143,13 @@ void CopyMp3_gPlayerCopy_To_Mp1(void) {
 
     for (i = 0; i < 4; i++) {
         mp1_gPlayers[i].group = mp3_PlayersCopy[i].group;
-        mp1_gPlayers[i].cpuDifficulty = mp3_PlayersCopy[i].cpu_difficulty;
-        mp1_gPlayers[i].cpuDifficultyCopy = mp3_PlayersCopy[i].cpu_difficulty;
-        mp1_gPlayers[i].controller_port = mp3_PlayersCopy[i].controller_port;
-        mp1_gPlayers[i].characterID = mp3_PlayersCopy[i].characterID;
+        mp1_gPlayers[i].cpu_difficulty = mp3_PlayersCopy[i].cpu_difficulty;
+        mp1_gPlayers[i].cpu_difficulty_copy = mp3_PlayersCopy[i].cpu_difficulty;
+        mp1_gPlayers[i].port = mp3_PlayersCopy[i].controller_port;
+        mp1_gPlayers[i].character = mp3_PlayersCopy[i].characterID;
         mp1_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
-        //these need to be double checked
-        mp1_gPlayers[i].coinAmount = mp3_PlayersCopy[i].coins;
-        // mp1_gPlayers[i].miniGameCoins = mp3_PlayersCopy[i].minigameCoinsWon;
-        // mp1_gPlayers[i].minigameCoinsWon = mp3_PlayersCopy[i].minigameCoins;
-        mp1_gPlayers[i].starAmount = mp3_PlayersCopy[i].stars;
+        mp1_gPlayers[i].coins = mp3_PlayersCopy[i].coins;
+        mp1_gPlayers[i].stars = mp3_PlayersCopy[i].stars;
     }
 }
 
@@ -258,7 +253,6 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
             PopMp3OvlHis();
             mp3_omovlhisidx--;
             D_800B23B0 = 1; //is party mode
-            osViBlackTimer = 50;
             mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
             return;
         } else if ((totalTurns - curTurn) == 4) {
@@ -272,13 +266,12 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
             mp3_omovlhisidx = 3;
             mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
             // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
-            osViBlackTimer = 50;
             mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
             return;
         }
 
         PopMp3OvlHis();
-        mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //hardcoded load chilly waters atm
+        mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
         
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
     } else {
@@ -447,6 +440,7 @@ void mp3_newBootLogos(void) {
                     mp3_HuPrcVSleep();
                 }
                 mp3_omOvlCallEx(0, 0, 0);
+                mp3_HuPrcExit();
             } else if (mp3_D_800CDA7C[0] & 0x8000) { //if A is pressed, load mario party 3
                 break;
             }
@@ -472,7 +466,7 @@ void mp3_newBootLogos(void) {
         mp3_HuPrcVSleep();
     }
 
-    mp3_HuPrcSleep(10);
+    mp3_HuPrcSleep(5);
     HuWipeFadeOut(0xB, 9);
 
     while (HuWipeStatGet() != 0) {
@@ -491,7 +485,7 @@ void mp3_newBootLogos(void) {
         mp3_HuPrcVSleep();
     }
 
-    mp3_HuPrcSleep(10);
+    mp3_HuPrcSleep(5);
     HuWipeFadeOut(0xB, 9);
 
     while (HuWipeStatGet() != 0) {
@@ -511,7 +505,7 @@ void mp3_newBootLogos(void) {
         mp3_HuPrcVSleep();
     }
 
-    mp3_HuPrcSleep(10);
+    mp3_HuPrcSleep(5);
     D_800D530C = 1;
 
     while (1) {
