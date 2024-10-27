@@ -38,18 +38,13 @@
     NOP
     ORI v0, r0, 1 //always display names of minigames (remove "???" from appearing)
 
-.org 0x800DFFD4
-    J getNewMinigameString1
-    NOP
+.org 0x800DFFD8
+    JAL GetNewMinigameString1
+    ADDIU a3, r0, 0x0004
 
-//this shouldn't need to exist...something is wrong if invalid minigames get selected
-//.org 0x800DFE88
-    //J checkIfMinigameIndexIsBlacklisted
-    //NOP
-
-.org 0x800DF47C //display minigame name index when chosen
-    J getNewMinigameString2
-    NOP
+.org 0x800DF480 //display minigame name index when chosen
+    JAL GetNewMinigameString1
+    ADDIU a3, r0, 0x0004
 
 .org 0x800DFFF0
     LUI a1, hi(minigameTextColor)

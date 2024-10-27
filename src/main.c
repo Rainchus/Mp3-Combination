@@ -52,8 +52,6 @@ void ComboSwitchGameToMp1(void);
 void mp3_HuPrcExit(void);
 
 s32 printTimer = 0;
-//s32 mp2_base = MP2_BASE;
-//s32 mp1_base = MP1_BASE;
 s32 eepromLoadFailed = 0;
 //also prevents wacky watches from being found from this point on if not 0
 s32 wackyWatchUsedCopy = 0;
@@ -248,11 +246,10 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
         curBoardIndex = mp3_BoardState[1];
 
         mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
-
+        D_800B23B0 = 1; //is party mode
         if (curTurn > totalTurns) {
             PopMp3OvlHis();
             mp3_omovlhisidx--;
-            D_800B23B0 = 1; //is party mode
             mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
             return;
         } else if ((totalTurns - curTurn) == 4) {
@@ -271,6 +268,7 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
         }
 
         PopMp3OvlHis();
+        mp3_omovlhisidx--;
         mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
         
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
@@ -512,3 +510,4 @@ void mp3_newBootLogos(void) {
         mp3_HuPrcVSleep();
     }
 }
+
