@@ -1,6 +1,5 @@
 #include "marioparty.h"
 
-#define BOARD_STATE_STRUCT_SIZE 0x80
 #define COLD_BOOT 0
 #define WARM_BOOT 1
 #define osAppNmiBufferSize 64
@@ -12,12 +11,6 @@
 s32 initialBoot = 0;
 
 //in the eeprom, 0x2C0 through 0x400 is free to use
-
-typedef struct omOvlHisData { //Object Manager History Data
-/* 0x00 */ s32 overlayID;
-/* 0x04 */ s16 event;
-/* 0x06 */ u16 stat;
-} omOvlHisData; //sizeof 0x08
 
 typedef struct UnkCastleGroundMessage {
     s16 unk_00;
@@ -50,7 +43,10 @@ void func_8000C184_CD84(s32);
 void func_80055670_56270(s16);
 void ComboSwitchGameToMp1(void);
 void mp3_HuPrcExit(void);
-
+extern u16 mp2_BattleMinigameCoins;
+extern u16 mp3_BattleMinigameCoins;
+u16 mp3_BattleMinigameCoins_Copy = 0;
+extern s32 isBattleMinigame;
 s32 printTimer = 0;
 s32 eepromLoadFailed = 0;
 //also prevents wacky watches from being found from this point on if not 0
@@ -133,6 +129,7 @@ void CopyMp3_gPlayerCopy_To_Mp2(void) {
         mp2_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
         mp2_gPlayers[i].coins = mp3_PlayersCopy[i].coins;
         mp2_gPlayers[i].stars = mp3_PlayersCopy[i].stars;
+        mp2_gPlayers[i].turn_status = mp3_PlayersCopy[i].turn_status;
     }
 }
 
@@ -181,6 +178,10 @@ void checkosAppNmiBufferReset(s32 resetType) {
             osAppNmiBuffer[i] = 0;
         }        
     }
+}
+
+void StoreBattleMinigameCoins(void) {
+    mp3_BattleMinigameCoins_Copy = mp3_BattleMinigameCoins;
 }
 
 omOvlHisData last5Turns[] = {
@@ -247,6 +248,22 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
 
         mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
         D_800B23B0 = 1; //is party mode
+        // if (isBattleMinigame == 1) {
+        //     s32 i;
+        //     isBattleMinigame = 0;
+
+        //     omOvlHisData BattleResults[] = {
+        //         {0x70, 0x0001, 0x0192},
+        //         {0x53, 0x0000, 0x0192},
+        //         {0x48, 0x0000, 0x0192},
+        //     };
+        //     for (i = 0; i < ARRAY_COUNT(BattleResults); i++) {
+        //         mp3_omovlhis[i] = BattleResults[i];
+        //     }
+        //     mp3_omovlhisidx = 3;
+        //     mp3_omOvlCallEx(0x74, 0, 0x12); //go to battle results scene
+        //     return;
+        // }
         if (curTurn > totalTurns) {
             PopMp3OvlHis();
             mp3_omovlhisidx--;

@@ -83,37 +83,6 @@ mp1_osEPiRawStartDmaHook:
     //J 0x800DFE60
     //NOP
 
-
-
-//mp3 notes
-//800DFE84 reads 4p minigame indexes
-
-//getNewMinigameString2:
-    //ADDIU a1, a1, 0xB900 //revert minigame str index back to minigame ID
-    //SLL a1, a1, 2 //multiply by sizeof(char*)
-    //LI a3, MinigameList
-    //ADDU a1, a1, a3
-    //LW a1, 0x0000 (a1)
-    //ADDIU a2, r0, 0xFFFE
-    //JAL 0x8005B43C
-    //ADDIU a3, r0, 0x0004
-    //J 0x800DF488
-    //NOP
-
-//ConvertMinigameIndexFromMp3ToMp2OverlayID:
-    //LI v0, mp2_base
-    //LW v0, 0x0000 (v0)
-    //SUBU a0, a0, v0
-    //JR RA
-    //ADDU v0, a0, r0
-
-//ConvertMinigameIndexFromMp3ToMp1OverlayID:
-    //LI v0, mp1_base
-    //LW v0, 0x0000 (v0)
-    //SUBU a0, a0, v0
-    //JR RA
-    //ADDU v0, a0, r0
-
 setCustomMinigameIndex:
     LUI v0, 0x800D
     LBU v0, 0xD068 (v0) //get minigame chosen
@@ -162,6 +131,9 @@ setCustomMinigameIndex:
 
     //make a copy of the mp3 player structs
     JAL SaveMp3PlayerStructs
+    NOP
+
+    JAL StoreBattleMinigameCoins
     NOP
 
     //also make a copy of the overlay history

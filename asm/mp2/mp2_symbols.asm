@@ -72,6 +72,7 @@
 .definelabel mp2_D_801011FC_101DFC, 0x801011FC
 .definelabel mp2_rnd_seed, 0x800C99B4
 .definelabel mp2_osGetCount, 0x800ADD50
+.definelabel mp2_BattleMinigameCoins, 0x800F9208
 
 //hardcoded symbols
 .definelabel mp2_PlayersCopy, 0x807FFF00

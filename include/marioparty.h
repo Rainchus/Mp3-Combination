@@ -1,6 +1,8 @@
 #ifndef _MP_H_
 #define _MP_H_
 
+#define BOARD_STATE_STRUCT_SIZE 0x80
+
 #include "ultra64.h"
 #include "functions.h"
 #include "macros.h"
@@ -269,5 +271,11 @@ extern mp2_GW_PLAYER mp2_gPlayers[4];
 extern mp1_GW_PLAYER mp1_gPlayers[4];
 
 extern u8 mp2_debugMode;
+
+typedef struct omOvlHisData { //Object Manager History Data
+/* 0x00 */ s32 overlayID;
+/* 0x04 */ s16 event;
+/* 0x06 */ u16 stat;
+} omOvlHisData; //sizeof 0x08
 
 #endif //_MP_H_

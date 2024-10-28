@@ -18,18 +18,12 @@
 .org 0x801095B4
     J checkIfCursorShouldMove
     NOP
-    
-//.org 0x80109690 //only allow use of 1 save files
-    //ADDIU s0, r0, 0x0001
 
 .org 0x80109768 //when going down from copy, go to file 1
     ADDIU s0, r0, 0x0000
 
 .org 0x801097BC //when going down from erase, go to file 1
     ADDIU s0, r0, 0x0000
-
-//.org 0x8010969C //only allow use of 2 save files
-    //SLTI v0, s0, 0x0002 //was SLTI v0, s0, 0x0003
 
 //hook shared board overlay?
 .headersize 0x800DFFA4 - 0xF3BC4

@@ -93,11 +93,13 @@
 .definelabel mp3_osEepromLongRead, 0x80072590
 .definelabel mp3_D_800CE1A0, 0x800CE1A0
 .definelabel mp3_osEepromProbe, 0x80072420
+.definelabel mp3_D_800D1350, 0x800D1350
 
 .definelabel mp3_WriteEepromCommonBuf, 0x8000C8F0
 .definelabel mp3_ReadEepromCommonBuf, 0x8000C954
-.definelabel D_800D09A8, 0x800D09A8
+.definelabel mp3_D_800D09A8, 0x800D09A8
 .definelabel mp3_HuPrcExit, 0x8004EFD4
+.definelabel mp3_BattleMinigameCoins, 0x800CC698
 
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD90

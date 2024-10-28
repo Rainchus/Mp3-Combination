@@ -21,6 +21,7 @@ extern UnkBoardStatus mp2_D_800F93A8;
 extern s8 mp2_D_800F93CD_F9FCD;
 extern s32 mp3_LoadBackFromMp2;
 extern mp3_PlayerData mp3_PlayersCopy[4];
+extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
 
 s16 mp2_func_8001A2F8_1AEF8(s32);
 u16 mp2_func_8001AAAC_1B6AC(s16, s16, u16);
@@ -42,6 +43,11 @@ void mp2_func_80026DAC_279AC(s32, s32, s32, s32);
 void mp2_func_80026E00_27A00(s32, f32, f32, f32);
 NORETURN void ComboSwitchGameToMp3(void);
 extern u32 mp2_rnd_seed;
+extern u16 mp2_BattleMinigameCoins;
+extern u16 mp3_BattleMinigameCoins;
+extern u16 mp3_BattleMinigameCoins_Copy;
+extern u8 newBattleMinigameListNormalMp3[];
+s32 isBattleMinigame = 0;
 
 void mp2_OriginalBootLogos(void) {
     s16 temp_v0;
@@ -144,8 +150,19 @@ void mp2_newBootLogo(void) {
         mp2_D_800F93CD_F9FCD = 1; //skips instructions screen
         mp2_D_800F93A8.unk_20 = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
         mp2_D_800F93A8.unk_22 = 0x55;
+        // isBattleMinigame = 0;
+        // s32 i;
+        // for (i = 0; newBattleMinigameListNormalMp3[i] != 0xFF; i++) {
+        //     if (ForeignMinigameIndexToLoad == newBattleMinigameListNormalMp3[i]) {
+        //         mp2_BattleMinigameCoins = mp3_BattleMinigameCoins_Copy;
+        //         isBattleMinigame = 1;
+        //         break;
+        //     }
+        // }
+
         ForeignMinigameIndexToLoad = -2;
         mp3_LoadBackFromMp2 = TRUE;
+        
         mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93A8.unk_20), 0, 0x84);
         while (1) {
             mp2_HuPrcVSleep();

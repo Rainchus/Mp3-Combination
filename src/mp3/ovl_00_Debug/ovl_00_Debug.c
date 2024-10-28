@@ -12,7 +12,7 @@
 s32 pageIndex = 0;
 s32 cursorIndex = 0;
 
-extern u8 D_800D09A8;
+extern u8 mp3_D_800D09A8;
 OSMesgQueue customMesgQueue = {0};
 extern OSMesgQueue mp3_D_800CE1A0;
 u8 customEepromData[0x140] = {0};
@@ -20,6 +20,7 @@ extern int		mp3_sprintf(char *s, const char *fmt, ...);
 void mp3_HuAudSeqPlay(s32);
 extern s16 mp3_D_800CDA7C[];
 extern s16 mp3_D_800C9520;
+extern s16 mp3_D_800D1350[];
 extern s32 eepromLoadFailed;
 extern char* MinigameList[];
 extern u32 mp3_debug_font_color;
@@ -33,6 +34,8 @@ void mp3_HuPrcVSleep(void);
 void mp3_HuWipeFadeIn(s32, s32);
 void mp3_bzero(void*, s32);
 void ComboSwitchGameToMp3(void);
+s32 directionHeldFrames = 0;
+s32 buttonHeld = 0;
 
 void to_uppercase(const char* input, char* output) {
     while (*input) {
@@ -49,12 +52,21 @@ void to_uppercase(const char* input, char* output) {
     *output = '\0';  // Null-terminate the output string
 }
 
-void InvalidEepCheck(void) {
-    // turn this back on for release
+s32 DrawImageWrapper(s32 mainFileSystemID, s32 xPos, s32 yPos) {
+    s32 curGraphicID;
+    s32 curESpriteID;
+
+    curGraphicID = func_8000B838_C438(mainFileSystemID);
+    curESpriteID = InitEspriteSlot(curGraphicID, 0, 1);
+    func_8000BBD4_C7D4(curESpriteID, xPos, yPos); //set sprite position
+    return curESpriteID;
+}
+
+void InvalidEepCheck(s32 xPos, s32 yPos) {
     if (eepromLoadFailed == 1) {
-        mp3_DrawDebugText(10, 20, "INVALID SAVE TYPE FOUND");
-        mp3_DrawDebugText(10, 30, "PLEASE SET THE SAVE TYPE TO");
-        mp3_DrawDebugText(10, 40, "EEPROM 16KBIT");
+        mp3_DrawDebugText(xPos, yPos, "INVALID SAVE TYPE FOUND");
+        mp3_DrawDebugText(xPos, yPos + 10, "PLEASE SET THE SAVE TYPE TO");
+        mp3_DrawDebugText(xPos, yPos + 20, "EEPROM 16KBIT");
     }
 }
 
@@ -80,16 +92,6 @@ void SetMusicID(void) {
     mp3_DrawDebugText(10, 10, buffer);
 }
 
-s32 DrawImageWrapper(s32 mainFileSystemID, s32 xPos, s32 yPos) {
-    s32 curGraphicID;
-    s32 curESpriteID;
-
-    curGraphicID = func_8000B838_C438(mainFileSystemID);
-    curESpriteID = InitEspriteSlot(curGraphicID, 0, 1);
-    func_8000BBD4_C7D4(curESpriteID, xPos, yPos); //set sprite position
-    return curESpriteID;
-}
-
 s32 GetMinigameFlag(s32 arg0) {
     return (customEepromData[arg0 / 8] >> (arg0 % 8)) & 1;
 }
@@ -109,6 +111,28 @@ void FlipMinigameFlag(s32 arg0) {
     SetMinigameFlag(arg0, !currentFlag); // Flip the flag (1 -> 0, 0 -> 1)
 }
 
+s32 CheckHeldButtons(void) {
+    if (directionHeldFrames == 0) {
+        if (mp3_D_800D1350[0] != 0) {
+            buttonHeld = mp3_D_800D1350[0];
+            directionHeldFrames++;
+        }
+        return 0;
+    }
+
+    //button has been held for at least one frame
+    if (mp3_D_800D1350[0] == buttonHeld) {
+        directionHeldFrames++;
+    } else {
+        directionHeldFrames = 0;
+    }
+    //if button has been held for 10 frames, scroll every 2 frames
+    if ((directionHeldFrames > 10) && (directionHeldFrames % 2) == 0) {
+        return buttonHeld;
+    }
+    return 0;
+}
+
 void newDebugMenuMain(void) {
     char outputbuffer[40];
     s32 eSprite0;
@@ -126,8 +150,25 @@ void newDebugMenuMain(void) {
     mp3_HuAudSeqPlay(4);
 
     if (eepromLoadFailed == 1) {
+        s32 invalidEepBoxSpriteId = DrawImageWrapper(0x00000090, 0, 0);
+        mp3_ScaleESprite(invalidEepBoxSpriteId, 1.25f, 1.0f);
+        s32 xPos = 24;
+        s32 yPos = 35;
         while (1) {
-            InvalidEepCheck();
+
+            //dpad up
+            if (mp3_D_800C9520 & 0x800) { //dpad up
+                yPos--;
+            } else if (mp3_D_800C9520 & 0x400) { //dpad down
+                yPos++;
+            } else if (mp3_D_800C9520 & 0x200) { //dpad left
+                xPos--;
+            } else if (mp3_D_800C9520 & 0x100) { //dpad right
+                xPos++;
+            }
+            func_8000BBD4_C7D4(invalidEepBoxSpriteId, xPos, yPos); //set sprite position
+            mp3_debug_font_color = 9;
+            InvalidEepCheck(xPos + 27, yPos - 15);
             mp3_HuPrcVSleep();
         }
     }
@@ -138,6 +179,7 @@ void newDebugMenuMain(void) {
     while (1) {
         s32 xPos = 105;
         s32 yPos = 38;
+        s32 currentlyHeldButtons;
 
         if (mp3_D_800C9520 & 0x200) { //dpad left
             mp3_debug_font_color--;
@@ -145,41 +187,60 @@ void newDebugMenuMain(void) {
             mp3_debug_font_color++;
         }
 
-        //9 is blue
-        //0 is black
-        //12 is green
-
-        if (mp3_D_800C9520 & 0x800) { //dpad up
-            if (cursorIndex > 0) {
-                cursorIndex--;
-            } else {
-                cursorIndex = MINIGAMES_PER_PAGE - 1; //wrap around
+        currentlyHeldButtons = CheckHeldButtons();
+        if (currentlyHeldButtons != 0) {
+            switch (currentlyHeldButtons) {
+            case 0x400:
+                if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
+                    cursorIndex++;
+                } else {
+                    cursorIndex = 0; //wrap around
+                }
+                break;                
+            case 0x800:
+                if (cursorIndex > 0) {
+                    cursorIndex--;
+                } else {
+                    cursorIndex = MINIGAMES_PER_PAGE - 1; //wrap around
+                }
             }
-        } else if (mp3_D_800C9520 & 0x400) { //dpad down
-            if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
-                cursorIndex++;
-            } else {
-                cursorIndex = 0; //wrap around
-            }
-        } else if (mp3_D_800C9520 & 0x200) { //dpad left
-            if (pageIndex > 0) {
-                pageIndex--;
-            } else {
-                pageIndex = MAX_PAGES - 1; //wrap around
-            }
-        } else if (mp3_D_800C9520 & 0x100) { //dpad right
-            if (pageIndex < MAX_PAGES - 1) {
-                pageIndex++;
-            } else {
-                pageIndex = 0; //wrap around
+        } else {
+            if (mp3_D_800C9520 & 0x800) { //dpad up
+                if (cursorIndex > 0) {
+                    cursorIndex--;
+                } else {
+                    cursorIndex = MINIGAMES_PER_PAGE - 1; //wrap around
+                }
+            } else if (mp3_D_800C9520 & 0x400) { //dpad down
+                if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
+                    cursorIndex++;
+                } else {
+                    cursorIndex = 0; //wrap around
+                }
+            } else if (mp3_D_800C9520 & 0x200) { //dpad left
+                if (pageIndex > 0) {
+                    pageIndex--;
+                } else {
+                    pageIndex = MAX_PAGES - 1; //wrap around
+                }
+            } else if (mp3_D_800C9520 & 0x100) { //dpad right
+                if (pageIndex < MAX_PAGES - 1) {
+                    pageIndex++;
+                } else {
+                    pageIndex = 0; //wrap around
+                }
             }
         }
 
         for (i = 0; i < MINIGAMES_PER_PAGE; i++) {
             u8 minigameFlag = GetMinigameFlag(pageIndex * MINIGAMES_PER_PAGE + i);
+            u8 curMinigameIndex = i + pageIndex * MINIGAMES_PER_PAGE;
+            if (MinigameList[curMinigameIndex] == (void*)-1) {
+                break;
+            }
 
             mp3_bzero(outputbuffer, sizeof(outputbuffer));
-            to_uppercase(&MinigameList[i + pageIndex * MINIGAMES_PER_PAGE][1], outputbuffer);
+            to_uppercase(&MinigameList[curMinigameIndex][1], outputbuffer);
 
             if (minigameFlag == 1) {
                 mp3_debug_font_color = 12;

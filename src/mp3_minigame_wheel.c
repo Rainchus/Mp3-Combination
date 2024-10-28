@@ -878,6 +878,7 @@ char* MinigameList[] = { //add 1 to this value and stick into table
 /* 0xBC */ TugOWarStr, //mp1 50
 /* 0xBD */ PaddleBattleStr, //mp1 51
 #endif
+-1 //end of list
 };
 
 u8 new4PMinigameListNormalMp3[] = {
@@ -899,6 +900,7 @@ u8 new4PMinigameListNormalMp3[] = {
     MP1_BOMBS_AWAY, MARIO_BANDSTAND, MP1_SHY_GUY_SAYS, CAST_AWAYS, KEY_PA_WAY,
     RUNNING_OF_THE_BULB, MP1_HOT_ROPE_JUMP, HAMMER_DROP, MP1_SLOT_CAR_DERBY,
     #endif
+    0xFF
 };
 u8 new1v3MinigameListNormalMp3[] = {
     HAND_LINE_AND_SINKER,   COCONUT_CONK,       SPOTLIGHT_SWIM, BOULDER_BALL,   CRAZY_COGS,
@@ -912,6 +914,7 @@ u8 new1v3MinigameListNormalMp3[] = {
     PIPE_MAZE, BASH_N_CASH, MP1_BOWL_OVER, COIN_BLOCK_BASH, TIGHTROPE_TREACHERY,
     MP1_CRANE_GAME, PIRANHA_PURSUIT, TUG_O_WAR, PADDLE_BATTLE, COIN_SHOWER_FLOWER,
     #endif
+    0xFF
 };
 u8 new2v2MinigameListNormalMp3[] = {
     EATSA_PIZZA,    BABY_BOWSER_BROADSIDE,  PUMP_PUMP_AND_AWAY,     HYPER_HYDRANTS, PICKING_PANIC,
@@ -925,31 +928,37 @@ u8 new2v2MinigameListNormalMp3[] = {
     #ifdef MP1
     MP1_BOBSLED_RUN, DESERT_DASH, BOMBSKETBALL, MP1_HANDCAR_HAVOC, DEEP_SEA_DIVERS,
     #endif
+    0xFF
 };
 u8 newBattleMinigameListNormalMp3[] = {
     LOCKED_OUT, ALL_FIRED_UP, STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP,
     SLAP_DOWN, STORM_CHASERS, EYE_SORE,
-    MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
-    MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST,
+    //issues with mp2 battle minigames atm
+    // MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
+    // MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST,
+    0xFF
 };
 u8 newItemMinigameListNormalMp3[] = {
     //no mp2 minigames currently for these
-    WINNERS_WHEEL, HEY_BATTER_BATTER, BOBBING_BOW_LOONS, DORRIE_DIP, SWINGING_WITH_SHARKS, SWING_N_SWIPE,
+    WINNERS_WHEEL, HEY_BATTER_BATTER, BOBBING_BOW_LOONS, DORRIE_DIP, SWINGING_WITH_SHARKS,
+    SWING_N_SWIPE,
+    //issues with mp2 item minigames atm
+    0xFF
 };
 u8 newDuelMinigameListNormalMp3[] = {
     VINE_WITH_ME, POPGUN_PICK_OFF, END_OF_THE_LINE, BABY_BOWSER_BONKERS, SILLY_SCREWS,
     CROWD_COVER, TICK_TOCK_HOP, BOWSER_TOSS, MOTOR_ROOTER, FOWL_PLAY,
-
+    0xFF
 };
 
 //at 80100EEC originally (normal minigame list, amount of minigames in each category)
 u8 newCategoryAmountsNormal[] = {
-    ARRAY_COUNT(new4PMinigameListNormalMp3),
-    ARRAY_COUNT(new1v3MinigameListNormalMp3),
-    ARRAY_COUNT(new2v2MinigameListNormalMp3),
-    ARRAY_COUNT(newItemMinigameListNormalMp3),
-    ARRAY_COUNT(newBattleMinigameListNormalMp3),
-    ARRAY_COUNT(newDuelMinigameListNormalMp3),
+    ARRAY_COUNT(new4PMinigameListNormalMp3) -1,
+    ARRAY_COUNT(new1v3MinigameListNormalMp3) -1,
+    ARRAY_COUNT(new2v2MinigameListNormalMp3) -1,
+    ARRAY_COUNT(newItemMinigameListNormalMp3) -1,
+    ARRAY_COUNT(newBattleMinigameListNormalMp3) -1,
+    ARRAY_COUNT(newDuelMinigameListNormalMp3) -1,
 };
 
 u8 new4PMinigameListEasyMp3[] = {0x15, 0x19, 0x1C, 0x1D, 0x1E, 0x21, 0x22, 0x26, 0x28};
@@ -969,17 +978,12 @@ u8 newCategoryAmountsEasy[] = {
     ARRAY_COUNT(newDuelMinigameListEasyMp3),
 };
 
-char* GetNewMinigameString(s32 minigameIndex) {
-    return MinigameList[minigameIndex];
-}
-
 void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 minigameCombinedIndex = arg1 - 0x46FF;
 
     s32 i;
     for (i = 0; i < ARRAY_COUNT(minigameLUT); i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
-            //return minigameLUT[i].gameOverlayID;
             func_8005B43C_5C03C(arg0, minigameLUT[i].minigameStr, arg2, arg3);
             return;
         }
