@@ -94,6 +94,7 @@
 .definelabel mp3_D_800CE1A0, 0x800CE1A0
 .definelabel mp3_osEepromProbe, 0x80072420
 .definelabel mp3_D_800D1350, 0x800D1350
+.definelabel mp3_Hu3dModelCreateWrapper, 0x8000B108
 
 .definelabel mp3_WriteEepromCommonBuf, 0x8000C8F0
 .definelabel mp3_ReadEepromCommonBuf, 0x8000C954

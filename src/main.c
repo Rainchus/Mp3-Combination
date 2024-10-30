@@ -51,7 +51,7 @@ s32 printTimer = 0;
 s32 eepromLoadFailed = 0;
 //also prevents wacky watches from being found from this point on if not 0
 s32 wackyWatchUsedCopy = 0;
-
+extern mp3MinigameIndexTable minigameLUT[];
 extern s16 D_800CD0AA;
 extern s32 ForeignMinigameIndexToLoad;
 extern mp3_PlayerData mp3_PlayersCopy[4];
@@ -219,14 +219,238 @@ void func_800F8610_10C230_Copy(s32 arg0, s16 arg1, s16 arg2, s32 curBoardIndex) 
     }
 }
 
+#define EEPROM_ABS_POS 0x2C0
+#define EEPROM_BLOCK_POS EEPROM_ABS_POS / EEPROM_BLOCK_SIZE
+
+extern u8 customEepromData[0x140];
+extern OSMesgQueue mp3_D_800CE1A0;
+
+u32 CustomMinigamesEepromBytes[] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFF3F};
+// u8 new4PMinigameListNormalMp3[] = {
+//     TREADMILL_GRILL,        TOADSTOOL_TITAN,    ACES_HIGH,      BOUNCE_N_TROUNCE,       ICE_RINK_RISK,
+//     CHIP_SHOT_CHALLENGE,    PARASOL_PLUMMET,    MESSY_MEMORY,   PICTURE_IMPERFECT,      MARIOS_PUZZLE_PARTY,
+//     THE_BEAT_GOES_ON,       MPIQ,               CURTAIN_CALL,   WATER_WHIRLED,          FRIGID_BRIDGES,
+//     AWFUL_TOWER,            CHEEP_CHEEP_CHASE,  PIPE_CLEANERS,  SNOWBALL_SUMMIT,        ROCKIN_RACEWAY,
+//     //mp2 minigame
+//     LAVA_TILE_ISLE, MP2_HOT_ROPE_JUMP, SHELL_SHOCKED, TOAD_IN_THE_BOX, MECHA_MARATHON,
+//     ROLL_CALL, ABANDON_SHIP, MP2_PLATFORM_PERIL, TOTEM_POLE_POUND, MP2_BUMPER_BALLS, 
+//     MP2_BOMBS_AWAY, MP2_TIPSY_TOURNEY, HONEYCOMB_HAVOC, HEXAGON_HEAT, MP2_SKATEBOARD_SCAMPER,
+//     MP2_SLOT_CAR_DERBY, MP2_SHY_GUY_SAYS, SNEAK_N_SNORE, DIZZY_DANCING, TILE_DRIVER,
+//     DEEP_SEA_SALVAGE,
+//     //mp1 minigames
+//     #ifdef MP1
+//     BURIED_TREASURE, TREASURE_DIVERS, MP1_HOT_BOB_OMB, MUSICAL_MUSHROOM, MP1_CRAZY_CUTTER,
+//     MP1_FACE_LIFT, MP1_BALLOON_BURST, COIN_BLOCK_BLITZ, MP1_SKATEBOARD_SCAMPER, BOX_MOUNTAIN_MAYHEM,
+//     MP1_PLATFORM_PERIL, MUSHROOM_MIXUP, MP1_GRAB_BAG, MP1_BUMPER_BALLS, MP1_TIPSY_TOURNEY,
+//     MP1_BOMBS_AWAY, MARIO_BANDSTAND, MP1_SHY_GUY_SAYS, CAST_AWAYS, KEY_PA_WAY,
+//     RUNNING_OF_THE_BULB, MP1_HOT_ROPE_JUMP, HAMMER_DROP, MP1_SLOT_CAR_DERBY,
+//     #endif
+//     0xFF
+// };
+
+// u8 new1v3MinigameListNormalMp3[] = {
+//     HAND_LINE_AND_SINKER,   COCONUT_CONK,       SPOTLIGHT_SWIM, BOULDER_BALL,   CRAZY_COGS,
+//     HIDE_AND_SNEAK,         RIDICULOUS_RELAY,   THWOMP_PULL,    RIVER_RAIDERS,  TIDAL_TOSS,
+//     //mp2 minigames
+//     MP2_BOWL_OVER, MP2_CRANE_GAME, MOVE_TO_THE_MUSIC, BOB_OMB_BARRAGE, LOOK_AWAY,
+//     SHOCK_DROP_OR_ROLL, LIGHTS_OUT, FILET_RELAY, ARCHERIVAL, QUICKSAND_CACHE,
+//     RAINBOW_RUN,
+//     //mp1 minigames
+//     #ifdef MP1
+//     PIPE_MAZE, BASH_N_CASH, MP1_BOWL_OVER, COIN_BLOCK_BASH, TIGHTROPE_TREACHERY,
+//     MP1_CRANE_GAME, PIRANHA_PURSUIT, TUG_O_WAR, PADDLE_BATTLE, COIN_SHOWER_FLOWER,
+//     #endif
+//     0xFF
+// };
+// u8 new2v2MinigameListNormalMp3[] = {
+//     EATSA_PIZZA,    BABY_BOWSER_BROADSIDE,  PUMP_PUMP_AND_AWAY,     HYPER_HYDRANTS, PICKING_PANIC,
+//     COSMIC_COASTER, PUDDLE_PADDLE,          ETCH_N_CATCH, LOG_JAM,  SLOT_SYNC,
+
+//     //mp2 minigames
+//     TOAD_BANDSTAND, MP2_BOBSLED_RUN, MP2_HANDCAR_HAVOC, MP2_BALLOON_BURST, SKY_PILOTS,
+//     SPEED_HOCKEY, CAKE_FACTORY, MAGNET_CARTA, LOONEY_LUMBERJACKS, TORPEDO_TARGETS,
+//     DESTRUCTION_DUET, DUNGEON_DASH,
+//     //mp1 minigames
+//     #ifdef MP1
+//     MP1_BOBSLED_RUN, DESERT_DASH, BOMBSKETBALL, MP1_HANDCAR_HAVOC, DEEP_SEA_DIVERS,
+//     #endif
+//     0xFF
+// };
+// u8 newBattleMinigameListNormalMp3[] = {
+//     LOCKED_OUT, ALL_FIRED_UP, STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP,
+//     SLAP_DOWN, STORM_CHASERS, EYE_SORE,
+//     //issues with mp2 battle minigames atm
+//     // MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
+//     // MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST,
+//     0xFF
+// };
+// u8 newItemMinigameListNormalMp3[] = {
+//     //no mp2 minigames currently for these
+//     WINNERS_WHEEL, HEY_BATTER_BATTER, BOBBING_BOW_LOONS, DORRIE_DIP, SWINGING_WITH_SHARKS,
+//     SWING_N_SWIPE,
+//     //issues with mp2 item minigames atm
+//     0xFF
+// };
+// u8 newDuelMinigameListNormalMp3[] = {
+//     VINE_WITH_ME, POPGUN_PICK_OFF, END_OF_THE_LINE, BABY_BOWSER_BONKERS, SILLY_SCREWS,
+//     CROWD_COVER, TICK_TOCK_HOP, BOWSER_TOSS, MOTOR_ROOTER, FOWL_PLAY,
+//     0xFF
+// };
+
+u8 new4PMinigameListNormalMp3[66] = {0};
+u8 new1v3MinigameListNormalMp3[32] = {0};
+u8 new2v2MinigameListNormalMp3[28] = {0};
+u8 newBattleMinigameListNormalMp3[17] = {0};
+u8 newItemMinigameListNormalMp3[7] = {0};
+u8 newDuelMinigameListNormalMp3[11] = {0};
+u8 newCategoryAmountsNormal[6] = {0};
+
+//the blacklisted minigames below are blacklisted due to having issues loading them...
+//once this is fixed this can be removed
+u8 battleMinigameBlacklist[] = {
+    MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
+    MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST
+};
+
+u8 duelMinigameBlacklist[] = {
+    PIRATE_LAND_DUEL, WESTERN_LAND_DUEL, SPACE_LAND_DUEL, MYSTERY_LAND_DUEL, HORROR_LAND_DUEL,
+    KOOPA_LAND_DUEL
+};
+
+u8 itemMinigameBlacklist[] = {
+    ROLL_OUT_THE_BARRELS, GIVE_ME_A_BRAKE, HAMMER_SLAMMER, MALLET_GO_ROUND, COFFIN_CONGESTION,
+    BOWSER_SLOTS
+};
+
+//at 80100EEC originally (normal minigame list, amount of minigames in each category)
+// u8 newCategoryAmountsNormal[] = {
+//     ARRAY_COUNT(new4PMinigameListNormalMp3) -1,
+//     ARRAY_COUNT(new1v3MinigameListNormalMp3) -1,
+//     ARRAY_COUNT(new2v2MinigameListNormalMp3) -1,
+//     ARRAY_COUNT(newItemMinigameListNormalMp3) -1,
+//     ARRAY_COUNT(newBattleMinigameListNormalMp3) -1,
+//     ARRAY_COUNT(newDuelMinigameListNormalMp3) -1,
+// };
+
 void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
+    mp3MinigameIndexTable* curMinigameData;
     s8 curTurn;
     s8 totalTurns;
     s8 curBoardIndex;
+    s32 i, j;
+    s32 eepromByteResults = 0;
+    u8 minigame4PCount = 0;
+    u8 minigame1v3Count = 0;
+    u8 minigame2v2Count = 0;
+    u8 minigameItemCount = 0;
+    u8 minigameBattleCount = 0;
+    u8 minigameDuelCount = 0;
+    u8 minigameGameGuyCount = 0;
+    u8 minigame1PCount = 0;
+    s32 minigameIsBlacklisted;
+
+    for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormal); i++) {
+        newCategoryAmountsNormal[i] = 0;
+    }
     
+
     if (eepromLoadFailed == 1) {
         mp3_omOvlCallEx(0, 0, 0);
         return;
+    }
+
+    mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
+    mp3_HuPrcVSleep();
+    for (i = 0; i < 0x18; i++) {
+        eepromByteResults += customEepromData[i];
+    }
+
+    if (eepromByteResults == 0) {
+        //no minigames selected, turn all of them on (initialize list)
+        mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, CustomMinigamesEepromBytes, 0x18);
+        mp3_HuPrcVSleep();
+    }
+
+    //load active minigames into lists
+    for (i = 0; i < MINIGAME_END - 1; i++) {
+        
+        for (j = 0, curMinigameData = 0; j < MINIGAME_END - 1; j++) {
+            if (i == minigameLUT[j].minigameIndex) {
+                curMinigameData = &minigameLUT[j];
+                break;
+            }
+        }
+
+        //minigame was not found in list (??), continue loop
+        if (curMinigameData == 0) {
+            continue;
+        }
+
+        //else, minigame is active
+        u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
+        if (minigameActiveFlag == 0) {
+            continue;
+        }
+
+        switch(curMinigameData->minigameType) {
+        case PLAYERS_4P:
+            new4PMinigameListNormalMp3[minigame4PCount++] = curMinigameData->minigameIndex;
+            newCategoryAmountsNormal[PLAYERS_4P]++;
+            break;
+        case PLAYERS_1V3:
+            new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
+            newCategoryAmountsNormal[PLAYERS_1V3]++;
+            break;
+        case PLAYERS_2V2:
+            new2v2MinigameListNormalMp3[minigame2v2Count++] = curMinigameData->minigameIndex;
+            newCategoryAmountsNormal[PLAYERS_2V2]++;
+            break;
+        case PLAYERS_ITEM:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(itemMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == itemMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newItemMinigameListNormalMp3[minigameItemCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormal[PLAYERS_ITEM]++;
+            }
+            
+            break;
+        case PLAYERS_BATTLE:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(battleMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == battleMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newBattleMinigameListNormalMp3[minigameBattleCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormal[PLAYERS_BATTLE]++;
+            }
+
+            break;
+        case PLAYERS_DUEL:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(duelMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == duelMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newDuelMinigameListNormalMp3[minigameDuelCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormal[PLAYERS_DUEL]++;
+            }
+            break;
+        case PLAYERS_GAME_GUY:
+            break;
+        case PLAYERS_1P:
+            break;
+        }
     }
 
     if (mp3_LoadBackFromMp2 == TRUE) {
@@ -412,6 +636,8 @@ void mp3_newBootLogos(void) {
     // func_8000BBD4_C7D4(temp_s0, 0xA0, 0x78);
     // func_8000BB54_C754(temp_s0);
     // func_8000BCC8_C8C8(temp_s0, 0xFFFF);
+
+    mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
 
     if (initialBoot == 0) {
         initialBoot = 1;

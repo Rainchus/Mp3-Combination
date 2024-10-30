@@ -32,7 +32,7 @@ char IceRinkRiskStr[] = {"\x0B""Ice Rink Risk"};
 char LockedOutStr[] = {"\x0B""Locked Out"};
 char ChipShotChallengeStr[] = {"\x0B""Chip Shot Challenge"};
 char ParasolPlummetStr[] = {"\x0B""Parasol Plummet"};
-char MessoryMemoryStr[] = {"\x0B""Messy Memory"};
+char MessyMemoryStr[] = {"\x0B""Messy Memory"};
 char PictureImperfectStr[] = {"\x0B""Picture Imperfect"};
 char MariosPuzzlePartyStr[] = {"\x0B""Mario""\x5C""s Puzzle Party"};
 char TheBeatGoesOnStr[] = {"\x0B""The Beat Goes On"};
@@ -68,7 +68,7 @@ char BobbingBowloonsStr[] = {"\x0B""Bobbing Bow""\x3D""loons"};
 char DorrieDipStr[] = {"\x0B""Dorrie Dip"};
 char SwingingWithSharksStr[] = {"\x0B""Swinging with Sharks"};
 char SwingNSwipeStr[] = {"\x0B""Swing ""\x5C""n""\x5C"" Swipe"};
-char ChanceTimeStr[] = {"\x0B""Chance Time"};
+char mp3_ChanceTimeStr[] = {"\x0B""Chance Time"};
 char StardustBattleStr[] = {"\x0B""Stardust Battle"};
 char GameGuysRouletteStr[] = {"\x0B""Game Guy""\x5C""s Roulette"};
 char GameGuysLucky7Str[] = {"\x0B""Game Guy""\x5C""s Lucky 7"};
@@ -140,7 +140,7 @@ char PirateLandDuelStr[] = {"\x0B""Pirate Land Duel"}; //mp2 60
 char HorrorLandDuelStr[] = {"\x0B""Horror Land Duel"}; //mp2 61
 char SpaceLandDuelStr[] = {"\x0B""Space Land Duel"}; //mp2 62
 char MysteryLandDuelStr[] = {"\x0B""Mystery Land Duel"}; //mp2 63
-char KoopaLandDuelStr[] = {"\x0B""Koopa Land Duel"}; //mp2 64
+char KoopaLandDuelStr[] = {"\x0B""Bowser Land Duel"}; //mp2 64
 char BowsersBigBlastStr[] = {"\x0B""Bowser""\x5C""s Big Blast"}; //mp2 65
 char LooneyLumberjacksStr[] = {"\x0B""Looney Lumberjacks"}; //mp2 66
 char TorpedoTargetsStr[] = {"\x0B""Torpedo Targets"}; //mp2 67
@@ -151,7 +151,7 @@ char QuicksandCacheStr[] = {"\x0B""Quicksand Cache"}; //mp2 71
 char DeepSeaSalvageStr[] = {"\x0B""Deep Sea Salvage"}; //mp2 72
 //mp1 minigames start
 char MemoryMatchStr[] = {"\x0B""Memory Match"}; //mp1 00
-char ChanceTimeMp1Str[] = {"\x0B""Chance Time"}; //mp1 01
+char mp1_ChanceTimeStr[] = {"\x0B""Chance Time"}; //mp1 01
 char SlotMachineStr[] = {"\x0B""Slot Machine"}; //mp1 02
 char BuriedTreasureStr[] = {"\x0B""Buried Treasure"}; //mp1 03
 char TreasureDiversStr[] = {"\x0B""Treasure Divers"}; //mp1 04
@@ -260,424 +260,238 @@ u8 minigameTextColor[] = {
 //     0x48, 0x52, 0x61, 0x65, 0x6A, 0x77, 0x80
 // };
 
-typedef struct mp3MinigameIndexTable {
-    u8 minigameIndex; //index for string look up and id tracking
-    char* minigameStr;
-    u8 gameOverlayID; //actual overlay index in the game
-} mp3MinigameIndexTable;
-
-//combined minigame ids
-enum MinigameIDs {
-    NONE = 0,
-    HAND_LINE_AND_SINKER,
-    COCONUT_CONK,
-    SPOTLIGHT_SWIM,
-    BOULDER_BALL,
-    CRAZY_COGS,
-    HIDE_AND_SNEAK,
-    RIDICULOUS_RELAY,
-    THWOMP_PULL,
-    RIVER_RAIDERS,
-    TIDAL_TOSS,
-    EATSA_PIZZA,
-    BABY_BOWSER_BROADSIDE,
-    PUMP_PUMP_AND_AWAY,
-    HYPER_HYDRANTS,
-    PICKING_PANIC,
-    COSMIC_COASTER,
-    PUDDLE_PADDLE,
-    ETCH_N_CATCH,
-    LOG_JAM,
-    SLOT_SYNC,
-    TREADMILL_GRILL,
-    TOADSTOOL_TITAN,
-    ACES_HIGH,
-    BOUNCE_N_TROUNCE,
-    ICE_RINK_RISK,
-    LOCKED_OUT,
-    CHIP_SHOT_CHALLENGE,
-    PARASOL_PLUMMET,
-    MESSY_MEMORY,
-    PICTURE_IMPERFECT,
-    MARIOS_PUZZLE_PARTY,
-    THE_BEAT_GOES_ON,
-    MPIQ,
-    CURTAIN_CALL,
-    WATER_WHIRLED,
-    FRIGID_BRIDGES,
-    AWFUL_TOWER,
-    CHEEP_CHEEP_CHASE,
-    PIPE_CLEANERS,
-    SNOWBALL_SUMMIT,
-    ALL_FIRED_UP,
-    STACKED_DECK,
-    THREE_DOOR_MONTY,
-    ROCKIN_RACEWAY,
-    MERRY_GO_CHOMP,
-    SLAP_DOWN,
-    STORM_CHASERS,
-    EYE_SORE,
-    VINE_WITH_ME,
-    POPGUN_PICK_OFF,
-    END_OF_THE_LINE,
-    BOWSER_TOSS,
-    BABY_BOWSER_BONKERS,
-    MOTOR_ROOTER,
-    SILLY_SCREWS,
-    CROWD_COVER,
-    TICK_TOCK_HOP,
-    FOWL_PLAY,
-    WINNERS_WHEEL,
-    HEY_BATTER_BATTER,
-    BOBBING_BOW_LOONS,
-    DORRIE_DIP,
-    SWINGING_WITH_SHARKS,
-    SWING_N_SWIPE,
-    MP3_CHANCE_TIME,
-    STARDUST_BATTLE,
-    GAME_GUYS_ROULETTE,
-    GAME_GUYS_LUCKY_7,
-    GAME_GUYS_MAGIC_BOXES,
-    GAME_GUYS_SWEET_SURPRISE,
-    DIZZY_DINGHIES,
-    MARIO_PUZZLE_PARTY_PRO,
-    //mp2 0
-    BOWSER_SLOTS, //mp2 1
-    ROLL_OUT_THE_BARRELS, //mp2 2
-    COFFIN_CONGESTION, //mp2 3
-    HAMMER_SLAMMER, //mp2 4
-    GIVE_ME_A_BRAKE, //mp2 5
-    MALLET_GO_ROUND, //mp2 6
-    MP2_GRAB_BAG, //mp2 7
-    BUMPER_BALLOON_CARS, //mp2 8
-    RAKIN_EM_IN, //mp2 9
-    //mp2 10
-    DAY_AT_THE_RACES, //mp2 11
-    MP2_FACE_LIFT, //mp2 12
-    MP2_CRAZY_CUTTERS, //mp2 13
-    MP2_HOT_BOB_OMB, //mp2 14
-    MP2_BOWL_OVER, //mp2 15
-    RAINBOW_RUN, //mp2 16
-    MP2_CRANE_GAME, //mp2 17
-    MOVE_TO_THE_MUSIC, //mp2 18
-    BOB_OMB_BARRAGE, //mp2 19
-    LOOK_AWAY, //mp2 20
-    SHOCK_DROP_OR_ROLL, //mp2 21
-    LIGHTS_OUT, //mp2 22
-    FILET_RELAY, //mp2 23
-    ARCHERIVAL, //mp2 24
-    //mp2 25
-    TOAD_BANDSTAND, //mp2 26
-    MP2_BOBSLED_RUN, //mp2 27
-    MP2_HANDCAR_HAVOC, //mp2 28
-    //mp2 29
-    MP2_BALLOON_BURST, //mp2 30
-    SKY_PILOTS, //mp2 31
-    SPEED_HOCKEY, //mp2 32
-    CAKE_FACTORY, //mp2 33
-    //mp2 34
-    DUNGEON_DASH, //mp2 35
-    MAGNET_CARTA, //mp2 36
-    LAVA_TILE_ISLE, //mp2 37
-    MP2_HOT_ROPE_JUMP, //mp2 38
-    SHELL_SHOCKED, //mp2 39
-    TOAD_IN_THE_BOX, //mp2 40
-    MECHA_MARATHON, //mp2 41
-    ROLL_CALL, //mp2 42
-    ABANDON_SHIP, //mp2 43
-    MP2_PLATFORM_PERIL, //mp2 44
-    TOTEM_POLE_POUND, //mp2 45
-    MP2_BUMPER_BALLS, //mp2 46
-    //mp2 47
-    MP2_BOMBS_AWAY, //mp2 48
-    MP2_TIPSY_TOURNEY, //mp2 49
-    HONEYCOMB_HAVOC, //mp2 50
-    HEXAGON_HEAT, //mp2 51
-    MP2_SKATEBOARD_SCAMPER, //mp2 52
-    MP2_SLOT_CAR_DERBY, //mp2 53
-    MP2_SHY_GUY_SAYS, //mp2 54
-    SNEAK_N_SNORE, //mp2 55
-    //mp2 56
-    DRIVERS_ED, //mp2 57
-    MP2_CHANCE_TIME, //mp2 58
-    WESTERN_LAND_DUEL, //mp2 59
-    PIRATE_LAND_DUEL, //mp2 60
-    HORROR_LAND_DUEL, //mp2 61
-    SPACE_LAND_DUEL, //mp2 62
-    MYSTERY_LAND_DUEL, //mp2 63
-    KOOPA_LAND_DUEL, //mp2 64
-    BOWSERS_BIG_BLAST, //mp2 65
-    LOONEY_LUMBERJACKS, //mp2 66
-    TORPEDO_TARGETS, //mp2 67
-    DESTRUCTION_DUET, //mp2 68
-    DIZZY_DANCING, //mp2 69
-    TILE_DRIVER, //mp2 70
-    QUICKSAND_CACHE, //mp2 71
-    DEEP_SEA_SALVAGE, //mp2 72
-    //mp1 0
-    MEMORY_MATCH, //mp1 0
-    MP1_CHANCE_TIME, //mp1 1
-    SLOT_MACHINE, //mp1 2
-    BURIED_TREASURE, //mp1 3
-    TREASURE_DIVERS, //mp1 4
-    SHELL_GAME, //mp1 5
-    SAME_GAME, //mp1 6
-    MP1_HOT_BOB_OMB, //mp1 7
-    YOSHIS_TONGUE_MEETING, //mp1 8
-    PIPE_MAZE, //mp1 9
-    GHOST_GUESS, //mp1 10
-    MUSICAL_MUSHROOM, //mp1 11
-    PEDAL_POWER, //mp1 12
-    MP1_CRAZY_CUTTER, //mp1 13
-    MP1_FACE_LIFT, //mp1 14
-    WHACKA_A_PLANT, //mp1 15
-    BASH_N_CASH, //mp1 16
-    MP1_BOWL_OVER, //mp1 17
-    GROUND_POUND, //mp1 18
-    MP1_BALLOON_BURST, //mp1 19
-    COIN_BLOCK_BLITZ, //mp1 20
-    COIN_BLOCK_BASH, //mp1 21
-    MP1_SKATEBOARD_SCAMPER, //mp1 22
-    BOX_MOUNTAIN_MAYHEM, //mp1 23
-    MP1_PLATFORM_PERIL, //mp1 24
-    TEETERING_TOWER, //mp1 25
-    MUSHROOM_MIXUP, //mp1 26
-    HAMMER_DROP, //mp1 27
-    MP1_GRAB_BAG, //mp1 28
-    MP1_BOBSLED_RUN, //mp1 29
-    MP1_BUMPER_BALLS, //mp1 30
-    TIGHTROPE_TREACHERY, //mp1 31
-    KNOCK_BLOCK_TOWER, //mp1 32
-    MP1_TIPSY_TOURNEY, //mp1 33
-    MP1_BOMBS_AWAY, //mp1 34
-    MP1_CRANE_GAME, //mp1 35
-    COIN_SHOWER_FLOWER, //mp1 36
-    MP1_SLOT_CAR_DERBY, //mp1 37
-    MARIO_BANDSTAND, //mp1 38
-    DESERT_DASH, //mp1 39
-    MP1_SHY_GUY_SAYS, //mp1 40
-    LIMBO_DANCE, //mp1 41
-    BOMBSKETBALL, //mp1 42
-    CAST_AWAYS, //mp1 43
-    KEY_PA_WAY, //mp1 44
-    RUNNING_OF_THE_BULB, //mp1 45
-    MP1_HOT_ROPE_JUMP, //mp1 46
-    MP1_HANDCAR_HAVOC, //mp1 47
-    DEEP_SEA_DIVERS, //mp1 48
-    PIRANHA_PURSUIT, //mp1 49
-    TUG_O_WAR, //mp1 50
-    PADDLE_BATTLE, //mp1 51
-    //BUMPER_BALL_MAZE_0, //mp1 52
-};
-
 mp3MinigameIndexTable minigameLUT[] = {
-    {0, 0}, //blank
-    {HAND_LINE_AND_SINKER, HookLineAndSinkerStr, 1},
-    {COCONUT_CONK, CoconutConkStr, 2},
-    {SPOTLIGHT_SWIM, SpotlightSwimStr, 3},
-    {BOULDER_BALL, BoulderBallStr, 4},
-    {CRAZY_COGS, CrazyCogsStr, 5},
-    {HIDE_AND_SNEAK, HideAndSneakStr, 6},
-    {RIDICULOUS_RELAY, RidiculousRelayStr, 7},
-    {THWOMP_PULL, ThwompPullStr, 8},
-    {RIVER_RAIDERS, RiverRaidersStr, 9},
-    {TIDAL_TOSS, TidalTossStr, 10},
-    {EATSA_PIZZA, EatsaPizzaStr, 11},
-    {BABY_BOWSER_BROADSIDE, BabyBowserBroadsideStr, 12},
-    {PUMP_PUMP_AND_AWAY, PumpPumpAndAwayStr, 13},
-    {HYPER_HYDRANTS, HyperHydrantsStr, 14},
-    {PICKING_PANIC, PickingPanicStr, 15},
-    {COSMIC_COASTER, CosmicCoasterStr, 16},
-    {PUDDLE_PADDLE, PuddlePaddleStr, 17},
-    {ETCH_N_CATCH, EtchNCatchStr, 18},
-    {LOG_JAM, LogJamStr, 19},
-    {SLOT_SYNC, SlotSyncStr, 20},
-    {TREADMILL_GRILL, TreadmillGrillStr, 21},
-    {TOADSTOOL_TITAN, ToadstoolTitanStr, 22},
-    {ACES_HIGH, AcesHighStr, 23},
-    {BOUNCE_N_TROUNCE, BounceNTrounceStr, 24},
-    {ICE_RINK_RISK, IceRinkRiskStr, 25},
-    {LOCKED_OUT, LockedOutStr, 26},
-    {CHIP_SHOT_CHALLENGE, ChipShotChallengeStr, 27},
-    {PARASOL_PLUMMET, ParasolPlummetStr, 28},
-    {MESSY_MEMORY, MessoryMemoryStr, 29},
-    {PICTURE_IMPERFECT, PictureImperfectStr, 30},
-    {MARIOS_PUZZLE_PARTY, MariosPuzzlePartyStr, 31},
-    {THE_BEAT_GOES_ON, TheBeatGoesOnStr, 32},
-    {MPIQ, MPIQStr, 33},
-    {CURTAIN_CALL, CurtainCallStr, 34},
-    {WATER_WHIRLED, WaterWhirledStr, 35},
-    {FRIGID_BRIDGES, FrigidBridgesStr, 36},
-    {AWFUL_TOWER, AwfulTowerStr, 37},
-    {CHEEP_CHEEP_CHASE, CheepCheepChaseStr, 38},
-    {PIPE_CLEANERS, PipeCleanersStr, 39},
-    {SNOWBALL_SUMMIT, SnowballSummitStr, 40},
-    {ALL_FIRED_UP, AllFiredUpStr, 41},
-    {STACKED_DECK, StackedDeckStr, 42},
-    {THREE_DOOR_MONTY, ThreeDoorMontyStr, 43},
-    {ROCKIN_RACEWAY, RockinRacewayStr, 44},
-    {MERRY_GO_CHOMP, MerryGoChompStr, 45},
-    {SLAP_DOWN, SlapDownStr, 46},
-    {STORM_CHASERS, StormChasersStr, 47},
-    {EYE_SORE, EyeSoreStr, 48},
-    {VINE_WITH_ME, VineWithMeStr, 49},
-    {POPGUN_PICK_OFF, PopgunPickOffStr, 50},
-    {END_OF_THE_LINE, EndOfTheLinerStr, 51},
-    {BOWSER_TOSS, BowserTossStr, 52},
-    {BABY_BOWSER_BONKERS, BabyBowserBonkersStr, 53},
-    {MOTOR_ROOTER, MotorRooterStr, 54},
-    {SILLY_SCREWS, SillyScrewsStr, 55},
-    {CROWD_COVER, CrowdCoverStr, 56},
-    {TICK_TOCK_HOP, TickTockHopStr, 57},
-    {FOWL_PLAY, FowlPlayStr, 58},
-    {WINNERS_WHEEL, WinnersWheelStr, 59},
-    {HEY_BATTER_BATTER, HeyBatterBatterStr, 60},
-    {BOBBING_BOW_LOONS, BobbingBowloonsStr, 61},
-    {DORRIE_DIP, DorrieDipStr, 62},
-    {SWINGING_WITH_SHARKS, SwingingWithSharksStr, 63},
-    {SWING_N_SWIPE, SwingNSwipeStr, 64},
-    {MP3_CHANCE_TIME, ChanceTimeStr, 65},
-    {STARDUST_BATTLE, StardustBattleStr, 66},
-    {GAME_GUYS_ROULETTE, GameGuysRouletteStr, 67},
-    {GAME_GUYS_LUCKY_7, GameGuysLucky7Str, 68},
-    {GAME_GUYS_MAGIC_BOXES, GameGuysMagicBoxesStr, 69},
-    {GAME_GUYS_SWEET_SURPRISE, GameGuysSweetSurpriseStr, 70},
-    {DIZZY_DINGHIES, DizzyDinghiesStr, 71},
-    {MARIO_PUZZLE_PARTY_PRO, MariosPuzzlePartyPro2Str, 72},
-    //mp2 0
-    {BOWSER_SLOTS, BowserSlotsStr, 1}, //mp2 1
-    {ROLL_OUT_THE_BARRELS, RollOutTheBarrelsStr, 2}, //mp2 2
-    {COFFIN_CONGESTION, CoffinCongestionStr, 3}, //mp2 3
-    {HAMMER_SLAMMER, HammerSlammerStr, 4}, //mp2 4
-    {GIVE_ME_A_BRAKE, GiveMeABrakeStr, 5}, //mp2 5
-    {MALLET_GO_ROUND, MalletGoRoundStr, 6}, //mp2 6
-    {MP2_GRAB_BAG, mp2_GrabBagStr, 7}, //mp2 7
-    {BUMPER_BALLOON_CARS, BumperBalloonCarsStr, 8}, //mp2 8
-    {RAKIN_EM_IN, RakinEmInStr, 9}, //mp2 9
-    //mp2 10
-    {DAY_AT_THE_RACES, DayAtTheRacesStr, 11}, //mp2 11
-    {MP2_FACE_LIFT, mp2_FaceLiftStr, 12}, //mp2 12
-    {MP2_CRAZY_CUTTERS, mp2_CrazyCuttersStr, 13}, //mp2 13
-    {MP2_HOT_BOB_OMB, mp2_HotBobombStr, 14}, //mp2 14
-    {MP2_BOWL_OVER, mp2_BowlOverStr, 15}, //mp2 15
-    {RAINBOW_RUN, RainbowRunStr, 16}, //mp2 16
-    {MP2_CRANE_GAME, mp2_CraneGameStr, 17}, //mp2 17
-    {MOVE_TO_THE_MUSIC, MoveToTheMusicStr, 18}, //mp2 18
-    {BOB_OMB_BARRAGE, BobOmbBarrageStr, 19}, //mp2 19
-    {LOOK_AWAY, LookAwayStr, 20}, //mp2 20
-    {SHOCK_DROP_OR_ROLL, ShockDropOrRollStr, 21}, //mp2 21
-    {LIGHTS_OUT, LightsOutStr, 22}, //mp2 22
-    {FILET_RELAY, FiletRelayStr, 23}, //mp2 23
-    {ARCHERIVAL, ArcherivalStr, 24}, //mp2 24
-    //mp2 25
-    {TOAD_BANDSTAND, ToadBandstandStr, 26}, //mp2 26
-    {MP2_BOBSLED_RUN, mp2_BobsledRunStr, 27}, //mp2 27
-    {MP2_HANDCAR_HAVOC, mp2_HandcarHavocStr, 28}, //mp2 28
-    //mp2 29
-    {MP2_BALLOON_BURST, mp2_BalloonBurstStr, 30}, //mp2 30
-    {SKY_PILOTS, SkyPilotsStr, 31}, //mp2 31
-    {SPEED_HOCKEY, SpeedHockeyStr, 32}, //mp2 32
-    {CAKE_FACTORY, CakeFactoryStr, 33}, //mp2 33
-    //mp2 34
-    {DUNGEON_DASH, DungeonDashStr, 35}, //mp2 35
-    {MAGNET_CARTA, MagnetCartaStar, 36}, //mp2 36
-    {LAVA_TILE_ISLE, LavaTileIsleStr, 37}, //mp2 37
-    {MP2_HOT_ROPE_JUMP, mp2_HotRopeJumpStr, 38}, //mp2 38
-    {SHELL_SHOCKED, ShellShockedStr, 39}, //mp2 39
-    {TOAD_IN_THE_BOX, ToadInTheBoxStr, 40}, //mp2 40
-    {MECHA_MARATHON, MechaMarathonStr, 41}, //mp2 41
-    {ROLL_CALL, RollCallStr, 42}, //mp2 42
-    {ABANDON_SHIP, AbandonShipStr, 43}, //mp2 43
-    {MP2_PLATFORM_PERIL, mp2_PlatformPerilStr, 44}, //mp2 44
-    {TOTEM_POLE_POUND, TotemPolePoundStr, 45}, //mp2 45
-    {MP2_BUMPER_BALLS, mp2_BumperBallsStr, 46}, //mp2 46
-    //mp2 47
-    {MP2_BOMBS_AWAY, mp2_BombsAwayStr, 48}, //mp2 48
-    {MP2_TIPSY_TOURNEY, mp2_TipsyTourneyStr, 49}, //mp2 49
-    {HONEYCOMB_HAVOC, HoneycombHavocStr, 50}, //mp2 50
-    {HEXAGON_HEAT, HexagonHeatStr, 51}, //mp2 51
-    {MP2_SKATEBOARD_SCAMPER, mp2_SkateboardScamperStr, 52}, //mp2 52
-    {MP2_SLOT_CAR_DERBY, mp2_SlotCarDerbyStr, 53}, //mp2 53
-    {MP2_SHY_GUY_SAYS, mp2_ShyGuySaysStr, 54}, //mp2 54
-    {SNEAK_N_SNORE, SneakNSnoreStr, 55}, //mp2 55
+    {ACES_HIGH, AcesHighStr, 23, PLAYERS_4P},
+    {AWFUL_TOWER, AwfulTowerStr, 37, PLAYERS_4P},
+    {BOUNCE_N_TROUNCE, BounceNTrounceStr, 24, PLAYERS_4P},
+    {CHEEP_CHEEP_CHASE, CheepCheepChaseStr, 38, PLAYERS_4P},
+    {CHIP_SHOT_CHALLENGE, ChipShotChallengeStr, 27, PLAYERS_4P},
+    {CURTAIN_CALL, CurtainCallStr, 34, PLAYERS_4P},
+    {FRIGID_BRIDGES, FrigidBridgesStr, 36, PLAYERS_4P},
+    {ICE_RINK_RISK, IceRinkRiskStr, 25, PLAYERS_4P},
+    {MPIQ, MPIQStr, 33, PLAYERS_4P},
+    {MARIOS_PUZZLE_PARTY, MariosPuzzlePartyStr, 31, PLAYERS_4P},
+    {MESSY_MEMORY, MessyMemoryStr, 29, PLAYERS_4P},
+    {PARASOL_PLUMMET, ParasolPlummetStr, 28, PLAYERS_4P},
+    {PICTURE_IMPERFECT, PictureImperfectStr, 30, PLAYERS_4P},
+    {PIPE_CLEANERS, PipeCleanersStr, 39, PLAYERS_4P},
+    {ROCKIN_RACEWAY, RockinRacewayStr, 44, PLAYERS_4P},
+    {SNOWBALL_SUMMIT, SnowballSummitStr, 40, PLAYERS_4P},
+    {THE_BEAT_GOES_ON, TheBeatGoesOnStr, 32, PLAYERS_4P},
+    {TOADSTOOL_TITAN, ToadstoolTitanStr, 22, PLAYERS_4P},
+    {TREADMILL_GRILL, TreadmillGrillStr, 21, PLAYERS_4P},
+    {WATER_WHIRLED, WaterWhirledStr, 35, PLAYERS_4P},
+
+    //mp2 4p minigames
+    {ABANDON_SHIP, AbandonShipStr, 43, PLAYERS_4P}, //mp2 43
+    {MP2_BOMBS_AWAY, mp2_BombsAwayStr, 48, PLAYERS_4P}, //mp2 48
+    {MP2_BUMPER_BALLS, mp2_BumperBallsStr, 46, PLAYERS_4P}, //mp2 46
+    {DEEP_SEA_SALVAGE, DeepSeaSalvageStr, 72, PLAYERS_4P}, //mp2 72
+    {DIZZY_DANCING, DizzyDancingStr, 69, PLAYERS_4P}, //mp2 69
+    {HEXAGON_HEAT, HexagonHeatStr, 51, PLAYERS_4P}, //mp2 51
+    {HONEYCOMB_HAVOC, HoneycombHavocStr, 50, PLAYERS_4P}, //mp2 50
+    {MP2_HOT_ROPE_JUMP, mp2_HotRopeJumpStr, 38, PLAYERS_4P}, //mp2 38
+    {LAVA_TILE_ISLE, LavaTileIsleStr, 37, PLAYERS_4P}, //mp2 37
+    {MECHA_MARATHON, MechaMarathonStr, 41, PLAYERS_4P}, //mp2 41
+    {MP2_PLATFORM_PERIL, mp2_PlatformPerilStr, 44, PLAYERS_4P}, //mp2 44
+    {ROLL_CALL, RollCallStr, 42, PLAYERS_4P}, //mp2 42
+    {SHELL_SHOCKED, ShellShockedStr, 39, PLAYERS_4P}, //mp2 39
+    {MP2_SHY_GUY_SAYS, mp2_ShyGuySaysStr, 54, PLAYERS_4P}, //mp2 54
+    {MP2_SKATEBOARD_SCAMPER, mp2_SkateboardScamperStr, 52, PLAYERS_4P}, //mp2 52
+    {MP2_SLOT_CAR_DERBY, mp2_SlotCarDerbyStr, 53, PLAYERS_4P}, //mp2 53
+    {SNEAK_N_SNORE, SneakNSnoreStr, 55, PLAYERS_4P}, //mp2 55
+    {TILE_DRIVER, TileDriverStr, 70, PLAYERS_4P}, //mp2 70
+    {MP2_TIPSY_TOURNEY, mp2_TipsyTourneyStr, 49, PLAYERS_4P}, //mp2 49
+    {TOAD_IN_THE_BOX, ToadInTheBoxStr, 40, PLAYERS_4P}, //mp2 40
+    {TOTEM_POLE_POUND, TotemPolePoundStr, 45, PLAYERS_4P}, //mp2 45
+
+    //mp1 4p minigames
+    {MP1_BALLOON_BURST, BalloonBurstStr, 19, PLAYERS_4P}, //mp1 19
+    {MP1_BOMBS_AWAY, mp1_BombsAwayStr, 34, PLAYERS_4P}, //mp1 34  
+    {BOX_MOUNTAIN_MAYHEM, BoxMountainMayhemStr, 23, PLAYERS_4P}, //mp1 23
+    {MP1_BUMPER_BALLS, mp1_BumperBallsStr, 30, PLAYERS_4P}, //mp1 30
+    {BURIED_TREASURE, BuriedTreasureStr, 3, PLAYERS_4P}, //mp1 3
+    {CAST_AWAYS, CastAwaysStr, 43, PLAYERS_4P}, //mp1 43
+    {COIN_BLOCK_BLITZ, CoinBlockBlitzStr, 20, PLAYERS_4P}, //mp1 20
+    {MP1_CRAZY_CUTTER, mp1_CrazyCutterStr, 13, PLAYERS_4P}, //mp1 13
+    {MP1_FACE_LIFT, mp1_FaceLiftStr, 14, PLAYERS_4P}, //mp1 14
+    {MP1_GRAB_BAG, mp1_GrabBagStr, 28, PLAYERS_4P}, //mp1 28
+    {HAMMER_DROP, HammerDropStr, 27, PLAYERS_4P}, //mp1 27
+    {MP1_HOT_BOB_OMB, mp1_HotBobOmbStr, 7, PLAYERS_4P}, //mp1 7
+    {MP1_HOT_ROPE_JUMP, mp1_HotRopeJumpStr, 46, PLAYERS_4P}, //mp1 46
+    {KEY_PA_WAY, KeyPaWayStr, 44, PLAYERS_4P}, //mp1 44
+    {MARIO_BANDSTAND, mp1_BandStandStr, 38, PLAYERS_4P}, //mp1 38
+    {MUSHROOM_MIXUP, MushroomMixupStr, 26, PLAYERS_4P}, //mp1 26
+    {MUSICAL_MUSHROOM, MusicalMushroomStr, 11, PLAYERS_4P}, //mp1 11
+    {MP1_PLATFORM_PERIL, mp1_PlatformPerilStr, 24, PLAYERS_4P}, //mp1 24
+    {RUNNING_OF_THE_BULB, RunningOfTheBulbStr, 45, PLAYERS_4P}, //mp1 45
+    {MP1_SHY_GUY_SAYS, mp1_ShyGuySaysStr, 40, PLAYERS_4P}, //mp1 40
+    {MP1_SKATEBOARD_SCAMPER, mp1_SkateboardScamperStr, 22, PLAYERS_4P}, //mp1 22  
+    {MP1_SLOT_CAR_DERBY, mp1_SlotCarDerbyStr, 37, PLAYERS_4P}, //mp1 37
+    {MP1_TIPSY_TOURNEY, mp1_TipsyTourneyStr, 33, PLAYERS_4P}, //mp1 33
+    {TREASURE_DIVERS, TreasureDiversStr, 4, PLAYERS_4P}, //mp1 4
+    {YOSHIS_TONGUE_MEETING, YoshisToungueStr, 8, PLAYERS_4P}, //mp1 8
+
+    //1v3 minigames
+    {BOULDER_BALL, BoulderBallStr, 4, PLAYERS_1V3},
+    {COCONUT_CONK, CoconutConkStr, 2, PLAYERS_1V3},
+    {CRAZY_COGS, CrazyCogsStr, 5, PLAYERS_1V3},
+    {HAND_LINE_AND_SINKER, HookLineAndSinkerStr, 1, PLAYERS_1V3},
+    {HIDE_AND_SNEAK, HideAndSneakStr, 6, PLAYERS_1V3},
+    {RIDICULOUS_RELAY, RidiculousRelayStr, 7, PLAYERS_1V3},
+    {RIVER_RAIDERS, RiverRaidersStr, 9, PLAYERS_1V3},
+    {SPOTLIGHT_SWIM, SpotlightSwimStr, 3, PLAYERS_1V3},
+    {THWOMP_PULL, ThwompPullStr, 8, PLAYERS_1V3},
+    {TIDAL_TOSS, TidalTossStr, 10, PLAYERS_1V3},
+
+    //mp2 1v3 minigames
+    {ARCHERIVAL, ArcherivalStr, 24, PLAYERS_1V3}, //mp2 24
+    {BOB_OMB_BARRAGE, BobOmbBarrageStr, 19, PLAYERS_1V3}, //mp2 19
+    {MP2_BOWL_OVER, mp2_BowlOverStr, 15, PLAYERS_1V3}, //mp2 15
+    {MP2_CRANE_GAME, mp2_CraneGameStr, 17, PLAYERS_1V3}, //mp2 17
+    {FILET_RELAY, FiletRelayStr, 23, PLAYERS_1V3}, //mp2 23
+    {LIGHTS_OUT, LightsOutStr, 22, PLAYERS_1V3}, //mp2 22
+    {LOOK_AWAY, LookAwayStr, 20, PLAYERS_1V3}, //mp2 20
+    {MOVE_TO_THE_MUSIC, MoveToTheMusicStr, 18, PLAYERS_1V3}, //mp2 18
+    {QUICKSAND_CACHE, QuicksandCacheStr, 71, PLAYERS_1V3}, //mp2 71
+    {RAINBOW_RUN, RainbowRunStr, 16, PLAYERS_1V3}, //mp2 16
+    {SHOCK_DROP_OR_ROLL, ShockDropOrRollStr, 21, PLAYERS_1V3}, //mp2 21
+
+    //mp1 1v3 minigames
+    {BASH_N_CASH, BashNCashStr, 16, PLAYERS_1V3}, //mp1 16
+    {MP1_BOWL_OVER, mp1_BowlOverStr, 17, PLAYERS_1V3}, //mp1 17
+    {COIN_BLOCK_BASH, CoinBlockBashStr, 21, PLAYERS_1V3}, //mp1 21
+    {COIN_SHOWER_FLOWER, CoinShowerFlowerStr, 36, PLAYERS_1V3}, //mp1 36
+    {MP1_CRANE_GAME, mp1_CraneGameStr, 35, PLAYERS_1V3}, //mp1 35
+    {PADDLE_BATTLE, PaddleBattleStr, 51, PLAYERS_1V3}, //mp1 51
+    {PIPE_MAZE, PipeMazeStr, 9, PLAYERS_1V3}, //mp1 9
+    {PIRANHA_PURSUIT, PiranhaPursuitStr, 49, PLAYERS_1V3}, //mp1 49
+    {TIGHTROPE_TREACHERY, TightropeTreacheryStr, 31, PLAYERS_1V3}, //mp1 31
+    {TUG_O_WAR, TugOWarStr, 50, PLAYERS_1V3}, //mp1 50
+
+    //2v2 minigames
+    {BABY_BOWSER_BROADSIDE, BabyBowserBroadsideStr, 12, PLAYERS_2V2},
+    {COSMIC_COASTER, CosmicCoasterStr, 16, PLAYERS_2V2},
+    {EATSA_PIZZA, EatsaPizzaStr, 11, PLAYERS_2V2},
+    {ETCH_N_CATCH, EtchNCatchStr, 18, PLAYERS_2V2},
+    {HYPER_HYDRANTS, HyperHydrantsStr, 14, PLAYERS_2V2},
+    {LOG_JAM, LogJamStr, 19, PLAYERS_2V2},
+    {PICKING_PANIC, PickingPanicStr, 15, PLAYERS_2V2},
+    {PUDDLE_PADDLE, PuddlePaddleStr, 17, PLAYERS_2V2},
+    {PUMP_PUMP_AND_AWAY, PumpPumpAndAwayStr, 13, PLAYERS_2V2},
+    {SLOT_SYNC, SlotSyncStr, 20, PLAYERS_2V2},
+    {TORPEDO_TARGETS, TorpedoTargetsStr, 67, PLAYERS_2V2}, //mp2 67
+
+    //mp2 2v2 minigames
+    {MP2_BALLOON_BURST, mp2_BalloonBurstStr, 30, PLAYERS_2V2}, //mp2 30
+    {MP2_BOBSLED_RUN, mp2_BobsledRunStr, 27, PLAYERS_2V2}, //mp2 27
+    {CAKE_FACTORY, CakeFactoryStr, 33, PLAYERS_2V2}, //mp2 33
+    {DESTRUCTION_DUET, DestructionDuetStr, 68, PLAYERS_2V2}, //mp2 68
+    {DUNGEON_DASH, DungeonDashStr, 35, PLAYERS_2V2}, //mp2 35
+    {MP2_HANDCAR_HAVOC, mp2_HandcarHavocStr, 28, PLAYERS_2V2}, //mp2 28
+    {LOONEY_LUMBERJACKS, LooneyLumberjacksStr, 66, PLAYERS_2V2}, //mp2 66
+    {MAGNET_CARTA, MagnetCartaStar, 36, PLAYERS_2V2}, //mp2 36
+    {SKY_PILOTS, SkyPilotsStr, 31, PLAYERS_2V2}, //mp2 31
+    {SPEED_HOCKEY, SpeedHockeyStr, 32, PLAYERS_2V2}, //mp2 32
+    {TOAD_BANDSTAND, ToadBandstandStr, 26, PLAYERS_2V2}, //mp2 26
+
+    //mp1 2v2 minigames
+    {MP1_BOBSLED_RUN, mp1_BobsledRunStr, 29, PLAYERS_2V2}, //mp1 29
+    {BOMBSKETBALL, BombsketballStr, 42, PLAYERS_2V2}, //mp1 42
+    {DEEP_SEA_DIVERS, DeepSeaDiversStr, 48, PLAYERS_2V2}, //mp1 48
+    {DESERT_DASH, DesertDashStr, 39, PLAYERS_2V2}, //mp1 39
+    {MP1_HANDCAR_HAVOC, mp1_HandcarHavocStr, 47, PLAYERS_2V2}, //mp1 47
+
+    //battle minigames
+    {ALL_FIRED_UP, AllFiredUpStr, 41, PLAYERS_BATTLE},
+    {EYE_SORE, EyeSoreStr, 48, PLAYERS_BATTLE},
+    {LOCKED_OUT, LockedOutStr, 26, PLAYERS_BATTLE},
+    {MERRY_GO_CHOMP, MerryGoChompStr, 45, PLAYERS_BATTLE},
+    {SLAP_DOWN, SlapDownStr, 46, PLAYERS_BATTLE},
+    {STACKED_DECK, StackedDeckStr, 42, PLAYERS_BATTLE},
+    {STORM_CHASERS, StormChasersStr, 47, PLAYERS_BATTLE},
+    {THREE_DOOR_MONTY, ThreeDoorMontyStr, 43, PLAYERS_BATTLE},
+
+    //mp2 battle minigames
+    {BOWSERS_BIG_BLAST, BowsersBigBlastStr, 65, PLAYERS_DUEL}, //mp2 65
+    {BUMPER_BALLOON_CARS, BumperBalloonCarsStr, 8, PLAYERS_BATTLE}, //mp2 8
+    {MP2_CRAZY_CUTTERS, mp2_CrazyCuttersStr, 13, PLAYERS_BATTLE}, //mp2 13
+    {DAY_AT_THE_RACES, DayAtTheRacesStr, 11, PLAYERS_BATTLE}, //mp2 11
+    {MP2_FACE_LIFT, mp2_FaceLiftStr, 12, PLAYERS_BATTLE}, //mp2 12
+    {MP2_GRAB_BAG, mp2_GrabBagStr, 7, PLAYERS_BATTLE}, //mp2 7
+    {MP2_HOT_BOB_OMB, mp2_HotBobombStr, 14, PLAYERS_BATTLE}, //mp2 14
+    {RAKIN_EM_IN, RakinEmInStr, 9, PLAYERS_BATTLE}, //mp2 9
+
+    //item minigames
+    {BOBBING_BOW_LOONS, BobbingBowloonsStr, 61, PLAYERS_ITEM},
+    {DORRIE_DIP, DorrieDipStr, 62, PLAYERS_ITEM},
+    {HEY_BATTER_BATTER, HeyBatterBatterStr, 60, PLAYERS_ITEM},
+    {SWING_N_SWIPE, SwingNSwipeStr, 64, PLAYERS_ITEM},
+    {SWINGING_WITH_SHARKS, SwingingWithSharksStr, 63, PLAYERS_ITEM},
+    {WINNERS_WHEEL, WinnersWheelStr, 59, PLAYERS_ITEM},
+    
+    //mp2 item minigames
+    
+    {BOWSER_SLOTS, BowserSlotsStr, 1, PLAYERS_ITEM}, //mp2 1
+    {COFFIN_CONGESTION, CoffinCongestionStr, 3, PLAYERS_ITEM}, //mp2 3
+    {GIVE_ME_A_BRAKE, GiveMeABrakeStr, 5, PLAYERS_ITEM}, //mp2 5
+    {HAMMER_SLAMMER, HammerSlammerStr, 4, PLAYERS_ITEM}, //mp2 4
+    {MALLET_GO_ROUND, MalletGoRoundStr, 6, PLAYERS_ITEM}, //mp2 6
+    {ROLL_OUT_THE_BARRELS, RollOutTheBarrelsStr, 2, PLAYERS_ITEM}, //mp2 2
+    
+    //duel minigames
+    {BABY_BOWSER_BONKERS, BabyBowserBonkersStr, 53, PLAYERS_DUEL},
+    {BOWSER_TOSS, BowserTossStr, 52, PLAYERS_DUEL},
+    {CROWD_COVER, CrowdCoverStr, 56, PLAYERS_DUEL},
+    {END_OF_THE_LINE, EndOfTheLinerStr, 51, PLAYERS_DUEL},
+    {FOWL_PLAY, FowlPlayStr, 58, PLAYERS_DUEL},
+    {MOTOR_ROOTER, MotorRooterStr, 54, PLAYERS_DUEL},
+    {POPGUN_PICK_OFF, PopgunPickOffStr, 50, PLAYERS_DUEL},
+    {SILLY_SCREWS, SillyScrewsStr, 55, PLAYERS_DUEL},
+    {TICK_TOCK_HOP, TickTockHopStr, 57, PLAYERS_DUEL},
+    {VINE_WITH_ME, VineWithMeStr, 49, PLAYERS_DUEL},
+    
+    //mp2 duel minigames
+    {KOOPA_LAND_DUEL, KoopaLandDuelStr, 64, PLAYERS_DUEL}, //mp2 64
+    {HORROR_LAND_DUEL, HorrorLandDuelStr, 61, PLAYERS_DUEL}, //mp2 61
+    {MYSTERY_LAND_DUEL, MysteryLandDuelStr, 63, PLAYERS_DUEL}, //mp2 63
+    {PIRATE_LAND_DUEL, PirateLandDuelStr, 60, PLAYERS_DUEL}, //mp2 60
+    {SPACE_LAND_DUEL, SpaceLandDuelStr, 62, PLAYERS_DUEL}, //mp2 62
+    {WESTERN_LAND_DUEL, WesternLandDuelStr, 59, PLAYERS_DUEL}, //mp2 59
+
+    //mp3 game guy minigames
+    {GAME_GUYS_LUCKY_7, GameGuysLucky7Str, 68, PLAYERS_GAME_GUY},
+    {GAME_GUYS_MAGIC_BOXES, GameGuysMagicBoxesStr, 69, PLAYERS_GAME_GUY},
+    {GAME_GUYS_ROULETTE, GameGuysRouletteStr, 67, PLAYERS_GAME_GUY},
+    {GAME_GUYS_SWEET_SURPRISE, GameGuysSweetSurpriseStr, 70, PLAYERS_GAME_GUY},
+    
+    //special overlays
+    {MP3_CHANCE_TIME, mp3_ChanceTimeStr, 65, PLAYERS_SPECIAL},
+    {DIZZY_DINGHIES, DizzyDinghiesStr, 71, PLAYERS_SPECIAL},
+    {MARIO_PUZZLE_PARTY_PRO, MariosPuzzlePartyPro2Str, 72, PLAYERS_SPECIAL},
+    {STARDUST_BATTLE, StardustBattleStr, 66, PLAYERS_SPECIAL},
+    {MP2_CHANCE_TIME, mp2_ChanceTimeStr, 58, PLAYERS_SPECIAL}, //mp2 58
+    {DRIVERS_ED, DriversEdStr, 57, PLAYERS_SPECIAL}, //mp2 57
+    {MP1_CHANCE_TIME, mp1_ChanceTimeStr, 1, PLAYERS_SPECIAL}, //mp1 1
+
     //mp2 56
-    {DRIVERS_ED, DriversEdStr, 57}, //mp2 57
-    {MP2_CHANCE_TIME, ChanceTimeStr, 58}, //mp2 58
-    {WESTERN_LAND_DUEL, WesternLandDuelStr, 59}, //mp2 59
-    {PIRATE_LAND_DUEL, PirateLandDuelStr, 60}, //mp2 60
-    {HORROR_LAND_DUEL, HorrorLandDuelStr, 61}, //mp2 61
-    {SPACE_LAND_DUEL, SpaceLandDuelStr, 62}, //mp2 62
-    {MYSTERY_LAND_DUEL, MysteryLandDuelStr, 63}, //mp2 63
-    {KOOPA_LAND_DUEL, KoopaLandDuelStr, 64}, //mp2 64
-    {BOWSERS_BIG_BLAST, BowsersBigBlastStr, 65}, //mp2 65
-    {LOONEY_LUMBERJACKS, LooneyLumberjacksStr, 66}, //mp2 66
-    {TORPEDO_TARGETS, TorpedoTargetsStr, 67}, //mp2 67
-    {DESTRUCTION_DUET, DestructionDuetStr, 68}, //mp2 68
-    {DIZZY_DANCING, DizzyDancingStr, 69}, //mp2 69
-    {TILE_DRIVER, TileDriverStr, 70}, //mp2 70
-    {QUICKSAND_CACHE, QuicksandCacheStr, 71}, //mp2 71
-    {DEEP_SEA_SALVAGE, DeepSeaSalvageStr, 72}, //mp2 72
-    //mp1
-
-
-    {MEMORY_MATCH, MemoryMatchStr, 0}, //mp1 0
-    {MP1_CHANCE_TIME, ChanceTimeMp1Str, 1}, //mp1 1
-    {SLOT_MACHINE, SlotMachineStr, 2}, //mp1 2
-    {BURIED_TREASURE, BuriedTreasureStr, 3}, //mp1 3
-    {TREASURE_DIVERS, TreasureDiversStr, 4}, //mp1 4
-    {SHELL_GAME, ShellGameStr, 5}, //mp1 5
-    {SAME_GAME, SameGameStr, 6}, //mp1 6
-    {MP1_HOT_BOB_OMB, mp1_HotBobOmbStr, 7}, //mp1 7
-    {YOSHIS_TONGUE_MEETING, YoshisToungueStr, 8}, //mp1 8
-    {PIPE_MAZE, PipeMazeStr, 9}, //mp1 9
-    {GHOST_GUESS, GhostGuestStr, 10}, //mp1 10
-    {MUSICAL_MUSHROOM, MusicalMushroomStr, 11}, //mp1 11
-    {PEDAL_POWER, PedalPowerStr, 12}, //mp1 12
-    {MP1_CRAZY_CUTTER, mp1_CrazyCutterStr, 13}, //mp1 13
-    {MP1_FACE_LIFT, mp1_FaceLiftStr, 14}, //mp1 14
-    {WHACKA_A_PLANT, WhackAPlantStr, 15}, //mp1 15
-    {BASH_N_CASH, BashNCashStr, 16}, //mp1 16
-    {MP1_BOWL_OVER, mp1_BowlOverStr, 17}, //mp1 17
-    {GROUND_POUND, GroundPoundStr, 18}, //mp1 18
-    {MP1_BALLOON_BURST, BalloonBurstStr, 19}, //mp1 19
-    {COIN_BLOCK_BLITZ, CoinBlockBlitzStr, 20}, //mp1 20
-    {COIN_BLOCK_BASH, CoinBlockBashStr, 21}, //mp1 21
-    {MP1_SKATEBOARD_SCAMPER, mp1_SkateboardScamperStr, 22}, //mp1 22
-    {BOX_MOUNTAIN_MAYHEM, BoxMountainMayhemStr, 23}, //mp1 23
-    {MP1_PLATFORM_PERIL, mp1_PlatformPerilStr, 24}, //mp1 24
-    {TEETERING_TOWER, TeeteringTowersStr, 25}, //mp1 25
-    {MUSHROOM_MIXUP, MushroomMixupStr, 26}, //mp1 26
-    {HAMMER_DROP, HammerDropStr, 27}, //mp1 27
-    {MP1_GRAB_BAG, mp1_GrabBagStr, 28}, //mp1 28
-    {MP1_BOBSLED_RUN, mp1_BobsledRunStr, 29}, //mp1 29
-    {MP1_BUMPER_BALLS, mp1_BumperBallsStr, 30}, //mp1 30
-    {TIGHTROPE_TREACHERY, TightropeTreacheryStr, 31}, //mp1 31
-    {KNOCK_BLOCK_TOWER, KnockBlockTowerStr, 32}, //mp1 32
-    {MP1_TIPSY_TOURNEY, mp1_TipsyTourneyStr, 33}, //mp1 33
-    {MP1_BOMBS_AWAY, mp1_BombsAwayStr, 34}, //mp1 34
-    {MP1_CRANE_GAME, mp1_CraneGameStr, 35}, //mp1 35
-    {COIN_SHOWER_FLOWER, CoinShowerFlowerStr, 36}, //mp1 36
-    {MP1_SLOT_CAR_DERBY, mp1_SlotCarDerbyStr, 37}, //mp1 37
-    {MARIO_BANDSTAND, mp1_BandStandStr, 38}, //mp1 38
-    {DESERT_DASH, DesertDashStr, 39}, //mp1 39
-    {MP1_SHY_GUY_SAYS, mp1_ShyGuySaysStr, 40}, //mp1 40
-    {LIMBO_DANCE, LimboDanceStr, 41}, //mp1 41
-    {BOMBSKETBALL, BombsketballStr, 42}, //mp1 42
-    {CAST_AWAYS, CastAwaysStr, 43}, //mp1 43
-    {KEY_PA_WAY, KeyPaWayStr, 44}, //mp1 44
-    {RUNNING_OF_THE_BULB, RunningOfTheBulbStr, 45}, //mp1 45
-    {MP1_HOT_ROPE_JUMP, mp1_HotRopeJumpStr, 46}, //mp1 46
-    {MP1_HANDCAR_HAVOC, mp1_HandcarHavocStr, 47}, //mp1 47
-    {DEEP_SEA_DIVERS, DeepSeaDiversStr, 48}, //mp1 48
-    {PIRANHA_PURSUIT, PiranhaPursuitStr, 49}, //mp1 49
-    {TUG_O_WAR, TugOWarStr, 50}, //mp1 50
-    {PADDLE_BATTLE, PaddleBattleStr, 51}, //mp1 51
+    {GHOST_GUESS, GhostGuestStr, 10, PLAYERS_1P}, //mp1 10
+    {GROUND_POUND, GroundPoundStr, 18, PLAYERS_1P}, //mp1 18
+    {KNOCK_BLOCK_TOWER, KnockBlockTowerStr, 32, PLAYERS_1P}, //mp1 32
+    {LIMBO_DANCE, LimboDanceStr, 41, PLAYERS_1P}, //mp1 41
+    {MEMORY_MATCH, MemoryMatchStr, 0, PLAYERS_1P}, //mp1 0
+    {PEDAL_POWER, PedalPowerStr, 12, PLAYERS_1P}, //mp1 12
+    {SLOT_MACHINE, SlotMachineStr, 2, PLAYERS_1P}, //mp1 2
+    {SHELL_GAME, ShellGameStr, 5, PLAYERS_1P}, //mp1 5
+    {SAME_GAME, SameGameStr, 6, PLAYERS_1P}, //mp1 6
+    {TEETERING_TOWER, TeeteringTowersStr, 25, PLAYERS_1P}, //mp1 25
+    {WHACKA_A_PLANT, WhackAPlantStr, 15, PLAYERS_1P}, //mp1 15
 };
 
 s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
     s32 i;
     //find the minigame and get the overlay id for the specific game
-    for (i = 0; i < ARRAY_COUNT(minigameLUT); i++) {
+    for (i = 0; i < MINIGAME_END - 1; i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
             return minigameLUT[i].gameOverlayID;
         }
@@ -685,281 +499,203 @@ s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
     return -1; //minigame not found
 }
 
-char* MinigameList[] = { //add 1 to this value and stick into table
-/* 0x00 */ HookLineAndSinkerStr,
-/* 0x01 */ CoconutConkStr,
-/* 0x02 */ SpotlightSwimStr,
-/* 0x03 */ BoulderBallStr,
-/* 0x04 */ CrazyCogsStr,
-/* 0x05 */ HideAndSneakStr,
-/* 0x06 */ RidiculousRelayStr,
-/* 0x07 */ ThwompPullStr,
-/* 0x08 */ RiverRaidersStr,
-/* 0x09 */ TidalTossStr,
-/* 0x0A */ EatsaPizzaStr,
-/* 0x0B */ BabyBowserBroadsideStr,
-/* 0x0C */ PumpPumpAndAwayStr,
-/* 0x0D */ HyperHydrantsStr,
-/* 0x0E */ PickingPanicStr,
-/* 0x0F */ CosmicCoasterStr,
-/* 0x10 */ PuddlePaddleStr,
-/* 0x11 */ EtchNCatchStr,
-/* 0x12 */ LogJamStr,
-/* 0x13 */ SlotSyncStr,
-/* 0x14 */ TreadmillGrillStr,
-/* 0x15 */ ToadstoolTitanStr,
-/* 0x16 */ AcesHighStr,
-/* 0x17 */ BounceNTrounceStr,
-/* 0x18 */ IceRinkRiskStr,
-/* 0x19 */ LockedOutStr,
-/* 0x1A */ ChipShotChallengeStr,
-/* 0x1B */ ParasolPlummetStr,
-/* 0x1C */ MessoryMemoryStr,
-/* 0x1D */ PictureImperfectStr,
-/* 0x1E */ MariosPuzzlePartyStr,
-/* 0x1F */ TheBeatGoesOnStr,
-/* 0x20 */ MPIQStr,
-/* 0x21 */ CurtainCallStr,
-/* 0x22 */ WaterWhirledStr,
-/* 0x23 */ FrigidBridgesStr,
-/* 0x24 */ AwfulTowerStr,
-/* 0x25 */ CheepCheepChaseStr,
-/* 0x26 */ PipeCleanersStr,
-/* 0x27 */ SnowballSummitStr,
-/* 0x28 */ AllFiredUpStr,
-/* 0x29 */ StackedDeckStr,
-/* 0x2A */ ThreeDoorMontyStr,
-/* 0x2B */ RockinRacewayStr,
-/* 0x2C */ MerryGoChompStr,
-/* 0x2D */ SlapDownStr,
-/* 0x2E */ StormChasersStr,
-/* 0x2F */ EyeSoreStr,
-/* 0x30 */ VineWithMeStr,
-/* 0x31 */ PopgunPickOffStr,
-/* 0x32 */ EndOfTheLinerStr,
-/* 0x33 */ BowserTossStr,
-/* 0x34 */ BabyBowserBonkersStr,
-/* 0x35 */ MotorRooterStr,
-/* 0x36 */ SillyScrewsStr,
-/* 0x37 */ CrowdCoverStr,
-/* 0x38 */ TickTockHopStr,
-/* 0x39 */ FowlPlayStr,
-/* 0x3A */ WinnersWheelStr,
-/* 0x3B */ HeyBatterBatterStr,
-/* 0x3C */ BobbingBowloonsStr,
-/* 0x3D */ DorrieDipStr,
-/* 0x3E */ SwingingWithSharksStr,
-/* 0x3F */ SwingNSwipeStr,
-/* 0x40 */ ChanceTimeStr,
-/* 0x41 */ StardustBattleStr,
-/* 0x42 */ GameGuysRouletteStr,
-/* 0x43 */ GameGuysLucky7Str,
-/* 0x44 */ GameGuysMagicBoxesStr,
-/* 0x45 */ GameGuysSweetSurpriseStr,
-/* 0x46 */ DizzyDinghiesStr,
-/* 0x47 */ MariosPuzzlePartyPro2Str,
-/* 0x48 */ BowserSlotsStr, //mp2 1
-/* 0x49 */ RollOutTheBarrelsStr, //mp2 2
-/* 0x4A */ CoffinCongestionStr, //mp2 3
-/* 0x4B */ HammerSlammerStr, //mp2 4
-/* 0x4C */ GiveMeABrakeStr, //mp2 5
-/* 0x4D */ MalletGoRoundStr, //mp2 6
-/* 0x4E */ mp2_GrabBagStr, //mp2 7
-/* 0x4F */ BumperBalloonCarsStr, //mp2 8
-/* 0x50 */ RakinEmInStr, //mp2 9
-/* 0x51 */ DayAtTheRacesStr, //mp2 11
-/* 0x52 */ mp2_FaceLiftStr, //mp2 12
-/* 0x53 */ mp2_CrazyCuttersStr, //mp2 13
-/* 0x54 */ mp2_HotBobombStr, //mp2 14
-/* 0x55 */ mp2_BowlOverStr, //mp2 15
-/* 0x56 */ RainbowRunStr, //mp2 16
-/* 0x57 */ mp2_CraneGameStr, //mp2 17
-/* 0x58 */ MoveToTheMusicStr, //mp2 18
-/* 0x59 */ BobOmbBarrageStr, //mp2 19
-/* 0x5A */ LookAwayStr, //mp2 20
-/* 0x5B */ ShockDropOrRollStr, //mp2 21
-/* 0x5C */ LightsOutStr, //mp2 22
-/* 0x5D */ FiletRelayStr, //mp2 23
-/* 0x5E */ ArcherivalStr, //mp2 24
-/* 0x5F */ ToadBandstandStr, //mp2 26
-/* 0x60 */ mp2_BobsledRunStr, //mp2 27
-/* 0x61 */ mp2_HandcarHavocStr, //mp2 28
-/* 0x62 */ mp2_BalloonBurstStr, //mp2 30
-/* 0x63 */ SkyPilotsStr, //mp2 31
-/* 0x64 */ SpeedHockeyStr, //mp2 32
-/* 0x65 */ CakeFactoryStr, //mp2 33
-/* 0x66 */ DungeonDashStr, //mp2 35
-/* 0x67 */ MagnetCartaStar, //mp2 36
-/* 0x68 */ LavaTileIsleStr, //mp2 37
-/* 0x69 */ mp2_HotRopeJumpStr, //mp2 38
-/* 0x6A */ ShellShockedStr, //mp2 39
-/* 0x6B */ ToadInTheBoxStr, //mp2 40
-/* 0x6C */ MechaMarathonStr, //mp2 41
-/* 0x6D */ RollCallStr, //mp2 42
-/* 0x6E */ AbandonShipStr, //mp2 43
-/* 0x6F */ mp2_PlatformPerilStr, //mp2 44
-/* 0x70 */ TotemPolePoundStr, //mp2 45
-/* 0x71 */ mp2_BumperBallsStr, //mp2 46
-/* 0x72 */ mp2_BombsAwayStr, //mp2 48
-/* 0x73 */ mp2_TipsyTourneyStr, //mp2 49
-/* 0x74 */ HoneycombHavocStr, //mp2 50
-/* 0x75 */ HexagonHeatStr, //mp2 51
-/* 0x76 */ mp2_SkateboardScamperStr, //mp2 52
-/* 0x77 */ mp2_SlotCarDerbyStr, //mp2 53
-/* 0x78 */ mp2_ShyGuySaysStr, //mp2 54
-/* 0x79 */ SneakNSnoreStr, //mp2 55
-/* 0x7A */ DriversEdStr, //mp2 57
-/* 0x7B */ ChanceTimeStr, //mp2 58
-/* 0x7C */ WesternLandDuelStr, //mp2 59
-/* 0x7D */ PirateLandDuelStr, //mp2 60
-/* 0x7E */ HorrorLandDuelStr, //mp2 61
-/* 0x7F */ SpaceLandDuelStr, //mp2 62
-/* 0x80 */ MysteryLandDuelStr, //mp2 63
-/* 0x81 */ KoopaLandDuelStr, //mp2 64
-/* 0x82 */ BowsersBigBlastStr, //mp2 65
-/* 0x83 */ LooneyLumberjacksStr, //mp2 66
-/* 0x84 */ TorpedoTargetsStr, //mp2 67
-/* 0x85 */ DestructionDuetStr, //mp2 68
-/* 0x86 */ DizzyDancingStr, //mp2 69
-/* 0x87 */ TileDriverStr, //mp2 70
-/* 0x88 */ QuicksandCacheStr, //mp2 71
-/* 0x89 */ DeepSeaSalvageStr, //mp2 72
-#ifdef MP1
-/* 0x8A */ MemoryMatchStr, //mp1 00
-/* 0x8B */ ChanceTimeMp1Str, //mp1 01
-/* 0x8C */ SlotMachineStr, //mp1 02
-/* 0x8D */ BuriedTreasureStr, //mp1 03
-/* 0x8E */ TreasureDiversStr, //mp1 04
-/* 0x8F */ ShellGameStr, //mp1 05
-/* 0x90 */ SameGameStr, //mp1 06
-/* 0x91 */ mp1_HotBobOmbStr, //mp1 07
-/* 0x92 */ YoshisToungueStr, //mp1 08
-/* 0x93 */ PipeMazeStr, //mp1 09
-/* 0x94 */ GhostGuestStr, //mp1 10
-/* 0x95 */ MusicalMushroomStr, //mp1 11
-/* 0x96 */ PedalPowerStr, //mp1 12
-/* 0x97 */ mp1_CrazyCutterStr, //mp1 13
-/* 0x98 */ mp1_FaceLiftStr, //mp1 14
-/* 0x99 */ WhackAPlantStr, //mp1 15
-/* 0x9A */ BashNCashStr, //mp1 16
-/* 0x9B */ mp1_BowlOverStr, //mp1 17
-/* 0x9C */ GroundPoundStr, //mp1 18
-/* 0x9D */ BalloonBurstStr, //mp1 19
-/* 0x9E */ CoinBlockBlitzStr, //mp1 20
-/* 0x9F */ CoinBlockBashStr, //mp1 21
-/* 0xA0 */ mp1_SkateboardScamperStr, //mp1 22
-/* 0xA1 */ BoxMountainMayhemStr, //mp1 23
-/* 0xA2 */ mp1_PlatformPerilStr, //mp1 24
-/* 0xA3 */ TeeteringTowersStr, //mp1 25
-/* 0xA4 */ MushroomMixupStr, //mp1 26
-/* 0xA5 */ HammerDropStr, //mp1 27
-/* 0xA6 */ mp1_GrabBagStr, //mp1 28
-/* 0xA7 */ mp1_BobsledRunStr, //mp1 29
-/* 0xA8 */ mp1_BumperBallsStr, //mp1 30
-/* 0xA9 */ TightropeTreacheryStr, //mp1 31
-/* 0xAA */ KnockBlockTowerStr, //mp1 32
-/* 0xAB */ mp1_TipsyTourneyStr, //mp1 33
-/* 0xAC */ mp1_BombsAwayStr, //mp1 34
-/* 0xAD */ mp1_CraneGameStr, //mp1 35
-/* 0xAE */ CoinShowerFlowerStr, //mp1 36
-/* 0xAF */ mp1_SlotCarDerbyStr, //mp1 37
-/* 0xB0 */ mp1_BandStandStr, //mp1 38
-/* 0xB1 */ DesertDashStr, //mp1 39
-/* 0xB2 */ mp1_ShyGuySaysStr, //mp1 40
-/* 0xB3 */ LimboDanceStr, //mp1 41
-/* 0xB4 */ BombsketballStr, //mp1 42
-/* 0xB5 */ CastAwaysStr, //mp1 43
-/* 0xB6 */ KeyPaWayStr, //mp1 44
-/* 0xB7 */ RunningOfTheBulbStr, //mp1 45
-/* 0xB8 */ mp1_HotRopeJumpStr, //mp1 46
-/* 0xB9 */ mp1_HandcarHavocStr, //mp1 47
-/* 0xBA */ DeepSeaDiversStr, //mp1 48
-/* 0xBB */ PiranhaPursuitStr, //mp1 49
-/* 0xBC */ TugOWarStr, //mp1 50
-/* 0xBD */ PaddleBattleStr, //mp1 51
-#endif
--1 //end of list
-};
+// char* MinigameList[] = { //add 1 to this value and stick into table
+// /* 0x00 */ HookLineAndSinkerStr,
+// /* 0x01 */ CoconutConkStr,
+// /* 0x02 */ SpotlightSwimStr,
+// /* 0x03 */ BoulderBallStr,
+// /* 0x04 */ CrazyCogsStr,
+// /* 0x05 */ HideAndSneakStr,
+// /* 0x06 */ RidiculousRelayStr,
+// /* 0x07 */ ThwompPullStr,
+// /* 0x08 */ RiverRaidersStr,
+// /* 0x09 */ TidalTossStr,
+// /* 0x0A */ EatsaPizzaStr,
+// /* 0x0B */ BabyBowserBroadsideStr,
+// /* 0x0C */ PumpPumpAndAwayStr,
+// /* 0x0D */ HyperHydrantsStr,
+// /* 0x0E */ PickingPanicStr,
+// /* 0x0F */ CosmicCoasterStr,
+// /* 0x10 */ PuddlePaddleStr,
+// /* 0x11 */ EtchNCatchStr,
+// /* 0x12 */ LogJamStr,
+// /* 0x13 */ SlotSyncStr,
+// /* 0x14 */ TreadmillGrillStr,
+// /* 0x15 */ ToadstoolTitanStr,
+// /* 0x16 */ AcesHighStr,
+// /* 0x17 */ BounceNTrounceStr,
+// /* 0x18 */ IceRinkRiskStr,
+// /* 0x19 */ LockedOutStr,
+// /* 0x1A */ ChipShotChallengeStr,
+// /* 0x1B */ ParasolPlummetStr,
+// /* 0x1C */ MessyMemoryStr,
+// /* 0x1D */ PictureImperfectStr,
+// /* 0x1E */ MariosPuzzlePartyStr,
+// /* 0x1F */ TheBeatGoesOnStr,
+// /* 0x20 */ MPIQStr,
+// /* 0x21 */ CurtainCallStr,
+// /* 0x22 */ WaterWhirledStr,
+// /* 0x23 */ FrigidBridgesStr,
+// /* 0x24 */ AwfulTowerStr,
+// /* 0x25 */ CheepCheepChaseStr,
+// /* 0x26 */ PipeCleanersStr,
+// /* 0x27 */ SnowballSummitStr,
+// /* 0x28 */ AllFiredUpStr,
+// /* 0x29 */ StackedDeckStr,
+// /* 0x2A */ ThreeDoorMontyStr,
+// /* 0x2B */ RockinRacewayStr,
+// /* 0x2C */ MerryGoChompStr,
+// /* 0x2D */ SlapDownStr,
+// /* 0x2E */ StormChasersStr,
+// /* 0x2F */ EyeSoreStr,
+// /* 0x30 */ VineWithMeStr,
+// /* 0x31 */ PopgunPickOffStr,
+// /* 0x32 */ EndOfTheLinerStr,
+// /* 0x33 */ BowserTossStr,
+// /* 0x34 */ BabyBowserBonkersStr,
+// /* 0x35 */ MotorRooterStr,
+// /* 0x36 */ SillyScrewsStr,
+// /* 0x37 */ CrowdCoverStr,
+// /* 0x38 */ TickTockHopStr,
+// /* 0x39 */ FowlPlayStr,
+// /* 0x3A */ WinnersWheelStr,
+// /* 0x3B */ HeyBatterBatterStr,
+// /* 0x3C */ BobbingBowloonsStr,
+// /* 0x3D */ DorrieDipStr,
+// /* 0x3E */ SwingingWithSharksStr,
+// /* 0x3F */ SwingNSwipeStr,
+// /* 0x40 */ ChanceTimeStr,
+// /* 0x41 */ StardustBattleStr,
+// /* 0x42 */ GameGuysRouletteStr,
+// /* 0x43 */ GameGuysLucky7Str,
+// /* 0x44 */ GameGuysMagicBoxesStr,
+// /* 0x45 */ GameGuysSweetSurpriseStr,
+// /* 0x46 */ DizzyDinghiesStr,
+// /* 0x47 */ MariosPuzzlePartyPro2Str,
+// /* 0x48 */ BowserSlotsStr, //mp2 1
+// /* 0x49 */ RollOutTheBarrelsStr, //mp2 2
+// /* 0x4A */ CoffinCongestionStr, //mp2 3
+// /* 0x4B */ HammerSlammerStr, //mp2 4
+// /* 0x4C */ GiveMeABrakeStr, //mp2 5
+// /* 0x4D */ MalletGoRoundStr, //mp2 6
+// /* 0x4E */ mp2_GrabBagStr, //mp2 7
+// /* 0x4F */ BumperBalloonCarsStr, //mp2 8
+// /* 0x50 */ RakinEmInStr, //mp2 9
+// /* 0x51 */ DayAtTheRacesStr, //mp2 11
+// /* 0x52 */ mp2_FaceLiftStr, //mp2 12
+// /* 0x53 */ mp2_CrazyCuttersStr, //mp2 13
+// /* 0x54 */ mp2_HotBobombStr, //mp2 14
+// /* 0x55 */ mp2_BowlOverStr, //mp2 15
+// /* 0x56 */ RainbowRunStr, //mp2 16
+// /* 0x57 */ mp2_CraneGameStr, //mp2 17
+// /* 0x58 */ MoveToTheMusicStr, //mp2 18
+// /* 0x59 */ BobOmbBarrageStr, //mp2 19
+// /* 0x5A */ LookAwayStr, //mp2 20
+// /* 0x5B */ ShockDropOrRollStr, //mp2 21
+// /* 0x5C */ LightsOutStr, //mp2 22
+// /* 0x5D */ FiletRelayStr, //mp2 23
+// /* 0x5E */ ArcherivalStr, //mp2 24
+// /* 0x5F */ ToadBandstandStr, //mp2 26
+// /* 0x60 */ mp2_BobsledRunStr, //mp2 27
+// /* 0x61 */ mp2_HandcarHavocStr, //mp2 28
+// /* 0x62 */ mp2_BalloonBurstStr, //mp2 30
+// /* 0x63 */ SkyPilotsStr, //mp2 31
+// /* 0x64 */ SpeedHockeyStr, //mp2 32
+// /* 0x65 */ CakeFactoryStr, //mp2 33
+// /* 0x66 */ DungeonDashStr, //mp2 35
+// /* 0x67 */ MagnetCartaStar, //mp2 36
+// /* 0x68 */ LavaTileIsleStr, //mp2 37
+// /* 0x69 */ mp2_HotRopeJumpStr, //mp2 38
+// /* 0x6A */ ShellShockedStr, //mp2 39
+// /* 0x6B */ ToadInTheBoxStr, //mp2 40
+// /* 0x6C */ MechaMarathonStr, //mp2 41
+// /* 0x6D */ RollCallStr, //mp2 42
+// /* 0x6E */ AbandonShipStr, //mp2 43
+// /* 0x6F */ mp2_PlatformPerilStr, //mp2 44
+// /* 0x70 */ TotemPolePoundStr, //mp2 45
+// /* 0x71 */ mp2_BumperBallsStr, //mp2 46
+// /* 0x72 */ mp2_BombsAwayStr, //mp2 48
+// /* 0x73 */ mp2_TipsyTourneyStr, //mp2 49
+// /* 0x74 */ HoneycombHavocStr, //mp2 50
+// /* 0x75 */ HexagonHeatStr, //mp2 51
+// /* 0x76 */ mp2_SkateboardScamperStr, //mp2 52
+// /* 0x77 */ mp2_SlotCarDerbyStr, //mp2 53
+// /* 0x78 */ mp2_ShyGuySaysStr, //mp2 54
+// /* 0x79 */ SneakNSnoreStr, //mp2 55
+// /* 0x7A */ DriversEdStr, //mp2 57
+// /* 0x7B */ ChanceTimeStr, //mp2 58
+// /* 0x7C */ WesternLandDuelStr, //mp2 59
+// /* 0x7D */ PirateLandDuelStr, //mp2 60
+// /* 0x7E */ HorrorLandDuelStr, //mp2 61
+// /* 0x7F */ SpaceLandDuelStr, //mp2 62
+// /* 0x80 */ MysteryLandDuelStr, //mp2 63
+// /* 0x81 */ KoopaLandDuelStr, //mp2 64
+// /* 0x82 */ BowsersBigBlastStr, //mp2 65
+// /* 0x83 */ LooneyLumberjacksStr, //mp2 66
+// /* 0x84 */ TorpedoTargetsStr, //mp2 67
+// /* 0x85 */ DestructionDuetStr, //mp2 68
+// /* 0x86 */ DizzyDancingStr, //mp2 69
+// /* 0x87 */ TileDriverStr, //mp2 70
+// /* 0x88 */ QuicksandCacheStr, //mp2 71
+// /* 0x89 */ DeepSeaSalvageStr, //mp2 72
+// #ifdef MP1
+// /* 0x8A */ MemoryMatchStr, //mp1 00
+// /* 0x8B */ ChanceTimeMp1Str, //mp1 01
+// /* 0x8C */ SlotMachineStr, //mp1 02
+// /* 0x8D */ BuriedTreasureStr, //mp1 03
+// /* 0x8E */ TreasureDiversStr, //mp1 04
+// /* 0x8F */ ShellGameStr, //mp1 05
+// /* 0x90 */ SameGameStr, //mp1 06
+// /* 0x91 */ mp1_HotBobOmbStr, //mp1 07
+// /* 0x92 */ YoshisToungueStr, //mp1 08
+// /* 0x93 */ PipeMazeStr, //mp1 09
+// /* 0x94 */ GhostGuestStr, //mp1 10
+// /* 0x95 */ MusicalMushroomStr, //mp1 11
+// /* 0x96 */ PedalPowerStr, //mp1 12
+// /* 0x97 */ mp1_CrazyCutterStr, //mp1 13
+// /* 0x98 */ mp1_FaceLiftStr, //mp1 14
+// /* 0x99 */ WhackAPlantStr, //mp1 15
+// /* 0x9A */ BashNCashStr, //mp1 16
+// /* 0x9B */ mp1_BowlOverStr, //mp1 17
+// /* 0x9C */ GroundPoundStr, //mp1 18
+// /* 0x9D */ BalloonBurstStr, //mp1 19
+// /* 0x9E */ CoinBlockBlitzStr, //mp1 20
+// /* 0x9F */ CoinBlockBashStr, //mp1 21
+// /* 0xA0 */ mp1_SkateboardScamperStr, //mp1 22
+// /* 0xA1 */ BoxMountainMayhemStr, //mp1 23
+// /* 0xA2 */ mp1_PlatformPerilStr, //mp1 24
+// /* 0xA3 */ TeeteringTowersStr, //mp1 25
+// /* 0xA4 */ MushroomMixupStr, //mp1 26
+// /* 0xA5 */ HammerDropStr, //mp1 27
+// /* 0xA6 */ mp1_GrabBagStr, //mp1 28
+// /* 0xA7 */ mp1_BobsledRunStr, //mp1 29
+// /* 0xA8 */ mp1_BumperBallsStr, //mp1 30
+// /* 0xA9 */ TightropeTreacheryStr, //mp1 31
+// /* 0xAA */ KnockBlockTowerStr, //mp1 32
+// /* 0xAB */ mp1_TipsyTourneyStr, //mp1 33
+// /* 0xAC */ mp1_BombsAwayStr, //mp1 34
+// /* 0xAD */ mp1_CraneGameStr, //mp1 35
+// /* 0xAE */ CoinShowerFlowerStr, //mp1 36
+// /* 0xAF */ mp1_SlotCarDerbyStr, //mp1 37
+// /* 0xB0 */ mp1_BandStandStr, //mp1 38
+// /* 0xB1 */ DesertDashStr, //mp1 39
+// /* 0xB2 */ mp1_ShyGuySaysStr, //mp1 40
+// /* 0xB3 */ LimboDanceStr, //mp1 41
+// /* 0xB4 */ BombsketballStr, //mp1 42
+// /* 0xB5 */ CastAwaysStr, //mp1 43
+// /* 0xB6 */ KeyPaWayStr, //mp1 44
+// /* 0xB7 */ RunningOfTheBulbStr, //mp1 45
+// /* 0xB8 */ mp1_HotRopeJumpStr, //mp1 46
+// /* 0xB9 */ mp1_HandcarHavocStr, //mp1 47
+// /* 0xBA */ DeepSeaDiversStr, //mp1 48
+// /* 0xBB */ PiranhaPursuitStr, //mp1 49
+// /* 0xBC */ TugOWarStr, //mp1 50
+// /* 0xBD */ PaddleBattleStr, //mp1 51
+// #endif
+// (void*)-1 //end of list
+// };
 
-u8 new4PMinigameListNormalMp3[] = {
-    TREADMILL_GRILL,        TOADSTOOL_TITAN,    ACES_HIGH,      BOUNCE_N_TROUNCE,       ICE_RINK_RISK,
-    CHIP_SHOT_CHALLENGE,    PARASOL_PLUMMET,    MESSY_MEMORY,   PICTURE_IMPERFECT,      MARIOS_PUZZLE_PARTY,
-    THE_BEAT_GOES_ON,       MPIQ,               CURTAIN_CALL,   WATER_WHIRLED,          FRIGID_BRIDGES,
-    AWFUL_TOWER,            CHEEP_CHEEP_CHASE,  PIPE_CLEANERS,  SNOWBALL_SUMMIT,        ROCKIN_RACEWAY,
-    //mp2 minigame
-    LAVA_TILE_ISLE, MP2_HOT_ROPE_JUMP, SHELL_SHOCKED, TOAD_IN_THE_BOX, MECHA_MARATHON,
-    ROLL_CALL, ABANDON_SHIP, MP2_PLATFORM_PERIL, TOTEM_POLE_POUND, MP2_BUMPER_BALLS, 
-    MP2_BOMBS_AWAY, MP2_TIPSY_TOURNEY, HONEYCOMB_HAVOC, HEXAGON_HEAT, MP2_SKATEBOARD_SCAMPER,
-    MP2_SLOT_CAR_DERBY, MP2_SHY_GUY_SAYS, SNEAK_N_SNORE, DIZZY_DANCING, TILE_DRIVER,
-    DEEP_SEA_SALVAGE,
-    //mp1 minigames
-    #ifdef MP1
-    BURIED_TREASURE, TREASURE_DIVERS, MP1_HOT_BOB_OMB, MUSICAL_MUSHROOM, MP1_CRAZY_CUTTER,
-    MP1_FACE_LIFT, MP1_BALLOON_BURST, COIN_BLOCK_BLITZ, MP1_SKATEBOARD_SCAMPER, BOX_MOUNTAIN_MAYHEM,
-    MP1_PLATFORM_PERIL, MUSHROOM_MIXUP, MP1_GRAB_BAG, MP1_BUMPER_BALLS, MP1_TIPSY_TOURNEY,
-    MP1_BOMBS_AWAY, MARIO_BANDSTAND, MP1_SHY_GUY_SAYS, CAST_AWAYS, KEY_PA_WAY,
-    RUNNING_OF_THE_BULB, MP1_HOT_ROPE_JUMP, HAMMER_DROP, MP1_SLOT_CAR_DERBY,
-    #endif
-    0xFF
-};
-u8 new1v3MinigameListNormalMp3[] = {
-    HAND_LINE_AND_SINKER,   COCONUT_CONK,       SPOTLIGHT_SWIM, BOULDER_BALL,   CRAZY_COGS,
-    HIDE_AND_SNEAK,         RIDICULOUS_RELAY,   THWOMP_PULL,    RIVER_RAIDERS,  TIDAL_TOSS,
-    //mp2 minigames
-    MP2_BOWL_OVER, MP2_CRANE_GAME, MOVE_TO_THE_MUSIC, BOB_OMB_BARRAGE, LOOK_AWAY,
-    SHOCK_DROP_OR_ROLL, LIGHTS_OUT, FILET_RELAY, ARCHERIVAL, QUICKSAND_CACHE,
-    RAINBOW_RUN,
-    //mp1 minigames
-    #ifdef MP1
-    PIPE_MAZE, BASH_N_CASH, MP1_BOWL_OVER, COIN_BLOCK_BASH, TIGHTROPE_TREACHERY,
-    MP1_CRANE_GAME, PIRANHA_PURSUIT, TUG_O_WAR, PADDLE_BATTLE, COIN_SHOWER_FLOWER,
-    #endif
-    0xFF
-};
-u8 new2v2MinigameListNormalMp3[] = {
-    EATSA_PIZZA,    BABY_BOWSER_BROADSIDE,  PUMP_PUMP_AND_AWAY,     HYPER_HYDRANTS, PICKING_PANIC,
-    COSMIC_COASTER, PUDDLE_PADDLE,          ETCH_N_CATCH, LOG_JAM,  SLOT_SYNC,
 
-    //mp2 minigames
-    TOAD_BANDSTAND, MP2_BOBSLED_RUN, MP2_HANDCAR_HAVOC, MP2_BALLOON_BURST, SKY_PILOTS,
-    SPEED_HOCKEY, CAKE_FACTORY, MAGNET_CARTA, LOONEY_LUMBERJACKS, TORPEDO_TARGETS,
-    DESTRUCTION_DUET, DUNGEON_DASH,
-    //mp1 minigames
-    #ifdef MP1
-    MP1_BOBSLED_RUN, DESERT_DASH, BOMBSKETBALL, MP1_HANDCAR_HAVOC, DEEP_SEA_DIVERS,
-    #endif
-    0xFF
-};
-u8 newBattleMinigameListNormalMp3[] = {
-    LOCKED_OUT, ALL_FIRED_UP, STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP,
-    SLAP_DOWN, STORM_CHASERS, EYE_SORE,
-    //issues with mp2 battle minigames atm
-    // MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
-    // MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST,
-    0xFF
-};
-u8 newItemMinigameListNormalMp3[] = {
-    //no mp2 minigames currently for these
-    WINNERS_WHEEL, HEY_BATTER_BATTER, BOBBING_BOW_LOONS, DORRIE_DIP, SWINGING_WITH_SHARKS,
-    SWING_N_SWIPE,
-    //issues with mp2 item minigames atm
-    0xFF
-};
-u8 newDuelMinigameListNormalMp3[] = {
-    VINE_WITH_ME, POPGUN_PICK_OFF, END_OF_THE_LINE, BABY_BOWSER_BONKERS, SILLY_SCREWS,
-    CROWD_COVER, TICK_TOCK_HOP, BOWSER_TOSS, MOTOR_ROOTER, FOWL_PLAY,
-    0xFF
-};
-
-//at 80100EEC originally (normal minigame list, amount of minigames in each category)
-u8 newCategoryAmountsNormal[] = {
-    ARRAY_COUNT(new4PMinigameListNormalMp3) -1,
-    ARRAY_COUNT(new1v3MinigameListNormalMp3) -1,
-    ARRAY_COUNT(new2v2MinigameListNormalMp3) -1,
-    ARRAY_COUNT(newItemMinigameListNormalMp3) -1,
-    ARRAY_COUNT(newBattleMinigameListNormalMp3) -1,
-    ARRAY_COUNT(newDuelMinigameListNormalMp3) -1,
-};
 
 u8 new4PMinigameListEasyMp3[] = {0x15, 0x19, 0x1C, 0x1D, 0x1E, 0x21, 0x22, 0x26, 0x28};
 u8 new1v3MinigameListEasyMp3[] = {0x02, 0x03, 0x04, 0x05, 0x06, 0x09, 0x0A};
@@ -982,7 +718,7 @@ void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 minigameCombinedIndex = arg1 - 0x46FF;
 
     s32 i;
-    for (i = 0; i < ARRAY_COUNT(minigameLUT); i++) {
+    for (i = 0; i < MINIGAME_END - 1; i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
             func_8005B43C_5C03C(arg0, minigameLUT[i].minigameStr, arg2, arg3);
             return;

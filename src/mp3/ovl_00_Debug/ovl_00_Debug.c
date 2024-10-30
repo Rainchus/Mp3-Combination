@@ -6,11 +6,14 @@
 #define BACKGROUND_IMAGE_ID 0x001E0005
 #define MENU_BACKGROUND_IMAGE_ID 0x000E0024
 
+#define MESSAGE_BOX_ID 0x00000090
+
 #define EEPROM_ABS_POS 0x2C0
 #define EEPROM_BLOCK_POS EEPROM_ABS_POS / EEPROM_BLOCK_SIZE
 
 s32 pageIndex = 0;
 s32 cursorIndex = 0;
+s32 flipMinigameFlags = 0;
 
 extern u8 mp3_D_800D09A8;
 OSMesgQueue customMesgQueue = {0};
@@ -22,7 +25,6 @@ extern s16 mp3_D_800CDA7C[];
 extern s16 mp3_D_800C9520;
 extern s16 mp3_D_800D1350[];
 extern s32 eepromLoadFailed;
-extern char* MinigameList[];
 extern u32 mp3_debug_font_color;
 void mp3_DrawDebugText(s32, s32, char*);
 u16 func_8000B838_C438(s32);
@@ -36,6 +38,7 @@ void mp3_bzero(void*, s32);
 void ComboSwitchGameToMp3(void);
 s32 directionHeldFrames = 0;
 s32 buttonHeld = 0;
+extern mp3MinigameIndexTable minigameLUT[];
 
 void to_uppercase(const char* input, char* output) {
     while (*input) {
@@ -134,15 +137,14 @@ s32 CheckHeldButtons(void) {
 }
 
 void newDebugMenuMain(void) {
+    mp3MinigameIndexTable* curMinigameData;
     char outputbuffer[40];
     s32 eSprite0;
     s32 eSprite1;
     s32 eSprite2;
-    char buffer[100];
-    s32 i;
-
-
-    mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
+    u8 minigameflag;
+    s32 i, j;
+    
     mp3_HuPrcVSleep();
     mp3_HuWipeFadeIn(0xFF, 0x10);
     eSprite0 = DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
@@ -150,22 +152,12 @@ void newDebugMenuMain(void) {
     mp3_HuAudSeqPlay(4);
 
     if (eepromLoadFailed == 1) {
-        s32 invalidEepBoxSpriteId = DrawImageWrapper(0x00000090, 0, 0);
+        s32 invalidEepBoxSpriteId = DrawImageWrapper(MESSAGE_BOX_ID, 0, 0);
         mp3_ScaleESprite(invalidEepBoxSpriteId, 1.25f, 1.0f);
+        //mp3_Hu3dModelCreateWrapper(0x000200A2, 0x6A9); //create tumble model
         s32 xPos = 24;
         s32 yPos = 35;
         while (1) {
-
-            //dpad up
-            if (mp3_D_800C9520 & 0x800) { //dpad up
-                yPos--;
-            } else if (mp3_D_800C9520 & 0x400) { //dpad down
-                yPos++;
-            } else if (mp3_D_800C9520 & 0x200) { //dpad left
-                xPos--;
-            } else if (mp3_D_800C9520 & 0x100) { //dpad right
-                xPos++;
-            }
             func_8000BBD4_C7D4(invalidEepBoxSpriteId, xPos, yPos); //set sprite position
             mp3_debug_font_color = 9;
             InvalidEepCheck(xPos + 27, yPos - 15);
@@ -180,6 +172,7 @@ void newDebugMenuMain(void) {
         s32 xPos = 105;
         s32 yPos = 38;
         s32 currentlyHeldButtons;
+        s32 minigameIndex;
 
         if (mp3_D_800C9520 & 0x200) { //dpad left
             mp3_debug_font_color--;
@@ -231,35 +224,58 @@ void newDebugMenuMain(void) {
                 }
             }
         }
-
         for (i = 0; i < MINIGAMES_PER_PAGE; i++) {
-            u8 minigameFlag = GetMinigameFlag(pageIndex * MINIGAMES_PER_PAGE + i);
-            u8 curMinigameIndex = i + pageIndex * MINIGAMES_PER_PAGE;
-            if (MinigameList[curMinigameIndex] == (void*)-1) {
-                break;
+            s32 minigameIndex = pageIndex * MINIGAMES_PER_PAGE + i;
+
+            if (minigameIndex >= MINIGAME_END -1) {
+                continue;
             }
+            curMinigameData = &minigameLUT[minigameIndex];
+            minigameflag = GetMinigameFlag(curMinigameData->minigameIndex);
 
-            mp3_bzero(outputbuffer, sizeof(outputbuffer));
-            to_uppercase(&MinigameList[curMinigameIndex][1], outputbuffer);
-
-            if (minigameFlag == 1) {
+            if (minigameflag == 1) {
                 mp3_debug_font_color = 12;
             } else {
                 mp3_debug_font_color = 0;
             }
 
             if (cursorIndex == i) {
-                mp3_debug_font_color = 9;
+                mp3_debug_font_color = 5;
             }
 
+            mp3_bzero(outputbuffer, sizeof(outputbuffer));
+            to_uppercase(&curMinigameData->minigameStr[1], outputbuffer);
             mp3_DrawDebugText(xPos, yPos, outputbuffer);
+            
+            mp3_bzero(outputbuffer, sizeof(outputbuffer));
+            mp3_sprintf(outputbuffer, "%d", curMinigameData->minigameIndex);
+            mp3_DrawDebugText(10, yPos, outputbuffer);
+
+            mp3_bzero(outputbuffer, sizeof(outputbuffer));
+            mp3_sprintf(outputbuffer, "%d", minigameflag);
+            mp3_DrawDebugText(45, yPos, outputbuffer);
             yPos += 10;
         }
 
-        //if A pressed
-        if (mp3_D_800C9520 & 0x8000) {
-            // Flip the current minigame flag
-            FlipMinigameFlag(pageIndex * MINIGAMES_PER_PAGE + cursorIndex);
+        s32 minigameLutIndex = pageIndex * MINIGAMES_PER_PAGE + cursorIndex;
+        if (minigameLutIndex < MINIGAME_END - 1) {
+            if (mp3_D_800C9520 & 0x8000) {
+                curMinigameData = &minigameLUT[minigameLutIndex];
+                // Flip the current minigame flag
+                FlipMinigameFlag(curMinigameData->minigameIndex);
+            }
+        }
+
+        mp3_bzero(outputbuffer, sizeof(outputbuffer));
+        mp3_sprintf(outputbuffer, "CURSOR: %d", cursorIndex);
+        mp3_DrawDebugText(10, yPos, outputbuffer);
+
+        //if B is pressed, turn all flags off
+        if (mp3_D_800C9520 & 0x4000) {
+            for (i = 0; i < MINIGAME_END - 1; i++) {
+                SetMinigameFlag(i, flipMinigameFlags);
+            }
+            flipMinigameFlags = !flipMinigameFlags;
         }
 
         //if start is pressed, save changes and then exit
