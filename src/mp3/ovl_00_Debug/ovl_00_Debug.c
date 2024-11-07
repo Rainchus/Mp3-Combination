@@ -25,7 +25,6 @@ extern s16 mp3_D_800CDA7C[];
 extern s16 mp3_D_800C9520;
 extern s16 mp3_D_800D1350[];
 extern s32 eepromLoadFailed;
-extern u32 mp3_debug_font_color;
 void mp3_DrawDebugText(s32, s32, char*);
 u16 func_8000B838_C438(s32);
 extern s32 mp3_osEepromLongRead(OSMesgQueue *, u8, u8 *, int);
@@ -39,6 +38,7 @@ void ComboSwitchGameToMp3(void);
 s32 directionHeldFrames = 0;
 s32 buttonHeld = 0;
 extern mp3MinigameIndexTable minigameLUT[];
+extern u32 mp3_debug_font_color;
 
 void to_uppercase(const char* input, char* output) {
     while (*input) {
@@ -174,11 +174,11 @@ void newDebugMenuMain(void) {
         s32 currentlyHeldButtons;
         s32 minigameIndex;
 
-        if (mp3_D_800C9520 & 0x200) { //dpad left
-            mp3_debug_font_color--;
-        } else if (mp3_D_800C9520 & 0x100) { //dpad right
-            mp3_debug_font_color++;
-        }
+        // if (mp3_D_800C9520 & 0x200) { //dpad left
+        //     mp3_debug_font_color--;
+        // } else if (mp3_D_800C9520 & 0x100) { //dpad right
+        //     mp3_debug_font_color++;
+        // }
 
         currentlyHeldButtons = CheckHeldButtons();
         if (currentlyHeldButtons != 0) {

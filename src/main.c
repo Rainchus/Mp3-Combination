@@ -72,6 +72,7 @@ extern s32 mp3_D_800B1A30;
 extern s16 D_800D6B60;
 extern omOvlHisData D_800D20F0[];
 extern s16 mp3_D_800CDA7C[];
+extern u32 mp3_debug_font_color;
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 extern u8 mp3_BoardState[BOARD_STATE_STRUCT_SIZE];
@@ -555,11 +556,13 @@ void drawMessageOnBootLogos(void) {
         mp3_omOvlCallEx(0, 0, 0);
         return;
     }
-    if (printTimer < 90) {
+    if (printTimer < 120) {
         printTimer++;
-        // mp3_DrawDebugText(20, 210, "MOD BY: RAINCHUS");
-        // mp3_DrawDebugText(20, 220, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
-        // mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+        
+        mp3_debug_font_color = 4;
+        mp3_DrawDebugText(20, 210, "MOD BY: RAINCHUS VERSION 0.1");
+        mp3_DrawDebugText(20, 220, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
+        mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
 }
 
@@ -573,13 +576,13 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     u32 temp_v0; //pointer to message
 
     //Huh? My suggestion? textbox
-    if (messageID == 0x3125) {
-        func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, newMessage, -1, -1);
-        ForeignMinigameIndexToLoad = -1;
-        mp3_HuPrcSleep(30);
-        ComboSwitchGameToMp2();
-        return;
-    }
+    // if (messageID == 0x3125) {
+    //     func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, newMessage, -1, -1);
+    //     ForeignMinigameIndexToLoad = -1;
+    //     mp3_HuPrcSleep(30);
+    //     ComboSwitchGameToMp2();
+    //     return;
+    // }
 
     func_8005D294_5DE94(mp3_D_80110998[arg0].unk_00);
 
