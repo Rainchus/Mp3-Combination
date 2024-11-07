@@ -23,47 +23,57 @@ int file_exists(const char *filename) {
 }
 
 int main() {
-    FILE *file1, *file2, *output;
+    FILE *file1, *file2, *file3, *output;
 
-    // Open the files mp3.z64 and mp2.z64
-    file1 = fopen("mp3.z64", "rb");
-    file2 = fopen("mp2.z64", "rb");
+    // Open the files mp3.z64, mp2.z64, and mp1.z64
+    file1 = fopen("roms/mp3.z64", "rb");
+    file2 = fopen("roms/mp2.z64", "rb");
+    file3 = fopen("roms/mp1.z64", "rb");
 
-    // Check if both files are found
-    if (file1 == NULL || file2 == NULL) {
+    // Check if all files are found
+    if (file1 == NULL || file2 == NULL || file3 == NULL) {
         if (file1 == NULL) {
             printf("Error: mp3.z64 not found.\n");
         }
         if (file2 == NULL) {
             printf("Error: mp2.z64 not found.\n");
         }
+        if (file3 == NULL) {
+            printf("Error: mp1.z64 not found.\n");
+        }
         // Close any open files and exit
         if (file1 != NULL) fclose(file1);
         if (file2 != NULL) fclose(file2);
+        if (file3 != NULL) fclose(file3);
         return 1;
     }
 
     // Open output file for appending
-    output = fopen("mp3-mp2.z64", "wb");
+    output = fopen("mp3-mp2-mp1.z64", "wb");
     if (output == NULL) {
-        printf("Error: Could not create mp3-mp2.z64.\n");
+        printf("Error: Could not create mp3-mp2-mp1.z64.\n");
         fclose(file1);
         fclose(file2);
+        fclose(file3);
         return 1;
     }
 
-    // Append mp3.z64 content to mp3-mp2.z64
+    // Append mp3.z64 content to mp3-mp2-mp1.z64
     append_file(file1, output);
     fclose(file1);
 
-    // Append mp2.z64 content to mp3-mp2.z64
+    // Append mp2.z64 content to mp3-mp2-mp1.z64
     append_file(file2, output);
     fclose(file2);
+
+    // Append mp1.z64 content to mp3-mp2-mp1.z64
+    append_file(file3, output);
+    fclose(file3);
 
     // Close the output file
     fclose(output);
 
-    printf("Files mp3.z64 and mp2.z64 successfully merged into mp3-mp2.z64.\n");
+    printf("Files mp3.z64, mp2.z64, and mp1.z64 successfully merged into mp3-mp2-mp1.z64.\n");
 
     // Check if flips.exe exists
     if (!file_exists("flips.exe")) {
@@ -71,20 +81,20 @@ int main() {
         return 1;
     }
 
-    // Check if mp3-mp2-combo.bps exists
-    if (!file_exists("mp3-mp2-combo.bps")) {
-        printf("Error: mp3-mp2-combo.bps not found. Exiting.\n");
+    // Check if mp3-mp2-mp1-combo.bps exists
+    if (!file_exists("mp3-mp2-mp1-combo.bps")) {
+        printf("Error: mp3-mp2-mp1-combo.bps not found. Exiting.\n");
         return 1;
     }
 
     // Apply the patch using flips.exe (Windows compatible)
-    printf("Applying mp3-mp2-combo.bps to mp3-mp2.z64...\n");
-    if (system("flips.exe --apply \"./mp3-mp2-combo.bps\" \"mp3-mp2.z64\" \"mp3-mp2-combo.z64\"") != 0) {
+    printf("Applying mp3-mp2-mp1-combo.bps to mp3-mp2-mp1.z64...\n");
+    if (system("flips.exe --apply \"./mp3-mp2-mp1-combo.bps\" \"mp3-mp2-mp1.z64\" \"mp3-mp2-mp1-combo.z64\"") != 0) {
         printf("Error: Failed to apply the patch.\n");
         return 1;
     }
 
-    printf("Patch applied successfully, output written to mp3-mp2-combo.z64.\n");
+    printf("Patch applied successfully, output written to mp3-mp2-mp1-combo.z64.\n");
 
     return 0;
 }
