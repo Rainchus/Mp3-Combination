@@ -1,4 +1,5 @@
 #include "marioparty.h"
+#include "mp3.h"
 
 #define MINIGAMES_PER_PAGE 16
 #define MAX_PAGES 12
@@ -24,13 +25,10 @@ void mp3_HuAudSeqPlay(s32);
 extern s16 mp3_D_800CDA7C[];
 extern s16 mp3_D_800C9520;
 extern s16 mp3_D_800D1350[];
-extern s32 eepromLoadFailed;
 void mp3_DrawDebugText(s32, s32, char*);
-u16 func_8000B838_C438(s32);
 extern s32 mp3_osEepromLongRead(OSMesgQueue *, u8, u8 *, int);
-void func_8000BBD4_C7D4(s32, s32, s32);
+void mp3_func_8000BBD4_C7D4(s32, s32, s32);
 void mp3_ScaleESprite(s32 eSpriteID, f32 xScale, f32 yScale);
-s32 InitEspriteSlot(s16, s32, s32);
 void mp3_HuPrcVSleep(void);
 void mp3_HuWipeFadeIn(s32, s32);
 void mp3_bzero(void*, s32);
@@ -39,39 +37,6 @@ s32 directionHeldFrames = 0;
 s32 buttonHeld = 0;
 extern mp3MinigameIndexTable minigameLUT[];
 extern u32 mp3_debug_font_color;
-
-void to_uppercase(const char* input, char* output) {
-    while (*input) {
-        if (*input >= 'a' && *input <= 'z') {
-            *output = *input - ('a' - 'A');  // Convert lowercase to uppercase
-            output++;
-        } else if ((*input >= 'A' && *input <= 'Z') || *input == ' ' || (*input >= '1' && *input <= '9')) {
-            *output = *input;  // Copy uppercase letters, spaces, and digits 1-9
-            output++;
-        }
-        // Skip other characters
-        input++;
-    }
-    *output = '\0';  // Null-terminate the output string
-}
-
-s32 DrawImageWrapper(s32 mainFileSystemID, s32 xPos, s32 yPos) {
-    s32 curGraphicID;
-    s32 curESpriteID;
-
-    curGraphicID = func_8000B838_C438(mainFileSystemID);
-    curESpriteID = InitEspriteSlot(curGraphicID, 0, 1);
-    func_8000BBD4_C7D4(curESpriteID, xPos, yPos); //set sprite position
-    return curESpriteID;
-}
-
-void InvalidEepCheck(s32 xPos, s32 yPos) {
-    if (eepromLoadFailed == 1) {
-        mp3_DrawDebugText(xPos, yPos, "INVALID SAVE TYPE FOUND");
-        mp3_DrawDebugText(xPos, yPos + 10, "PLEASE SET THE SAVE TYPE TO");
-        mp3_DrawDebugText(xPos, yPos + 20, "EEPROM 16KBIT");
-    }
-}
 
 void SetMusicID(void) {
     char buffer[20];
@@ -136,18 +101,51 @@ s32 CheckHeldButtons(void) {
     return 0;
 }
 
+s32 DrawImageWrapper(s32 mainFileSystemID, s32 xPos, s32 yPos) {
+    s32 curGraphicID;
+    s32 curESpriteID;
+
+    curGraphicID = func_8000B838_C438(mainFileSystemID);
+    curESpriteID = InitEspriteSlot(curGraphicID, 0, 1);
+    mp3_func_8000BBD4_C7D4(curESpriteID, xPos, yPos); //set sprite position
+    return curESpriteID;
+}
+
+void InvalidEepCheck(s32 xPos, s32 yPos) {
+    if (eepromLoadFailed == 1) {
+        mp3_DrawDebugText(xPos, yPos, "INVALID SAVE TYPE FOUND");
+        mp3_DrawDebugText(xPos, yPos + 10, "PLEASE SET THE SAVE TYPE TO");
+        mp3_DrawDebugText(xPos, yPos + 20, "EEPROM 16KBIT");
+    }
+}
+
+void to_uppercase(const char* input, char* output) {
+    while (*input) {
+        if (*input >= 'a' && *input <= 'z') {
+            *output = *input - ('a' - 'A');  // Convert lowercase to uppercase
+            output++;
+        } else if ((*input >= 'A' && *input <= 'Z') || *input == ' ' || (*input >= '1' && *input <= '9')) {
+            *output = *input;  // Copy uppercase letters, spaces, and digits 1-9
+            output++;
+        }
+        // Skip other characters
+        input++;
+    }
+    *output = '\0';  // Null-terminate the output string
+}
+
 void newDebugMenuMain(void) {
     mp3MinigameIndexTable* curMinigameData;
     char outputbuffer[40];
-    s32 eSprite0;
+    // s32 eSprite0;
     s32 eSprite1;
-    s32 eSprite2;
     u8 minigameflag;
-    s32 i, j;
+    s32 i;
     
     mp3_HuPrcVSleep();
     mp3_HuWipeFadeIn(0xFF, 0x10);
-    eSprite0 = DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
+    // eSprite0 = DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
+    DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
     
     mp3_HuAudSeqPlay(4);
 
@@ -158,7 +156,7 @@ void newDebugMenuMain(void) {
         s32 xPos = 24;
         s32 yPos = 35;
         while (1) {
-            func_8000BBD4_C7D4(invalidEepBoxSpriteId, xPos, yPos); //set sprite position
+            mp3_func_8000BBD4_C7D4(invalidEepBoxSpriteId, xPos, yPos); //set sprite position
             mp3_debug_font_color = 9;
             InvalidEepCheck(xPos + 27, yPos - 15);
             mp3_HuPrcVSleep();
@@ -172,7 +170,6 @@ void newDebugMenuMain(void) {
         s32 xPos = 105;
         s32 yPos = 38;
         s32 currentlyHeldButtons;
-        s32 minigameIndex;
 
         // if (mp3_D_800C9520 & 0x200) { //dpad left
         //     mp3_debug_font_color--;

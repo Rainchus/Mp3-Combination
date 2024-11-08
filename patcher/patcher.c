@@ -114,9 +114,9 @@ int main() {
 
     // Check if all files are found
     if (file1 == NULL || file2 == NULL || file3 == NULL) {
-        if (file1 == NULL) printf("Error: mp3.z64 not found.\n");
-        if (file2 == NULL) printf("Error: mp2.z64 not found.\n");
-        if (file3 == NULL) printf("Error: mp1.z64 not found.\n");
+        if (file1 == NULL) printf("Error: roms/mp3.z64 not found.\n");
+        if (file2 == NULL) printf("Error: roms/mp2.z64 not found.\n");
+        if (file3 == NULL) printf("Error: roms/mp1.z64 not found.\n");
         if (file1 != NULL) fclose(file1);
         if (file2 != NULL) fclose(file2);
         if (file3 != NULL) fclose(file3);

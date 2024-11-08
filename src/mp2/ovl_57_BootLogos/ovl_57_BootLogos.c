@@ -1,4 +1,6 @@
 #include "marioparty.h"
+#include "mp3.h"
+#include "mp2.h"
 
 #define N64_LOGO 0x00090000
 #define NINTENO_LOGO 0x00090001
@@ -20,7 +22,6 @@ extern s32 ForeignMinigameIndexToLoad;
 extern UnkBoardStatus mp2_D_800F93A8;
 extern s8 mp2_D_800F93CD_F9FCD;
 extern s32 mp3_LoadBackFromMp2;
-extern mp3_PlayerData mp3_PlayersCopy[4];
 extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
 
 s16 mp2_func_8001A2F8_1AEF8(s32);

@@ -1,4 +1,6 @@
 #include "marioparty.h"
+#include "mp3.h"
+#include "mp1.h"
 
 s16 mp1_InitSprite(s32);
 void mp1_SetBasicSpritePos(s32, s32, s32);
@@ -21,7 +23,6 @@ extern u8 mp1_D_800ED5E3;
 extern u16 mp1_D_800ED5DE;
 void CopyMp3_gPlayerCopy_To_Mp1(void);
 void mp1_omInitObjMan(s32, s32);
-extern mp3_PlayerData mp3_PlayersCopy[4];
 extern u32 mp1_rnd_seed;
 
 //func_800F686C_LogosSequence

@@ -53,8 +53,8 @@
 .definelabel mp3_D_80110998, 0x80110998
 .definelabel mp3_D_800B1A30, 0x800B1A30
 .definelabel mp3_rand8, 0x8000B16C
-.definelabel func_80019C00_1A800, 0x80019C00
-.definelabel func_8005B43C_5C03C, 0x8005B43C
+.definelabel mp3_func_80019C00_1A800, 0x80019C00
+.definelabel mp3_func_8005B43C_5C03C, 0x8005B43C
 .definelabel func_8005D294_5DE94, 0x8005D294
 .definelabel func_80106B38_4F9028, 0x80106B38
 .definelabel mp3_HuPrcSleep, 0x8004F010
@@ -71,17 +71,17 @@
 .definelabel func_80108910_119290, 0x80108910
 
 .definelabel mp3_HuWipeFadeIn, 0x80061FE8
-.definelabel HuWipeFadeOut, 0x80062050
-.definelabel HuWipeStatGet, 0x800620BC
+.definelabel mp3_HuWipeFadeOut, 0x80062050
+.definelabel mp3_HuWipeStatGet, 0x800620BC
 .definelabel InitEspriteSlot, 0x8000BFEC
 .definelabel func_8000B838_C438, 0x8000B838
-.definelabel func_8000BB54_C754, 0x8000BB54
+.definelabel mp3_func_8000BB54_C754, 0x8000BB54
 .definelabel mp3_HuPrcVSleep, 0x8004F074
-.definelabel func_8000BBD4_C7D4, 0x8000BBD4
-.definelabel func_8000BCC8_C8C8, 0x8000BCC8
-.definelabel func_8000C184_CD84, 0x8000C184
-.definelabel func_80055670_56270, 0x80055670
-.definelabel D_800D530C, 0x800D530C
+.definelabel mp3_func_8000bbd4_c7d4, 0x8000BBD4
+.definelabel mp3_func_8000BCC8_C8C8, 0x8000BCC8
+.definelabel mp3_func_8000C184_CD84, 0x8000C184
+.definelabel mp3_func_80055670_56270, 0x80055670
+.definelabel mp3_D_800D530C, 0x800D530C
 .definelabel mp3_HuAudSeqPlay, 0x8004A520
 .definelabel mp3_D_800CDA7C, 0x800CDA7C;
 .definelabel mp3_D_800C9520, 0x800C9520

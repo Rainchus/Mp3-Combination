@@ -1,4 +1,5 @@
 #include "marioparty.h"
+#include "mp3.h"
 
 s32 ForeignMinigameIndexToLoad = -1;
 //there's probably a better way to track this
@@ -720,9 +721,9 @@ void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;
     for (i = 0; i < MINIGAME_END - 1; i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
-            func_8005B43C_5C03C(arg0, minigameLUT[i].minigameStr, arg2, arg3);
+            mp3_func_8005B43C_5C03C(arg0, minigameLUT[i].minigameStr, arg2, arg3);
             return;
         }
     }
-    func_8005B43C_5C03C(arg0, arg1, arg2, arg3);
+    mp3_func_8005B43C_5C03C(arg0, (char*)arg1, arg2, arg3);
 }

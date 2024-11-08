@@ -34,7 +34,7 @@ s32 mp1_func_80019540_New(UnkEep* arg0) {
 s32 mp1_func_80019438_New(UnkEep* arg0) {
     u8 eepromBlockCount;
     s16 i;
-    s32 alignmentOffset;
+    // s32 alignmentOffset;
     s32 startOffset;
 
     if (arg0->unk0 >= 8) {
@@ -53,12 +53,13 @@ s32 mp1_func_80019438_New(UnkEep* arg0) {
 }
 
 s32 mp1_GetEepType_New(s8** arg0) {
-    s32 eepromProbeResult;
+    // s32 eepromProbeResult;
     s32 var_s1;
     s16 i;
 
     var_s1 = 0;
-    eepromProbeResult = mp1_osEepromProbe(&mp1_D_800EE960);
+    mp1_osEepromProbe(&mp1_D_800EE960);
+    // eepromProbeResult = mp1_osEepromProbe(&mp1_D_800EE960);
 
     // if (!(eepromProbeResult)) {
     //     return EEPROM_TYPE_4K;
