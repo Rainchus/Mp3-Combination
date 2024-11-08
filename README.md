@@ -1,3 +1,11 @@
+# PLAYING
+1) Download the `patcher.zip` file from the [releases](https://github.com/Rainchus/Mp3-Combination/releases) tab and extract it to a folder.</br>
+2) Now obtain mario party 3, 2, and 1 US roms</br>
+3) Name them `mp3.z64`, `mp2.z64`, and `mp1.z64` respecitvely, and place them into the `roms/` folder extracted from `patcher.zip`</br>
+4) Now run `patcher.exe`, which will output the modded rom to mp3-mp2-mp1-combo.z64</br>
+5) In your emulator you will need to make sure the expansion pak is on (8MB of RAM)</br>
+6) Also if on project64, you need to set the save type to `16kbit eeprom`</br>
+
 # BUILDING
 
 Follow this to set up armips
