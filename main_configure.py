@@ -148,6 +148,19 @@ with open('build.ninja', 'w') as buildfile:
     # Create a build statement to run n64crc.exe after armips
     ninja.build('run_n64crc', 'n64crc', 'run_armips')
 
+    if not mp1_flag:
+        # Define the trim_rom rule to truncate the ROM
+        ninja.rule(
+            "trim_rom",
+            command=f"python truncate_rom.py rom/{rom_mod_name}",
+            description=f"Trimming ROM at {rom_mod_name}"
+        )
+
+        # Create the build target for trim_rom with dependencies on run_armips and run_n64crc
+        ninja.build('trim_rom', 'trim_rom', ['run_armips', 'run_n64crc'])
+
+
+
 # Create an ASM file that includes other .asm and .s files and imports .o files
 with open("asm/main.asm", 'w') as file:
     file.write(header)

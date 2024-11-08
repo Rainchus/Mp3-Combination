@@ -306,6 +306,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     {TOAD_IN_THE_BOX, ToadInTheBoxStr, 40, PLAYERS_4P}, //mp2 40
     {TOTEM_POLE_POUND, TotemPolePoundStr, 45, PLAYERS_4P}, //mp2 45
 
+    #ifdef MP1
     //mp1 4p minigames
     {MP1_BALLOON_BURST, BalloonBurstStr, 19, PLAYERS_4P}, //mp1 19
     {MP1_BOMBS_AWAY, mp1_BombsAwayStr, 34, PLAYERS_4P}, //mp1 34  
@@ -332,6 +333,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     {MP1_TIPSY_TOURNEY, mp1_TipsyTourneyStr, 33, PLAYERS_4P}, //mp1 33
     {TREASURE_DIVERS, TreasureDiversStr, 4, PLAYERS_4P}, //mp1 4
     {YOSHIS_TONGUE_MEETING, YoshisToungueStr, 8, PLAYERS_4P}, //mp1 8
+    #endif
 
     //1v3 minigames
     {BOULDER_BALL, BoulderBallStr, 4, PLAYERS_1V3},
@@ -358,6 +360,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     {RAINBOW_RUN, RainbowRunStr, 16, PLAYERS_1V3}, //mp2 16
     {SHOCK_DROP_OR_ROLL, ShockDropOrRollStr, 21, PLAYERS_1V3}, //mp2 21
 
+    #ifdef MP1
     //mp1 1v3 minigames
     {BASH_N_CASH, BashNCashStr, 16, PLAYERS_1V3}, //mp1 16
     {MP1_BOWL_OVER, mp1_BowlOverStr, 17, PLAYERS_1V3}, //mp1 17
@@ -369,6 +372,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     {PIRANHA_PURSUIT, PiranhaPursuitStr, 49, PLAYERS_1V3}, //mp1 49
     {TIGHTROPE_TREACHERY, TightropeTreacheryStr, 31, PLAYERS_1V3}, //mp1 31
     {TUG_O_WAR, TugOWarStr, 50, PLAYERS_1V3}, //mp1 50
+    #endif
 
     //2v2 minigames
     {BABY_BOWSER_BROADSIDE, BabyBowserBroadsideStr, 12, PLAYERS_2V2},
@@ -396,12 +400,14 @@ mp3MinigameIndexTable minigameLUT[] = {
     {SPEED_HOCKEY, SpeedHockeyStr, 32, PLAYERS_2V2}, //mp2 32
     {TOAD_BANDSTAND, ToadBandstandStr, 26, PLAYERS_2V2}, //mp2 26
 
+    #ifdef MP1
     //mp1 2v2 minigames
     {MP1_BOBSLED_RUN, mp1_BobsledRunStr, 29, PLAYERS_2V2}, //mp1 29
     {BOMBSKETBALL, BombsketballStr, 42, PLAYERS_2V2}, //mp1 42
     {DEEP_SEA_DIVERS, DeepSeaDiversStr, 48, PLAYERS_2V2}, //mp1 48
     {DESERT_DASH, DesertDashStr, 39, PLAYERS_2V2}, //mp1 39
     {MP1_HANDCAR_HAVOC, mp1_HandcarHavocStr, 47, PLAYERS_2V2}, //mp1 47
+    #endif
 
     //battle minigames
     {ALL_FIRED_UP, AllFiredUpStr, 41, PLAYERS_BATTLE},
@@ -473,9 +479,11 @@ mp3MinigameIndexTable minigameLUT[] = {
     {STARDUST_BATTLE, StardustBattleStr, 66, PLAYERS_SPECIAL},
     {MP2_CHANCE_TIME, mp2_ChanceTimeStr, 58, PLAYERS_SPECIAL}, //mp2 58
     {DRIVERS_ED, DriversEdStr, 57, PLAYERS_SPECIAL}, //mp2 57
+    #ifdef MP1
     {MP1_CHANCE_TIME, mp1_ChanceTimeStr, 1, PLAYERS_SPECIAL}, //mp1 1
 
-    //mp2 56
+    
+    //mp1 1p minigames
     {GHOST_GUESS, GhostGuestStr, 10, PLAYERS_1P}, //mp1 10
     {GROUND_POUND, GroundPoundStr, 18, PLAYERS_1P}, //mp1 18
     {KNOCK_BLOCK_TOWER, KnockBlockTowerStr, 32, PLAYERS_1P}, //mp1 32
@@ -487,6 +495,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     {SAME_GAME, SameGameStr, 6, PLAYERS_1P}, //mp1 6
     {TEETERING_TOWER, TeeteringTowersStr, 25, PLAYERS_1P}, //mp1 25
     {WHACKA_A_PLANT, WhackAPlantStr, 15, PLAYERS_1P}, //mp1 15
+    #endif
 };
 
 s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
