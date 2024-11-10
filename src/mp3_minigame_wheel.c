@@ -501,7 +501,7 @@ mp3MinigameIndexTable minigameLUT[] = {
 s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
     s32 i;
     //find the minigame and get the overlay id for the specific game
-    for (i = 0; i < MINIGAME_END - 1; i++) {
+    for (i = 0; i < MINIGAME_END; i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
             return minigameLUT[i].gameOverlayID;
         }
@@ -728,7 +728,7 @@ void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 minigameCombinedIndex = arg1 - 0x46FF;
 
     s32 i;
-    for (i = 0; i < MINIGAME_END - 1; i++) {
+    for (i = 0; i < MINIGAME_END; i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
             mp3_func_8005B43C_5C03C(arg0, minigameLUT[i].minigameStr, arg2, arg3);
             return;

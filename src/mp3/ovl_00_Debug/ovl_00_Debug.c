@@ -147,7 +147,7 @@ void newDebugMenuMain(void) {
     // eSprite0 = DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
     DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
     
-    mp3_HuAudSeqPlay(4);
+    mp3_HuAudSeqPlay(8);
 
     if (eepromLoadFailed == 1) {
         s32 invalidEepBoxSpriteId = DrawImageWrapper(MESSAGE_BOX_ID, 0, 0);
@@ -163,12 +163,12 @@ void newDebugMenuMain(void) {
         }
     }
 
-    eSprite1 = DrawImageWrapper(MENU_BACKGROUND_IMAGE_ID, 200, 120);
+    eSprite1 = DrawImageWrapper(MENU_BACKGROUND_IMAGE_ID, 200, 105);
     mp3_ScaleESprite(eSprite1, 1.70f, 1.0f);
 
     while (1) {
         s32 xPos = 105;
-        s32 yPos = 38;
+        s32 yPos = 23;
         s32 currentlyHeldButtons;
 
         // if (mp3_D_800C9520 & 0x200) { //dpad left
@@ -181,31 +181,51 @@ void newDebugMenuMain(void) {
         if (currentlyHeldButtons != 0) {
             switch (currentlyHeldButtons) {
             case 0x400:
-                if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
-                    cursorIndex++;
-                } else {
+                //hardcoded check for last page
+                if (cursorIndex >= 13 && pageIndex == MAX_PAGES - 1) {
                     cursorIndex = 0; //wrap around
+                } else {
+                    if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
+                        cursorIndex++;
+                    } else {
+                        cursorIndex = 0; //wrap around
+                    }
                 }
                 break;                
             case 0x800:
-                if (cursorIndex > 0) {
-                    cursorIndex--;
+                //hardcoded check for last page
+                if (cursorIndex == 0 && pageIndex == MAX_PAGES - 1) {
+                    cursorIndex = 13; //wrap around
                 } else {
-                    cursorIndex = MINIGAMES_PER_PAGE - 1; //wrap around
+                    if (cursorIndex > 0) {
+                        cursorIndex--;
+                    } else {
+                        cursorIndex = MINIGAMES_PER_PAGE - 1; //wrap around
+                    }
                 }
             }
         } else {
             if (mp3_D_800C9520 & 0x800) { //dpad up
-                if (cursorIndex > 0) {
-                    cursorIndex--;
+                //hardcoded check for last page
+                if (cursorIndex == 0 && pageIndex == MAX_PAGES - 1) {
+                    cursorIndex = 13; //wrap around
                 } else {
-                    cursorIndex = MINIGAMES_PER_PAGE - 1; //wrap around
+                    if (cursorIndex > 0) {
+                        cursorIndex--;
+                    } else {
+                        cursorIndex = MINIGAMES_PER_PAGE - 1; //wrap around
+                    }
                 }
             } else if (mp3_D_800C9520 & 0x400) { //dpad down
-                if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
-                    cursorIndex++;
-                } else {
+                //hardcoded check for last page
+                if (cursorIndex >= 13 && pageIndex == MAX_PAGES - 1) {
                     cursorIndex = 0; //wrap around
+                } else {
+                    if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
+                        cursorIndex++;
+                    } else {
+                        cursorIndex = 0; //wrap around
+                    }
                 }
             } else if (mp3_D_800C9520 & 0x200) { //dpad left
                 if (pageIndex > 0) {
@@ -213,6 +233,7 @@ void newDebugMenuMain(void) {
                 } else {
                     pageIndex = MAX_PAGES - 1; //wrap around
                 }
+
             } else if (mp3_D_800C9520 & 0x100) { //dpad right
                 if (pageIndex < MAX_PAGES - 1) {
                     pageIndex++;
@@ -220,6 +241,10 @@ void newDebugMenuMain(void) {
                     pageIndex = 0; //wrap around
                 }
             }
+        }
+        //if swapped to last page, make sure cursor is set accordingly
+        if (cursorIndex > 13 && pageIndex == MAX_PAGES - 1) {
+            cursorIndex = 13; //wrap around
         }
         for (i = 0; i < MINIGAMES_PER_PAGE; i++) {
             s32 minigameIndex = pageIndex * MINIGAMES_PER_PAGE + i;
@@ -263,13 +288,18 @@ void newDebugMenuMain(void) {
             }
         }
 
+        mp3_debug_font_color = 0;
         mp3_bzero(outputbuffer, sizeof(outputbuffer));
         mp3_sprintf(outputbuffer, "CURSOR: %d", cursorIndex);
-        mp3_DrawDebugText(10, yPos, outputbuffer);
+        mp3_DrawDebugText(5, 193, outputbuffer); //193
+        mp3_DrawDebugText(5, 203, "DPAD - SCROLL");  //203
+        mp3_DrawDebugText(5, 213, "B - TOGGLE ALL"); //213
+        mp3_DrawDebugText(5, 223, "A - TOGGLE MINIGAME"); //223
+        
 
         //if B is pressed, turn all flags off
         if (mp3_D_800C9520 & 0x4000) {
-            for (i = 0; i < MINIGAME_END - 1; i++) {
+            for (i = 0; i < MINIGAME_END; i++) {
                 SetMinigameFlag(i, flipMinigameFlags);
             }
             flipMinigameFlags = !flipMinigameFlags;
