@@ -121,12 +121,12 @@ char ToadInTheBoxStr[] = {"\x0B""TOAD In The Box"}; //mp2 40
 char MechaMarathonStr[] = {"\x0B""Mecha""\x3D""Marathon"}; //mp2 41
 char RollCallStr[] = {"\x0B""Roll Call"}; //mp2 42
 char AbandonShipStr[] = {"\x0B""Abandon Ship"}; //mp2 43
-char mp2_PlatformPerilStr[] = {"\x0B""""\x5D""MP2""\x5E"" Platform Peril"};; //mp2 44
+char mp2_PlatformPerilStr[] = {"\x0B""""\x5D""MP2""\x5E"" Platform Peril"}; //mp2 44
 char TotemPolePoundStr[] = {"\x0B""Totem Pole Pound"}; //mp2 45
 char mp2_BumperBallsStr[] = {"\x0B""""\x5D""MP2""\x5E"" Bumper Balls"}; //mp2 46
 //mp2 47
 char mp2_BombsAwayStr[] = {"\x0B""""\x5D""MP2""\x5E"" Bombs Away"}; //mp2 48
-char mp2_TipsyTourneyStr[] = {"\x0B""""\x5D""MP2""\x5E"" Tipsy Tourney"};; //mp2 49
+char mp2_TipsyTourneyStr[] = {"\x0B""""\x5D""MP2""\x5E"" Tipsy Tourney"}; //mp2 49
 char HoneycombHavocStr[] = {"\x0B""Honeycomb Havoc"}; //mp2 50
 char HexagonHeatStr[] = {"\x0B""Hexagon Heat"}; //mp2 51
 char mp2_SkateboardScamperStr[] = {"\x0B""""\x5D""MP2""\x5E"" Skateboard Scamper"}; //mp2 52
@@ -135,7 +135,7 @@ char mp2_ShyGuySaysStr[] = {"\x0B""""\x5D""MP2""\x5E"" Shy Guy Says"}; //mp2 54
 char SneakNSnoreStr[] = {"\x0B""Sneak ""\x5C""n""\x5C"" Snore"}; //mp2 55
 //mp2 56
 char DriversEdStr[] = {"\x0B""Driver""\x5C""s Ed"}; //mp2 57
-char mp2_ChanceTimeStr[] = {"\x0B""""\x5D""MP2""\x5E"" Chance Time"};; //mp2 58
+char mp2_ChanceTimeStr[] = {"\x0B""""\x5D""MP2""\x5E"" Chance Time"}; //mp2 58
 char WesternLandDuelStr[] = {"\x0B""Western Land Duel"}; //mp2 59
 char PirateLandDuelStr[] = {"\x0B""Pirate Land Duel"}; //mp2 60
 char HorrorLandDuelStr[] = {"\x0B""Horror Land Duel"}; //mp2 61
@@ -186,7 +186,7 @@ char MushroomMixupStr[] = {"\x0B""Mushroom Mix""\x3D""Up"}; //mp1 31
 //mp1 32
 //mp1 33
 char HammerDropStr[] = {"\x0B""Hammer Drop"}; //mp1 34
-char mp1_GrabBagStr[] = {"\x0B""""\x5D""MP1""\x5E"" Grab Bag"};; //mp1 35
+char mp1_GrabBagStr[] = {"\x0B""""\x5D""MP1""\x5E"" Grab Bag"}; //mp1 35
 char mp1_BobsledRunStr[] = {"\x0B""""\x5D""MP1""\x5E"" Bobsled Run"}; //mp1 36
 char mp1_BumperBallsStr[] = {"\x0B""""\x5D""MP1""\x5E"" Bumper Balls"}; //mp1 37
 char TightropeTreacheryStr[] = {"\x0B""Tightrope Treachery"}; //mp1 38
@@ -318,7 +318,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     {MP1_CRAZY_CUTTER, mp1_CrazyCutterStr, 13, PLAYERS_4P}, //mp1 13
     {MP1_FACE_LIFT, mp1_FaceLiftStr, 14, PLAYERS_4P}, //mp1 14
     {MP1_GRAB_BAG, mp1_GrabBagStr, 28, PLAYERS_4P}, //mp1 28
-    {HAMMER_DROP, HammerDropStr, 27, PLAYERS_4P}, //mp1 27
+    {HAMMER_DROP, HammerDropStr, 55, PLAYERS_4P}, //mp1 27 (for some reason this loads the wrong minigame?)
     {MP1_HOT_BOB_OMB, mp1_HotBobOmbStr, 7, PLAYERS_4P}, //mp1 7
     {MP1_HOT_ROPE_JUMP, mp1_HotRopeJumpStr, 46, PLAYERS_4P}, //mp1 46
     {KEY_PA_WAY, KeyPaWayStr, 44, PLAYERS_4P}, //mp1 44
