@@ -318,7 +318,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     {MP1_CRAZY_CUTTER, mp1_CrazyCutterStr, 13, PLAYERS_4P}, //mp1 13
     {MP1_FACE_LIFT, mp1_FaceLiftStr, 14, PLAYERS_4P}, //mp1 14
     {MP1_GRAB_BAG, mp1_GrabBagStr, 28, PLAYERS_4P}, //mp1 28
-    {HAMMER_DROP, HammerDropStr, 55, PLAYERS_4P}, //mp1 27 (for some reason this loads the wrong minigame?)
+    {HAMMER_DROP, HammerDropStr, 55, PLAYERS_4P}, //mp1 55
     {MP1_HOT_BOB_OMB, mp1_HotBobOmbStr, 7, PLAYERS_4P}, //mp1 7
     {MP1_HOT_ROPE_JUMP, mp1_HotRopeJumpStr, 46, PLAYERS_4P}, //mp1 46
     {KEY_PA_WAY, KeyPaWayStr, 44, PLAYERS_4P}, //mp1 44
