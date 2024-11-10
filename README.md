@@ -6,8 +6,12 @@
 5) In your emulator you will need to make sure the expansion pak is on (8MB of RAM)</br>
 6) Also if on project64, you need to set the save type to `16kbit eeprom`</br>
 
-# BUILDING
+# KNOWN ISSUES
+1) Waluigi and Daisy are unselectable (they dont exist in mp1/mp2, so they will crash if attempted to be loaded)</br>
+2) If you turn off too many minigames, the game *will* softlock as it'll fail to populate the minigame wheel</br>
+3) Adding battle minigames from mp2 are ignored as they cannot be correctly loaded at this time</br>
 
+# BUILDING
 Follow this to set up armips
 https://hack64.net/Thread-Importing-C-Code-Into-SM64-Using-n64chain-and-armips
 
