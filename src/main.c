@@ -499,23 +499,23 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 void drawMessageOnBootLogos(void) {
     //TODO: this should only be possible on initial boot, or players might accidentally enter these menus
     //if R is held on boot, load mp2
-    if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x10) {
-        ForeignMinigameIndexToLoad = -1;
-        ComboSwitchGameToMp2();
-        return;
-    }
-    // if L is held on boot, load mp1
-    if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x20) {
-        ForeignMinigameIndexToLoad = -1;
-        ComboSwitchGameToMp1();
-        return;
-    }
-    // if Z is held on boot, load minigame selection screen
-    if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x2000) {
-        ForeignMinigameIndexToLoad = -1;
-        mp3_omOvlCallEx(0, 0, 0);
-        return;
-    }
+    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x10) {
+    //     ForeignMinigameIndexToLoad = -1;
+    //     ComboSwitchGameToMp2();
+    //     return;
+    // }
+    // // if L is held on boot, load mp1
+    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x20) {
+    //     ForeignMinigameIndexToLoad = -1;
+    //     ComboSwitchGameToMp1();
+    //     return;
+    // }
+    // // if Z is held on boot, load minigame selection screen
+    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x2000) {
+    //     ForeignMinigameIndexToLoad = -1;
+    //     mp3_omOvlCallEx(0, 0, 0);
+    //     return;
+    // }
     if (printTimer < 120) {
         printTimer++;
         

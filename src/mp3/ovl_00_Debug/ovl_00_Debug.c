@@ -290,8 +290,9 @@ void newDebugMenuMain(void) {
 
         mp3_debug_font_color = 0;
         mp3_bzero(outputbuffer, sizeof(outputbuffer));
-        mp3_sprintf(outputbuffer, "CURSOR: %d", cursorIndex);
-        mp3_DrawDebugText(5, 193, outputbuffer); //193
+        //mp3_sprintf(outputbuffer, "CURSOR: %d", cursorIndex);
+        // mp3_DrawDebugText(5, 193, outputbuffer); //193
+        mp3_DrawDebugText(5, 193, "START: SAVE"); //193
         mp3_DrawDebugText(5, 203, "DPAD - SCROLL");  //203
         mp3_DrawDebugText(5, 213, "B - TOGGLE ALL"); //213
         mp3_DrawDebugText(5, 223, "A - TOGGLE MINIGAME"); //223
