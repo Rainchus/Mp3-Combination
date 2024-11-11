@@ -283,6 +283,10 @@ u8 itemMinigameBlacklist[] = {
     BOWSER_SLOTS
 };
 
+u8 minigame1v3Blacklist[] = {
+    COIN_SHOWER_FLOWER
+};
+
 //at 80100EEC originally (normal minigame list, amount of minigames in each category)
 // u8 newCategoryAmountsNormal[] = {
 //     ARRAY_COUNT(new4PMinigameListNormalMp3) -1,
@@ -359,8 +363,17 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
             newCategoryAmountsNormal[PLAYERS_4P]++;
             break;
         case PLAYERS_1V3:
-            new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
-            newCategoryAmountsNormal[PLAYERS_1V3]++;
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(minigame1v3Blacklist); j++) {
+                if (curMinigameData->minigameIndex == minigame1v3Blacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormal[PLAYERS_1V3]++;
+            }
             break;
         case PLAYERS_2V2:
             new2v2MinigameListNormalMp3[minigame2v2Count++] = curMinigameData->minigameIndex;

@@ -367,11 +367,11 @@ mp3MinigameIndexTable minigameLUT[] = {
     {COIN_BLOCK_BASH, CoinBlockBashStr, 21, PLAYERS_1V3}, //mp1 21
     {COIN_SHOWER_FLOWER, CoinShowerFlowerStr, 36, PLAYERS_1V3}, //mp1 36
     {MP1_CRANE_GAME, mp1_CraneGameStr, 35, PLAYERS_1V3}, //mp1 35
-    {PADDLE_BATTLE, PaddleBattleStr, 51, PLAYERS_1V3}, //mp1 51
+    {PADDLE_BATTLE, PaddleBattleStr, 52, PLAYERS_1V3}, //mp1 51
     {PIPE_MAZE, PipeMazeStr, 9, PLAYERS_1V3}, //mp1 9
-    {PIRANHA_PURSUIT, PiranhaPursuitStr, 49, PLAYERS_1V3}, //mp1 49
+    {PIRANHA_PURSUIT, PiranhaPursuitStr, 50, PLAYERS_1V3}, //mp1 50
     {TIGHTROPE_TREACHERY, TightropeTreacheryStr, 31, PLAYERS_1V3}, //mp1 31
-    {TUG_O_WAR, TugOWarStr, 50, PLAYERS_1V3}, //mp1 50
+    {TUG_O_WAR, TugOWarStr, 51, PLAYERS_1V3}, //mp1 50
     #endif
 
     //2v2 minigames
@@ -404,7 +404,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     //mp1 2v2 minigames
     {MP1_BOBSLED_RUN, mp1_BobsledRunStr, 29, PLAYERS_2V2}, //mp1 29
     {BOMBSKETBALL, BombsketballStr, 42, PLAYERS_2V2}, //mp1 42
-    {DEEP_SEA_DIVERS, DeepSeaDiversStr, 48, PLAYERS_2V2}, //mp1 48
+    {DEEP_SEA_DIVERS, DeepSeaDiversStr, 49, PLAYERS_2V2}, //mp1 49
     {DESERT_DASH, DesertDashStr, 39, PLAYERS_2V2}, //mp1 39
     {MP1_HANDCAR_HAVOC, mp1_HandcarHavocStr, 47, PLAYERS_2V2}, //mp1 47
     #endif
