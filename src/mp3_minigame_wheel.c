@@ -420,7 +420,7 @@ mp3MinigameIndexTable minigameLUT[] = {
     {THREE_DOOR_MONTY, ThreeDoorMontyStr, 43, PLAYERS_BATTLE},
 
     //mp2 battle minigames
-    {BOWSERS_BIG_BLAST, BowsersBigBlastStr, 65, PLAYERS_DUEL}, //mp2 65
+    {BOWSERS_BIG_BLAST, BowsersBigBlastStr, 65, PLAYERS_BATTLE}, //mp2 65
     {BUMPER_BALLOON_CARS, BumperBalloonCarsStr, 8, PLAYERS_BATTLE}, //mp2 8
     {MP2_CRAZY_CUTTERS, mp2_CrazyCuttersStr, 13, PLAYERS_BATTLE}, //mp2 13
     {DAY_AT_THE_RACES, DayAtTheRacesStr, 11, PLAYERS_BATTLE}, //mp2 11
@@ -438,7 +438,6 @@ mp3MinigameIndexTable minigameLUT[] = {
     {WINNERS_WHEEL, WinnersWheelStr, 59, PLAYERS_ITEM},
     
     //mp2 item minigames
-    
     {BOWSER_SLOTS, BowserSlotsStr, 1, PLAYERS_ITEM}, //mp2 1
     {COFFIN_CONGESTION, CoffinCongestionStr, 3, PLAYERS_ITEM}, //mp2 3
     {GIVE_ME_A_BRAKE, GiveMeABrakeStr, 5, PLAYERS_ITEM}, //mp2 5
