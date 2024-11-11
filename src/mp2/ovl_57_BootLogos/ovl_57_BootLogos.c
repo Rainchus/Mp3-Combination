@@ -148,7 +148,7 @@ void mp2_newBootLogo(void) {
         // mp2_func_80026DAC_279AC(1, 0x60, 0x60, 0x10);
         // mp2_func_80026E00_27A00(1, 100.0f, -100.0f, 100.0f);
         //otherwise, load into minigame from boot
-        mp2_D_800F93CD_F9FCD = 1; //skips instructions screen
+        mp2_D_800F93CD_F9FCD = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 settings
         mp2_D_800F93A8.unk_20 = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
         mp2_D_800F93A8.unk_22 = 0x55;
         // isBattleMinigame = 0;

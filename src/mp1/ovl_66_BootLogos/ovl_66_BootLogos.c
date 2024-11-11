@@ -24,6 +24,7 @@ extern u16 mp1_D_800ED5DE;
 void CopyMp3_gPlayerCopy_To_Mp1(void);
 void mp1_omInitObjMan(s32, s32);
 extern u32 mp1_rnd_seed;
+extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
 
 //func_800F686C_LogosSequence
 void mp1_OriginalBootLogos(void) {
@@ -126,7 +127,7 @@ void mp1_newBootLogo(void) {
         // mp2__SetFlag(0x19); //no idea what this does, might be important might not
         CopyMp3_gPlayerCopy_To_Mp1();
         mp1_omInitObjMan(16, 4);
-        mp1_D_800ED5E3 = 1; //minigame explanations off
+        mp1_D_800ED5E3 = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 settings
         mp1_D_800ED5DE = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
         ForeignMinigameIndexToLoad = -2;
         mp3_LoadBackFromMp2 = TRUE;
