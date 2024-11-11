@@ -714,7 +714,7 @@ u8 newBattleMinigameListEasyMp3[] = {0x2A, 0x2B, 0x2D, 0x2E};
 u8 newItemMinigameListEasyMp3[] = {0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40};
 u8 newDuelMinigameListEasyMp3[] = {0x31, 0x32, 0x33, 0x35, 0x37, 0x38, 0x39};
 
-//at 80100EF4 originally (east minigame list, amount of minigames in each category)
+//at 80100EF4 originally (easy minigame list, amount of minigames in each category)
 u8 newCategoryAmountsEasy[] = {
     ARRAY_COUNT(new4PMinigameListEasyMp3),
     ARRAY_COUNT(new1v3MinigameListEasyMp3),

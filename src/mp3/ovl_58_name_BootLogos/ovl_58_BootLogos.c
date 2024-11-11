@@ -48,6 +48,10 @@ void mp3_newBootLogos(void) {
 
         //check for button inputs
         while (1) {
+            if (mp3_D_800CDA7C[0] == -1) {
+                mp3_HuPrcVSleep();
+                continue;
+            }
             if (mp3_D_800CDA7C[0] & 0x10) { //if R is pressed, load mario party 2
                 mp3_HuWipeFadeOut(0xB, 9);
 
