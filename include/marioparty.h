@@ -261,7 +261,10 @@ enum MinigameIDs {
     PIRANHA_PURSUIT, //mp1 49
     TUG_O_WAR, //mp1 50
     PADDLE_BATTLE, //mp1 51
-    //BUMPER_BALL_MAZE_0, //mp1 52
+    //BUMPER_BALL_MAZE_0, //mp1 27
+    //BUMPER_BALL_MAZE_1, //mp1 36
+    //BUMPER_BALL_MAZE_2, //mp1 48
+    //BUMPER_BALL_MAZE_3, //mp1 53
     #endif
     MINIGAME_END
 };

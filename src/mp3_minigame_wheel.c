@@ -365,13 +365,13 @@ mp3MinigameIndexTable minigameLUT[] = {
     {BASH_N_CASH, BashNCashStr, 16, PLAYERS_1V3}, //mp1 16
     {MP1_BOWL_OVER, mp1_BowlOverStr, 17, PLAYERS_1V3}, //mp1 17
     {COIN_BLOCK_BASH, CoinBlockBashStr, 21, PLAYERS_1V3}, //mp1 21
-    {COIN_SHOWER_FLOWER, CoinShowerFlowerStr, 36, PLAYERS_1V3}, //mp1 36
+    {COIN_SHOWER_FLOWER, CoinShowerFlowerStr, 54, PLAYERS_1V3}, //mp1 54
     {MP1_CRANE_GAME, mp1_CraneGameStr, 35, PLAYERS_1V3}, //mp1 35
-    {PADDLE_BATTLE, PaddleBattleStr, 52, PLAYERS_1V3}, //mp1 51
+    {PADDLE_BATTLE, PaddleBattleStr, 52, PLAYERS_1V3}, //mp1 52
     {PIPE_MAZE, PipeMazeStr, 9, PLAYERS_1V3}, //mp1 9
     {PIRANHA_PURSUIT, PiranhaPursuitStr, 50, PLAYERS_1V3}, //mp1 50
     {TIGHTROPE_TREACHERY, TightropeTreacheryStr, 31, PLAYERS_1V3}, //mp1 31
-    {TUG_O_WAR, TugOWarStr, 51, PLAYERS_1V3}, //mp1 50
+    {TUG_O_WAR, TugOWarStr, 51, PLAYERS_1V3}, //mp1 51
     #endif
 
     //2v2 minigames
