@@ -533,7 +533,7 @@ void drawMessageOnBootLogos(void) {
         printTimer++;
         
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.2");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.3");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
