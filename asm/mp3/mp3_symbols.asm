@@ -11,6 +11,7 @@
 .definelabel num_board_spaces, 0x80105210
 .definelabel hydrated_space_data, 0x80105214
 .definelabel mp3_gPlayers, 0x800D1108
+.definelabel mp3_prevMinigamesPlayed, 0x800CC4A8
 
 //functions
 .definelabel GetCurrentPlayerIndex, 0x800F2130

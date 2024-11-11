@@ -44,6 +44,7 @@ extern omOvlHisData D_800D20F0[];
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE] = {0};
+u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 
 void cBootFunction(void) {
     //crash_screen_init();
@@ -57,6 +58,23 @@ void PushMp3OvlHis(void) {
     }
     mp3_omovlhisidx_copy = mp3_omovlhisidx;
 }
+
+void PushMp3MinigamesPlayedList(void) {
+    s32 i;
+
+    for (i = 0; i < PREV_MINIGAMES_PLAYED_SIZE; i++) {
+        mp3_prevMinigamesPlayedCopy[i] = mp3_prevMinigamesPlayed[i];
+    }
+}
+
+void PopMp3MinigamesPlayedList(void) {
+    s32 i;
+
+    for (i = 0; i < PREV_MINIGAMES_PLAYED_SIZE; i++) {
+        mp3_prevMinigamesPlayed[i] = mp3_prevMinigamesPlayedCopy[i];
+    }
+}
+
 
 void PushMp3BoardState(void) {
     s32 i;
@@ -432,6 +450,7 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
     if (mp3_LoadBackFromMp2 == TRUE) {
         mp3_LoadBackFromMp2 = FALSE;
         PopMp3BoardState();
+        PopMp3MinigamesPlayedList();
         LoadMp3PlayerStructs();
 
         

@@ -117,6 +117,9 @@ setCustomMinigameIndex:
     JAL PushMp3BoardState
     NOP
 
+    JAL PushMp3MinigamesPlayedList
+    NOP
+
     //swap to mp1
     JAL ComboSwitchGameToMp1
     NOP
@@ -142,6 +145,9 @@ setCustomMinigameIndex:
 
     //push the current board state
     JAL PushMp3BoardState
+    NOP
+
+    JAL PushMp3MinigamesPlayedList
     NOP
 
     //swap to mp2
