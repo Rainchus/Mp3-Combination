@@ -30,8 +30,6 @@ void mp3_newBootLogos(void) {
     // func_8000BB54_C754(temp_s0);
     // func_8000BCC8_C8C8(temp_s0, 0xFFFF);
 
-    mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
-
     if (initialBoot == 0) {
         initialBoot = 1;
         temp_v0 = func_8000B838_C438(CUSTOM_LOGO);

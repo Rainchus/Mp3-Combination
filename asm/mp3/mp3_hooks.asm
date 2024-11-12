@@ -75,6 +75,9 @@
 .org 0x800DF690
     LBU a0, 0x2C08 (a0)
 
+.org 0x800DFF24
+    LBU v0, 0x0000 (v0) //previously played minigames list
+
 //there is an LB here that needs to be patched, but patching it might cause issues
 //because there is a BLTZ check
 .org 0x800FEF60

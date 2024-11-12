@@ -57,6 +57,30 @@ typedef struct UnkCastleGroundMessage {
     char unk_06[4];
 } UnkCastleGroundMessage;
 
+enum TEXT_COLORS {
+    TEXT_BLACK,
+    TEXT_DEFAULT,
+    TEXT_RED,
+    TEXT_PURPLE,
+    TEXT_GREEN,
+    TEXT_BLUE,
+    TEXT_YELLOW,
+    TEXT_WHITE
+};
+
+//in regards to the minigame wheel -
+//these values have 1 added to them in relation to the actual text color values
+enum TEXT_COLORS_ADJUSTED {
+    TEXT_ADJUST_BLACK = 0,
+    TEXT_ADJUST_DEFAULT,
+    TEXT_ADJUST_RED,
+    TEXT_ADJUST_PURPLE,
+    TEXT_ADJUST_GREEN,
+    TEXT_ADJUST_BLUE,
+    TEXT_ADJUST_YELLOW,
+    TEXT_ADJUST_WHITE
+};
+
 extern mp3_PlayerData mp3_gPlayers[4];
 extern mp3_PlayerData mp3_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];

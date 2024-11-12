@@ -301,6 +301,10 @@ u8 itemMinigameBlacklist[] = {
     BOWSER_SLOTS
 };
 
+u8 minigame4PBlacklist[] = {
+    YOSHIS_TONGUE_MEETING
+};
+
 // u8 minigame1v3Blacklist[] = {
 //     COIN_SHOWER_FLOWER
 // };
@@ -377,8 +381,17 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
 
         switch(curMinigameData->minigameType) {
         case PLAYERS_4P:
-            new4PMinigameListNormalMp3[minigame4PCount++] = curMinigameData->minigameIndex;
-            newCategoryAmountsNormal[PLAYERS_4P]++;
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(minigame4PBlacklist); j++) {
+                if (curMinigameData->minigameIndex == minigame4PBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                new4PMinigameListNormalMp3[minigame4PCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormal[PLAYERS_4P]++;
+            }
             break;
         case PLAYERS_1V3:
             // minigameIsBlacklisted = 0;
@@ -554,7 +567,7 @@ void drawMessageOnBootLogos(void) {
         printTimer++;
         
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.4");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.5");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
