@@ -134,6 +134,18 @@ void to_uppercase(const char* input, char* output) {
     *output = '\0';  // Null-terminate the output string
 }
 
+typedef struct UnkEepStruct {
+    char unk_00[0x10];
+} UnkEepStruct;
+
+s32 InitializeCustomEepromData(void) {
+    return mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
+}
+
+s32 WriteEepromCustom(void) {
+    return mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, 0x18);
+}
+
 void newDebugMenuMain(void) {
     mp3MinigameIndexTable* curMinigameData;
     char outputbuffer[40];
@@ -308,10 +320,13 @@ void newDebugMenuMain(void) {
 
         //if start is pressed, save changes and then exit
         if (mp3_D_800C9520 & 0x1000) {
-            //flush changes back to eeprom
-            mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
-            mp3_HuPrcVSleep();
-            //reload mp3
+            //no idea what any of these args do
+            char sp10[16] = {0};
+            s16 temp = 0x20; 
+
+            //why is it required you do this this way?
+            //and why only when writing? reading works fine?
+            mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
             ComboSwitchGameToMp3();
         }
         mp3_HuPrcVSleep();

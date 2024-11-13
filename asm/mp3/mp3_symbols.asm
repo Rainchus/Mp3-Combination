@@ -90,6 +90,8 @@
 .definelabel mp3_debug_font_color, 0x800CB8A4
 .definelabel mp3_ScaleESprite, 0x8000BE5C
 .definelabel mp3_bzero, 0x8007BC90
+.definelabel mp3_RequestSIFunction, 0x80051B0C
+.definelabel mp3_osEepromWrite, 0x80072020
 .definelabel mp3_osEepromLongWrite, 0x800724A0
 .definelabel mp3_osEepromLongRead, 0x80072590
 .definelabel mp3_D_800CE1A0, 0x800CE1A0

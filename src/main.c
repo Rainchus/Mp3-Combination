@@ -15,7 +15,7 @@ u8 CustomMinigamesEepromBytes[] = {
 
 void func_80108910_119290(s32, s32, char*);
 void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat);
-
+s32 WriteEepromCustom(void);
 void func_8005D294_5DE94(s16);
 u32 func_80106B38_4F9028(s32);
 u16 func_8000B838_C438(s32);
@@ -335,26 +335,48 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
     // u8 minigameGameGuyCount = 0;
     // u8 minigame1PCount = 0;
     s32 minigameIsBlacklisted;
+    s32 eepresult = 0;
 
     for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormal); i++) {
         newCategoryAmountsNormal[i] = 0;
     }
     
-
     if (eepromLoadFailed == 1) {
         mp3_omOvlCallEx(0, 0, 0);
         return;
     }
 
-    mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
+    eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
+
+    if (eepresult == CONT_NO_RESPONSE_ERROR) {
+        while (1) {
+            mp3_DrawDebugText(20, 212, "EEPROM CONT_NO_RESPONSE_ERROR");
+            mp3_HuPrcVSleep();
+        }
+    } else if (eepresult == -1) {
+        while (1) {
+            mp3_DrawDebugText(20, 212, "EEPROM INVALID ADDRESS");
+            mp3_HuPrcVSleep();
+        }
+    }
+
+    //otherwise, result was zero and the eeprom read happened correctly
     mp3_HuPrcVSleep();
     for (i = 0; i < 0x18; i++) {
         eepromByteResults += customEepromData[i];
     }
 
     if (eepromByteResults == 0) {
-        //no minigames selected, turn all of them on (initialize list)
-        mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, CustomMinigamesEepromBytes, 0x18);
+        for (i = 0; i < 0x18; i++) {
+            customEepromData[i] = CustomMinigamesEepromBytes[i];
+        }
+        //no idea what any of these args do
+        char sp10[16] = {0};
+        s16 temp = 0x20; 
+
+        //why is it required you do this this way?
+        //and why only when writing? reading works fine?
+        mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
         mp3_HuPrcVSleep();
     }
 
