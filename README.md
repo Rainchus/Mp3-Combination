@@ -9,7 +9,7 @@
 # KNOWN ISSUES
 1) Waluigi and Daisy are unselectable (they dont exist in mp1/mp2, so they will crash if attempted to be loaded)</br>
 2) If you turn off too many minigames, the game *will* softlock as it'll fail to populate the minigame wheel</br>
-3) Adding battle minigames from mp2 are ignored as they cannot be correctly loaded at this time</br>
+3) Battle minigames, item minigames, or any other mid turn minigames from mp2 or mp1 are ignored if selected as they cannot be correctly loaded at this time</br>
 
 # BUILDING
 Follow this to set up armips
