@@ -146,7 +146,8 @@ void SaveMp3PlayerStructs(void) {
     for (i = 0; i < 4; i++) {
         mp3_PlayersCopy[i] = mp3_gPlayers[i];
     }
-    wackyWatchUsedCopy = D_800CD0AA;
+    //wackyWatchUsedCopy = D_800CD0AA;
+    //800F9310 sets D_800CD0AA to 3 when a watch has been used and when loading into a minigame
 }
 
 void LoadMp3PlayerStructs(void) {
@@ -489,7 +490,8 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
         LoadMp3PlayerStructs();
 
         
-        if (wackyWatchUsedCopy == 3) {
+        if (wackyWatchUsedCopy == 2) {
+            wackyWatchUsedCopy = 3;
             //set turns as if wacky watch was used
             mp3_BoardState[3] = mp3_BoardState[2] - 4;
         }
@@ -589,7 +591,7 @@ void drawMessageOnBootLogos(void) {
         printTimer++;
         
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.6");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.7");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }

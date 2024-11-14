@@ -78,11 +78,20 @@
 .org 0x800DFF24
     LBU v0, 0x0000 (v0) //previously played minigames list
 
-//there is an LB here that needs to be patched, but patching it might cause issues
+//there is an LB here that needs to be patched, but patching it might cause issues -
 //because there is a BLTZ check
 .org 0x800FEF60
-    JAL CustomFuncTest
+    JAL NegativeCheck
     NOP
+
+.org 0x800F930C
+    J wackyWatchSet
+    NOP
+
+.org 0x800F9020
+    J clearWackyWatchCopy
+    NOP
+
 
 //mp3 load minigame index and short after converts to overlay id
 .headersize 0x80105A60 - 0x4DEC20

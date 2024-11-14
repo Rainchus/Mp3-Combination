@@ -181,7 +181,7 @@ mp3_ClearBss:
     J checkosAppNmiBufferReset
     NOP
 
-CustomFuncTest:
+NegativeCheck:
     JAL 0x8004EE18
     NOP
     JAL PushMp3OvlHis
@@ -198,6 +198,22 @@ CustomFuncTest:
     NOP
     isNegative:
     J 0x800FEFEC
+    NOP
+
+wackyWatchSet:
+    //v1 holds previous watch used value (should always be 2)
+    LI at, wackyWatchUsedCopy
+    SW v1, 0x0000 (at) //set watch used
+    LUI at, 0x800D
+    J 0x800F9314
+    SH v0, 0xD0AA (at)
+
+clearWackyWatchCopy:
+    LI at, wackyWatchUsedCopy
+    SW r0, 0x0000 (at) //clear watch used
+    JAL 0x8003602C
+    ADDIU a0, r0, 0x0006
+    J 0x800F9028
     NOP
 
 newStarliftOverlayCheck:
