@@ -165,7 +165,7 @@ void LoadMp3PlayerStructs(void) {
     for (i = 0; i < 4; i++) {
         mp3_gPlayers[i] = mp3_PlayersCopy[i];
     }
-    
+
     mp3_800CC4E5 = hidden_block_item_space_copy;
     mp3_800CE1C5 = hidden_block_coins_space_copy;
     mp3_800D124F = hidden_block_star_space_copy;
@@ -605,7 +605,7 @@ void drawMessageOnBootLogos(void) {
         printTimer++;
         
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.7");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.8");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
