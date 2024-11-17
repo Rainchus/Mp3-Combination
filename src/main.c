@@ -141,13 +141,23 @@ void SaveMp2PlayerStructs(void) {
     }
 }
 
+u8 hidden_block_item_space_copy = 0;
+u8 hidden_block_coins_space_copy = 0;
+u8 hidden_block_star_space_copy = 0;
+
+extern u8 mp3_800CC4E5; //hidden_block_item_space
+extern u8 mp3_800CE1C5; //hidden_block_coins_space
+extern u8 mp3_800D124F; //hidden_block_star_space
+
 void SaveMp3PlayerStructs(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
         mp3_PlayersCopy[i] = mp3_gPlayers[i];
     }
-    //wackyWatchUsedCopy = D_800CD0AA;
-    //800F9310 sets D_800CD0AA to 3 when a watch has been used and when loading into a minigame
+
+    hidden_block_item_space_copy = mp3_800CC4E5;
+    hidden_block_coins_space_copy = mp3_800CE1C5;
+    hidden_block_star_space_copy = mp3_800D124F;
 }
 
 void LoadMp3PlayerStructs(void) {
@@ -155,6 +165,10 @@ void LoadMp3PlayerStructs(void) {
     for (i = 0; i < 4; i++) {
         mp3_gPlayers[i] = mp3_PlayersCopy[i];
     }
+    
+    mp3_800CC4E5 = hidden_block_item_space_copy;
+    mp3_800CE1C5 = hidden_block_coins_space_copy;
+    mp3_800D124F = hidden_block_star_space_copy;
 }
 
 void checkosAppNmiBufferReset(s32 resetType) {

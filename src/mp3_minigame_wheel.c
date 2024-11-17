@@ -216,7 +216,7 @@ char mp1_HotRopeJumpStr[] = {"\x0B""""\x5D""MP1""\x5E"" Hot Rope Jump"}; //mp1 5
 //mp1 62
 char mp1_HandcarHavocStr[] = {"\x0B""""\x5D""MP1""\x5E"" Handcar Havoc"}; //mp1 63
 //mp1 64
-char DeepSeaDiversStr[] = {"\x0B""Deep Sea Salvage"}; //mp1 65
+char DeepSeaDiversStr[] = {"\x0B""Deep Sea Divers"}; //mp1 65
 char PiranhaPursuitStr[] = {"\x0B""Piranha Pursuit"}; //mp1 66
 char TugOWarStr[] = {"\x0B""Tug o""\x5C"" War"}; //mp1 67
 char PaddleBattleStr[] = {"\x0B""Paddle Battle"}; //mp1 68

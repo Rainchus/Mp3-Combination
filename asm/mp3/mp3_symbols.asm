@@ -12,6 +12,9 @@
 .definelabel hydrated_space_data, 0x80105214
 .definelabel mp3_gPlayers, 0x800D1108
 .definelabel mp3_prevMinigamesPlayed, 0x800CC4A8
+.definelabel mp3_800CC4E5, 0x800CC4E5
+.definelabel mp3_800CE1C5, 0x800CE1C5
+.definelabel mp3_800D124F, 0x800D124F
 
 //functions
 .definelabel GetCurrentPlayerIndex, 0x800F2130
