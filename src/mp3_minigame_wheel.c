@@ -84,17 +84,17 @@ char CoffinCongestionStr[] = {"\x0B""Coffin Congestion"}; //mp2 3
 char HammerSlammerStr[] = {"\x0B""Hammer Slammer"}; //mp2 4
 char GiveMeABrakeStr[] = {"\x0B" "Give Me A Brake\xC2"}; //mp2 5
 char MalletGoRoundStr[] = {"\x0B""Mallet""\x3D""Go""\x3D""Round"}; //mp2 6
-char mp2_GrabBagStr[] = {"\x0B""""\x5D""MP2""\x5E"" Grab Bag"}; //mp2 7
+char mp2_GrabBagStr[] = {"\x0B""\x5D""MP2""\x5E"" Grab Bag"}; //mp2 7
 char BumperBalloonCarsStr[] = {"\x0B""Bumper Balloon Cars"}; //mp2 8
 char RakinEmInStr[] = {"\x0B""Rakin""\x5C"" ""\x5C""em In"}; //mp2 9
 //mp2 10 blank
 char DayAtTheRacesStr[] = {"\x0B""Day At The Races"}; //mp2 11
 char mp2_FaceLiftStr[] = {"""\x5D""MP2""\x5E"" Face Lift"}; //mp2 12
 char mp2_CrazyCuttersStr[] = {"""\x5D""MP2""\x5E"" Crazy Cutters"}; //mp2 13
-char mp2_HotBobombStr[] = {"\x0B""""\x5D""MP2""\x5E"" Hot Bob""\x3D""omb"}; //mp2 14
-char mp2_BowlOverStr[] = {"\x0B""""\x5D""MP2""\x5E"" Bowl Over"}; //mp2 15
+char mp2_HotBobombStr[] = {"\x0B""\x5D""MP2""\x5E"" Hot Bob""\x3D""omb"}; //mp2 14
+char mp2_BowlOverStr[] = {"\x0B""\x5D""MP2""\x5E"" Bowl Over"}; //mp2 15
 char RainbowRunStr[] = {"\x0B""Rainbow Run"}; //mp2 16
-char mp2_CraneGameStr[] = {"\x0B""""\x5D""MP2""\x5E"" Crane Game"}; //mp2 17
+char mp2_CraneGameStr[] = {"\x0B""\x5D""MP2""\x5E"" Crane Game"}; //mp2 17
 char MoveToTheMusicStr[] = {"\x0B""Move To The Music"}; //mp2 18
 char BobOmbBarrageStr[] = {"\x0B""Bob""\x3D""omb Barrage"}; //mp2 19
 char LookAwayStr[] = {"\x0B""Look Away"}; //mp2 20
@@ -104,10 +104,10 @@ char FiletRelayStr[] = {"\x0B""Filet Relay"}; //mp2 23
 char ArcherivalStr[] = {"\x0B""Archer""\x3D""ival"}; //mp2 24
 //mp2 25 blank
 char ToadBandstandStr[] = {"\x0B""Toad Bandstand"}; //mp2 26
-char mp2_BobsledRunStr[] = {"\x0B""""\x5D""MP2""\x5E"" Bobsled Run"}; //mp2 27
-char mp2_HandcarHavocStr[] = {"\x0B""""\x5D""MP2""\x5E"" Handcar Havoc"}; //mp2 28
+char mp2_BobsledRunStr[] = {"\x0B""\x5D""MP2""\x5E"" Bobsled Run"}; //mp2 27
+char mp2_HandcarHavocStr[] = {"\x0B""\x5D""MP2""\x5E"" Handcar Havoc"}; //mp2 28
 //mp2 29 blank
-char mp2_BalloonBurstStr[] = {"\x0B""""\x5D""MP2""\x5E"" Balloon Burst"}; //mp2 30
+char mp2_BalloonBurstStr[] = {"\x0B""\x5D""MP2""\x5E"" Balloon Burst"}; //mp2 30
 char SkyPilotsStr[] = {"\x0B""Sky Pilots"}; //mp2 31
 char SpeedHockeyStr[] = {"\x0B""Speed Hockey"}; //mp2 32
 char CakeFactoryStr[] = {"\x0B""Cake Factory"}; //mp2 33
@@ -115,27 +115,27 @@ char CakeFactoryStr[] = {"\x0B""Cake Factory"}; //mp2 33
 char DungeonDashStr[] = {"\x0B""Dungeon Dash"}; //mp2 35
 char MagnetCartaStar[] = {"\x0B""Magnet Carta"}; //mp2 36
 char LavaTileIsleStr[] = {"\x0B""Lava Tile Isle"}; //mp2 37
-char mp2_HotRopeJumpStr[] = {"\x0B""""\x5D""MP2""\x5E"" Hot Rope Jump"}; //mp2 38
+char mp2_HotRopeJumpStr[] = {"\x0B""\x5D""MP2""\x5E"" Hot Rope Jump"}; //mp2 38
 char ShellShockedStr[] = {"\x0B""Shell Shocked"}; //mp2 39
 char ToadInTheBoxStr[] = {"\x0B""TOAD In The Box"}; //mp2 40
 char MechaMarathonStr[] = {"\x0B""Mecha""\x3D""Marathon"}; //mp2 41
 char RollCallStr[] = {"\x0B""Roll Call"}; //mp2 42
 char AbandonShipStr[] = {"\x0B""Abandon Ship"}; //mp2 43
-char mp2_PlatformPerilStr[] = {"\x0B""""\x5D""MP2""\x5E"" Platform Peril"}; //mp2 44
+char mp2_PlatformPerilStr[] = {"\x0B""\x5D""MP2""\x5E"" Platform Peril"}; //mp2 44
 char TotemPolePoundStr[] = {"\x0B""Totem Pole Pound"}; //mp2 45
-char mp2_BumperBallsStr[] = {"\x0B""""\x5D""MP2""\x5E"" Bumper Balls"}; //mp2 46
+char mp2_BumperBallsStr[] = {"\x0B""\x5D""MP2""\x5E"" Bumper Balls"}; //mp2 46
 //mp2 47
-char mp2_BombsAwayStr[] = {"\x0B""""\x5D""MP2""\x5E"" Bombs Away"}; //mp2 48
-char mp2_TipsyTourneyStr[] = {"\x0B""""\x5D""MP2""\x5E"" Tipsy Tourney"}; //mp2 49
+char mp2_BombsAwayStr[] = {"\x0B""\x5D""MP2""\x5E"" Bombs Away"}; //mp2 48
+char mp2_TipsyTourneyStr[] = {"\x0B""\x5D""MP2""\x5E"" Tipsy Tourney"}; //mp2 49
 char HoneycombHavocStr[] = {"\x0B""Honeycomb Havoc"}; //mp2 50
 char HexagonHeatStr[] = {"\x0B""Hexagon Heat"}; //mp2 51
-char mp2_SkateboardScamperStr[] = {"\x0B""""\x5D""MP2""\x5E"" Skateboard Scamper"}; //mp2 52
-char mp2_SlotCarDerbyStr[] = {"\x0B""""\x5D""MP2""\x5E"" Slot Car Derby"}; //mp2 53
-char mp2_ShyGuySaysStr[] = {"\x0B""""\x5D""MP2""\x5E"" Shy Guy Says"}; //mp2 54
+char mp2_SkateboardScamperStr[] = {"\x0B""\x5D""MP2""\x5E"" Skateboard Scamper"}; //mp2 52
+char mp2_SlotCarDerbyStr[] = {"\x0B""\x5D""MP2""\x5E"" Slot Car Derby"}; //mp2 53
+char mp2_ShyGuySaysStr[] = {"\x0B""\x5D""MP2""\x5E"" Shy Guy Says"}; //mp2 54
 char SneakNSnoreStr[] = {"\x0B""Sneak ""\x5C""n""\x5C"" Snore"}; //mp2 55
 //mp2 56
 char DriversEdStr[] = {"\x0B""Driver""\x5C""s Ed"}; //mp2 57
-char mp2_ChanceTimeStr[] = {"\x0B""""\x5D""MP2""\x5E"" Chance Time"}; //mp2 58
+char mp2_ChanceTimeStr[] = {"\x0B""\x5D""MP2""\x5E"" Chance Time"}; //mp2 58
 char WesternLandDuelStr[] = {"\x0B""Western Land Duel"}; //mp2 59
 char PirateLandDuelStr[] = {"\x0B""Pirate Land Duel"}; //mp2 60
 char HorrorLandDuelStr[] = {"\x0B""Horror Land Duel"}; //mp2 61
@@ -160,68 +160,66 @@ char ShellGameStr[] = {"\x0B""Shell Game"}; //mp1 05
 char SameGameStr[] = {"\x0B""Same Game"}; //mp1 06
 //mp1 07
 char YoshisToungueStr[] = {"\x0B""Yoshi""\x5C""s Tongue Meeting"}; //mp1 08
-char mp1_HotBobOmbStr[] = {"\x0B""""\x5D""MP1""\x5E"" Hot Bob""\x3D""omb"}; //mp1 09
+char mp1_HotBobOmbStr[] = {"\x0B""\x5D""MP1""\x5E"" Hot Bob""\x3D""omb"}; //mp1 09
 //mp1 10
 char PipeMazeStr[] = {"\x0B""Pipe Maze"}; //mp1 11
 char GhostGuestStr[] = {"\x0B""Ghost Guess"}; //mp1 12
 char MusicalMushroomStr[] = {"\x0B""Mushroom Musical"}; //mp1 13
 char PedalPowerStr[] = {"\x0B""Pedal Power"}; //mp1 14
-char mp1_CrazyCutterStr[] = {"\x0B""""\x5D""MP1""\x5E"" Crazy Cutter"}; //mp1 15
-char mp1_FaceLiftStr[] = {"\x0B""""\x5D""MP1""\x5E"" Face Lift"}; //mp1 16
+char mp1_CrazyCutterStr[] = {"\x0B""\x5D""MP1""\x5E"" Crazy Cutter"}; //mp1 15
+char mp1_FaceLiftStr[] = {"\x0B""\x5D""MP1""\x5E"" Face Lift"}; //mp1 16
 char WhackAPlantStr[] = {"\x0B""Whack""\x3D""a""\x3D""Plant"}; //mp1 17
 //mp1 18
 //mp1 19
 char BashNCashStr[] = {"\x0B""Bash ""\x5C""n""\x5C"" Cash"}; //mp1 20
-char mp1_BowlOverStr[] = {"\x0B""""\x5D""MP1""\x5E"" Bowl Over"}; //mp1 21
+char mp1_BowlOverStr[] = {"\x0B""\x5D""MP1""\x5E"" Bowl Over"}; //mp1 21
 char GroundPoundStr[] = {"\x0B""Ground Pound"}; //mp1 22
 char BalloonBurstStr[] = {"\x0B""Balloon Burst"}; //mp1 23
 char CoinBlockBlitzStr[] = {"\x0B""Coin Block Blitz"}; //mp1 24
 char CoinBlockBashStr[] = {"\x0B""Coin Block Bash"}; //mp1 25
-char mp1_SkateboardScamperStr[] = {"\x0B""""\x5D""MP1""\x5E"" Skateboard Scamper"}; //mp1 26
+char mp1_SkateboardScamperStr[] = {"\x0B""\x5D""MP1""\x5E"" Skateboard Scamper"}; //mp1 26
 //mp1 27
 char BoxMountainMayhemStr[] = {"\x0B""Box Mountain Mayhem"}; //mp1 28
-char mp1_PlatformPerilStr[] = {"\x0B""""\x5D""MP1""\x5E"" Platform Peril"}; //mp1 29
+char mp1_PlatformPerilStr[] = {"\x0B""\x5D""MP1""\x5E"" Platform Peril"}; //mp1 29
 char TeeteringTowersStr[] = {"\x0B""Teetering Towers"}; //mp1 30
 char MushroomMixupStr[] = {"\x0B""Mushroom Mix""\x3D""Up"}; //mp1 31
 //mp1 32
 //mp1 33
 char HammerDropStr[] = {"\x0B""Hammer Drop"}; //mp1 34
-char mp1_GrabBagStr[] = {"\x0B""""\x5D""MP1""\x5E"" Grab Bag"}; //mp1 35
-char mp1_BobsledRunStr[] = {"\x0B""""\x5D""MP1""\x5E"" Bobsled Run"}; //mp1 36
-char mp1_BumperBallsStr[] = {"\x0B""""\x5D""MP1""\x5E"" Bumper Balls"}; //mp1 37
+char mp1_GrabBagStr[] = {"\x0B""\x5D""MP1""\x5E"" Grab Bag"}; //mp1 35
+char mp1_BobsledRunStr[] = {"\x0B""\x5D""MP1""\x5E"" Bobsled Run"}; //mp1 36
+char mp1_BumperBallsStr[] = {"\x0B""\x5D""MP1""\x5E"" Bumper Balls"}; //mp1 37
 char TightropeTreacheryStr[] = {"\x0B""Tightrope Treachery"}; //mp1 38
 char KnockBlockTowerStr[] = {"\x0B""Knock Block Tower"}; //mp1 39
-char mp1_TipsyTourneyStr[] = {"\x0B""""\x5D""MP1""\x5E"" Tipsey Tourney"}; //mp1 40
-char mp1_BombsAwayStr[] = {"\x0B""""\x5D""MP1""\x5E"" Bombs Away"}; //mp1 41
-char mp1_CraneGameStr[] = {"\x0B""""\x5D""MP1""\x5E"" Crane Game"}; //mp1 42
+char mp1_TipsyTourneyStr[] = {"\x0B""\x5D""MP1""\x5E"" Tipsey Tourney"}; //mp1 40
+char mp1_BombsAwayStr[] = {"\x0B""\x5D""MP1""\x5E"" Bombs Away"}; //mp1 41
+char mp1_CraneGameStr[] = {"\x0B""\x5D""MP1""\x5E"" Crane Game"}; //mp1 42
 //mp1 43
 //mp1 44
 //mp1 45
 char CoinShowerFlowerStr[] = {"\x0B""Coin Shower Flower"}; //mp1 46
 //mp1 47
 //mp1 48
-char mp1_SlotCarDerbyStr[] = {"\x0B""""\x5D""MP1""\x5E"" Slot Car Derby"}; //mp1 49
-char mp1_BandStandStr[] = {"\x0B""""\x5D""MP1""\x5E"" Mario Bandstand"}; //mp1 50
+char mp1_SlotCarDerbyStr[] = {"\x0B""\x5D""MP1""\x5E"" Slot Car Derby"}; //mp1 49
+char mp1_BandStandStr[] = {"\x0B""\x5D""MP1""\x5E"" Mario Bandstand"}; //mp1 50
 char DesertDashStr[] = {"\x0B""Desert Dash"}; //mp1 51
-char mp1_ShyGuySaysStr[] = {"\x0B""""\x5D""MP1""\x5E"" Shy Guy Says"}; //mp1 52
+char mp1_ShyGuySaysStr[] = {"\x0B""\x5D""MP1""\x5E"" Shy Guy Says"}; //mp1 52
 //mp1 53
 char LimboDanceStr[] = {"\x0B""Limbo Dance"}; //mp1 54
 char BombsketballStr[] = {"\x0B""Bombsketball"}; //mp1 55
 char CastAwaysStr[] = {"\x0B""Cast Aways"}; //mp1 56
 char KeyPaWayStr[] = {"\x0B""Key""\x3D""pa""\x3D""Way"}; //mp1 57
 char RunningOfTheBulbStr[] = {"\x0B""Running Of The Bulb"}; //mp1 58
-char mp1_HotRopeJumpStr[] = {"\x0B""""\x5D""MP1""\x5E"" Hot Rope Jump"}; //mp1 59
+char mp1_HotRopeJumpStr[] = {"\x0B""\x5D""MP1""\x5E"" Hot Rope Jump"}; //mp1 59
 //mp1 60
 //mp1 61
 //mp1 62
-char mp1_HandcarHavocStr[] = {"\x0B""""\x5D""MP1""\x5E"" Handcar Havoc"}; //mp1 63
+char mp1_HandcarHavocStr[] = {"\x0B""\x5D""MP1""\x5E"" Handcar Havoc"}; //mp1 63
 //mp1 64
 char DeepSeaDiversStr[] = {"\x0B""Deep Sea Divers"}; //mp1 65
 char PiranhaPursuitStr[] = {"\x0B""Piranha Pursuit"}; //mp1 66
 char TugOWarStr[] = {"\x0B""Tug o""\x5C"" War"}; //mp1 67
 char PaddleBattleStr[] = {"\x0B""Paddle Battle"}; //mp1 68
-
-char NullStr[] = {"\x0B""This Shouldn""\x5C""t Appear"};
 
 u8 minigameTextColor[] = {
     [NONE] TEXT_ADJUST_WHITE,
@@ -422,44 +420,6 @@ u8 minigameTextColor[] = {
     //BUMPER_BALL_MAZE_3] 7, //mp1 53
     #endif
 };
-
-// u8 minigameTextColor[] = {
-//     0, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7,
-//     //start of mp2 minigames (offset 0x48), make them cyan
-//     7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7,
-//     //start of mp1 minigames, make them green
-//     7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-//     7, 7, 7, 7, 7,
-// };
-
-//this array is constructed from the indexes below that have NullStr and then add 1 to the index
-// u8 minigameBlacklistIDs[] = {
-//     0x48, 0x52, 0x61, 0x65, 0x6A, 0x77, 0x80
-// };
 
 mp3MinigameIndexTable minigameLUT[] = {
     {ACES_HIGH, AcesHighStr, 23, PLAYERS_4P},
@@ -707,204 +667,6 @@ s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
     }
     return -1; //minigame not found
 }
-
-// char* MinigameList[] = { //add 1 to this value and stick into table
-// /* 0x00 */ HookLineAndSinkerStr,
-// /* 0x01 */ CoconutConkStr,
-// /* 0x02 */ SpotlightSwimStr,
-// /* 0x03 */ BoulderBallStr,
-// /* 0x04 */ CrazyCogsStr,
-// /* 0x05 */ HideAndSneakStr,
-// /* 0x06 */ RidiculousRelayStr,
-// /* 0x07 */ ThwompPullStr,
-// /* 0x08 */ RiverRaidersStr,
-// /* 0x09 */ TidalTossStr,
-// /* 0x0A */ EatsaPizzaStr,
-// /* 0x0B */ BabyBowserBroadsideStr,
-// /* 0x0C */ PumpPumpAndAwayStr,
-// /* 0x0D */ HyperHydrantsStr,
-// /* 0x0E */ PickingPanicStr,
-// /* 0x0F */ CosmicCoasterStr,
-// /* 0x10 */ PuddlePaddleStr,
-// /* 0x11 */ EtchNCatchStr,
-// /* 0x12 */ LogJamStr,
-// /* 0x13 */ SlotSyncStr,
-// /* 0x14 */ TreadmillGrillStr,
-// /* 0x15 */ ToadstoolTitanStr,
-// /* 0x16 */ AcesHighStr,
-// /* 0x17 */ BounceNTrounceStr,
-// /* 0x18 */ IceRinkRiskStr,
-// /* 0x19 */ LockedOutStr,
-// /* 0x1A */ ChipShotChallengeStr,
-// /* 0x1B */ ParasolPlummetStr,
-// /* 0x1C */ MessyMemoryStr,
-// /* 0x1D */ PictureImperfectStr,
-// /* 0x1E */ MariosPuzzlePartyStr,
-// /* 0x1F */ TheBeatGoesOnStr,
-// /* 0x20 */ MPIQStr,
-// /* 0x21 */ CurtainCallStr,
-// /* 0x22 */ WaterWhirledStr,
-// /* 0x23 */ FrigidBridgesStr,
-// /* 0x24 */ AwfulTowerStr,
-// /* 0x25 */ CheepCheepChaseStr,
-// /* 0x26 */ PipeCleanersStr,
-// /* 0x27 */ SnowballSummitStr,
-// /* 0x28 */ AllFiredUpStr,
-// /* 0x29 */ StackedDeckStr,
-// /* 0x2A */ ThreeDoorMontyStr,
-// /* 0x2B */ RockinRacewayStr,
-// /* 0x2C */ MerryGoChompStr,
-// /* 0x2D */ SlapDownStr,
-// /* 0x2E */ StormChasersStr,
-// /* 0x2F */ EyeSoreStr,
-// /* 0x30 */ VineWithMeStr,
-// /* 0x31 */ PopgunPickOffStr,
-// /* 0x32 */ EndOfTheLinerStr,
-// /* 0x33 */ BowserTossStr,
-// /* 0x34 */ BabyBowserBonkersStr,
-// /* 0x35 */ MotorRooterStr,
-// /* 0x36 */ SillyScrewsStr,
-// /* 0x37 */ CrowdCoverStr,
-// /* 0x38 */ TickTockHopStr,
-// /* 0x39 */ FowlPlayStr,
-// /* 0x3A */ WinnersWheelStr,
-// /* 0x3B */ HeyBatterBatterStr,
-// /* 0x3C */ BobbingBowloonsStr,
-// /* 0x3D */ DorrieDipStr,
-// /* 0x3E */ SwingingWithSharksStr,
-// /* 0x3F */ SwingNSwipeStr,
-// /* 0x40 */ ChanceTimeStr,
-// /* 0x41 */ StardustBattleStr,
-// /* 0x42 */ GameGuysRouletteStr,
-// /* 0x43 */ GameGuysLucky7Str,
-// /* 0x44 */ GameGuysMagicBoxesStr,
-// /* 0x45 */ GameGuysSweetSurpriseStr,
-// /* 0x46 */ DizzyDinghiesStr,
-// /* 0x47 */ MariosPuzzlePartyPro2Str,
-// /* 0x48 */ BowserSlotsStr, //mp2 1
-// /* 0x49 */ RollOutTheBarrelsStr, //mp2 2
-// /* 0x4A */ CoffinCongestionStr, //mp2 3
-// /* 0x4B */ HammerSlammerStr, //mp2 4
-// /* 0x4C */ GiveMeABrakeStr, //mp2 5
-// /* 0x4D */ MalletGoRoundStr, //mp2 6
-// /* 0x4E */ mp2_GrabBagStr, //mp2 7
-// /* 0x4F */ BumperBalloonCarsStr, //mp2 8
-// /* 0x50 */ RakinEmInStr, //mp2 9
-// /* 0x51 */ DayAtTheRacesStr, //mp2 11
-// /* 0x52 */ mp2_FaceLiftStr, //mp2 12
-// /* 0x53 */ mp2_CrazyCuttersStr, //mp2 13
-// /* 0x54 */ mp2_HotBobombStr, //mp2 14
-// /* 0x55 */ mp2_BowlOverStr, //mp2 15
-// /* 0x56 */ RainbowRunStr, //mp2 16
-// /* 0x57 */ mp2_CraneGameStr, //mp2 17
-// /* 0x58 */ MoveToTheMusicStr, //mp2 18
-// /* 0x59 */ BobOmbBarrageStr, //mp2 19
-// /* 0x5A */ LookAwayStr, //mp2 20
-// /* 0x5B */ ShockDropOrRollStr, //mp2 21
-// /* 0x5C */ LightsOutStr, //mp2 22
-// /* 0x5D */ FiletRelayStr, //mp2 23
-// /* 0x5E */ ArcherivalStr, //mp2 24
-// /* 0x5F */ ToadBandstandStr, //mp2 26
-// /* 0x60 */ mp2_BobsledRunStr, //mp2 27
-// /* 0x61 */ mp2_HandcarHavocStr, //mp2 28
-// /* 0x62 */ mp2_BalloonBurstStr, //mp2 30
-// /* 0x63 */ SkyPilotsStr, //mp2 31
-// /* 0x64 */ SpeedHockeyStr, //mp2 32
-// /* 0x65 */ CakeFactoryStr, //mp2 33
-// /* 0x66 */ DungeonDashStr, //mp2 35
-// /* 0x67 */ MagnetCartaStar, //mp2 36
-// /* 0x68 */ LavaTileIsleStr, //mp2 37
-// /* 0x69 */ mp2_HotRopeJumpStr, //mp2 38
-// /* 0x6A */ ShellShockedStr, //mp2 39
-// /* 0x6B */ ToadInTheBoxStr, //mp2 40
-// /* 0x6C */ MechaMarathonStr, //mp2 41
-// /* 0x6D */ RollCallStr, //mp2 42
-// /* 0x6E */ AbandonShipStr, //mp2 43
-// /* 0x6F */ mp2_PlatformPerilStr, //mp2 44
-// /* 0x70 */ TotemPolePoundStr, //mp2 45
-// /* 0x71 */ mp2_BumperBallsStr, //mp2 46
-// /* 0x72 */ mp2_BombsAwayStr, //mp2 48
-// /* 0x73 */ mp2_TipsyTourneyStr, //mp2 49
-// /* 0x74 */ HoneycombHavocStr, //mp2 50
-// /* 0x75 */ HexagonHeatStr, //mp2 51
-// /* 0x76 */ mp2_SkateboardScamperStr, //mp2 52
-// /* 0x77 */ mp2_SlotCarDerbyStr, //mp2 53
-// /* 0x78 */ mp2_ShyGuySaysStr, //mp2 54
-// /* 0x79 */ SneakNSnoreStr, //mp2 55
-// /* 0x7A */ DriversEdStr, //mp2 57
-// /* 0x7B */ ChanceTimeStr, //mp2 58
-// /* 0x7C */ WesternLandDuelStr, //mp2 59
-// /* 0x7D */ PirateLandDuelStr, //mp2 60
-// /* 0x7E */ HorrorLandDuelStr, //mp2 61
-// /* 0x7F */ SpaceLandDuelStr, //mp2 62
-// /* 0x80 */ MysteryLandDuelStr, //mp2 63
-// /* 0x81 */ KoopaLandDuelStr, //mp2 64
-// /* 0x82 */ BowsersBigBlastStr, //mp2 65
-// /* 0x83 */ LooneyLumberjacksStr, //mp2 66
-// /* 0x84 */ TorpedoTargetsStr, //mp2 67
-// /* 0x85 */ DestructionDuetStr, //mp2 68
-// /* 0x86 */ DizzyDancingStr, //mp2 69
-// /* 0x87 */ TileDriverStr, //mp2 70
-// /* 0x88 */ QuicksandCacheStr, //mp2 71
-// /* 0x89 */ DeepSeaSalvageStr, //mp2 72
-// #ifdef MP1
-// /* 0x8A */ MemoryMatchStr, //mp1 00
-// /* 0x8B */ ChanceTimeMp1Str, //mp1 01
-// /* 0x8C */ SlotMachineStr, //mp1 02
-// /* 0x8D */ BuriedTreasureStr, //mp1 03
-// /* 0x8E */ TreasureDiversStr, //mp1 04
-// /* 0x8F */ ShellGameStr, //mp1 05
-// /* 0x90 */ SameGameStr, //mp1 06
-// /* 0x91 */ mp1_HotBobOmbStr, //mp1 07
-// /* 0x92 */ YoshisToungueStr, //mp1 08
-// /* 0x93 */ PipeMazeStr, //mp1 09
-// /* 0x94 */ GhostGuestStr, //mp1 10
-// /* 0x95 */ MusicalMushroomStr, //mp1 11
-// /* 0x96 */ PedalPowerStr, //mp1 12
-// /* 0x97 */ mp1_CrazyCutterStr, //mp1 13
-// /* 0x98 */ mp1_FaceLiftStr, //mp1 14
-// /* 0x99 */ WhackAPlantStr, //mp1 15
-// /* 0x9A */ BashNCashStr, //mp1 16
-// /* 0x9B */ mp1_BowlOverStr, //mp1 17
-// /* 0x9C */ GroundPoundStr, //mp1 18
-// /* 0x9D */ BalloonBurstStr, //mp1 19
-// /* 0x9E */ CoinBlockBlitzStr, //mp1 20
-// /* 0x9F */ CoinBlockBashStr, //mp1 21
-// /* 0xA0 */ mp1_SkateboardScamperStr, //mp1 22
-// /* 0xA1 */ BoxMountainMayhemStr, //mp1 23
-// /* 0xA2 */ mp1_PlatformPerilStr, //mp1 24
-// /* 0xA3 */ TeeteringTowersStr, //mp1 25
-// /* 0xA4 */ MushroomMixupStr, //mp1 26
-// /* 0xA5 */ HammerDropStr, //mp1 27
-// /* 0xA6 */ mp1_GrabBagStr, //mp1 28
-// /* 0xA7 */ mp1_BobsledRunStr, //mp1 29
-// /* 0xA8 */ mp1_BumperBallsStr, //mp1 30
-// /* 0xA9 */ TightropeTreacheryStr, //mp1 31
-// /* 0xAA */ KnockBlockTowerStr, //mp1 32
-// /* 0xAB */ mp1_TipsyTourneyStr, //mp1 33
-// /* 0xAC */ mp1_BombsAwayStr, //mp1 34
-// /* 0xAD */ mp1_CraneGameStr, //mp1 35
-// /* 0xAE */ CoinShowerFlowerStr, //mp1 36
-// /* 0xAF */ mp1_SlotCarDerbyStr, //mp1 37
-// /* 0xB0 */ mp1_BandStandStr, //mp1 38
-// /* 0xB1 */ DesertDashStr, //mp1 39
-// /* 0xB2 */ mp1_ShyGuySaysStr, //mp1 40
-// /* 0xB3 */ LimboDanceStr, //mp1 41
-// /* 0xB4 */ BombsketballStr, //mp1 42
-// /* 0xB5 */ CastAwaysStr, //mp1 43
-// /* 0xB6 */ KeyPaWayStr, //mp1 44
-// /* 0xB7 */ RunningOfTheBulbStr, //mp1 45
-// /* 0xB8 */ mp1_HotRopeJumpStr, //mp1 46
-// /* 0xB9 */ mp1_HandcarHavocStr, //mp1 47
-// /* 0xBA */ DeepSeaDiversStr, //mp1 48
-// /* 0xBB */ PiranhaPursuitStr, //mp1 49
-// /* 0xBC */ TugOWarStr, //mp1 50
-// /* 0xBD */ PaddleBattleStr, //mp1 51
-// #endif
-// (void*)-1 //end of list
-// };
-
-
 
 u8 new4PMinigameListEasyMp3[] = {0x15, 0x19, 0x1C, 0x1D, 0x1E, 0x21, 0x22, 0x26, 0x28};
 u8 new1v3MinigameListEasyMp3[] = {0x02, 0x03, 0x04, 0x05, 0x06, 0x09, 0x0A};

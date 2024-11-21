@@ -93,7 +93,7 @@ setCustomMinigameIndex:
     NOP
 
     //check if mp1 or mp2 minigame
-    ORI at, r0, 138
+    ORI at, r0, 139
     SLT at, v0, at //first mp1 minigame
     BNEZ at, isMp2Minigame
     NOP

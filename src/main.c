@@ -387,7 +387,7 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
         }
         //no idea what any of these args do
         char sp10[16] = {0};
-        s16 temp = 0x20; 
+        s16 temp = 0x20;
 
         //why is it required you do this this way?
         //and why only when writing? reading works fine?
@@ -397,7 +397,6 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
 
     //load active minigames into lists
     for (i = 0; i < MINIGAME_END - 1; i++) {
-        
         for (j = 0, curMinigameData = 0; j < MINIGAME_END - 1; j++) {
             if (i == minigameLUT[j].minigameIndex) {
                 curMinigameData = &minigameLUT[j];
@@ -553,12 +552,31 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
             mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
             return;
         }
+        omOvlHisData NormalLoadInHis[] = {
+            {0x7A, 0x0002, 0x0092},
+            {0x7A, 0x0002, 0x0092},
+            {0x77, 0x0000, 0x0091},
+            {0x47, 0x0001, 0x0192},
+            // {0x48, 0x0002, 0x0192},
+        };
 
-        PopMp3OvlHis();
-        mp3_omovlhisidx--;
+        //original strat for loading back into the board. Going -
+        //to try hardcoding it to prevent a rare issue where -
+        //someone managed to desync this somehow
+        // PopMp3OvlHis();
+        // mp3_omovlhisidx--;
+
+        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+
+        //copy a hardcoded overlay history in
+        for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
+            mp3_omovlhis[i] = NormalLoadInHis[i];
+        }
+        mp3_omovlhisidx = 3;
+        //load into the board
         mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
         
-        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+        
     } else {
         mp3_omOvlCallEx(overlayID, event, stat);
     }
@@ -605,7 +623,7 @@ void drawMessageOnBootLogos(void) {
         printTimer++;
         
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.8");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.9");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }

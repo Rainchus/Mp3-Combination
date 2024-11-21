@@ -122,5 +122,6 @@ void mp3_func_8000BCC8_C8C8(s32, s32);
 s32 mp3_HuWipeStatGet(void);
 void mp3_func_8000C184_CD84(s32);
 void mp3_func_80055670_56270(s16);
+void mp3_RequestSIFunction(char (*)[16], void*, void*, s32);
 
 #endif
