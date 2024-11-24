@@ -46,3 +46,14 @@
     LUI a1, hi(minigameTextColor)
     ADDU a1, a1, v0
     LBU a1, lo(minigameTextColor) (a1)
+
+.org 0x80063B20
+    LUI a0, 0x8010
+    JAL GetMp2ExplanationScreenIndex
+    LH a0, 0x93C8 (a0)
+
+//poke item minigame id to extended list
+.org 0x8006642C
+    LUI at, hi(mp2_itemMinigameList)
+    ADDU at, at, v0
+    LBU v0, lo(mp2_itemMinigameList) (at)
