@@ -1,6 +1,7 @@
 #include "marioparty.h"
 
 extern mp3MinigameIndexTable minigameLUT[];
+extern s32 ForeignMinigameIndexToLoad;
 
 u8 mp2_newCategoryAmounts[] = {
     0x15, //4p
@@ -49,8 +50,10 @@ s16 GetMp2ExplanationScreenIndex(s16 arg0) {
         }
         D_800F93C8 = curMinigameData->gameOverlayID;
     } else if (D_800F93C8 >= HAND_LINE_AND_SINKER && D_800F93C8 <= MARIO_PUZZLE_PARTY_PRO) { //mp3
+        ForeignMinigameIndexToLoad = D_800F93C8;
         ComboSwitchGameToMp3();
     } else { //mp3
+        ForeignMinigameIndexToLoad = D_800F93C8;
         ComboSwitchGameToMp1();
     }
     if (D_800F93C8 >= 0x1E) {

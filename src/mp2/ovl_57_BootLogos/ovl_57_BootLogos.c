@@ -162,7 +162,7 @@ void mp2_newBootLogo(void) {
         // }
 
         ForeignMinigameIndexToLoad = -2;
-        mp3_LoadBackFromMp2 = TRUE;
+        mp3_LoadBackFromMp2 = MP2_FOREIGN_MINIGAME;
         
         mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93A8.unk_20), 0, 0x84);
         while (1) {

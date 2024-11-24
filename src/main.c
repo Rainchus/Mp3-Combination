@@ -499,7 +499,7 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
     }
 
     if (mp3_LoadBackFromMp2 == TRUE) {
-        mp3_LoadBackFromMp2 = FALSE;
+        mp3_LoadBackFromMp2 = NON_FOREIGN_MINIGAME;
         PopMp3BoardState();
         PopMp3MinigamesPlayedList();
         LoadMp3PlayerStructs();

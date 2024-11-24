@@ -3,7 +3,7 @@
 
 s32 ForeignMinigameIndexToLoad = -1;
 //there's probably a better way to track this
-s32 mp3_LoadBackFromMp2 = FALSE;
+s32 mp3_LoadBackFromMp2 = NON_FOREIGN_MINIGAME;
 
 char HookLineAndSinkerStr[] = {"\x0B""Hand""\x82"" Line and Sinker"};
 char CoconutConkStr[] = {"\x0B""Coconut Conk"};

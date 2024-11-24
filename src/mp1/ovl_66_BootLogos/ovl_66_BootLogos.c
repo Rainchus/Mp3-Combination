@@ -130,7 +130,7 @@ void mp1_newBootLogo(void) {
         mp1_D_800ED5E3 = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 settings
         mp1_D_800ED5DE = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
         ForeignMinigameIndexToLoad = -2;
-        mp3_LoadBackFromMp2 = TRUE;
+        mp3_LoadBackFromMp2 = MP2_FOREIGN_MINIGAME;
         mp1_omOvlCallEx(0x6F, 0, 0x84); //load explanation screen overlay (might be skipped depending on mp1_D_800ED5E3)
         while (1) {
             mp1_HuPrcVSleep();
