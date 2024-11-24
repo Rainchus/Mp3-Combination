@@ -31,3 +31,6 @@
 .definelabel mp1_D_800ED5DE, 0x800ED5DE
 .definelabel mp1_rnd_seed, 0x800C2FF4
 .definelabel mp1_osGetCount, 0x80093780
+
+//hardcoded symbols
+.definelabel mp1_PlayersCopy, 0x807FFE00

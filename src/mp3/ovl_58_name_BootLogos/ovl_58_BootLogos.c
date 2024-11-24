@@ -10,28 +10,12 @@ void mp3_HuWipeFadeOut(s32, s32);
 
 s32 initialBoot = 0;
 
-//func_80105C80_3D7430
-void mp3_newBootLogos(void) {
+void NewInitialSplashScreen(void) {
     s16 temp_v0;
-    s16 temp_v0_copy;
-    s16 temp_v0_3;
-    s32 temp_s0;
-    s32 temp_s0_copy;
-    s32 temp_s0_2;
-    s32 temp_s0_3;
     s32 temp_v0_2;
-    s32 temp_v0_2_copy;
-    s32 temp_v0_4;
-
-    // temp_v0 = func_8000B838_C438(N64_LOGO);
-    // temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
-    // temp_s0 = temp_v0_2 & 0xFFFF;
-    // mp3_func_8000BBD4_C7D4(temp_s0, 0xA0, 0x78);
-    // func_8000BB54_C754(temp_s0);
-    // func_8000BCC8_C8C8(temp_s0, 0xFFFF);
+        s32 temp_s0;
 
     if (initialBoot == 0) {
-        initialBoot = 1;
         temp_v0 = func_8000B838_C438(CUSTOM_LOGO);
         temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
         temp_s0 = temp_v0_2 & 0xFFFF;
@@ -39,7 +23,7 @@ void mp3_newBootLogos(void) {
         mp3_func_8000BB54_C754(temp_s0);
         mp3_func_8000BCC8_C8C8(temp_s0, 0xFFFF);
 
-        mp3_HuWipeFadeIn(0xB, 0x1E);
+        mp3_HuWipeFadeIn(0xB, 15);
         while (mp3_HuWipeStatGet() != 0) {
             mp3_HuPrcVSleep();
         }
@@ -51,7 +35,8 @@ void mp3_newBootLogos(void) {
                 continue;
             }
             if (mp3_D_800CDA7C[0] & 0x10) { //if R is pressed, load mario party 2
-                mp3_HuWipeFadeOut(0xB, 9);
+                CurBaseGame = MP2_BASE;
+                mp3_HuWipeFadeOut(0xB, 5);
 
                 while (mp3_HuWipeStatGet() != 0) {
                     mp3_HuPrcVSleep();
@@ -60,7 +45,8 @@ void mp3_newBootLogos(void) {
             }
             #ifdef MP1
             else if (mp3_D_800CDA7C[0] & 0x20) { //if L is pressed, load mario party 1
-                mp3_HuWipeFadeOut(0xB, 9);
+                CurBaseGame = MP1_BASE;
+                mp3_HuWipeFadeOut(0xB, 5);
 
                 while (mp3_HuWipeStatGet() != 0) {
                     mp3_HuPrcVSleep();
@@ -70,7 +56,7 @@ void mp3_newBootLogos(void) {
             #endif
             else if (mp3_D_800CDA7C[0] & 0x2000) { //if Z is pressed, load minigame selection
                 ForeignMinigameIndexToLoad = -1;
-                mp3_HuWipeFadeOut(0xB, 9);
+                mp3_HuWipeFadeOut(0xB, 5);
 
                 while (mp3_HuWipeStatGet() != 0) {
                     mp3_HuPrcVSleep();
@@ -78,17 +64,31 @@ void mp3_newBootLogos(void) {
                 mp3_omOvlCallEx(0, 0, 0);
                 mp3_HuPrcExit();
             } else if (mp3_D_800CDA7C[0] & 0x8000) { //if A is pressed, load mario party 3
+                initialBoot = 1;
+                CurBaseGame = MP3_BASE;
                 break;
             }
             mp3_HuPrcVSleep();
         }
-        mp3_HuWipeFadeOut(0xB, 9);
+        mp3_HuWipeFadeOut(0xB, 5);
 
         while (mp3_HuWipeStatGet() != 0) {
             mp3_HuPrcVSleep();
         }
     }
+}
 
+//func_80105C80_3D7430
+void mp3_newBootLogos(void) {
+    s16 temp_v0_copy;
+    s16 temp_v0_3;
+    s32 temp_s0_copy;
+    s32 temp_s0_2;
+    s32 temp_s0_3;
+    s32 temp_v0_2_copy;
+    s32 temp_v0_4;
+
+    NewInitialSplashScreen();
 
     temp_v0_copy = func_8000B838_C438(N64_LOGO);
     temp_v0_2_copy = InitEspriteSlot(temp_v0_copy, 0, 1);
@@ -97,13 +97,13 @@ void mp3_newBootLogos(void) {
     mp3_func_8000BB54_C754(temp_s0_copy);
     mp3_func_8000BCC8_C8C8(temp_s0_copy, 0xFFFF);
 
-    mp3_HuWipeFadeIn(0xB, 0x1E);
+    mp3_HuWipeFadeIn(0xB, 5);
     while (mp3_HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
 
     mp3_HuPrcSleep(5);
-    mp3_HuWipeFadeOut(0xB, 9);
+    mp3_HuWipeFadeOut(0xB, 5);
 
     while (mp3_HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
@@ -115,14 +115,14 @@ void mp3_newBootLogos(void) {
     mp3_func_8000BBD4_C7D4(temp_s0_2, 0xA0, 0x78);
     mp3_func_8000BB54_C754(temp_s0_2);
     mp3_func_8000BCC8_C8C8(temp_s0_2, 0xFFFF);
-    mp3_HuWipeFadeIn(0xB, 9);
+    mp3_HuWipeFadeIn(0xB, 5);
 
     while (mp3_HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
 
     mp3_HuPrcSleep(5);
-    mp3_HuWipeFadeOut(0xB, 9);
+    mp3_HuWipeFadeOut(0xB, 5);
 
     while (mp3_HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
@@ -130,12 +130,12 @@ void mp3_newBootLogos(void) {
 
     mp3_func_8000C184_CD84(temp_v0_4 & 0xFFFF);
     mp3_func_80055670_56270(temp_v0_3);
-    mp3_HuPrcSleep(9);
+    mp3_HuPrcSleep(5);
     temp_s0_3 = InitEspriteSlot(func_8000B838_C438(HUDSON_LOGO), 0, 1) & 0xFFFF;
     mp3_func_8000BBD4_C7D4(temp_s0_3, 0xA0, 0x78);
     mp3_func_8000BB54_C754(temp_s0_3);
     mp3_func_8000BCC8_C8C8(temp_s0_3, 0xFFFF);
-    mp3_HuWipeFadeIn(0xB, 9);
+    mp3_HuWipeFadeIn(0xB, 5);
 
     while (mp3_HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();

@@ -28,6 +28,10 @@
 .definelabel D_800F93C6, 0x800F93C6;
 .definelabel D_800F93C8, 0x800F93C8;
 
+.definelabel mp2_hidden_block_coins_space_index, 0x800FA608
+.definelabel mp2_hidden_block_star_space_index, 0x800FD418
+.definelabel mp2_BoardState, 0x800F93A8
+
 .definelabel mp2_omovlhis, 0x800FDBE8;
 .definelabel mp2_omovlhisidx, 0x800CD418;
 

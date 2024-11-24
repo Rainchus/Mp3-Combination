@@ -1,5 +1,7 @@
 #include "marioparty.h"
 #include "mp3.h"
+#include "mp2.h"
+#include "mp1.h"
 
 #define COLD_BOOT 0
 #define WARM_BOOT 1
@@ -33,8 +35,6 @@ extern s16 D_800CD0AA;
 extern mp2_GW_PLAYER mp2_PlayersCopy[4];
 extern u8 osAppNmiBuffer[osAppNmiBufferSize];
 
-extern omOvlHisData mp2_omovlhis[12];
-extern s16 mp2_omovlhisidx;
 extern s8 D_800B23B0;
 
 extern s16 D_800D6B60;
@@ -119,6 +119,36 @@ void CopyMp3_gPlayerCopy_To_Mp2(void) {
     }
 }
 
+void CopyMp2_gPlayerCopy_To_Mp1(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        mp1_gPlayers[i].group = mp2_PlayersCopy[i].group;
+        mp1_gPlayers[i].cpu_difficulty = mp2_PlayersCopy[i].cpu_difficulty;
+        mp1_gPlayers[i].cpu_difficulty_copy = mp2_PlayersCopy[i].cpu_difficulty;
+        mp1_gPlayers[i].port = mp2_PlayersCopy[i].port;
+        mp1_gPlayers[i].character = mp2_PlayersCopy[i].character;
+        mp1_gPlayers[i].flags = mp2_PlayersCopy[i].flags;
+        mp1_gPlayers[i].coins = mp2_PlayersCopy[i].coins;
+        mp1_gPlayers[i].stars = mp2_PlayersCopy[i].stars;
+    }
+}
+
+void CopyMp1_gPlayerCopy_To_Mp2(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        mp2_PlayersCopy[i].group = mp1_PlayersCopy[i].group;
+        mp2_PlayersCopy[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty;
+        mp2_PlayersCopy[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty_copy;
+        mp2_PlayersCopy[i].port = mp1_PlayersCopy[i].port;
+        mp2_PlayersCopy[i].character = mp1_PlayersCopy[i].character;
+        mp2_PlayersCopy[i].flags = mp1_PlayersCopy[i].flags;
+        mp2_PlayersCopy[i].coins = mp1_PlayersCopy[i].coins;
+        mp2_PlayersCopy[i].stars = mp1_PlayersCopy[i].stars;
+    }
+}
+
 void CopyMp3_gPlayerCopy_To_Mp1(void) {
     s32 i;
 
@@ -134,20 +164,13 @@ void CopyMp3_gPlayerCopy_To_Mp1(void) {
     }
 }
 
-void SaveMp2PlayerStructs(void) {
-    s32 i;
-    for (i = 0; i < 4; i++) {
-        mp2_PlayersCopy[i] = mp2_gPlayers[i];
-    }
-}
-
 u8 hidden_block_item_space_copy = 0;
 u8 hidden_block_coins_space_copy = 0;
 u8 hidden_block_star_space_copy = 0;
 
-extern u8 mp3_800CC4E5; //hidden_block_item_space
-extern u8 mp3_800CE1C5; //hidden_block_coins_space
-extern u8 mp3_800D124F; //hidden_block_star_space
+extern u8 mp3_hidden_block_item_space_index; //hidden_block_item_space
+extern u8 mp3_hidden_block_coins_space_index; //hidden_block_coins_space
+extern u8 mp3_hidden_block_star_space_index; //hidden_block_star_space
 
 void SaveMp3PlayerStructs(void) {
     s32 i;
@@ -155,9 +178,9 @@ void SaveMp3PlayerStructs(void) {
         mp3_PlayersCopy[i] = mp3_gPlayers[i];
     }
 
-    hidden_block_item_space_copy = mp3_800CC4E5;
-    hidden_block_coins_space_copy = mp3_800CE1C5;
-    hidden_block_star_space_copy = mp3_800D124F;
+    hidden_block_item_space_copy = mp3_hidden_block_item_space_index;
+    hidden_block_coins_space_copy = mp3_hidden_block_coins_space_index;
+    hidden_block_star_space_copy = mp3_hidden_block_star_space_index;
 }
 
 void LoadMp3PlayerStructs(void) {
@@ -166,9 +189,9 @@ void LoadMp3PlayerStructs(void) {
         mp3_gPlayers[i] = mp3_PlayersCopy[i];
     }
 
-    mp3_800CC4E5 = hidden_block_item_space_copy;
-    mp3_800CE1C5 = hidden_block_coins_space_copy;
-    mp3_800D124F = hidden_block_star_space_copy;
+    mp3_hidden_block_item_space_index = hidden_block_item_space_copy;
+    mp3_hidden_block_coins_space_index = hidden_block_coins_space_copy;
+    mp3_hidden_block_star_space_index = hidden_block_star_space_copy;
 }
 
 void checkosAppNmiBufferReset(s32 resetType) {
@@ -336,66 +359,102 @@ u8 minigame4PBlacklist[] = {
 //     ARRAY_COUNT(newDuelMinigameListNormalMp3) -1,
 // };
 
-void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
-    mp3MinigameIndexTable* curMinigameData;
+void LoadBackIntoMp3Board(void) {
     s8 curTurn;
     s8 totalTurns;
     s8 curBoardIndex;
+    s32 i;
+
+    //TODO: make mp3_BoardState a real struct...eventually
+
+    PopMp3BoardState();
+    PopMp3MinigamesPlayedList();
+    LoadMp3PlayerStructs();
+
+    if (wackyWatchUsedCopy == 2) {
+        wackyWatchUsedCopy = 3;
+        //set turns as if wacky watch was used
+        mp3_BoardState[3] = mp3_BoardState[2] - 4;
+    }
+
+    D_800CD0AA = wackyWatchUsedCopy;
+
+    curTurn = mp3_BoardState[3];
+    totalTurns = mp3_BoardState[2];
+    curBoardIndex = mp3_BoardState[1];
+
+    mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
+    D_800B23B0 = 1; //is party mode
+    // if (isBattleMinigame == 1) {
+    //     s32 i;
+    //     isBattleMinigame = 0;
+
+    //     omOvlHisData BattleResults[] = {
+    //         {0x70, 0x0001, 0x0192},
+    //         {0x53, 0x0000, 0x0192},
+    //         {0x48, 0x0000, 0x0192},
+    //     };
+    //     for (i = 0; i < ARRAY_COUNT(BattleResults); i++) {
+    //         mp3_omovlhis[i] = BattleResults[i];
+    //     }
+    //     mp3_omovlhisidx = 3;
+    //     mp3_omOvlCallEx(0x74, 0, 0x12); //go to battle results scene
+    //     return;
+    // }
+    if (curTurn > totalTurns) {
+        PopMp3OvlHis();
+        mp3_omovlhisidx--;
+        mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
+        return;
+    } else if ((totalTurns - curTurn) == 4) {
+        //there's probably a better way to do this over hardcoding the ovl history
+        //set last 5 turns event
+        // PopMp3OvlHis();
+        s32 i;
+        for (i = 0; i < ARRAY_COUNT(last5Turns); i++) {
+            mp3_omovlhis[i] = last5Turns[i];
+        }
+        mp3_omovlhisidx = 3;
+        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+        // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
+        mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
+        return;
+    }
+    omOvlHisData NormalLoadInHis[] = {
+        {0x7A, 0x0002, 0x0092},
+        {0x7A, 0x0002, 0x0092},
+        {0x77, 0x0000, 0x0091},
+        {0x47, 0x0001, 0x0192},
+        // {0x48, 0x0002, 0x0192},
+    };
+
+    //original strat for loading back into the board. Going -
+    //to try hardcoding it to prevent a rare issue where -
+    //someone managed to desync this somehow
+    // PopMp3OvlHis();
+    // mp3_omovlhisidx--;
+
+    mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+
+    //copy a hardcoded overlay history in
+    for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
+        mp3_omovlhis[i] = NormalLoadInHis[i];
+    }
+    mp3_omovlhisidx = 3;
+    //load into the board
+    mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
+}
+
+void LoadMinigameList(void) {
+    mp3MinigameIndexTable* curMinigameData;
     s32 i, j;
-    s32 eepromByteResults = 0;
+    s32 minigameIsBlacklisted;
     u8 minigame4PCount = 0;
     u8 minigame1v3Count = 0;
     u8 minigame2v2Count = 0;
     u8 minigameItemCount = 0;
     u8 minigameBattleCount = 0;
     u8 minigameDuelCount = 0;
-    // u8 minigameGameGuyCount = 0;
-    // u8 minigame1PCount = 0;
-    s32 minigameIsBlacklisted;
-    s32 eepresult = 0;
-
-    for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormal); i++) {
-        newCategoryAmountsNormal[i] = 0;
-    }
-    
-    if (eepromLoadFailed == 1) {
-        mp3_omOvlCallEx(0, 0, 0);
-        return;
-    }
-
-    eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
-
-    if (eepresult == CONT_NO_RESPONSE_ERROR) {
-        while (1) {
-            mp3_DrawDebugText(20, 212, "EEPROM CONT_NO_RESPONSE_ERROR");
-            mp3_HuPrcVSleep();
-        }
-    } else if (eepresult == -1) {
-        while (1) {
-            mp3_DrawDebugText(20, 212, "EEPROM INVALID ADDRESS");
-            mp3_HuPrcVSleep();
-        }
-    }
-
-    //otherwise, result was zero and the eeprom read happened correctly
-    mp3_HuPrcVSleep();
-    for (i = 0; i < 0x18; i++) {
-        eepromByteResults += customEepromData[i];
-    }
-
-    if (eepromByteResults == 0) {
-        for (i = 0; i < 0x18; i++) {
-            customEepromData[i] = CustomMinigamesEepromBytes[i];
-        }
-        //no idea what any of these args do
-        char sp10[16] = {0};
-        s16 temp = 0x20;
-
-        //why is it required you do this this way?
-        //and why only when writing? reading works fine?
-        mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
-        mp3_HuPrcVSleep();
-    }
 
     //load active minigames into lists
     for (i = 0; i < MINIGAME_END - 1; i++) {
@@ -497,88 +556,63 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
             break;
         }
     }
+}
 
-    if (mp3_LoadBackFromMp2 == MP2_FOREIGN_MINIGAME) {
-        mp3_LoadBackFromMp2 = NON_FOREIGN_MINIGAME;
-        PopMp3BoardState();
-        PopMp3MinigamesPlayedList();
-        LoadMp3PlayerStructs();
+void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
+    s32 i;
+    s32 eepromByteResults = 0;
+    // u8 minigameGameGuyCount = 0;
+    // u8 minigame1PCount = 0;
+    s32 eepresult = 0;
 
-        
-        if (wackyWatchUsedCopy == 2) {
-            wackyWatchUsedCopy = 3;
-            //set turns as if wacky watch was used
-            mp3_BoardState[3] = mp3_BoardState[2] - 4;
+    for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormal); i++) {
+        newCategoryAmountsNormal[i] = 0;
+    }
+    
+    if (eepromLoadFailed == 1) {
+        mp3_omOvlCallEx(0, 0, 0);
+        return;
+    }
+
+    eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
+
+    if (eepresult == CONT_NO_RESPONSE_ERROR) {
+        while (1) {
+            mp3_DrawDebugText(20, 212, "EEPROM CONT_NO_RESPONSE_ERROR");
+            mp3_HuPrcVSleep();
         }
-
-        D_800CD0AA = wackyWatchUsedCopy;
-
-        curTurn = mp3_BoardState[3];
-        totalTurns = mp3_BoardState[2];
-        curBoardIndex = mp3_BoardState[1];
-
-        mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
-        D_800B23B0 = 1; //is party mode
-        // if (isBattleMinigame == 1) {
-        //     s32 i;
-        //     isBattleMinigame = 0;
-
-        //     omOvlHisData BattleResults[] = {
-        //         {0x70, 0x0001, 0x0192},
-        //         {0x53, 0x0000, 0x0192},
-        //         {0x48, 0x0000, 0x0192},
-        //     };
-        //     for (i = 0; i < ARRAY_COUNT(BattleResults); i++) {
-        //         mp3_omovlhis[i] = BattleResults[i];
-        //     }
-        //     mp3_omovlhisidx = 3;
-        //     mp3_omOvlCallEx(0x74, 0, 0x12); //go to battle results scene
-        //     return;
-        // }
-        if (curTurn > totalTurns) {
-            PopMp3OvlHis();
-            mp3_omovlhisidx--;
-            mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
-            return;
-        } else if ((totalTurns - curTurn) == 4) {
-            //there's probably a better way to do this over hardcoding the ovl history
-            //set last 5 turns event
-            // PopMp3OvlHis();
-            s32 i;
-            for (i = 0; i < ARRAY_COUNT(last5Turns); i++) {
-                mp3_omovlhis[i] = last5Turns[i];
-            }
-            mp3_omovlhisidx = 3;
-            mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
-            // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
-            mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
-            return;
+    } else if (eepresult == -1) {
+        while (1) {
+            mp3_DrawDebugText(20, 212, "EEPROM INVALID ADDRESS");
+            mp3_HuPrcVSleep();
         }
-        omOvlHisData NormalLoadInHis[] = {
-            {0x7A, 0x0002, 0x0092},
-            {0x7A, 0x0002, 0x0092},
-            {0x77, 0x0000, 0x0091},
-            {0x47, 0x0001, 0x0192},
-            // {0x48, 0x0002, 0x0192},
-        };
+    }
 
-        //original strat for loading back into the board. Going -
-        //to try hardcoding it to prevent a rare issue where -
-        //someone managed to desync this somehow
-        // PopMp3OvlHis();
-        // mp3_omovlhisidx--;
+    //otherwise, result was zero and the eeprom read happened correctly
+    mp3_HuPrcVSleep();
+    for (i = 0; i < 0x18; i++) {
+        eepromByteResults += customEepromData[i];
+    }
 
-        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
-
-        //copy a hardcoded overlay history in
-        for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
-            mp3_omovlhis[i] = NormalLoadInHis[i];
+    if (eepromByteResults == 0) {
+        for (i = 0; i < 0x18; i++) {
+            customEepromData[i] = CustomMinigamesEepromBytes[i];
         }
-        mp3_omovlhisidx = 3;
-        //load into the board
-        mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
-        
-        
+        //no idea what any of these args do
+        char sp10[16] = {0};
+        s16 temp = 0x20;
+
+        //why is it required you do this this way?
+        //and why only when writing? reading works fine?
+        mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
+        mp3_HuPrcVSleep();
+    }
+
+    LoadMinigameList();
+
+    //if mp3 is where current game is taking place and we are loading back from mp2/mp1
+    if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == TRUE) {
+        LoadBackIntoMp3Board();
     } else {
         mp3_omOvlCallEx(overlayID, event, stat);
     }
@@ -666,23 +700,23 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, (char*)temp_v0, -1, -1);
 }
 
-void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
-    if (ForeignMinigameIndexToLoad == -2) {
-        s32 i;
-        //load directly into title screen
-        omOvlHisData titleScreen[] = {
-            {0x62, 0x0000, 0x192},
-            {0x62, 0x0001, 0x193}
-        };
+// void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
+//     if (ForeignMinigameIndexToLoad == -2) {
+//         s32 i;
+//         //load directly into title screen
+//         omOvlHisData titleScreen[] = {
+//             {0x62, 0x0000, 0x192},
+//             {0x62, 0x0001, 0x193}
+//         };
 
-        for (i = 0; i < ARRAY_COUNT(titleScreen); i++) {
-            mp2_omovlhis[i] = titleScreen[i];
-        }
+//         for (i = 0; i < ARRAY_COUNT(titleScreen); i++) {
+//             mp2_omovlhis[i] = titleScreen[i];
+//         }
 
-        mp2_omovlhisidx = 1;
-        mp2_omOvlCallEx(0x5B, 0, 0x1081); //load mode select
-    } else { //otherwise, load debug overlay
-        mp2_omOvlCallEx(0, event, stat);
-    }
-}
+//         mp2_omovlhisidx = 1;
+//         mp2_omOvlCallEx(0x5B, 0, 0x1081); //load mode select
+//     } else { //otherwise, load debug overlay
+//         mp2_omOvlCallEx(0, event, stat);
+//     }
+// }
 

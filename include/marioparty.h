@@ -471,12 +471,12 @@ void WaitForSubSystems(void);
 s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex);
 NORETURN void ComboSwitchGameToMp2(void);
 NORETURN void ComboSwitchGameToMp1(void);
+extern s32 ForeignMinigameAlreadyLoaded;
 
 enum {
-    NON_FOREIGN_MINIGAME = 0,
-    MP1_FOREIGN_MINIGAME = 1,
-    MP2_FOREIGN_MINIGAME = 2,
-    MP3_FOREIGN_MINIGAME = 3,
+    MP1_BASE = 0,
+    MP2_BASE = 1,
+    MP3_BASE = 2,
 };
 
 #endif //_MP_H_

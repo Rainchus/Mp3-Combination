@@ -120,6 +120,9 @@ setCustomMinigameIndex:
     JAL PushMp3MinigamesPlayedList
     NOP
 
+    LI t0, ForeignMinigameAlreadyLoaded
+    SW r0, 0x0000 (t0)
+
     //swap to mp1
     JAL ComboSwitchGameToMp1
     NOP
@@ -149,6 +152,9 @@ setCustomMinigameIndex:
 
     JAL PushMp3MinigamesPlayedList
     NOP
+
+    LI t0, ForeignMinigameAlreadyLoaded
+    SW r0, 0x0000 (t0)
 
     //swap to mp2
     JAL ComboSwitchGameToMp2

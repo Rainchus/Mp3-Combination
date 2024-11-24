@@ -5,5 +5,6 @@
 #include "marioparty.h"
 
 u32 mp1_osGetCount(void);
+extern mp1_GW_PLAYER mp1_PlayersCopy[4];
 
 #endif

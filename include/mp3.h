@@ -87,7 +87,7 @@ extern omOvlHisData mp3_omovlhis_copy[12];
 extern s16 mp3_omovlhisidx_copy;
 extern omOvlHisData mp3_omovlhis[12];
 extern s16 mp3_omovlhisidx;
-extern s32 mp3_LoadBackFromMp2;
+extern s32 CurBaseGame;
 extern s16 mp3_D_800CD2A2;
 extern UnkCastleGroundMessage mp3_D_80110998[];
 extern s32 mp3_D_800B1A30;
