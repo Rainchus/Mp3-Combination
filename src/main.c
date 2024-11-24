@@ -317,7 +317,9 @@ u8 itemMinigameBlacklist[] = {
 };
 
 u8 minigame4PBlacklist[] = {
+    #ifdef MP1
     YOSHIS_TONGUE_MEETING
+    #endif
 };
 
 // u8 minigame1v3Blacklist[] = {

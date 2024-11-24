@@ -545,9 +545,9 @@ mp3MinigameIndexTable minigameLUT[] = {
     {PUDDLE_PADDLE, PuddlePaddleStr, 17, PLAYERS_2V2},
     {PUMP_PUMP_AND_AWAY, PumpPumpAndAwayStr, 13, PLAYERS_2V2},
     {SLOT_SYNC, SlotSyncStr, 20, PLAYERS_2V2},
-    {TORPEDO_TARGETS, TorpedoTargetsStr, 67, PLAYERS_2V2}, //mp2 67
-
+    
     //mp2 2v2 minigames
+    {TORPEDO_TARGETS, TorpedoTargetsStr, 67, PLAYERS_2V2}, //mp2 67
     {MP2_BALLOON_BURST, mp2_BalloonBurstStr, 30, PLAYERS_2V2}, //mp2 30
     {MP2_BOBSLED_RUN, mp2_BobsledRunStr, 27, PLAYERS_2V2}, //mp2 27
     {CAKE_FACTORY, CakeFactoryStr, 33, PLAYERS_2V2}, //mp2 33
