@@ -1,7 +1,10 @@
 #include "marioparty.h"
 
+void mp2_func_800890CC(s16, char*, s32, s32); //RefreshMsg
 extern mp3MinigameIndexTable minigameLUT[];
 extern s32 ForeignMinigameIndexToLoad;
+extern s16 D_800F93C8;
+NORETURN void ComboSwitchGameToMp3(void);
 
 u8 mp2_newCategoryAmounts[] = {
     0x15, //4p
@@ -22,8 +25,8 @@ u8 mp2_itemMinigameList[] = {
 
 void mp2_GetNewMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 minigameCombinedIndex = arg1 - 0x3D8;
-
     s32 i;
+
     for (i = 0; i < MINIGAME_END; i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
             mp2_func_800890CC(arg0, minigameLUT[i].minigameStr, arg2, arg3);
@@ -37,7 +40,7 @@ void mp2_GetNewMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 //we check the range, and if it's in mp2, fix the index back to -
 //the correct mp2 one. this is because the minigame index list was based -
 //on mp3 as a basis
-extern s16 D_800F93C8;
+
 s16 GetMp2ExplanationScreenIndex(s16 arg0) {
     s32 i;
     if (D_800F93C8 >= BOWSER_SLOTS && D_800F93C8 <= DEEP_SEA_SALVAGE) { //mp2
@@ -52,7 +55,7 @@ s16 GetMp2ExplanationScreenIndex(s16 arg0) {
     } else if (D_800F93C8 >= HAND_LINE_AND_SINKER && D_800F93C8 <= MARIO_PUZZLE_PARTY_PRO) { //mp3
         ForeignMinigameIndexToLoad = D_800F93C8;
         ComboSwitchGameToMp3();
-    } else { //mp3
+    } else { //mp1
         ForeignMinigameIndexToLoad = D_800F93C8;
         ComboSwitchGameToMp1();
     }
