@@ -13,18 +13,18 @@ void mp1_func_800191F8(s32);
 void mp1_func_80067704(s16);
 void mp1_func_800726AC(s32, s32);
 s32 mp1_func_80072718(void);
-extern s16 mp1_D_800F5144;
 void mp1_HuPrcVSleep(void);
 void mp1_HuPrcSleep(s32);
-extern s32 ForeignMinigameIndexToLoad;
-extern s32 CurBaseGame;
 NORETURN void ComboSwitchGameToMp3(void);
 s32 mp1_omOvlCallEx(s32 arg0, s16 arg1, u16 arg2);
-extern u8 mp1_D_800ED5E3;
-extern u16 mp1_D_800ED5DE;
 void CopyMp3_gPlayerCopy_To_Mp1(void);
 void mp1_omInitObjMan(s32, s32);
 void CopyMp2_gPlayerCopy_To_Mp1(void);
+extern s16 mp1_D_800F5144;
+extern s32 ForeignMinigameIndexToLoad;
+extern s32 CurBaseGame;
+extern u8 mp1_D_800ED5E3;
+extern u16 mp1_D_800ED5DE;
 extern u32 mp1_rnd_seed;
 extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
 
@@ -108,7 +108,7 @@ void mp1_newBootLogo(void) {
 
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP1_BASE) {
-            //load back into mp1 board
+            //TODO: load back into mp1 board
 
         } else if (CurBaseGame == MP2_BASE) {
             s32 i;
@@ -155,13 +155,11 @@ void mp1_newBootLogo(void) {
         return;
     } else if (CurBaseGame == MP2_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp2_gPlayerCopy_To_Mp1();
-        mp1_D_800ED5E3 = mp2_BoardStateCopy[5]; //minigame explanations on/off depending on mp2 setting
+        mp1_D_800ED5E3 = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp1();
         mp1_D_800ED5E3 = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 setting
     }
-
-    // mp2__SetFlag(0x19); //no idea what this does, might be important might not
     
     mp1_omInitObjMan(16, 4);
     mp1_D_800ED5DE = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);

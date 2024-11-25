@@ -57,3 +57,9 @@
     LUI at, hi(mp2_itemMinigameList)
     ADDU at, at, v0
     LBU v0, lo(mp2_itemMinigameList) (at)
+
+//this fixes a crash when loading back into a mp2 board...not sure what's going on here
+.org 0x800654C8
+    LUI at, 0x800E
+    JAL mp2_Unk_Camera_Function
+    LWC1 f12, 0x1F84 (at)

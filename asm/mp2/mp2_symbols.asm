@@ -80,5 +80,9 @@
 
 .definelabel mp2_prevMinigamesPlayed, 0x800DF698
 .definelabel mp2_func_800890CC, 0x800890CC
+.definelabel mp2_HuPrcKill, 0x8007D8A8
+.definelabel mp2_HuPrcEnd, 0x8007D9A4
+.definelabel mp2_UnkCamThing, 0x80052E68
 //hardcoded symbols
-.definelabel mp2_PlayersCopy, 0x807FFF00
+.definelabel mp2_omovlhisidx_copy, 0x807FFB00
+.definelabel mp2_PlayersCopy, 0x807FFC00

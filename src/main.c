@@ -39,8 +39,7 @@ extern s8 D_800B23B0;
 
 extern s16 D_800D6B60;
 extern omOvlHisData D_800D20F0[];
-
-
+omOvlHisData mp2_omovlhis_copy[12] = {0};
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE] = {0};
@@ -57,6 +56,15 @@ void PushMp3OvlHis(void) {
         mp3_omovlhis_copy[i] = mp3_omovlhis[i];
     }
     mp3_omovlhisidx_copy = mp3_omovlhisidx;
+}
+
+void PushMp2OvlHis(void) {
+    s32 i;
+
+    for (i = 0; i < 12; i++) {
+        mp2_omovlhis_copy[i] = mp2_omovlhis[i];
+    }
+    mp2_omovlhisidx_copy = mp2_omovlhisidx;
 }
 
 void PushMp3MinigamesPlayedList(void) {
@@ -99,6 +107,15 @@ void PopMp3OvlHis(void) {
         mp3_omovlhis[i] = mp3_omovlhis_copy[i];
     }
     mp3_omovlhisidx = mp3_omovlhisidx_copy;
+}
+
+void PopMp2OvlHis(void) {
+    s32 i;
+
+    for (i = 0; i < 12; i++) {
+        mp2_omovlhis[i] = mp2_omovlhis_copy[i];
+    }
+    mp2_omovlhisidx = mp2_omovlhisidx_copy;
 }
 
 //we only want to copy the necessary data so that the mp2 results screen is correct,
@@ -164,9 +181,12 @@ void CopyMp3_gPlayerCopy_To_Mp1(void) {
     }
 }
 
-u8 hidden_block_item_space_copy = 0;
-u8 hidden_block_coins_space_copy = 0;
-u8 hidden_block_star_space_copy = 0;
+u8 mp3_hidden_block_item_space_copy = 0;
+u8 mp3_hidden_block_coins_space_copy = 0;
+u8 mp3_hidden_block_star_space_copy = 0;
+
+u8 mp2_hidden_block_coins_space_copy = 0;
+u8 mp2_hidden_block_star_space_copy = 0;
 
 extern u8 mp3_hidden_block_item_space_index; //hidden_block_item_space
 extern u8 mp3_hidden_block_coins_space_index; //hidden_block_coins_space
@@ -178,9 +198,9 @@ void SaveMp3PlayerStructs(void) {
         mp3_PlayersCopy[i] = mp3_gPlayers[i];
     }
 
-    hidden_block_item_space_copy = mp3_hidden_block_item_space_index;
-    hidden_block_coins_space_copy = mp3_hidden_block_coins_space_index;
-    hidden_block_star_space_copy = mp3_hidden_block_star_space_index;
+    mp3_hidden_block_item_space_copy = mp3_hidden_block_item_space_index;
+    mp3_hidden_block_coins_space_copy = mp3_hidden_block_coins_space_index;
+    mp3_hidden_block_star_space_copy = mp3_hidden_block_star_space_index;
 }
 
 void LoadMp3PlayerStructs(void) {
@@ -189,9 +209,19 @@ void LoadMp3PlayerStructs(void) {
         mp3_gPlayers[i] = mp3_PlayersCopy[i];
     }
 
-    mp3_hidden_block_item_space_index = hidden_block_item_space_copy;
-    mp3_hidden_block_coins_space_index = hidden_block_coins_space_copy;
-    mp3_hidden_block_star_space_index = hidden_block_star_space_copy;
+    mp3_hidden_block_item_space_index = mp3_hidden_block_item_space_copy;
+    mp3_hidden_block_coins_space_index = mp3_hidden_block_coins_space_copy;
+    mp3_hidden_block_star_space_index = mp3_hidden_block_star_space_copy;
+}
+
+void LoadMp2PlayerStructs(void) {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        mp2_gPlayers[i] = mp2_PlayersCopy[i];
+    }
+
+    mp2_hidden_block_coins_space_index = mp2_hidden_block_coins_space_copy;
+    mp2_hidden_block_star_space_index = mp2_hidden_block_star_space_copy;
 }
 
 void checkosAppNmiBufferReset(s32 resetType) {
@@ -636,25 +666,6 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 
 void drawMessageOnBootLogos(void) {
-    //TODO: this should only be possible on initial boot, or players might accidentally enter these menus
-    //if R is held on boot, load mp2
-    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x10) {
-    //     ForeignMinigameIndexToLoad = -1;
-    //     ComboSwitchGameToMp2();
-    //     return;
-    // }
-    // // if L is held on boot, load mp1
-    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x20) {
-    //     ForeignMinigameIndexToLoad = -1;
-    //     ComboSwitchGameToMp1();
-    //     return;
-    // }
-    // // if Z is held on boot, load minigame selection screen
-    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x2000) {
-    //     ForeignMinigameIndexToLoad = -1;
-    //     mp3_omOvlCallEx(0, 0, 0);
-    //     return;
-    // }
     if (printTimer < 120) {
         printTimer++;
         
@@ -699,24 +710,3 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
 
     mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, (char*)temp_v0, -1, -1);
 }
-
-// void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
-//     if (ForeignMinigameIndexToLoad == -2) {
-//         s32 i;
-//         //load directly into title screen
-//         omOvlHisData titleScreen[] = {
-//             {0x62, 0x0000, 0x192},
-//             {0x62, 0x0001, 0x193}
-//         };
-
-//         for (i = 0; i < ARRAY_COUNT(titleScreen); i++) {
-//             mp2_omovlhis[i] = titleScreen[i];
-//         }
-
-//         mp2_omovlhisidx = 1;
-//         mp2_omOvlCallEx(0x5B, 0, 0x1081); //load mode select
-//     } else { //otherwise, load debug overlay
-//         mp2_omOvlCallEx(0, event, stat);
-//     }
-// }
-

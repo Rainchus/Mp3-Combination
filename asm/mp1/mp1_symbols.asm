@@ -33,4 +33,5 @@
 .definelabel mp1_osGetCount, 0x80093780
 
 //hardcoded symbols
-.definelabel mp1_PlayersCopy, 0x807FFE00
+.definelabel mp1_omovlhisidx_copy, 0x807FF900
+.definelabel mp1_PlayersCopy, 0x807FFA00

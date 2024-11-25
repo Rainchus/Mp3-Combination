@@ -50,6 +50,11 @@ extern u16 mp2_BattleMinigameCoins;
 extern u16 mp3_BattleMinigameCoins;
 extern u16 mp3_BattleMinigameCoins_Copy;
 extern u8 newBattleMinigameListNormalMp3[];
+void PopMp2MinigamesPlayedList(void);
+void LoadMp2PlayerStructs(void);
+void PopMp2OvlHis(void);
+void mp2_HuPrcEnd(void);
+
 s32 isBattleMinigame = 0;
 
 void mp2_OriginalBootLogos(void) {
@@ -116,6 +121,93 @@ void mp2_OriginalBootLogos(void) {
     }
 }
 
+mp2_BoardStatus mp2_BoardStateCopy = {0};
+
+void PushMp2BoardState(void) {
+    mp2_BoardStateCopy = mp2_BoardState;
+}
+
+void PopMp2BoardState(void) {
+    mp2_BoardState = mp2_BoardStateCopy;
+}
+
+void LoadBackIntoMp2Board(void) {
+    s8 curTurn;
+    s8 totalTurns;
+    s8 curBoardIndex;
+    s32 i;
+
+    PopMp2BoardState();
+    PopMp2MinigamesPlayedList();
+    LoadMp2PlayerStructs();
+
+    curTurn = mp2_BoardState.curTurn;
+    totalTurns = mp2_BoardState.maxTurns;
+    curBoardIndex = mp2_BoardState.curBoardIndex;
+
+    // if (isBattleMinigame == 1) {
+    //     s32 i;
+    //     isBattleMinigame = 0;
+
+    //     omOvlHisData BattleResults[] = {
+    //         {0x70, 0x0001, 0x0192},
+    //         {0x53, 0x0000, 0x0192},
+    //         {0x48, 0x0000, 0x0192},
+    //     };
+    //     for (i = 0; i < ARRAY_COUNT(BattleResults); i++) {
+    //         mp3_omovlhis[i] = BattleResults[i];
+    //     }
+    //     mp3_omovlhisidx = 3;
+    //     mp3_omOvlCallEx(0x74, 0, 0x12); //go to battle results scene
+    //     return;
+    // }
+    if (curTurn > totalTurns) {
+        PopMp2OvlHis();
+        mp2_omovlhisidx--;
+        mp2_omOvlCallEx(0x52, 0, 0x192); //go to end of game scene
+        return;
+    } else if ((totalTurns - curTurn) == 4) {
+        omOvlHisData last5Turns[] = {
+            {0x62, 0x0000, 0x0192},
+            {0x62, 0x0000, 0x0192},
+            {0x5B, 0x0000, 0x1014},
+            {0x3D, 0x0001, 0x0192},
+        };
+
+        s32 i;
+        for (i = 0; i < ARRAY_COUNT(last5Turns); i++) {
+            mp2_omovlhis[i] = last5Turns[i];
+        }
+        mp2_omovlhisidx = 3;
+        // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
+        mp2_omOvlCallEx(0x40, 2, 0x192); //last 5 turns
+        return;
+    }
+
+    omOvlHisData NormalLoadInHis[] = {
+        {0x62, 0x0000, 0x0192},
+        {0x62, 0x0000, 0x0192},
+        {0x5B, 0x0000, 0x1014},
+        {0x3D, 0x0001, 0x0192},
+    };
+
+    //copy a hardcoded overlay history in
+    for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
+        mp2_omovlhis[i] = NormalLoadInHis[i];
+    }
+    u8 boardOverlays[] = {
+        0x3E, //western land
+        0x41, //pirate land
+        0x43, //horror land
+        0x45, //space land
+        0x47, //mystery land
+        0x49, //koopa land
+    };
+    mp2_omovlhisidx = 3;
+    //load into the board
+    mp2_omOvlCallEx(boardOverlays[curBoardIndex], 2, 0x192); //load back into board
+}
+
 //func_80102AD8_36DC78_BootLogos
 void mp2_newBootLogo(void) {
     s32 i;
@@ -125,7 +217,12 @@ void mp2_newBootLogo(void) {
 
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP2_BASE) {
-            //load back into mp2 board
+            //TODO: load back into mp2 board code here
+            LoadBackIntoMp2Board();
+            mp2_HuPrcEnd();
+            while (1) {
+                mp2_HuPrcVSleep();
+            }
         } else if (CurBaseGame == MP1_BASE) {
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp2_gPlayers[i].coins - mp1_PlayersCopy[i].coins;
@@ -157,16 +254,14 @@ void mp2_newBootLogo(void) {
             }
             ComboSwitchGameToMp3();
         }
-            
     }
-
 
     if (CurBaseGame == MP2_BASE) {
         mp2_OriginalBootLogos();
         return;
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp2();
-        mp2_D_800F93CD_F9FCD = mp2_BoardStateCopy[5]; //minigame explanations on/off depending on mp2 setting
+        mp2_D_800F93CD_F9FCD = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp2();
         mp2_D_800F93CD_F9FCD = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 setting

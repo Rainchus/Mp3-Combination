@@ -84,6 +84,7 @@ enum TEXT_COLORS_ADJUSTED {
 extern mp3_PlayerData mp3_gPlayers[4];
 extern mp3_PlayerData mp3_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
+extern omOvlHisData mp2_omovlhis_copy[12];
 extern s16 mp3_omovlhisidx_copy;
 extern omOvlHisData mp3_omovlhis[12];
 extern s16 mp3_omovlhisidx;

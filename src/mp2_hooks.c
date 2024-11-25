@@ -7,6 +7,7 @@ extern s32 loadingBackFromMinigame;
 NORETURN void ComboSwitchGameToMp3(void);
 void CopyMp3_gPlayerCopy_To_Mp2(void);
 void func_800683BC_68FBC(s32);
+void mp2_UnkCamThing(f32);
 
 #define NEW_EEP_OFFSET 0x600
 #define EEP_BLOCK_OFFSET NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE
@@ -200,4 +201,11 @@ u16 func_8007DC50_7E850(void) {
 
 u16 func_80068720_69320(void) {
     return GetSaveFileChecksum(0, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
+}
+
+void mp2_Unk_Camera_Function(f32 arg0) {
+    if (arg0 == 0.0f) {
+        arg0 = 1.0f;
+    }
+    mp2_UnkCamThing(arg0);
 }

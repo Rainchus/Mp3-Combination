@@ -109,6 +109,6 @@
 .definelabel mp3_BattleMinigameCoins, 0x800CC698
 
 //hardcoded symbols
-.definelabel mp3_omovlhisidx_copy, 0x807FFD90
-.definelabel mp3_omovlhis_copy, 0x807FFDA0
-.definelabel mp3_PlayersCopy, 0x807FFE00
+.definelabel mp3_omovlhisidx_copy, 0x807FFD00
+.definelabel mp3_omovlhis_copy, 0x807FFE00
+.definelabel mp3_PlayersCopy, 0x807FFF00

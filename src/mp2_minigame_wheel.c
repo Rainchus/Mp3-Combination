@@ -10,6 +10,8 @@ extern s16 D_800F93C8;
 NORETURN void ComboSwitchGameToMp3(void);
 u8 mp2_prevMinigamesPlayedCopy[MP2_PREV_MINIGAMES_PLAYED_SIZE] = {0};
 extern u8 mp2_prevMinigamesPlayed[MP2_PREV_MINIGAMES_PLAYED_SIZE];
+void PushMp2OvlHis(void);
+void PushMp2BoardState(void);
 
 u8 mp2_newCategoryAmounts[] = {
     0x15, //4p
@@ -41,20 +43,8 @@ void mp2_GetNewMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     mp2_func_800890CC(arg0, (char*)arg1, arg2, arg3);
 }
 
-//mp2_ovlhis
-// 00000062 00000192
-// 00000062 00000192
-// 0000005B 00001014
-// 0000003D 00010192
-// 00000041 00020192
 
-//mp2_ovlhisidx
-//0004
-
-extern s16 mp2_hidden_block_coins_space_index;
 s16 mp2_hidden_block_coins_space_index_copy = 0;
-
-extern s16 mp2_hidden_block_star_space_index;
 s16 mp2_hidden_block_star_space_index_copy = 0;
 
 void SaveMp2PlayerStructs(void) {
@@ -65,25 +55,6 @@ void SaveMp2PlayerStructs(void) {
 
     mp2_hidden_block_coins_space_index_copy = mp2_hidden_block_coins_space_index;
     mp2_hidden_block_star_space_index_copy = mp2_hidden_block_star_space_index;
-}
-
-extern u8 mp2_BoardState[MP2_BOARD_STATE_STRUCT_SIZE];
-u8 mp2_BoardStateCopy[MP2_BOARD_STATE_STRUCT_SIZE] = {0};
-
-void PushMp2BoardState(void) {
-    s32 i;
-
-    for (i = 0; i < MP2_BOARD_STATE_STRUCT_SIZE; i++) {
-        mp2_BoardStateCopy[i] = mp2_BoardState[i];
-    }
-}
-
-void PopMp2BoardState(void) {
-    s32 i;
-
-    for (i = 0; i < MP2_BOARD_STATE_STRUCT_SIZE; i++) {
-        mp2_BoardState[i] = mp2_BoardStateCopy[i];
-    }
 }
 
 void PushMp2MinigamesPlayedList(void) {
@@ -122,6 +93,7 @@ s16 GetMp2ExplanationScreenIndex(s16 arg0) {
         //TODO: fill in logic
         ForeignMinigameIndexToLoad = D_800F93C8;
         ForeignMinigameAlreadyLoaded = FALSE;
+        PushMp2OvlHis();
         ComboSwitchGameToMp3();
     } else { //mp1
         SaveMp2PlayerStructs();
@@ -129,6 +101,7 @@ s16 GetMp2ExplanationScreenIndex(s16 arg0) {
         PushMp2MinigamesPlayedList();
         ForeignMinigameIndexToLoad = D_800F93C8;
         ForeignMinigameAlreadyLoaded = FALSE;
+        PushMp2OvlHis();
         ComboSwitchGameToMp1();
     }
     if (D_800F93C8 >= 0x1E) {
