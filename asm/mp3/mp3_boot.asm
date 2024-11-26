@@ -39,12 +39,12 @@
 
     //check if cold boot or warm boot to see if we should dma our code/data
     LI t0, 0x8000030C //osResetType
-    LBU s0, 0x0000 (t0)
+    LW s0, 0x0000 (t0)
     BNEZ s0, alreadyDMAed
     ORI t2, r0, 1
     
     //set to warm boot
-    SB t2, 0x0000 (t0) //fake warm boot (does this actually work on console?)
+    //SW t2, 0x0000 (t0) //fake warm boot (does this actually work on console?)
 
     //else, is cold boot
     ADDU a0, r0, r0

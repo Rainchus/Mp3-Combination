@@ -698,10 +698,12 @@ void drawMessageOnBootLogos(void) {
     if (shouldShowKofiText == 1) {
         return;
     }
-    mp3_debug_font_color = 4;
-    mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.2.0");
-    mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
-    mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+    if (mp3_osResetType == 0) {
+        mp3_debug_font_color = 4;
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.2.0");
+        mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
+        mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+    }
 }
 
 void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
