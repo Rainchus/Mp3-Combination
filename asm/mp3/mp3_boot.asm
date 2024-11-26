@@ -15,6 +15,9 @@
 .word newBattleMinigameListEasyMp3
 .word newDuelMinigameListEasyMp3
 
+.orga 0x20
+.ascii "MarioPartyN64Combo  "
+
 //advanced homebrew rom header
 .orga 0x34
 .byte 0x00 //p1

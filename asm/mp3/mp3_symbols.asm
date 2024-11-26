@@ -20,7 +20,7 @@
 .definelabel GetCurrentPlayerIndex, 0x800F2130
 .definelabel GetPlayerStruct, 0x800F213C
 .definelabel unknownDMAFunc, 0x8004DB14
-.definelabel PlaySound, 0x8004AA88
+.definelabel mp3_PlaySound, 0x8004AA88
 .definelabel mp3_DrawDebugText, 0x8004DD7C
 .definelabel mp3_SleepVProcess, 0x8004F074
 .definelabel mp3_sprintf, 0x8007BDC0

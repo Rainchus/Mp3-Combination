@@ -695,6 +695,9 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 
 void drawMessageOnBootLogos(void) {
+    if (shouldShowKofiText == 1) {
+        return;
+    }
     mp3_debug_font_color = 4;
     mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.2.0");
     mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");

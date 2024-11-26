@@ -12,7 +12,9 @@ void mp3_HuWipeFadeOut(s32, s32);
 void CopyMp2_gPlayerCopy_To_Mp3(void);
 void CopyMp1_gPlayerCopy_To_Mp3(void);
 void mp3_omInitObjMan(s32, s32);
+void mp3_PlaySound(s16);
 
+extern s32 shouldShowKofiText;
 s32 shouldShowCustomSplashScreen = 0;
 
 void NewInitialSplashScreen(void) {
@@ -40,7 +42,8 @@ void NewInitialSplashScreen(void) {
         }
         if (mp3_D_800CDA7C[0] & 0x10) { //if R is pressed, load mario party 2
             CurBaseGame = MP2_BASE;
-            mp3_HuWipeFadeOut(0xB, 5);
+            mp3_PlaySound(2);
+            mp3_HuWipeFadeOut(0xB, 12);
 
             while (mp3_HuWipeStatGet() != 0) {
                 mp3_HuPrcVSleep();
@@ -50,7 +53,8 @@ void NewInitialSplashScreen(void) {
         #ifdef MP1
         else if (mp3_D_800CDA7C[0] & 0x20) { //if L is pressed, load mario party 1
             CurBaseGame = MP1_BASE;
-            mp3_HuWipeFadeOut(0xB, 5);
+            mp3_PlaySound(2);
+            mp3_HuWipeFadeOut(0xB, 12);
 
             while (mp3_HuWipeStatGet() != 0) {
                 mp3_HuPrcVSleep();
@@ -61,7 +65,8 @@ void NewInitialSplashScreen(void) {
         else if (mp3_D_800CDA7C[0] & 0x2000) { //if Z is pressed, load minigame selection
             ForeignMinigameIndexToLoad = -1;
             shouldShowCustomSplashScreen = 0;
-            mp3_HuWipeFadeOut(0xB, 5);
+            mp3_PlaySound(2);
+            mp3_HuWipeFadeOut(0xB, 12);
 
             while (mp3_HuWipeStatGet() != 0) {
                 mp3_HuPrcVSleep();
@@ -71,11 +76,12 @@ void NewInitialSplashScreen(void) {
         } else if (mp3_D_800CDA7C[0] & 0x8000) { //if A is pressed, load mario party 3
             shouldShowCustomSplashScreen = 1;
             CurBaseGame = MP3_BASE;
+            mp3_PlaySound(2);
+            mp3_HuWipeFadeOut(0xB, 12);
             break;
         }
         mp3_HuPrcVSleep();
     }
-    mp3_HuWipeFadeOut(0xB, 5);
 
     while (mp3_HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
@@ -91,6 +97,8 @@ void mp3_OriginalBootLogos(void) {
     s32 temp_s0_3;
     s32 temp_v0_2_copy;
     s32 temp_v0_4;
+
+    shouldShowKofiText = 1;
 
     temp_v0_copy = func_8000B838_C438(N64_LOGO);
     temp_v0_2_copy = InitEspriteSlot(temp_v0_copy, 0, 1);
