@@ -71,7 +71,7 @@
 .definelabel osAppNmiBuffer, 0x8000031C //global location for both games
 .definelabel D_800B23B0, 0x800B23B0;
 .definelabel mp3_omOvlCallEx, 0x80048128
-.definelabel mp3_boardstate, 0x800CD058
+.definelabel mp3_Boardstate, 0x800CD058
 .definelabel func_800F8610_10C230, 0x800F8610
 .definelabel func_80108910_119290, 0x80108910
 .definelabel mp3_omInitObjMan, 0x80047160
@@ -109,6 +109,8 @@
 .definelabel mp3_D_800D09A8, 0x800D09A8
 .definelabel mp3_HuPrcExit, 0x8004EFD4
 .definelabel mp3_BattleMinigameCoins, 0x800CC698
+.definelabel mp3_midTurnMinigameThing, 0x800D1240
+.definelabel mp3_HuPrcEnd, 0x8004EFD4
 
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00

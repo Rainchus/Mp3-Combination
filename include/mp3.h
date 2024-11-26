@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "marioparty.h"
 
-typedef struct mp3_PlayerData {
+typedef struct mp3_GW_PLAYER {
 /* 0x00 */ u8  group; //for which group you belong to in a minigame
 /* 0x01 */ u8  cpu_difficulty;
 /* 0x02 */ u8  controller_port;
@@ -44,7 +44,7 @@ typedef struct mp3_PlayerData {
 /* 0x33 */ s8 bankSpacesLandedOn;
 /* 0x34 */ s8 gameGuySpacesLandedOn;
 /* 0x35 */ char unk_35[3]; //likely padding
-} mp3_PlayerData; //sizeof 0x38
+} mp3_GW_PLAYER; //sizeof 0x38
 //P1 = 0x800D1108
 //P2 = 0x800D1140
 //P3 = 0x800D1178
@@ -81,8 +81,8 @@ enum TEXT_COLORS_ADJUSTED {
     TEXT_ADJUST_WHITE
 };
 
-extern mp3_PlayerData mp3_gPlayers[4];
-extern mp3_PlayerData mp3_PlayersCopy[4];
+extern mp3_GW_PLAYER mp3_gPlayers[4];
+extern mp3_GW_PLAYER mp3_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
 extern omOvlHisData mp2_omovlhis_copy[12];
 extern s16 mp3_omovlhisidx_copy;

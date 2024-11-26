@@ -61,28 +61,7 @@ mp1_osEPiRawStartDmaHook:
     NOP
 
 
-//checkIfMinigameIndexIsBlacklisted:
-    //v0 holds the current minigame index
-    //LI v1, minigameBlacklistIDs
-    //ADDU t0, r0, r0 //loop counter
-    //minigameBlacklistLoop:
-    //LBU t1, 0x0000 (v1) //blacklisted id
-    //BEQ t1, v0, isBlacklisted
-    //NOP
-    //ADDIU t0, t0, 1 //increment loop
-    //SLTI t2, t0, 6 //
-    //BNEZ t2, minigameBlacklistLoop
-    //ADDIU v1, v1, 1 //increment blacklist array pointer
-    //otherwise, we looped all blacklisted ids and none appeared. minigame is good to use
-    //LUI at, 0x8010
-    //ADDU at, at, s0
-    //J 0x800DFE90
-    //NOP
-    //reroll for a new id that isn't blacklisted
-    //isBlacklisted:
-    //J 0x800DFE60
-    //NOP
-
+//unfortunately this needs to be asm due to how
 setCustomMinigameIndex:
     LUI v0, 0x800D
     LBU v0, 0xD068 (v0) //get minigame chosen
@@ -92,86 +71,48 @@ setCustomMinigameIndex:
     BNEZ at, isMp3Minigame
     NOP
 
+    //is mp1 or mp2, backup needed data
+
+    LI a0, ForeignMinigameIndexToLoad
+    SW v0, 0x0000 (a0) //store overlay mp1/mp2 should load on boot
+
+    JAL SaveMp3PlayerStructs
+    NOP
+
+    JAL PushMp3BoardState
+    NOP
+
+    JAL PushMp3MinigamesPlayedList
+    NOP
+
+    LI t0, ForeignMinigameAlreadyLoaded
+    SW r0, 0x0000 (t0)
+
     //check if mp1 or mp2 minigame
+    LUI v0, 0x800D
+    LBU v0, 0xD068 (v0) //get minigame chosen
     ORI at, r0, 139
     SLT at, v0, at //first mp1 minigame
     BNEZ at, isMp2Minigame
     NOP
 
-    //otherwise, is mp1 minigame. swap to mp1
-    //JAL ConvertMinigameIndexFromMp3ToMp1OverlayID
-    //ADDU a0, v0, r0    
-
-    LI a0, ForeignMinigameIndexToLoad
-    SW v0, 0x0000 (a0) //store overlay mp2 should load on boot
-
-    //make a copy of the mp3 player structs
-    JAL SaveMp3PlayerStructs
-    NOP
-
-    //also make a copy of the overlay history
-    //JAL PushMp3OvlHis
-    //NOP
-
-    //push the current board state
-    JAL PushMp3BoardState
-    NOP
-
-    JAL PushMp3MinigamesPlayedList
-    NOP
-
-    LI t0, ForeignMinigameAlreadyLoaded
-    SW r0, 0x0000 (t0)
-
-    //swap to mp1
-    JAL ComboSwitchGameToMp1
-    NOP
+    //else, is mp1
+    isMp1Minigame:
+        JAL ComboSwitchGameToMp1
+        NOP
 
     isMp2Minigame:
-    //otherwise, is mp2 minigame. swap to mp2
-    //JAL ConvertMinigameIndexFromMp3ToMp2OverlayID
-    //ADDU a0, v0, r0
+        JAL StoreBattleMinigameCoins
+        NOP
 
-    LI a0, ForeignMinigameIndexToLoad
-    SW v0, 0x0000 (a0) //store overlay mp2 should load on boot
-
-    //make a copy of the mp3 player structs
-    JAL SaveMp3PlayerStructs
-    NOP
-
-    JAL StoreBattleMinigameCoins
-    NOP
-
-    //also make a copy of the overlay history
-    //JAL PushMp3OvlHis
-    //NOP
-
-    //push the current board state
-    JAL PushMp3BoardState
-    NOP
-
-    JAL PushMp3MinigamesPlayedList
-    NOP
-
-    LI t0, ForeignMinigameAlreadyLoaded
-    SW r0, 0x0000 (t0)
-
-    //swap to mp2
-    JAL ComboSwitchGameToMp2
-    NOP
+        //swap to mp2
+        JAL ComboSwitchGameToMp2
+        NOP
 
     isMp3Minigame:
         ADDIU v0, v0, 0xFFFF //convert to index
-    J 0x80105A6C
-    NOP
-
-//80016D0C
-
-ifSkipDebugTextDraw:
-    LUI s2, 0x8010
-    ADDIU s2, s2, 0x1081 //normally is ADDIU s2, s2, 0x1080 (makes first byte of all strings )
-    J 0x80103884
-    SB r0, 0xFFFF (s2) //set beginning of all debug drawing strings to '\0', and move printf buffer to not write first byte
+        J 0x80105A6C
+        NOP
 
 mp3_ClearBss:
     LUI t0, 0x800B
@@ -228,9 +169,23 @@ checkIfCursorShouldMove:
     BEQZ s0, stripLeftRightInput
     NOP
     IfCursorMoveEnd:
-    ADDU v1, v0, r0
-    J 0x801095BC
-    ADDIU v0, r0, 0xFFFF
+        ADDU v1, v0, r0
+        J 0x801095BC
+        ADDIU v0, r0, 0xFFFF
     stripLeftRightInput:
-    J IfCursorMoveEnd
-    ANDI v0, v0, 0xFCFF
+        J IfCursorMoveEnd
+        ANDI v0, v0, 0xFCFF
+
+//IfMidTurnMinigameCheckAsm:
+    //JAL IfMidTurnMinigameCheck
+    //NOP
+    //LUI v1, 0x800D
+    //J 0x800FCDE0
+    //LW v1, 0x1240 (v1)
+
+IfMidTurnMinigameCheckAsm2:
+    JAL IfMidTurnMinigameCheck
+    NOP
+    LUI v0, 0x800D
+    J 0x800FCAD0
+    LW v0, 0x1240 (v0)

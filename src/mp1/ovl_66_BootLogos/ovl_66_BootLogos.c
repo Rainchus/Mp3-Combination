@@ -99,11 +99,7 @@ void mp1_OriginalBootLogos(void) {
 }
 
 //func_80102AD8_36DC78_BootLogos
-void mp1_newBootLogo(void) {
-    //we need to initialize rng in a better way than vanilla's static value
-    //TODO: push current count before swapping game, seed against that
-    mp1_rnd_seed = mp1_osGetCount() ^ 0xD826BC89;
-
+void mp1_newBootLogos(void) {
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP1_BASE) {
             //TODO: load back into mp1 board
@@ -114,9 +110,10 @@ void mp1_newBootLogo(void) {
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp1_gPlayers[i].coins - mp2_PlayersCopy[i].coins;
                 mp2_PlayersCopy[i].coins += coinsEarned;
-                // if (mp2_PlayersCopy[i].coins < 0) {
-                //     mp2_PlayersCopy[i].coins = 0;
-                // }
+
+                if (mp2_PlayersCopy[i].coins < 0) {
+                    mp2_PlayersCopy[i].coins = 0;
+                }
                 
                 mp2_PlayersCopy[i].mg_star_coins += coinsEarned;
                 if (mp2_PlayersCopy[i].coins > mp2_PlayersCopy[i].coins_total) {
@@ -131,9 +128,10 @@ void mp1_newBootLogo(void) {
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp1_gPlayers[i].coins - mp3_PlayersCopy[i].coins;
                 mp3_PlayersCopy[i].coins += coinsEarned;
-                // if (mp3_PlayersCopy[i].coins < 0) {
-                //     mp3_PlayersCopy[i].coins = 0;
-                // }
+
+                if (mp3_PlayersCopy[i].coins < 0) {
+                    mp3_PlayersCopy[i].coins = 0;
+                }
                 
                 mp3_PlayersCopy[i].mg_star_coins += coinsEarned;
                 if (mp3_PlayersCopy[i].coins > mp3_PlayersCopy[i].coins_total) {

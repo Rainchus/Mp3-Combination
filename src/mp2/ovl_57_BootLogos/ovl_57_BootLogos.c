@@ -24,6 +24,7 @@ extern UnkBoardStatus mp2_D_800F93A8;
 extern s8 mp2_D_800F93CD_F9FCD;
 extern s32 CurBaseGame;
 extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
+extern s32 isMidTurnMinigame;
 
 s16 mp2_func_8001A2F8_1AEF8(s32);
 u16 mp2_func_8001AAAC_1B6AC(s16, s16, u16);
@@ -55,6 +56,7 @@ void PopMp2MinigamesPlayedList(void);
 void LoadMp2PlayerStructs(void);
 void PopMp2OvlHis(void);
 void mp2_HuPrcEnd(void);
+s32 ForeignMinigameIsMidTurnMinigame(void);
 
 s32 isBattleMinigame = 0;
 
@@ -159,22 +161,6 @@ void LoadBackIntoMp2Board(void) {
     totalTurns = mp2_BoardState.maxTurns;
     curBoardIndex = mp2_BoardState.curBoardIndex;
 
-    // if (isBattleMinigame == 1) {
-    //     s32 i;
-    //     isBattleMinigame = 0;
-
-    //     omOvlHisData BattleResults[] = {
-    //         {0x70, 0x0001, 0x0192},
-    //         {0x53, 0x0000, 0x0192},
-    //         {0x48, 0x0000, 0x0192},
-    //     };
-    //     for (i = 0; i < ARRAY_COUNT(BattleResults); i++) {
-    //         mp3_omovlhis[i] = BattleResults[i];
-    //     }
-    //     mp3_omovlhisidx = 3;
-    //     mp3_omOvlCallEx(0x74, 0, 0x12); //go to battle results scene
-    //     return;
-    // }
     if (curTurn > totalTurns) {
         PopMp2OvlHis();
         mp2_omovlhisidx--;
@@ -220,7 +206,7 @@ void LoadBackIntoMp2Board(void) {
     };
     mp2_omovlhisidx = 3;
     //load into the board
-    mp2_omOvlCallEx(boardOverlays[curBoardIndex], 2, 0x192); //load back into board
+    mp2_omOvlCallEx(boardOverlays[curBoardIndex], 2, 0x192);
 }
 
 //the blacklisted minigames below are blacklisted due to having issues loading them...
@@ -247,13 +233,53 @@ u8 mp2_minigame4PBlacklist[] = {
 };
 
 //these probably dont need to be separate from mp3's list, but this provides a bit of clarity
-u8 new4PMinigameListNormalMp2[66] = {0};
-u8 new1v3MinigameListNormalMp2[32] = {0};
-u8 new2v2MinigameListNormalMp2[28] = {0};
-u8 newBattleMinigameListNormalMp2[17] = {0};
-u8 newItemMinigameListNormalMp2[7] = {0};
-u8 newDuelMinigameListNormalMp2[11] = {0};
-u8 newCategoryAmountsNormalMp2[6] = {0};
+#define MP2_4P_MINIGAME_MAX 66
+#define MP2_1V3_MINIGAME_MAX 32
+#define MP2_2V2_MINIGAME_MAX 28
+#define MP2_BATTLE_MINIGAME_MAX 17
+#define MP2_ITEM_MINIGAME_MAX 7
+#define MP2_DUEL_MINIGAME_MAX 11
+#define MP2_TOTAL_CATEGORIES 6
+
+u8 new4PMinigameListNormalMp2[MP2_4P_MINIGAME_MAX] = {0};
+u8 new1v3MinigameListNormalMp2[MP2_1V3_MINIGAME_MAX] = {0};
+u8 new2v2MinigameListNormalMp2[MP2_2V2_MINIGAME_MAX] = {0};
+u8 newBattleMinigameListNormalMp2[MP2_BATTLE_MINIGAME_MAX] = {0};
+u8 newItemMinigameListNormalMp2[MP2_ITEM_MINIGAME_MAX] = {0};
+u8 newDuelMinigameListNormalMp2[MP2_DUEL_MINIGAME_MAX] = {0};
+u8 newCategoryAmountsNormalMp2[MP2_TOTAL_CATEGORIES] = {0};
+
+void mp2_ClearMinigameList(void) {
+    s32 i;
+    
+    for (i = 0; i < MP2_4P_MINIGAME_MAX; i++) {
+        new4PMinigameListNormalMp2[i] = 0;
+    }
+
+    for (i = 0; i < MP2_1V3_MINIGAME_MAX; i++) {
+        new1v3MinigameListNormalMp2[i] = 0;
+    }
+
+    for (i = 0; i < MP2_2V2_MINIGAME_MAX; i++) {
+        new2v2MinigameListNormalMp2[i] = 0;
+    }
+
+    for (i = 0; i < MP2_BATTLE_MINIGAME_MAX; i++) {
+        newBattleMinigameListNormalMp2[i] = 0;
+    }
+
+    for (i = 0; i < MP2_ITEM_MINIGAME_MAX; i++) {
+        newItemMinigameListNormalMp2[i] = 0;
+    }
+
+    for (i = 0; i < MP2_DUEL_MINIGAME_MAX; i++) {
+        newDuelMinigameListNormalMp2[i] = 0;
+    }
+
+    for (i = 0; i < MP2_TOTAL_CATEGORIES; i++) {
+        newCategoryAmountsNormalMp2[i] = 0;
+    }
+}
 
 void mp2_LoadMinigameList(void) {
     mp3MinigameIndexTable* curMinigameData;
@@ -265,6 +291,8 @@ void mp2_LoadMinigameList(void) {
     u8 minigameItemCount = 0;
     u8 minigameBattleCount = 0;
     u8 minigameDuelCount = 0;
+
+    mp2_ClearMinigameList();
 
     //load active minigames into lists
     for (i = 0; i < MINIGAME_END - 1; i++) {
@@ -369,17 +397,13 @@ void mp2_LoadMinigameList(void) {
 }
 
 //func_80102AD8_36DC78_BootLogos
-void mp2_newBootLogo(void) {
+void mp2_newBootLogos(void) {
     s32 i;
-    //we need to initialize rng in a better way than vanilla's static value
-    //TODO: push current count before swapping game, seed against that
-    mp2_rnd_seed = mp2_osGetCount() ^ 0xD826BC89;
 
     mp2_LoadMinigameList();
 
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP2_BASE) {
-            //TODO: load back into mp2 board code here
             mp2_D_800E1F50_E2B50 = 1; //required for board events like star moving to work
             LoadBackIntoMp2Board();
             mp2_HuPrcEnd();
@@ -388,11 +412,19 @@ void mp2_newBootLogo(void) {
             }
         } else if (CurBaseGame == MP1_BASE) {
             for (i = 0; i < 4; i++) {
+                //award battle minigame coins/extra coins if they were collected
+                if (isMidTurnMinigame == 1) {
+                    for (i = 0; i < 4; i++) {
+                        mp2_gPlayers[i].coins += mp2_gPlayers[i].coins_mg_bonus;
+                    }
+                }
+
                 s32 coinsEarned = mp2_gPlayers[i].coins - mp1_PlayersCopy[i].coins;
                 mp1_PlayersCopy[i].coins += coinsEarned;
-                // if (mp1_PlayersCopy[i].coins < 0) {
-                //     mp1_PlayersCopy[i].coins = 0;
-                // }
+
+                if (mp1_PlayersCopy[i].coins < 0) {
+                    mp1_PlayersCopy[i].coins = 0;
+                }
                 
                 mp1_PlayersCopy[i].mg_star_coins += coinsEarned;
                 if (mp1_PlayersCopy[i].coins > mp1_PlayersCopy[i].coins_total) {
@@ -401,14 +433,25 @@ void mp2_newBootLogo(void) {
             }
             
             ComboSwitchGameToMp1();
+            return;
         } else if (CurBaseGame == MP3_BASE) {
-            //copy over player changes
+                //award battle minigame coins/extra coins if they were collected
+                if (isMidTurnMinigame == 1) {
+                    //is updating isMidTurnMinigame here fine? i would just always do this -
+                    //but normal minigames correctly account for these bonus coins. It's only -
+                    //battles that dont
+                    for (i = 0; i < 4; i++) {
+                        mp2_gPlayers[i].coins += mp2_gPlayers[i].coins_mg_bonus;
+                    }
+                }
+
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp2_gPlayers[i].coins - mp3_PlayersCopy[i].coins;
                 mp3_PlayersCopy[i].coins += coinsEarned;
-                // if (mp3_PlayersCopy[i].coins < 0) {
-                //     mp3_PlayersCopy[i].coins = 0;
-                // }
+
+                if (mp3_PlayersCopy[i].coins < 0) {
+                    mp3_PlayersCopy[i].coins = 0;
+                }
                 
                 mp3_PlayersCopy[i].mg_star_coins += coinsEarned;
                 if (mp3_PlayersCopy[i].coins > mp3_PlayersCopy[i].coins_total) {
@@ -416,6 +459,7 @@ void mp2_newBootLogo(void) {
                 }
             }
             ComboSwitchGameToMp3();
+            return;
         }
     }
 
@@ -424,20 +468,24 @@ void mp2_newBootLogo(void) {
         return;
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp2();
-        //TODO: is this correct?
         mp2_D_800F93CD_F9FCD = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp2();
         mp2_D_800F93CD_F9FCD = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 setting
     }
 
-    mp2__SetFlag(0x19); //no idea what this does, might be important, might not
-    CopyMp3_gPlayerCopy_To_Mp2();
+    //load minigame
     mp2_omInitObjMan(16, 4);
-
     mp2_D_800F93A8.unk_20 = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     mp2_D_800F93A8.unk_22 = 0x55;
     ForeignMinigameAlreadyLoaded = TRUE;
+    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame();
+
+    //used for item minigames, duels, and battle minigames
+    if (isMidTurnMinigame == 1) {
+        mp2_BattleMinigameCoins = mp3_BattleMinigameCoins_Copy;
+    }
+
     mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93A8.unk_20), 0, 0x84);
     while (1) {
         mp2_HuPrcVSleep();

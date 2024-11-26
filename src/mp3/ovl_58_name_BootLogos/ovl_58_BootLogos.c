@@ -13,6 +13,7 @@ void CopyMp2_gPlayerCopy_To_Mp3(void);
 void CopyMp1_gPlayerCopy_To_Mp3(void);
 void mp3_omInitObjMan(s32, s32);
 void mp3_PlaySound(s16);
+s32 WriteEepromCustom(void);
 
 extern s32 shouldShowKofiText;
 s32 shouldShowCustomSplashScreen = 0;
@@ -163,7 +164,33 @@ void mp3_OriginalBootLogos(void) {
     }
 }
 
-//80047160,code,InitObjSys
+u8 CustomMinigamesEepromBytes[] = {
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F
+};
+
+void InitializeInitialMinigameList(void) {
+    s32 eepromByteResults = 0;
+    s32 i;
+
+    for (i = 0; i < 0x18; i++) {
+        eepromByteResults += customEepromData[i];
+    }
+
+    if (eepromByteResults == 0) {
+        for (i = 0; i < 0x18; i++) {
+            customEepromData[i] = CustomMinigamesEepromBytes[i];
+        }
+        //no idea what any of these args do
+        char sp10[16] = {0};
+        s16 temp = 0x20;
+
+        //why is it required you do this this way?
+        //and why only when writing? reading works fine?
+        mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
+        mp3_HuPrcVSleep();
+    }
+}
 
 //func_80105C80_3D7430
 void mp3_newBootLogos(void) {
@@ -173,19 +200,28 @@ void mp3_newBootLogos(void) {
         return;
     }
 
+    InitializeInitialMinigameList();
+    mp3_LoadMinigameList();
+    
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP3_BASE) {
             //TODO: load back into mp3 board
-            
+            mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+            LoadBackIntoMp3Board();
+            mp3_HuPrcEnd();
+            while (1) {
+                mp3_HuPrcVSleep();
+            }
         } else if (CurBaseGame == MP2_BASE) {
             s32 i;
             //copy over player changes
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp3_gPlayers[i].coins - mp2_PlayersCopy[i].coins;
                 mp2_PlayersCopy[i].coins += coinsEarned;
-                // if (mp2_PlayersCopy[i].coins < 0) {
-                //     mp2_PlayersCopy[i].coins = 0;
-                // }
+
+                if (mp2_PlayersCopy[i].coins < 0) {
+                    mp2_PlayersCopy[i].coins = 0;
+                }
                 
                 mp2_PlayersCopy[i].mg_star_coins += coinsEarned;
                 if (mp2_PlayersCopy[i].coins > mp2_PlayersCopy[i].coins_total) {
@@ -194,14 +230,16 @@ void mp3_newBootLogos(void) {
             }
             
             ComboSwitchGameToMp2();
+            return;
         } else if (CurBaseGame == MP1_BASE) {
             s32 i;
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp3_gPlayers[i].coins - mp1_PlayersCopy[i].coins;
                 mp1_PlayersCopy[i].coins += coinsEarned;
-                // if (mp1_PlayersCopy[i].coins < 0) {
-                //     mp1_PlayersCopy[i].coins = 0;
-                // }
+
+                if (mp1_PlayersCopy[i].coins < 0) {
+                    mp1_PlayersCopy[i].coins = 0;
+                }
                 
                 mp1_PlayersCopy[i].mg_star_coins += coinsEarned;
                 if (mp1_PlayersCopy[i].coins > mp1_PlayersCopy[i].coins_total) {
@@ -217,7 +255,7 @@ void mp3_newBootLogos(void) {
     if (CurBaseGame == MP3_BASE) {
         mp3_OriginalBootLogos();
     } else if (CurBaseGame == MP2_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
-        CopyMp2_gPlayerCopy_To_Mp3();
+        CopyMp2_gPlayerCopy_To_Mp3(); //TODO: is this wrong?
         mp3_BoardState[0x13] = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp3();
@@ -225,6 +263,7 @@ void mp3_newBootLogos(void) {
         //mp3_BoardState[0x13] = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
     }
 
+    //load minigame
     mp3_omInitObjMan(16, 4);
     ForeignMinigameAlreadyLoaded = TRUE;
     mp3_BoardState[0x10] = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);

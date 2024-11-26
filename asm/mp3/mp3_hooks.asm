@@ -3,9 +3,9 @@
     J LoadOverlayHook_Mp3
     NOP
 
-.org 0x8000E658
-    JAL checkIfLoadingFromMp2Minigame
-    NOP
+//.org 0x8000E658
+    //JAL checkIfLoadingFromMp2Minigame
+    //NOP
 
 .org 0x8000B16C
     J rand8_Shared
@@ -86,6 +86,14 @@
 //because there is a BLTZ check
 .org 0x800FEF60
     JAL NegativeCheck
+    NOP
+
+//.org 0x800FCDD8
+    //JAL IfMidTurnMinigameCheckAsm
+    //NOP
+
+.org 0x800FCAC8
+    JAL IfMidTurnMinigameCheckAsm2
     NOP
 
 .org 0x800F930C

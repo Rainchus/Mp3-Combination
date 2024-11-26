@@ -11,10 +11,10 @@
 u16 mp3_BattleMinigameCoins_Copy = 0;
 s32 shouldShowKofiText = 0;
 
-u8 CustomMinigamesEepromBytes[] = {
-    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F
-};
+// u8 CustomMinigamesEepromBytes[] = {
+//     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+//     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F
+// };
 
 void func_80108910_119290(s32, s32, char*);
 void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat);
@@ -131,7 +131,7 @@ void CopyMp3_gPlayerCopy_To_Mp2(void) {
         mp2_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
         mp2_gPlayers[i].coins = mp3_PlayersCopy[i].coins;
         mp2_gPlayers[i].stars = mp3_PlayersCopy[i].stars;
-        mp2_gPlayers[i].turn_status = mp3_PlayersCopy[i].turn_status;
+        // mp2_gPlayers[i].turn_status = mp3_PlayersCopy[i].turn_status;
     }
 }
 
@@ -191,7 +191,7 @@ void CopyMp1_gPlayerCopy_To_Mp3(void) {
         mp3_gPlayers[i].flags1 = mp1_PlayersCopy[i].flags;
         mp3_gPlayers[i].coins = mp1_PlayersCopy[i].coins;
         mp3_gPlayers[i].stars = mp1_PlayersCopy[i].stars;
-        mp3_gPlayers[i].turn_status = mp1_PlayersCopy[i].turn_status;
+        // mp3_gPlayers[i].turn_status = mp1_PlayersCopy[i].turn_status;
     }
 }
 
@@ -206,7 +206,7 @@ void CopyMp2_gPlayerCopy_To_Mp3(void) {
         mp3_gPlayers[i].flags1 = mp2_PlayersCopy[i].flags;
         mp3_gPlayers[i].coins = mp2_PlayersCopy[i].coins;
         mp3_gPlayers[i].stars = mp2_PlayersCopy[i].stars;
-        mp3_gPlayers[i].turn_status = mp2_PlayersCopy[i].turn_status;
+        // mp3_gPlayers[i].turn_status = mp2_PlayersCopy[i].turn_status;
     }
 }
 
@@ -373,19 +373,28 @@ void func_800F8610_10C230_Copy(s32 arg0, s16 arg1, s16 arg2, s32 curBoardIndex) 
 //     0xFF
 // };
 
-u8 new4PMinigameListNormalMp3[66] = {0};
-u8 new1v3MinigameListNormalMp3[32] = {0};
-u8 new2v2MinigameListNormalMp3[28] = {0};
-u8 newBattleMinigameListNormalMp3[17] = {0};
-u8 newItemMinigameListNormalMp3[7] = {0};
-u8 newDuelMinigameListNormalMp3[11] = {0};
-u8 newCategoryAmountsNormalMp3[6] = {0};
+#define MP3_4P_MINIGAME_MAX 66
+#define MP3_1V3_MINIGAME_MAX 32
+#define MP3_2V2_MINIGAME_MAX 28
+#define MP3_BATTLE_MINIGAME_MAX 17
+#define MP3_ITEM_MINIGAME_MAX 7
+#define MP3_DUEL_MINIGAME_MAX 11
+#define MP3_TOTAL_CATEGORIES 6
+
+
+u8 new4PMinigameListNormalMp3[MP3_4P_MINIGAME_MAX] = {0};
+u8 new1v3MinigameListNormalMp3[MP3_1V3_MINIGAME_MAX] = {0};
+u8 new2v2MinigameListNormalMp3[MP3_2V2_MINIGAME_MAX] = {0};
+u8 newBattleMinigameListNormalMp3[MP3_BATTLE_MINIGAME_MAX] = {0};
+u8 newItemMinigameListNormalMp3[MP3_ITEM_MINIGAME_MAX] = {0};
+u8 newDuelMinigameListNormalMp3[MP3_DUEL_MINIGAME_MAX] = {0};
+u8 newCategoryAmountsNormalMp3[MP3_TOTAL_CATEGORIES] = {0};
 
 //the blacklisted minigames below are blacklisted due to having issues loading them...
 //once this is fixed this can be removed
 u8 mp3_battleMinigameBlacklist[] = {
-    MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
-    MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST
+    // MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
+    // MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST
 };
 
 u8 mp3_duelMinigameBlacklist[] = {
@@ -444,22 +453,7 @@ void LoadBackIntoMp3Board(void) {
 
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
     D_800B23B0 = 1; //is party mode
-    // if (isBattleMinigame == 1) {
-    //     s32 i;
-    //     isBattleMinigame = 0;
 
-    //     omOvlHisData BattleResults[] = {
-    //         {0x70, 0x0001, 0x0192},
-    //         {0x53, 0x0000, 0x0192},
-    //         {0x48, 0x0000, 0x0192},
-    //     };
-    //     for (i = 0; i < ARRAY_COUNT(BattleResults); i++) {
-    //         mp3_omovlhis[i] = BattleResults[i];
-    //     }
-    //     mp3_omovlhisidx = 3;
-    //     mp3_omOvlCallEx(0x74, 0, 0x12); //go to battle results scene
-    //     return;
-    // }
     if (curTurn > totalTurns) {
         PopMp3OvlHis();
         mp3_omovlhisidx--;
@@ -484,14 +478,7 @@ void LoadBackIntoMp3Board(void) {
         {0x7A, 0x0002, 0x0092},
         {0x77, 0x0000, 0x0091},
         {0x47, 0x0001, 0x0192},
-        // {0x48, 0x0002, 0x0192},
     };
-
-    //original strat for loading back into the board. Going -
-    //to try hardcoding it to prevent a rare issue where -
-    //someone managed to desync this somehow
-    // PopMp3OvlHis();
-    // mp3_omovlhisidx--;
 
     mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
 
@@ -501,7 +488,39 @@ void LoadBackIntoMp3Board(void) {
     }
     mp3_omovlhisidx = 3;
     //load into the board
-    mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
+    mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192);
+}
+
+void mp3_ClearMinigameList(void) {
+    s32 i;
+
+    for (i = 0; i < MP3_4P_MINIGAME_MAX; i++) {
+        new4PMinigameListNormalMp3[i] = 0;
+    }
+
+    for (i = 0; i < MP3_1V3_MINIGAME_MAX; i++) {
+        new1v3MinigameListNormalMp3[i] = 0;
+    }
+
+    for (i = 0; i < MP3_2V2_MINIGAME_MAX; i++) {
+        new2v2MinigameListNormalMp3[i] = 0;
+    }
+
+    for (i = 0; i < MP3_BATTLE_MINIGAME_MAX; i++) {
+        newBattleMinigameListNormalMp3[i] = 0;
+    }
+
+    for (i = 0; i < MP3_ITEM_MINIGAME_MAX; i++) {
+        newItemMinigameListNormalMp3[i] = 0;
+    }
+
+    for (i = 0; i < MP3_DUEL_MINIGAME_MAX; i++) {
+        newDuelMinigameListNormalMp3[i] = 0;
+    }
+
+    for (i = 0; i < MP3_TOTAL_CATEGORIES; i++) {
+        newCategoryAmountsNormalMp3[i] = 0;
+    }
 }
 
 void mp3_LoadMinigameList(void) {
@@ -514,6 +533,8 @@ void mp3_LoadMinigameList(void) {
     u8 minigameItemCount = 0;
     u8 minigameBattleCount = 0;
     u8 minigameDuelCount = 0;
+
+    mp3_ClearMinigameList();
 
     //load active minigames into lists
     for (i = 0; i < MINIGAME_END - 1; i++) {
@@ -617,65 +638,65 @@ void mp3_LoadMinigameList(void) {
     }
 }
 
-void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
-    s32 i;
-    s32 eepromByteResults = 0;
-    // u8 minigameGameGuyCount = 0;
-    // u8 minigame1PCount = 0;
-    s32 eepresult = 0;
+// void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
+//     s32 i;
+//     s32 eepromByteResults = 0;
+//     // u8 minigameGameGuyCount = 0;
+//     // u8 minigame1PCount = 0;
+//     s32 eepresult = 0;
 
-    for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormalMp3); i++) {
-        newCategoryAmountsNormalMp3[i] = 0;
-    }
+//     for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormalMp3); i++) {
+//         newCategoryAmountsNormalMp3[i] = 0;
+//     }
     
-    if (eepromLoadFailed == 1) {
-        mp3_omOvlCallEx(0, 0, 0);
-        return;
-    }
+//     if (eepromLoadFailed == 1) {
+//         mp3_omOvlCallEx(0, 0, 0);
+//         return;
+//     }
 
-    eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
+//     eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
 
-    if (eepresult == CONT_NO_RESPONSE_ERROR) {
-        while (1) {
-            mp3_DrawDebugText(20, 212, "EEPROM CONT_NO_RESPONSE_ERROR");
-            mp3_HuPrcVSleep();
-        }
-    } else if (eepresult == -1) {
-        while (1) {
-            mp3_DrawDebugText(20, 212, "EEPROM INVALID ADDRESS");
-            mp3_HuPrcVSleep();
-        }
-    }
+//     if (eepresult == CONT_NO_RESPONSE_ERROR) {
+//         while (1) {
+//             mp3_DrawDebugText(20, 212, "EEPROM CONT_NO_RESPONSE_ERROR");
+//             mp3_HuPrcVSleep();
+//         }
+//     } else if (eepresult == -1) {
+//         while (1) {
+//             mp3_DrawDebugText(20, 212, "EEPROM INVALID ADDRESS");
+//             mp3_HuPrcVSleep();
+//         }
+//     }
 
-    //otherwise, result was zero and the eeprom read happened correctly
-    mp3_HuPrcVSleep();
-    for (i = 0; i < 0x18; i++) {
-        eepromByteResults += customEepromData[i];
-    }
+//     //otherwise, result was zero and the eeprom read happened correctly
+//     mp3_HuPrcVSleep();
+//     for (i = 0; i < 0x18; i++) {
+//         eepromByteResults += customEepromData[i];
+//     }
 
-    if (eepromByteResults == 0) {
-        for (i = 0; i < 0x18; i++) {
-            customEepromData[i] = CustomMinigamesEepromBytes[i];
-        }
-        //no idea what any of these args do
-        char sp10[16] = {0};
-        s16 temp = 0x20;
+//     if (eepromByteResults == 0) {
+//         for (i = 0; i < 0x18; i++) {
+//             customEepromData[i] = CustomMinigamesEepromBytes[i];
+//         }
+//         //no idea what any of these args do
+//         char sp10[16] = {0};
+//         s16 temp = 0x20;
 
-        //why is it required you do this this way?
-        //and why only when writing? reading works fine?
-        mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
-        mp3_HuPrcVSleep();
-    }
+//         //why is it required you do this this way?
+//         //and why only when writing? reading works fine?
+//         mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
+//         mp3_HuPrcVSleep();
+//     }
 
-    mp3_LoadMinigameList();
+//     mp3_LoadMinigameList();
 
-    //if mp3 is where current game is taking place and we are loading back from mp2/mp1
-    if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == TRUE) {
-        LoadBackIntoMp3Board();
-    } else {
-        mp3_omOvlCallEx(overlayID, event, stat);
-    }
-}
+//     //if mp3 is where current game is taking place and we are loading back from mp2/mp1
+//     if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == TRUE) {
+//         LoadBackIntoMp3Board();
+//     } else {
+//         mp3_omOvlCallEx(overlayID, event, stat);
+//     }
+// }
 
 void SetInvalidEepromFound(void) {
     eepromLoadFailed = 1;
@@ -744,4 +765,14 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
 u8 rand8_Shared(void) {
     rnd_seed_shared = rnd_seed_shared * 0x41C64E6D + 0x3039;
     return ((rnd_seed_shared + 1) >> 16);
+}
+
+extern s32 mp3_midTurnMinigameThing;
+s32 isMidTurnMinigame = 0;
+
+void IfMidTurnMinigameCheck(void) {
+    if (isMidTurnMinigame) {
+        isMidTurnMinigame = 0;
+        mp3_midTurnMinigameThing = 0x12;
+    }
 }
