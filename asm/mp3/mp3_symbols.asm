@@ -15,6 +15,7 @@
 .definelabel mp3_hidden_block_item_space_index, 0x800CC4E5
 .definelabel mp3_hidden_block_coins_space_index, 0x800CE1C5
 .definelabel mp3_hidden_block_star_space_index, 0x800D124F
+.definelabel mp3_osResetType, 0x8000030C
 
 //functions
 .definelabel GetCurrentPlayerIndex, 0x800F2130

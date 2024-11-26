@@ -4,7 +4,7 @@
 s32 ForeignMinigameIndexToLoad = -1;
 s32 ForeignMinigameAlreadyLoaded = FALSE;
 //there's probably a better way to track this
-s32 CurBaseGame = -1;
+s32 CurBaseGame = MP3_BASE;
 
 char HookLineAndSinkerStr[] = {"\x0B""Hand""\x82"" Line and Sinker"};
 char CoconutConkStr[] = {"\x0B""Coconut Conk"};

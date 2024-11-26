@@ -41,6 +41,7 @@ void NewInitialSplashScreen(void) {
             continue;
         }
         if (mp3_D_800CDA7C[0] & 0x10) { //if R is pressed, load mario party 2
+            mp3_osResetType = 1;
             CurBaseGame = MP2_BASE;
             mp3_PlaySound(2);
             mp3_HuWipeFadeOut(0xB, 12);
@@ -52,6 +53,7 @@ void NewInitialSplashScreen(void) {
         }
         #ifdef MP1
         else if (mp3_D_800CDA7C[0] & 0x20) { //if L is pressed, load mario party 1
+            mp3_osResetType = 1;
             CurBaseGame = MP1_BASE;
             mp3_PlaySound(2);
             mp3_HuWipeFadeOut(0xB, 12);
@@ -63,6 +65,7 @@ void NewInitialSplashScreen(void) {
         }
         #endif
         else if (mp3_D_800CDA7C[0] & 0x2000) { //if Z is pressed, load minigame selection
+            mp3_osResetType = 1;
             ForeignMinigameIndexToLoad = -1;
             shouldShowCustomSplashScreen = 0;
             mp3_PlaySound(2);
@@ -74,6 +77,7 @@ void NewInitialSplashScreen(void) {
             mp3_omOvlCallEx(0, 0, 0);
             mp3_HuPrcExit();
         } else if (mp3_D_800CDA7C[0] & 0x8000) { //if A is pressed, load mario party 3
+            mp3_osResetType = 1;
             shouldShowCustomSplashScreen = 1;
             CurBaseGame = MP3_BASE;
             mp3_PlaySound(2);
