@@ -2,8 +2,9 @@
 #include "mp3.h"
 
 s32 ForeignMinigameIndexToLoad = -1;
+s32 ForeignMinigameAlreadyLoaded = FALSE;
 //there's probably a better way to track this
-s32 mp3_LoadBackFromMp2 = FALSE;
+s32 CurBaseGame = -1;
 
 char HookLineAndSinkerStr[] = {"\x0B""Hand""\x82"" Line and Sinker"};
 char CoconutConkStr[] = {"\x0B""Coconut Conk"};
@@ -191,7 +192,7 @@ char mp1_BobsledRunStr[] = {"\x0B""\x5D""MP1""\x5E"" Bobsled Run"}; //mp1 36
 char mp1_BumperBallsStr[] = {"\x0B""\x5D""MP1""\x5E"" Bumper Balls"}; //mp1 37
 char TightropeTreacheryStr[] = {"\x0B""Tightrope Treachery"}; //mp1 38
 char KnockBlockTowerStr[] = {"\x0B""Knock Block Tower"}; //mp1 39
-char mp1_TipsyTourneyStr[] = {"\x0B""\x5D""MP1""\x5E"" Tipsey Tourney"}; //mp1 40
+char mp1_TipsyTourneyStr[] = {"\x0B""\x5D""MP1""\x5E"" Tipsy Tourney"}; //mp1 40
 char mp1_BombsAwayStr[] = {"\x0B""\x5D""MP1""\x5E"" Bombs Away"}; //mp1 41
 char mp1_CraneGameStr[] = {"\x0B""\x5D""MP1""\x5E"" Crane Game"}; //mp1 42
 //mp1 43
@@ -545,9 +546,9 @@ mp3MinigameIndexTable minigameLUT[] = {
     {PUDDLE_PADDLE, PuddlePaddleStr, 17, PLAYERS_2V2},
     {PUMP_PUMP_AND_AWAY, PumpPumpAndAwayStr, 13, PLAYERS_2V2},
     {SLOT_SYNC, SlotSyncStr, 20, PLAYERS_2V2},
-    {TORPEDO_TARGETS, TorpedoTargetsStr, 67, PLAYERS_2V2}, //mp2 67
-
+    
     //mp2 2v2 minigames
+    {TORPEDO_TARGETS, TorpedoTargetsStr, 67, PLAYERS_2V2}, //mp2 67
     {MP2_BALLOON_BURST, mp2_BalloonBurstStr, 30, PLAYERS_2V2}, //mp2 30
     {MP2_BOBSLED_RUN, mp2_BobsledRunStr, 27, PLAYERS_2V2}, //mp2 27
     {CAKE_FACTORY, CakeFactoryStr, 33, PLAYERS_2V2}, //mp2 33

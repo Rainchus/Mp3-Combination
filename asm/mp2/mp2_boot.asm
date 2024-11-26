@@ -1,4 +1,13 @@
 //mp2
+//rom 0x020D3300 ram pointer to 4p minigames
+.orga 0xD3300 + 0x02000000
+.word new4PMinigameListNormalMp3
+.word new1v3MinigameListNormalMp3
+.word new2v2MinigameListNormalMp3
+.word newItemMinigameListNormalMp3
+.word newBattleMinigameListNormalMp3
+.word newDuelMinigameListNormalMp3
+
 .headersize 0x7DFFF400 //ROM Addr of combination rom, 0x3EFDB00
 .org 0x8009D950
     J mp2_osEPiRawStartDmaHook

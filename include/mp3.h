@@ -32,8 +32,8 @@ typedef struct mp3_PlayerData {
 /* 0x1E */ char unk_1E[2]; //likely padding
 /* 0x20 */ void* unk_20;
 /* 0x24	*/ void* player_obj; //ptr to struct 0x48 in size (things like model position, rotation, etc.)
-/* 0x28 */ s16 minigameCoinsTotal; //for minigame star
-/* 0x2A */ s16 coinsPeak; //most coins held at once for coin star
+/* 0x24 */ s16 mg_star_coins; //used for mg star
+/* 0x26 */ s16 coins_total; //used for coin star
 /* 0x2C */ s8 happeningSpacesLandedOn;
 /* 0x2D */ s8 redSpacesLandedOn;
 /* 0x2E */ s8 blueSpacesLandedOn;
@@ -84,10 +84,11 @@ enum TEXT_COLORS_ADJUSTED {
 extern mp3_PlayerData mp3_gPlayers[4];
 extern mp3_PlayerData mp3_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
+extern omOvlHisData mp2_omovlhis_copy[12];
 extern s16 mp3_omovlhisidx_copy;
 extern omOvlHisData mp3_omovlhis[12];
 extern s16 mp3_omovlhisidx;
-extern s32 mp3_LoadBackFromMp2;
+extern s32 CurBaseGame;
 extern s16 mp3_D_800CD2A2;
 extern UnkCastleGroundMessage mp3_D_80110998[];
 extern s32 mp3_D_800B1A30;

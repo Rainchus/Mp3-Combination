@@ -1,5 +1,7 @@
 #include "marioparty.h"
 #include "mp3.h"
+#include "mp2.h"
+#include "mp1.h"
 
 #define COLD_BOOT 0
 #define WARM_BOOT 1
@@ -7,6 +9,7 @@
 
 //in the eeprom, 0x2C0 through 0x400 is free to use
 u16 mp3_BattleMinigameCoins_Copy = 0;
+s32 shouldShowKofiText = 0;
 
 u8 CustomMinigamesEepromBytes[] = {
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -19,7 +22,6 @@ s32 WriteEepromCustom(void);
 void func_8005D294_5DE94(s16);
 u32 func_80106B38_4F9028(s32);
 u16 func_8000B838_C438(s32);
-extern s32 GetMinigameFlag(s32 arg0);
 
 extern u16 mp2_BattleMinigameCoins;
 extern s32 isBattleMinigame;
@@ -27,20 +29,16 @@ s32 printTimer = 0;
 s32 eepromLoadFailed = 0;
 //also prevents wacky watches from being found from this point on if not 0
 s32 wackyWatchUsedCopy = 0;
-extern mp3MinigameIndexTable minigameLUT[];
 extern s16 D_800CD0AA;
-
+extern s32 shouldShowCustomSplashScreen;
 extern mp2_GW_PLAYER mp2_PlayersCopy[4];
 extern u8 osAppNmiBuffer[osAppNmiBufferSize];
 
-extern omOvlHisData mp2_omovlhis[12];
-extern s16 mp2_omovlhisidx;
 extern s8 D_800B23B0;
 
 extern s16 D_800D6B60;
 extern omOvlHisData D_800D20F0[];
-
-
+omOvlHisData mp2_omovlhis_copy[12] = {0};
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE] = {0};
@@ -57,6 +55,15 @@ void PushMp3OvlHis(void) {
         mp3_omovlhis_copy[i] = mp3_omovlhis[i];
     }
     mp3_omovlhisidx_copy = mp3_omovlhisidx;
+}
+
+void PushMp2OvlHis(void) {
+    s32 i;
+
+    for (i = 0; i < 12; i++) {
+        mp2_omovlhis_copy[i] = mp2_omovlhis[i];
+    }
+    mp2_omovlhisidx_copy = mp2_omovlhisidx;
 }
 
 void PushMp3MinigamesPlayedList(void) {
@@ -101,6 +108,15 @@ void PopMp3OvlHis(void) {
     mp3_omovlhisidx = mp3_omovlhisidx_copy;
 }
 
+void PopMp2OvlHis(void) {
+    s32 i;
+
+    for (i = 0; i < 12; i++) {
+        mp2_omovlhis[i] = mp2_omovlhis_copy[i];
+    }
+    mp2_omovlhisidx = mp2_omovlhisidx_copy;
+}
+
 //we only want to copy the necessary data so that the mp2 results screen is correct,
 //and the human/cpu flags and characters are copied over
 void CopyMp3_gPlayerCopy_To_Mp2(void) {
@@ -119,6 +135,36 @@ void CopyMp3_gPlayerCopy_To_Mp2(void) {
     }
 }
 
+void CopyMp1_gPlayerCopy_To_Mp2(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        mp2_gPlayers[i].group = mp1_PlayersCopy[i].group;
+        mp2_gPlayers[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty;
+        mp2_gPlayers[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty_copy;
+        mp2_gPlayers[i].port = mp1_PlayersCopy[i].port;
+        mp2_gPlayers[i].character = mp1_PlayersCopy[i].character;
+        mp2_gPlayers[i].flags = mp1_PlayersCopy[i].flags;
+        mp2_gPlayers[i].coins = mp1_PlayersCopy[i].coins;
+        mp2_gPlayers[i].stars = mp1_PlayersCopy[i].stars;
+    }
+}
+
+void CopyMp2_gPlayerCopy_To_Mp1(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        mp1_gPlayers[i].group = mp2_PlayersCopy[i].group;
+        mp1_gPlayers[i].cpu_difficulty = mp2_PlayersCopy[i].cpu_difficulty;
+        mp1_gPlayers[i].cpu_difficulty_copy = mp2_PlayersCopy[i].cpu_difficulty;
+        mp1_gPlayers[i].port = mp2_PlayersCopy[i].port;
+        mp1_gPlayers[i].character = mp2_PlayersCopy[i].character;
+        mp1_gPlayers[i].flags = mp2_PlayersCopy[i].flags;
+        mp1_gPlayers[i].coins = mp2_PlayersCopy[i].coins;
+        mp1_gPlayers[i].stars = mp2_PlayersCopy[i].stars;
+    }
+}
+
 void CopyMp3_gPlayerCopy_To_Mp1(void) {
     s32 i;
 
@@ -134,20 +180,46 @@ void CopyMp3_gPlayerCopy_To_Mp1(void) {
     }
 }
 
-void SaveMp2PlayerStructs(void) {
+void CopyMp1_gPlayerCopy_To_Mp3(void) {
     s32 i;
+
     for (i = 0; i < 4; i++) {
-        mp2_PlayersCopy[i] = mp2_gPlayers[i];
+        mp3_gPlayers[i].group = mp1_PlayersCopy[i].group;
+        mp3_gPlayers[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty;
+        mp3_gPlayers[i].controller_port = mp1_PlayersCopy[i].port;
+        mp3_gPlayers[i].characterID = mp1_PlayersCopy[i].character;
+        mp3_gPlayers[i].flags1 = mp1_PlayersCopy[i].flags;
+        mp3_gPlayers[i].coins = mp1_PlayersCopy[i].coins;
+        mp3_gPlayers[i].stars = mp1_PlayersCopy[i].stars;
+        mp3_gPlayers[i].turn_status = mp1_PlayersCopy[i].turn_status;
     }
 }
 
-u8 hidden_block_item_space_copy = 0;
-u8 hidden_block_coins_space_copy = 0;
-u8 hidden_block_star_space_copy = 0;
+void CopyMp2_gPlayerCopy_To_Mp3(void) {
+    s32 i;
 
-extern u8 mp3_800CC4E5; //hidden_block_item_space
-extern u8 mp3_800CE1C5; //hidden_block_coins_space
-extern u8 mp3_800D124F; //hidden_block_star_space
+    for (i = 0; i < 4; i++) {
+        mp3_gPlayers[i].group = mp2_PlayersCopy[i].group;
+        mp3_gPlayers[i].cpu_difficulty = mp2_PlayersCopy[i].cpu_difficulty;
+        mp3_gPlayers[i].controller_port = mp2_PlayersCopy[i].port;
+        mp3_gPlayers[i].characterID = mp2_PlayersCopy[i].character;
+        mp3_gPlayers[i].flags1 = mp2_PlayersCopy[i].flags;
+        mp3_gPlayers[i].coins = mp2_PlayersCopy[i].coins;
+        mp3_gPlayers[i].stars = mp2_PlayersCopy[i].stars;
+        mp3_gPlayers[i].turn_status = mp2_PlayersCopy[i].turn_status;
+    }
+}
+
+u8 mp3_hidden_block_item_space_copy = 0;
+u8 mp3_hidden_block_coins_space_copy = 0;
+u8 mp3_hidden_block_star_space_copy = 0;
+
+u8 mp2_hidden_block_coins_space_copy = 0;
+u8 mp2_hidden_block_star_space_copy = 0;
+
+extern u8 mp3_hidden_block_item_space_index; //hidden_block_item_space
+extern u8 mp3_hidden_block_coins_space_index; //hidden_block_coins_space
+extern u8 mp3_hidden_block_star_space_index; //hidden_block_star_space
 
 void SaveMp3PlayerStructs(void) {
     s32 i;
@@ -155,9 +227,9 @@ void SaveMp3PlayerStructs(void) {
         mp3_PlayersCopy[i] = mp3_gPlayers[i];
     }
 
-    hidden_block_item_space_copy = mp3_800CC4E5;
-    hidden_block_coins_space_copy = mp3_800CE1C5;
-    hidden_block_star_space_copy = mp3_800D124F;
+    mp3_hidden_block_item_space_copy = mp3_hidden_block_item_space_index;
+    mp3_hidden_block_coins_space_copy = mp3_hidden_block_coins_space_index;
+    mp3_hidden_block_star_space_copy = mp3_hidden_block_star_space_index;
 }
 
 void LoadMp3PlayerStructs(void) {
@@ -166,9 +238,19 @@ void LoadMp3PlayerStructs(void) {
         mp3_gPlayers[i] = mp3_PlayersCopy[i];
     }
 
-    mp3_800CC4E5 = hidden_block_item_space_copy;
-    mp3_800CE1C5 = hidden_block_coins_space_copy;
-    mp3_800D124F = hidden_block_star_space_copy;
+    mp3_hidden_block_item_space_index = mp3_hidden_block_item_space_copy;
+    mp3_hidden_block_coins_space_index = mp3_hidden_block_coins_space_copy;
+    mp3_hidden_block_star_space_index = mp3_hidden_block_star_space_copy;
+}
+
+void LoadMp2PlayerStructs(void) {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        mp2_gPlayers[i] = mp2_PlayersCopy[i];
+    }
+
+    mp2_hidden_block_coins_space_index = mp2_hidden_block_coins_space_copy;
+    mp2_hidden_block_star_space_index = mp2_hidden_block_star_space_copy;
 }
 
 void checkosAppNmiBufferReset(s32 resetType) {
@@ -297,30 +379,32 @@ u8 new2v2MinigameListNormalMp3[28] = {0};
 u8 newBattleMinigameListNormalMp3[17] = {0};
 u8 newItemMinigameListNormalMp3[7] = {0};
 u8 newDuelMinigameListNormalMp3[11] = {0};
-u8 newCategoryAmountsNormal[6] = {0};
+u8 newCategoryAmountsNormalMp3[6] = {0};
 
 //the blacklisted minigames below are blacklisted due to having issues loading them...
 //once this is fixed this can be removed
-u8 battleMinigameBlacklist[] = {
+u8 mp3_battleMinigameBlacklist[] = {
     MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
     MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST
 };
 
-u8 duelMinigameBlacklist[] = {
+u8 mp3_duelMinigameBlacklist[] = {
     PIRATE_LAND_DUEL, WESTERN_LAND_DUEL, SPACE_LAND_DUEL, MYSTERY_LAND_DUEL, HORROR_LAND_DUEL,
     KOOPA_LAND_DUEL
 };
 
-u8 itemMinigameBlacklist[] = {
+u8 mp3_itemMinigameBlacklist[] = {
     ROLL_OUT_THE_BARRELS, GIVE_ME_A_BRAKE, HAMMER_SLAMMER, MALLET_GO_ROUND, COFFIN_CONGESTION,
     BOWSER_SLOTS
 };
 
-u8 minigame4PBlacklist[] = {
+u8 mp3_minigame4PBlacklist[] = {
+    #ifdef MP1
     YOSHIS_TONGUE_MEETING
+    #endif
 };
 
-// u8 minigame1v3Blacklist[] = {
+// u8 mp3_minigame1v3Blacklist[] = {
 //     COIN_SHOWER_FLOWER
 // };
 
@@ -334,26 +418,214 @@ u8 minigame4PBlacklist[] = {
 //     ARRAY_COUNT(newDuelMinigameListNormalMp3) -1,
 // };
 
-void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
-    mp3MinigameIndexTable* curMinigameData;
+void LoadBackIntoMp3Board(void) {
     s8 curTurn;
     s8 totalTurns;
     s8 curBoardIndex;
+    s32 i;
+
+    //TODO: make mp3_BoardState a real struct...eventually
+
+    PopMp3BoardState();
+    PopMp3MinigamesPlayedList();
+    LoadMp3PlayerStructs();
+
+    if (wackyWatchUsedCopy == 2) {
+        wackyWatchUsedCopy = 3;
+        //set turns as if wacky watch was used
+        mp3_BoardState[3] = mp3_BoardState[2] - 4;
+    }
+
+    D_800CD0AA = wackyWatchUsedCopy;
+
+    curTurn = mp3_BoardState[3];
+    totalTurns = mp3_BoardState[2];
+    curBoardIndex = mp3_BoardState[1];
+
+    mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
+    D_800B23B0 = 1; //is party mode
+    // if (isBattleMinigame == 1) {
+    //     s32 i;
+    //     isBattleMinigame = 0;
+
+    //     omOvlHisData BattleResults[] = {
+    //         {0x70, 0x0001, 0x0192},
+    //         {0x53, 0x0000, 0x0192},
+    //         {0x48, 0x0000, 0x0192},
+    //     };
+    //     for (i = 0; i < ARRAY_COUNT(BattleResults); i++) {
+    //         mp3_omovlhis[i] = BattleResults[i];
+    //     }
+    //     mp3_omovlhisidx = 3;
+    //     mp3_omOvlCallEx(0x74, 0, 0x12); //go to battle results scene
+    //     return;
+    // }
+    if (curTurn > totalTurns) {
+        PopMp3OvlHis();
+        mp3_omovlhisidx--;
+        mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
+        return;
+    } else if ((totalTurns - curTurn) == 4) {
+        //there's probably a better way to do this over hardcoding the ovl history
+        //set last 5 turns event
+        // PopMp3OvlHis();
+        s32 i;
+        for (i = 0; i < ARRAY_COUNT(last5Turns); i++) {
+            mp3_omovlhis[i] = last5Turns[i];
+        }
+        mp3_omovlhisidx = 3;
+        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+        // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
+        mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
+        return;
+    }
+    omOvlHisData NormalLoadInHis[] = {
+        {0x7A, 0x0002, 0x0092},
+        {0x7A, 0x0002, 0x0092},
+        {0x77, 0x0000, 0x0091},
+        {0x47, 0x0001, 0x0192},
+        // {0x48, 0x0002, 0x0192},
+    };
+
+    //original strat for loading back into the board. Going -
+    //to try hardcoding it to prevent a rare issue where -
+    //someone managed to desync this somehow
+    // PopMp3OvlHis();
+    // mp3_omovlhisidx--;
+
+    mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+
+    //copy a hardcoded overlay history in
+    for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
+        mp3_omovlhis[i] = NormalLoadInHis[i];
+    }
+    mp3_omovlhisidx = 3;
+    //load into the board
+    mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
+}
+
+void mp3_LoadMinigameList(void) {
+    mp3MinigameIndexTable* curMinigameData;
     s32 i, j;
-    s32 eepromByteResults = 0;
+    s32 minigameIsBlacklisted;
     u8 minigame4PCount = 0;
     u8 minigame1v3Count = 0;
     u8 minigame2v2Count = 0;
     u8 minigameItemCount = 0;
     u8 minigameBattleCount = 0;
     u8 minigameDuelCount = 0;
+
+    //load active minigames into lists
+    for (i = 0; i < MINIGAME_END - 1; i++) {
+        for (j = 0, curMinigameData = 0; j < MINIGAME_END - 1; j++) {
+            if (i == minigameLUT[j].minigameIndex) {
+                curMinigameData = &minigameLUT[j];
+                break;
+            }
+        }
+
+        //minigame was not found in list (??), continue loop
+        if (curMinigameData == 0) {
+            continue;
+        }
+
+        //else, minigame is active
+        u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
+        if (minigameActiveFlag == 0) {
+            continue;
+        }
+
+        switch(curMinigameData->minigameType) {
+        case PLAYERS_4P:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp3_minigame4PBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp3_minigame4PBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                new4PMinigameListNormalMp3[minigame4PCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp3[PLAYERS_4P]++;
+            }
+            break;
+        case PLAYERS_1V3:
+            // minigameIsBlacklisted = 0;
+            // for (j = 0; j < ARRAY_COUNT(minigame1v3Blacklist); j++) {
+            //     if (curMinigameData->minigameIndex == minigame1v3Blacklist[j]) {
+            //         minigameIsBlacklisted = 1;
+            //         break;
+            //     }
+            // }
+            // if (minigameIsBlacklisted == 0) {
+            //     new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
+            //     newCategoryAmountsNormal[PLAYERS_1V3]++;
+            // }
+            new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
+            newCategoryAmountsNormalMp3[PLAYERS_1V3]++;
+            break;
+        case PLAYERS_2V2:
+            new2v2MinigameListNormalMp3[minigame2v2Count++] = curMinigameData->minigameIndex;
+            newCategoryAmountsNormalMp3[PLAYERS_2V2]++;
+            break;
+        case PLAYERS_ITEM:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp3_itemMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp3_itemMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newItemMinigameListNormalMp3[minigameItemCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp3[PLAYERS_ITEM]++;
+            }
+            
+            break;
+        case PLAYERS_BATTLE:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp3_battleMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp3_battleMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newBattleMinigameListNormalMp3[minigameBattleCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp3[PLAYERS_BATTLE]++;
+            }
+
+            break;
+        case PLAYERS_DUEL:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp3_duelMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp3_duelMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newDuelMinigameListNormalMp3[minigameDuelCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp3[PLAYERS_DUEL]++;
+            }
+            break;
+        case PLAYERS_GAME_GUY:
+            break;
+        case PLAYERS_1P:
+            break;
+        }
+    }
+}
+
+void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
+    s32 i;
+    s32 eepromByteResults = 0;
     // u8 minigameGameGuyCount = 0;
     // u8 minigame1PCount = 0;
-    s32 minigameIsBlacklisted;
     s32 eepresult = 0;
 
-    for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormal); i++) {
-        newCategoryAmountsNormal[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormalMp3); i++) {
+        newCategoryAmountsNormalMp3[i] = 0;
     }
     
     if (eepromLoadFailed == 1) {
@@ -395,188 +667,11 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
         mp3_HuPrcVSleep();
     }
 
-    //load active minigames into lists
-    for (i = 0; i < MINIGAME_END - 1; i++) {
-        for (j = 0, curMinigameData = 0; j < MINIGAME_END - 1; j++) {
-            if (i == minigameLUT[j].minigameIndex) {
-                curMinigameData = &minigameLUT[j];
-                break;
-            }
-        }
+    mp3_LoadMinigameList();
 
-        //minigame was not found in list (??), continue loop
-        if (curMinigameData == 0) {
-            continue;
-        }
-
-        //else, minigame is active
-        u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
-        if (minigameActiveFlag == 0) {
-            continue;
-        }
-
-        switch(curMinigameData->minigameType) {
-        case PLAYERS_4P:
-            minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(minigame4PBlacklist); j++) {
-                if (curMinigameData->minigameIndex == minigame4PBlacklist[j]) {
-                    minigameIsBlacklisted = 1;
-                    break;
-                }
-            }
-            if (minigameIsBlacklisted == 0) {
-                new4PMinigameListNormalMp3[minigame4PCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormal[PLAYERS_4P]++;
-            }
-            break;
-        case PLAYERS_1V3:
-            // minigameIsBlacklisted = 0;
-            // for (j = 0; j < ARRAY_COUNT(minigame1v3Blacklist); j++) {
-            //     if (curMinigameData->minigameIndex == minigame1v3Blacklist[j]) {
-            //         minigameIsBlacklisted = 1;
-            //         break;
-            //     }
-            // }
-            // if (minigameIsBlacklisted == 0) {
-            //     new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
-            //     newCategoryAmountsNormal[PLAYERS_1V3]++;
-            // }
-            new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
-            newCategoryAmountsNormal[PLAYERS_1V3]++;
-            break;
-        case PLAYERS_2V2:
-            new2v2MinigameListNormalMp3[minigame2v2Count++] = curMinigameData->minigameIndex;
-            newCategoryAmountsNormal[PLAYERS_2V2]++;
-            break;
-        case PLAYERS_ITEM:
-            minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(itemMinigameBlacklist); j++) {
-                if (curMinigameData->minigameIndex == itemMinigameBlacklist[j]) {
-                    minigameIsBlacklisted = 1;
-                    break;
-                }
-            }
-            if (minigameIsBlacklisted == 0) {
-                newItemMinigameListNormalMp3[minigameItemCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormal[PLAYERS_ITEM]++;
-            }
-            
-            break;
-        case PLAYERS_BATTLE:
-            minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(battleMinigameBlacklist); j++) {
-                if (curMinigameData->minigameIndex == battleMinigameBlacklist[j]) {
-                    minigameIsBlacklisted = 1;
-                    break;
-                }
-            }
-            if (minigameIsBlacklisted == 0) {
-                newBattleMinigameListNormalMp3[minigameBattleCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormal[PLAYERS_BATTLE]++;
-            }
-
-            break;
-        case PLAYERS_DUEL:
-            minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(duelMinigameBlacklist); j++) {
-                if (curMinigameData->minigameIndex == duelMinigameBlacklist[j]) {
-                    minigameIsBlacklisted = 1;
-                    break;
-                }
-            }
-            if (minigameIsBlacklisted == 0) {
-                newDuelMinigameListNormalMp3[minigameDuelCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormal[PLAYERS_DUEL]++;
-            }
-            break;
-        case PLAYERS_GAME_GUY:
-            break;
-        case PLAYERS_1P:
-            break;
-        }
-    }
-
-    if (mp3_LoadBackFromMp2 == TRUE) {
-        mp3_LoadBackFromMp2 = FALSE;
-        PopMp3BoardState();
-        PopMp3MinigamesPlayedList();
-        LoadMp3PlayerStructs();
-
-        
-        if (wackyWatchUsedCopy == 2) {
-            wackyWatchUsedCopy = 3;
-            //set turns as if wacky watch was used
-            mp3_BoardState[3] = mp3_BoardState[2] - 4;
-        }
-
-        D_800CD0AA = wackyWatchUsedCopy;
-
-        curTurn = mp3_BoardState[3];
-        totalTurns = mp3_BoardState[2];
-        curBoardIndex = mp3_BoardState[1];
-
-        mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
-        D_800B23B0 = 1; //is party mode
-        // if (isBattleMinigame == 1) {
-        //     s32 i;
-        //     isBattleMinigame = 0;
-
-        //     omOvlHisData BattleResults[] = {
-        //         {0x70, 0x0001, 0x0192},
-        //         {0x53, 0x0000, 0x0192},
-        //         {0x48, 0x0000, 0x0192},
-        //     };
-        //     for (i = 0; i < ARRAY_COUNT(BattleResults); i++) {
-        //         mp3_omovlhis[i] = BattleResults[i];
-        //     }
-        //     mp3_omovlhisidx = 3;
-        //     mp3_omOvlCallEx(0x74, 0, 0x12); //go to battle results scene
-        //     return;
-        // }
-        if (curTurn > totalTurns) {
-            PopMp3OvlHis();
-            mp3_omovlhisidx--;
-            mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
-            return;
-        } else if ((totalTurns - curTurn) == 4) {
-            //there's probably a better way to do this over hardcoding the ovl history
-            //set last 5 turns event
-            // PopMp3OvlHis();
-            s32 i;
-            for (i = 0; i < ARRAY_COUNT(last5Turns); i++) {
-                mp3_omovlhis[i] = last5Turns[i];
-            }
-            mp3_omovlhisidx = 3;
-            mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
-            // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
-            mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
-            return;
-        }
-        omOvlHisData NormalLoadInHis[] = {
-            {0x7A, 0x0002, 0x0092},
-            {0x7A, 0x0002, 0x0092},
-            {0x77, 0x0000, 0x0091},
-            {0x47, 0x0001, 0x0192},
-            // {0x48, 0x0002, 0x0192},
-        };
-
-        //original strat for loading back into the board. Going -
-        //to try hardcoding it to prevent a rare issue where -
-        //someone managed to desync this somehow
-        // PopMp3OvlHis();
-        // mp3_omovlhisidx--;
-
-        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
-
-        //copy a hardcoded overlay history in
-        for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
-            mp3_omovlhis[i] = NormalLoadInHis[i];
-        }
-        mp3_omovlhisidx = 3;
-        //load into the board
-        mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
-        
-        
+    //if mp3 is where current game is taking place and we are loading back from mp2/mp1
+    if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == TRUE) {
+        LoadBackIntoMp3Board();
     } else {
         mp3_omOvlCallEx(overlayID, event, stat);
     }
@@ -600,33 +695,13 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 
 void drawMessageOnBootLogos(void) {
-    //TODO: this should only be possible on initial boot, or players might accidentally enter these menus
-    //if R is held on boot, load mp2
-    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x10) {
-    //     ForeignMinigameIndexToLoad = -1;
-    //     ComboSwitchGameToMp2();
-    //     return;
-    // }
-    // // if L is held on boot, load mp1
-    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x20) {
-    //     ForeignMinigameIndexToLoad = -1;
-    //     ComboSwitchGameToMp1();
-    //     return;
-    // }
-    // // if Z is held on boot, load minigame selection screen
-    // if ((printTimer == 0) && mp3_D_800CDA7C[0] & 0x2000) {
-    //     ForeignMinigameIndexToLoad = -1;
-    //     mp3_omOvlCallEx(0, 0, 0);
-    //     return;
-    // }
-    if (printTimer < 120) {
-        printTimer++;
-        
-        mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.9");
-        mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
-        mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+    if (shouldShowKofiText == 1) {
+        return;
     }
+    mp3_debug_font_color = 4;
+    mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.2.0");
+    mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
+    mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
 }
 
 void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
@@ -663,24 +738,3 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
 
     mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, (char*)temp_v0, -1, -1);
 }
-
-void mp2BootOverlaySwapCheck(s32 overlayID, s16 event, s16 stat) {
-    if (ForeignMinigameIndexToLoad == -2) {
-        s32 i;
-        //load directly into title screen
-        omOvlHisData titleScreen[] = {
-            {0x62, 0x0000, 0x192},
-            {0x62, 0x0001, 0x193}
-        };
-
-        for (i = 0; i < ARRAY_COUNT(titleScreen); i++) {
-            mp2_omovlhis[i] = titleScreen[i];
-        }
-
-        mp2_omovlhisidx = 1;
-        mp2_omOvlCallEx(0x5B, 0, 0x1081); //load mode select
-    } else { //otherwise, load debug overlay
-        mp2_omOvlCallEx(0, event, stat);
-    }
-}
-

@@ -277,6 +277,8 @@ typedef struct mp3MinigameIndexTable {
     u8 minigameType;
 } mp3MinigameIndexTable;
 
+extern mp3MinigameIndexTable minigameLUT[];
+
 typedef struct mp1_GW_PLAYER {
 /* 0x00 */ u8 group;
 /* 0x01 */ u8 cpu_difficulty;
@@ -298,8 +300,8 @@ typedef struct mp1_GW_PLAYER {
 /* 0x19 */ char unk_19[3]; //likely padding
 /* 0x1C */ void* process; //some heap instance
 /* 0x20 */ void* player_obj; //ptr to player_obj on heap
-/* 0x24 */ s16 coins_total; //how many coins a player has won/lost in minigames
-/* 0x26 */ s16 coins_max; //highest amount of coins player has held
+/* 0x24 */ s16 mg_star_coins; //used for mg star
+/* 0x26 */ s16 coins_total; //used for coin star
 /* 0x28 */ u8 happening_count;
 /* 0x29 */ u8 red_count;
 /* 0x2A */ u8 blue_count;
@@ -334,8 +336,8 @@ typedef struct mp2_GW_PLAYER {
 /* 0x1C */ char unk_1C[4];
 /* 0x20 */ void* unk_20;
 /* 0x24 */ void* unk_24;
-/* 0x28 */ s16 coins_total;
-/* 0x2A */ s16 coins_max; //used for coin star
+/* 0x28 */ s16 mg_star_coins; //used for mg star
+/* 0x2A */ s16 coins_total; //used for coin star
 /* 0x2C */ u8 happening_spaces_landed_on;
 /* 0x2D */ u8 red_spaces_landed_on;
 /* 0x2E */ u8 blue_spaces_landed_on;
@@ -471,5 +473,13 @@ void WaitForSubSystems(void);
 s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex);
 NORETURN void ComboSwitchGameToMp2(void);
 NORETURN void ComboSwitchGameToMp1(void);
+extern s32 ForeignMinigameAlreadyLoaded;
+extern s32 GetMinigameFlag(s32 arg0);
+
+enum {
+    MP1_BASE = 0,
+    MP2_BASE = 1,
+    MP3_BASE = 2,
+};
 
 #endif //_MP_H_

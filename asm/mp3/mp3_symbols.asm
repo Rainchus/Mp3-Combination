@@ -12,15 +12,15 @@
 .definelabel hydrated_space_data, 0x80105214
 .definelabel mp3_gPlayers, 0x800D1108
 .definelabel mp3_prevMinigamesPlayed, 0x800CC4A8
-.definelabel mp3_800CC4E5, 0x800CC4E5
-.definelabel mp3_800CE1C5, 0x800CE1C5
-.definelabel mp3_800D124F, 0x800D124F
+.definelabel mp3_hidden_block_item_space_index, 0x800CC4E5
+.definelabel mp3_hidden_block_coins_space_index, 0x800CE1C5
+.definelabel mp3_hidden_block_star_space_index, 0x800D124F
 
 //functions
 .definelabel GetCurrentPlayerIndex, 0x800F2130
 .definelabel GetPlayerStruct, 0x800F213C
 .definelabel unknownDMAFunc, 0x8004DB14
-.definelabel PlaySound, 0x8004AA88
+.definelabel mp3_PlaySound, 0x8004AA88
 .definelabel mp3_DrawDebugText, 0x8004DD7C
 .definelabel mp3_SleepVProcess, 0x8004F074
 .definelabel mp3_sprintf, 0x8007BDC0
@@ -73,6 +73,7 @@
 .definelabel mp3_boardstate, 0x800CD058
 .definelabel func_800F8610_10C230, 0x800F8610
 .definelabel func_80108910_119290, 0x80108910
+.definelabel mp3_omInitObjMan, 0x80047160
 
 .definelabel mp3_HuWipeFadeIn, 0x80061FE8
 .definelabel mp3_HuWipeFadeOut, 0x80062050
@@ -109,6 +110,6 @@
 .definelabel mp3_BattleMinigameCoins, 0x800CC698
 
 //hardcoded symbols
-.definelabel mp3_omovlhisidx_copy, 0x807FFD90
-.definelabel mp3_omovlhis_copy, 0x807FFDA0
-.definelabel mp3_PlayersCopy, 0x807FFE00
+.definelabel mp3_omovlhisidx_copy, 0x807FFD00
+.definelabel mp3_omovlhis_copy, 0x807FFE00
+.definelabel mp3_PlayersCopy, 0x807FFF00

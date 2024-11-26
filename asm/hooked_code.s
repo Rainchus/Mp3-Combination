@@ -120,6 +120,9 @@ setCustomMinigameIndex:
     JAL PushMp3MinigamesPlayedList
     NOP
 
+    LI t0, ForeignMinigameAlreadyLoaded
+    SW r0, 0x0000 (t0)
+
     //swap to mp1
     JAL ComboSwitchGameToMp1
     NOP
@@ -149,6 +152,9 @@ setCustomMinigameIndex:
 
     JAL PushMp3MinigamesPlayedList
     NOP
+
+    LI t0, ForeignMinigameAlreadyLoaded
+    SW r0, 0x0000 (t0)
 
     //swap to mp2
     JAL ComboSwitchGameToMp2
@@ -214,24 +220,6 @@ clearWackyWatchCopy:
     JAL 0x8003602C
     ADDIU a0, r0, 0x0006
     J 0x800F9028
-    NOP
-
-newStarliftOverlayCheck:
-    BLTZ v0, lockedCharacter
-    SRL t1, v0, 16
-    ORI v1, r0, 7
-    BEQ t1, v1, lockedCharacter
-    NOP
-    ORI v1, r0, 3
-    BEQ t1, v1, lockedCharacter
-    NOP
-
-    //isn't waluigi or daisy, allow cursor to go to character
-    J 0x801112E4
-    NOP
-
-    lockedCharacter:
-    J 0x80111364
     NOP
 
 checkIfCursorShouldMove:
