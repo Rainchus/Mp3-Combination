@@ -22,6 +22,7 @@
 .definelabel mp1_func_800726AC, 0x800726AC
 .definelabel mp1_func_80072718, 0x80072718
 .definelabel mp1_D_800F5144, 0x800F5144
+.definelabel mp1_rand8, 0x8001758C
 .definelabel mp1_HuPrcVSleep, 0x800635B4
 .definelabel mp1_HuPrcSleep, 0x80063550
 .definelabel mp1_omOvlCallEx, 0x8005DF44

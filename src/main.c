@@ -33,7 +33,7 @@ extern s16 D_800CD0AA;
 extern s32 shouldShowCustomSplashScreen;
 extern mp2_GW_PLAYER mp2_PlayersCopy[4];
 extern u8 osAppNmiBuffer[osAppNmiBufferSize];
-
+extern u32 rnd_seed_shared;
 extern s8 D_800B23B0;
 
 extern s16 D_800D6B60;
@@ -739,4 +739,9 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     }
 
     mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, (char*)temp_v0, -1, -1);
+}
+
+u8 rand8_Shared(void) {
+    rnd_seed_shared = rnd_seed_shared * 0x41C64E6D + 0x3039;
+    return ((rnd_seed_shared + 1) >> 16);
 }

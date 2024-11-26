@@ -85,6 +85,7 @@
 .definelabel mp2_OtherBoardState, 0x800F8CD8
 .definelabel mp2_D_800E1F50_E2B50, 0x800E1F50
 .definelabel mp2_D_800E1F52_E2B52, 0x800E1F52
+.definelabel mp2_rand8, 0x80018AFC
 
 //hardcoded symbols
 .definelabel mp2_omovlhisidx_copy, 0x807FFB00

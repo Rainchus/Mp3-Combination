@@ -114,3 +114,4 @@
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00
 .definelabel mp3_omovlhis_copy, 0x807FFE00
 .definelabel mp3_PlayersCopy, 0x807FFF00
+.definelabel rnd_seed_shared, 0x807FFFFC

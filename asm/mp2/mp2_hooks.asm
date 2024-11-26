@@ -63,3 +63,7 @@
     LUI at, 0x800E
     JAL mp2_Unk_Camera_Function
     LWC1 f12, 0x1F84 (at)
+
+.org 0x80018AFC
+    J rand8_Shared
+    NOP

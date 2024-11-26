@@ -7,6 +7,10 @@
     JAL checkIfLoadingFromMp2Minigame
     NOP
 
+.org 0x8000B16C
+    J rand8_Shared
+    NOP
+
 .org 0x8004FFB8 //only check file 1's checksum
     SLTI v0, s0, 0x0001 //was SLTI v0, s0, 0x0003
 

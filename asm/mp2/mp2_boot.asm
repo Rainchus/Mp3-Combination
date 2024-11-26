@@ -1,12 +1,12 @@
 //mp2
 //rom 0x020D3300 ram pointer to 4p minigames
 .orga 0xD3300 + 0x02000000
-.word new4PMinigameListNormalMp3
-.word new1v3MinigameListNormalMp3
-.word new2v2MinigameListNormalMp3
-.word newItemMinigameListNormalMp3
-.word newBattleMinigameListNormalMp3
-.word newDuelMinigameListNormalMp3
+.word new4PMinigameListNormalMp2
+.word new1v3MinigameListNormalMp2
+.word new2v2MinigameListNormalMp2
+.word newItemMinigameListNormalMp2
+.word newBattleMinigameListNormalMp2
+.word newDuelMinigameListNormalMp2
 
 .headersize 0x7DFFF400 //ROM Addr of combination rom, 0x3EFDB00
 .org 0x8009D950
