@@ -277,6 +277,8 @@ typedef struct mp3MinigameIndexTable {
     u8 minigameType;
 } mp3MinigameIndexTable;
 
+extern mp3MinigameIndexTable minigameLUT[];
+
 typedef struct mp1_GW_PLAYER {
 /* 0x00 */ u8 group;
 /* 0x01 */ u8 cpu_difficulty;
@@ -472,6 +474,7 @@ s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex);
 NORETURN void ComboSwitchGameToMp2(void);
 NORETURN void ComboSwitchGameToMp1(void);
 extern s32 ForeignMinigameAlreadyLoaded;
+extern s32 GetMinigameFlag(s32 arg0);
 
 enum {
     MP1_BASE = 0,

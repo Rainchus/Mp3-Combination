@@ -22,7 +22,6 @@ s32 WriteEepromCustom(void);
 void func_8005D294_5DE94(s16);
 u32 func_80106B38_4F9028(s32);
 u16 func_8000B838_C438(s32);
-extern s32 GetMinigameFlag(s32 arg0);
 
 extern u16 mp2_BattleMinigameCoins;
 extern s32 isBattleMinigame;
@@ -30,7 +29,6 @@ s32 printTimer = 0;
 s32 eepromLoadFailed = 0;
 //also prevents wacky watches from being found from this point on if not 0
 s32 wackyWatchUsedCopy = 0;
-extern mp3MinigameIndexTable minigameLUT[];
 extern s16 D_800CD0AA;
 extern s32 shouldShowCustomSplashScreen;
 extern mp2_GW_PLAYER mp2_PlayersCopy[4];
@@ -381,32 +379,32 @@ u8 new2v2MinigameListNormalMp3[28] = {0};
 u8 newBattleMinigameListNormalMp3[17] = {0};
 u8 newItemMinigameListNormalMp3[7] = {0};
 u8 newDuelMinigameListNormalMp3[11] = {0};
-u8 newCategoryAmountsNormal[6] = {0};
+u8 newCategoryAmountsNormalMp3[6] = {0};
 
 //the blacklisted minigames below are blacklisted due to having issues loading them...
 //once this is fixed this can be removed
-u8 battleMinigameBlacklist[] = {
+u8 mp3_battleMinigameBlacklist[] = {
     MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
     MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST
 };
 
-u8 duelMinigameBlacklist[] = {
+u8 mp3_duelMinigameBlacklist[] = {
     PIRATE_LAND_DUEL, WESTERN_LAND_DUEL, SPACE_LAND_DUEL, MYSTERY_LAND_DUEL, HORROR_LAND_DUEL,
     KOOPA_LAND_DUEL
 };
 
-u8 itemMinigameBlacklist[] = {
+u8 mp3_itemMinigameBlacklist[] = {
     ROLL_OUT_THE_BARRELS, GIVE_ME_A_BRAKE, HAMMER_SLAMMER, MALLET_GO_ROUND, COFFIN_CONGESTION,
     BOWSER_SLOTS
 };
 
-u8 minigame4PBlacklist[] = {
+u8 mp3_minigame4PBlacklist[] = {
     #ifdef MP1
     YOSHIS_TONGUE_MEETING
     #endif
 };
 
-// u8 minigame1v3Blacklist[] = {
+// u8 mp3_minigame1v3Blacklist[] = {
 //     COIN_SHOWER_FLOWER
 // };
 
@@ -506,7 +504,7 @@ void LoadBackIntoMp3Board(void) {
     mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192); //load back into board
 }
 
-void LoadMinigameList(void) {
+void mp3_LoadMinigameList(void) {
     mp3MinigameIndexTable* curMinigameData;
     s32 i, j;
     s32 minigameIsBlacklisted;
@@ -540,15 +538,15 @@ void LoadMinigameList(void) {
         switch(curMinigameData->minigameType) {
         case PLAYERS_4P:
             minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(minigame4PBlacklist); j++) {
-                if (curMinigameData->minigameIndex == minigame4PBlacklist[j]) {
+            for (j = 0; j < ARRAY_COUNT(mp3_minigame4PBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp3_minigame4PBlacklist[j]) {
                     minigameIsBlacklisted = 1;
                     break;
                 }
             }
             if (minigameIsBlacklisted == 0) {
                 new4PMinigameListNormalMp3[minigame4PCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormal[PLAYERS_4P]++;
+                newCategoryAmountsNormalMp3[PLAYERS_4P]++;
             }
             break;
         case PLAYERS_1V3:
@@ -564,51 +562,51 @@ void LoadMinigameList(void) {
             //     newCategoryAmountsNormal[PLAYERS_1V3]++;
             // }
             new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
-            newCategoryAmountsNormal[PLAYERS_1V3]++;
+            newCategoryAmountsNormalMp3[PLAYERS_1V3]++;
             break;
         case PLAYERS_2V2:
             new2v2MinigameListNormalMp3[minigame2v2Count++] = curMinigameData->minigameIndex;
-            newCategoryAmountsNormal[PLAYERS_2V2]++;
+            newCategoryAmountsNormalMp3[PLAYERS_2V2]++;
             break;
         case PLAYERS_ITEM:
             minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(itemMinigameBlacklist); j++) {
-                if (curMinigameData->minigameIndex == itemMinigameBlacklist[j]) {
+            for (j = 0; j < ARRAY_COUNT(mp3_itemMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp3_itemMinigameBlacklist[j]) {
                     minigameIsBlacklisted = 1;
                     break;
                 }
             }
             if (minigameIsBlacklisted == 0) {
                 newItemMinigameListNormalMp3[minigameItemCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormal[PLAYERS_ITEM]++;
+                newCategoryAmountsNormalMp3[PLAYERS_ITEM]++;
             }
             
             break;
         case PLAYERS_BATTLE:
             minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(battleMinigameBlacklist); j++) {
-                if (curMinigameData->minigameIndex == battleMinigameBlacklist[j]) {
+            for (j = 0; j < ARRAY_COUNT(mp3_battleMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp3_battleMinigameBlacklist[j]) {
                     minigameIsBlacklisted = 1;
                     break;
                 }
             }
             if (minigameIsBlacklisted == 0) {
                 newBattleMinigameListNormalMp3[minigameBattleCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormal[PLAYERS_BATTLE]++;
+                newCategoryAmountsNormalMp3[PLAYERS_BATTLE]++;
             }
 
             break;
         case PLAYERS_DUEL:
             minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(duelMinigameBlacklist); j++) {
-                if (curMinigameData->minigameIndex == duelMinigameBlacklist[j]) {
+            for (j = 0; j < ARRAY_COUNT(mp3_duelMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp3_duelMinigameBlacklist[j]) {
                     minigameIsBlacklisted = 1;
                     break;
                 }
             }
             if (minigameIsBlacklisted == 0) {
                 newDuelMinigameListNormalMp3[minigameDuelCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormal[PLAYERS_DUEL]++;
+                newCategoryAmountsNormalMp3[PLAYERS_DUEL]++;
             }
             break;
         case PLAYERS_GAME_GUY:
@@ -626,8 +624,8 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
     // u8 minigame1PCount = 0;
     s32 eepresult = 0;
 
-    for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormal); i++) {
-        newCategoryAmountsNormal[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormalMp3); i++) {
+        newCategoryAmountsNormalMp3[i] = 0;
     }
     
     if (eepromLoadFailed == 1) {
@@ -669,7 +667,7 @@ void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
         mp3_HuPrcVSleep();
     }
 
-    LoadMinigameList();
+    mp3_LoadMinigameList();
 
     //if mp3 is where current game is taking place and we are loading back from mp2/mp1
     if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == TRUE) {

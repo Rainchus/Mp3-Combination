@@ -5,9 +5,9 @@
     //ADDU v0, v0, s2
     //LBU v0, lo(mp2_newCategoryAmounts) (v0)
 
-    LUI v0, hi(newCategoryAmountsNormal)
+    LUI v0, hi(newCategoryAmountsNormalMp2)
     ADDU v0, v0, s2
-    LBU v0, lo(newCategoryAmountsNormal) (v0)
+    LBU v0, lo(newCategoryAmountsNormalMp2) (v0)
     
 //patch a bunch of LB -> LBU
 .org 0x8004AFC4

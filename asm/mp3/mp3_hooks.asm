@@ -46,9 +46,9 @@
     LBU a1, lo(minigameTextColor) (a1)
 
 .org 0x800DFE60 //new normal minigame list maxes
-    LUI v0, hi(newCategoryAmountsNormal)
+    LUI v0, hi(newCategoryAmountsNormalMp3)
     ADDU v0, v0, s2
-    LBU v0, lo(newCategoryAmountsNormal) (v0)
+    LBU v0, lo(newCategoryAmountsNormalMp3) (v0)
 
 //patch a bunch of LB -> LBU
 .org 0x800DFEAC

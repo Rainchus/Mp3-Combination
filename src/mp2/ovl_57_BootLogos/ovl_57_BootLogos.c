@@ -49,7 +49,6 @@ extern u32 mp2_rnd_seed;
 extern u16 mp2_BattleMinigameCoins;
 extern u16 mp3_BattleMinigameCoins;
 extern u16 mp3_BattleMinigameCoins_Copy;
-extern u8 newBattleMinigameListNormalMp3[];
 extern s16 mp2_D_800E1F50_E2B50;
 extern s16 mp2_D_800E1F52_E2B52;
 void PopMp2MinigamesPlayedList(void);
@@ -224,12 +223,159 @@ void LoadBackIntoMp2Board(void) {
     mp2_omOvlCallEx(boardOverlays[curBoardIndex], 2, 0x192); //load back into board
 }
 
+//the blacklisted minigames below are blacklisted due to having issues loading them...
+//once this is fixed this can be removed
+u8 mp2_battleMinigameBlacklist[] = {
+    STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP, SLAP_DOWN, LOCKED_OUT,
+    ALL_FIRED_UP, STORM_CHASERS, EYE_SORE
+};
+
+u8 mp2_duelMinigameBlacklist[] = {
+    VINE_WITH_ME, POPGUN_PICK_OFF, END_OF_THE_LINE, BABY_BOWSER_BONKERS, SILLY_SCREWS,
+    CROWD_COVER, TICK_TOCK_HOP, BOWSER_TOSS, MOTOR_ROOTER, FOWL_PLAY
+};
+
+u8 mp2_itemMinigameBlacklist[] = {
+    WINNERS_WHEEL, HEY_BATTER_BATTER, BOBBING_BOW_LOONS, DORRIE_DIP, SWINGING_WITH_SHARKS,
+    SWING_N_SWIPE
+};
+
+u8 mp2_minigame4PBlacklist[] = {
+    #ifdef MP1
+    YOSHIS_TONGUE_MEETING
+    #endif
+};
+
+//these probably dont need to be separate from mp3's list, but this provides a bit of clarity
+u8 new4PMinigameListNormalMp2[66] = {0};
+u8 new1v3MinigameListNormalMp2[32] = {0};
+u8 new2v2MinigameListNormalMp2[28] = {0};
+u8 newBattleMinigameListNormalMp2[17] = {0};
+u8 newItemMinigameListNormalMp2[7] = {0};
+u8 newDuelMinigameListNormalMp2[11] = {0};
+u8 newCategoryAmountsNormalMp2[6] = {0};
+
+void mp2_LoadMinigameList(void) {
+    mp3MinigameIndexTable* curMinigameData;
+    s32 i, j;
+    s32 minigameIsBlacklisted;
+    u8 minigame4PCount = 0;
+    u8 minigame1v3Count = 0;
+    u8 minigame2v2Count = 0;
+    u8 minigameItemCount = 0;
+    u8 minigameBattleCount = 0;
+    u8 minigameDuelCount = 0;
+
+    //load active minigames into lists
+    for (i = 0; i < MINIGAME_END - 1; i++) {
+        for (j = 0, curMinigameData = 0; j < MINIGAME_END - 1; j++) {
+            if (i == minigameLUT[j].minigameIndex) {
+                curMinigameData = &minigameLUT[j];
+                break;
+            }
+        }
+
+        //minigame was not found in list (??), continue loop
+        if (curMinigameData == 0) {
+            continue;
+        }
+
+        //else, minigame is active
+        u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
+        if (minigameActiveFlag == 0) {
+            continue;
+        }
+
+        switch(curMinigameData->minigameType) {
+        case PLAYERS_4P:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp2_minigame4PBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp2_minigame4PBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                new4PMinigameListNormalMp2[minigame4PCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp2[PLAYERS_4P]++;
+            }
+            break;
+        case PLAYERS_1V3:
+            // minigameIsBlacklisted = 0;
+            // for (j = 0; j < ARRAY_COUNT(minigame1v3Blacklist); j++) {
+            //     if (curMinigameData->minigameIndex == minigame1v3Blacklist[j]) {
+            //         minigameIsBlacklisted = 1;
+            //         break;
+            //     }
+            // }
+            // if (minigameIsBlacklisted == 0) {
+            //     new1v3MinigameListNormalMp3[minigame1v3Count++] = curMinigameData->minigameIndex;
+            //     newCategoryAmountsNormal[PLAYERS_1V3]++;
+            // }
+            new1v3MinigameListNormalMp2[minigame1v3Count++] = curMinigameData->minigameIndex;
+            newCategoryAmountsNormalMp2[PLAYERS_1V3]++;
+            break;
+        case PLAYERS_2V2:
+            new2v2MinigameListNormalMp2[minigame2v2Count++] = curMinigameData->minigameIndex;
+            newCategoryAmountsNormalMp2[PLAYERS_2V2]++;
+            break;
+        case PLAYERS_ITEM:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp2_itemMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp2_itemMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newItemMinigameListNormalMp2[minigameItemCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp2[PLAYERS_ITEM]++;
+            }
+            
+            break;
+        case PLAYERS_BATTLE:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp2_battleMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp2_battleMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newBattleMinigameListNormalMp2[minigameBattleCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp2[PLAYERS_BATTLE]++;
+            }
+
+            break;
+        case PLAYERS_DUEL:
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp2_duelMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp2_duelMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                newDuelMinigameListNormalMp2[minigameDuelCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp2[PLAYERS_DUEL]++;
+            }
+            break;
+        case PLAYERS_GAME_GUY:
+            break;
+        case PLAYERS_1P:
+            break;
+        }
+    }
+}
+
 //func_80102AD8_36DC78_BootLogos
 void mp2_newBootLogo(void) {
     s32 i;
     //we need to initialize rng in a better way than vanilla's static value
     //TODO: push current count before swapping game, seed against that
     mp2_rnd_seed = mp2_osGetCount() ^ 0xD826BC89;
+
+    mp2_LoadMinigameList();
 
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP2_BASE) {
