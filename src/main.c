@@ -9,6 +9,7 @@
 
 //in the eeprom, 0x2C0 through 0x400 is free to use
 u16 mp3_BattleMinigameCoins_Copy = 0;
+s32 shouldShowKofiText = 0;
 
 u8 CustomMinigamesEepromBytes[] = {
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -31,7 +32,7 @@ s32 eepromLoadFailed = 0;
 s32 wackyWatchUsedCopy = 0;
 extern mp3MinigameIndexTable minigameLUT[];
 extern s16 D_800CD0AA;
-
+extern s32 shouldShowCustomSplashScreen;
 extern mp2_GW_PLAYER mp2_PlayersCopy[4];
 extern u8 osAppNmiBuffer[osAppNmiBufferSize];
 
@@ -136,6 +137,21 @@ void CopyMp3_gPlayerCopy_To_Mp2(void) {
     }
 }
 
+void CopyMp1_gPlayerCopy_To_Mp2(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        mp2_gPlayers[i].group = mp1_PlayersCopy[i].group;
+        mp2_gPlayers[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty;
+        mp2_gPlayers[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty_copy;
+        mp2_gPlayers[i].port = mp1_PlayersCopy[i].port;
+        mp2_gPlayers[i].character = mp1_PlayersCopy[i].character;
+        mp2_gPlayers[i].flags = mp1_PlayersCopy[i].flags;
+        mp2_gPlayers[i].coins = mp1_PlayersCopy[i].coins;
+        mp2_gPlayers[i].stars = mp1_PlayersCopy[i].stars;
+    }
+}
+
 void CopyMp2_gPlayerCopy_To_Mp1(void) {
     s32 i;
 
@@ -151,21 +167,6 @@ void CopyMp2_gPlayerCopy_To_Mp1(void) {
     }
 }
 
-void CopyMp1_gPlayerCopy_To_Mp2(void) {
-    s32 i;
-
-    for (i = 0; i < 4; i++) {
-        mp2_PlayersCopy[i].group = mp1_PlayersCopy[i].group;
-        mp2_PlayersCopy[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty;
-        mp2_PlayersCopy[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty_copy;
-        mp2_PlayersCopy[i].port = mp1_PlayersCopy[i].port;
-        mp2_PlayersCopy[i].character = mp1_PlayersCopy[i].character;
-        mp2_PlayersCopy[i].flags = mp1_PlayersCopy[i].flags;
-        mp2_PlayersCopy[i].coins = mp1_PlayersCopy[i].coins;
-        mp2_PlayersCopy[i].stars = mp1_PlayersCopy[i].stars;
-    }
-}
-
 void CopyMp3_gPlayerCopy_To_Mp1(void) {
     s32 i;
 
@@ -178,6 +179,36 @@ void CopyMp3_gPlayerCopy_To_Mp1(void) {
         mp1_gPlayers[i].flags = mp3_PlayersCopy[i].flags1;
         mp1_gPlayers[i].coins = mp3_PlayersCopy[i].coins;
         mp1_gPlayers[i].stars = mp3_PlayersCopy[i].stars;
+    }
+}
+
+void CopyMp1_gPlayerCopy_To_Mp3(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        mp3_gPlayers[i].group = mp1_PlayersCopy[i].group;
+        mp3_gPlayers[i].cpu_difficulty = mp1_PlayersCopy[i].cpu_difficulty;
+        mp3_gPlayers[i].controller_port = mp1_PlayersCopy[i].port;
+        mp3_gPlayers[i].characterID = mp1_PlayersCopy[i].character;
+        mp3_gPlayers[i].flags1 = mp1_PlayersCopy[i].flags;
+        mp3_gPlayers[i].coins = mp1_PlayersCopy[i].coins;
+        mp3_gPlayers[i].stars = mp1_PlayersCopy[i].stars;
+        mp3_gPlayers[i].turn_status = mp1_PlayersCopy[i].turn_status;
+    }
+}
+
+void CopyMp2_gPlayerCopy_To_Mp3(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        mp3_gPlayers[i].group = mp2_PlayersCopy[i].group;
+        mp3_gPlayers[i].cpu_difficulty = mp2_PlayersCopy[i].cpu_difficulty;
+        mp3_gPlayers[i].controller_port = mp2_PlayersCopy[i].port;
+        mp3_gPlayers[i].characterID = mp2_PlayersCopy[i].character;
+        mp3_gPlayers[i].flags1 = mp2_PlayersCopy[i].flags;
+        mp3_gPlayers[i].coins = mp2_PlayersCopy[i].coins;
+        mp3_gPlayers[i].stars = mp2_PlayersCopy[i].stars;
+        mp3_gPlayers[i].turn_status = mp2_PlayersCopy[i].turn_status;
     }
 }
 
@@ -666,13 +697,18 @@ void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 
 void drawMessageOnBootLogos(void) {
-    if (printTimer < 120) {
+    // if (shouldShowCustomSplashScreen == 1) {
+    //     return;
+    // }
+    if (printTimer < 120 && shouldShowKofiText == 0) {
         printTimer++;
         
         mp3_debug_font_color = 4;
         mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.1.9");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
+    } else{ 
+        shouldShowKofiText = 1;
     }
 }
 

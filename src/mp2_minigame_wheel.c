@@ -90,7 +90,9 @@ s16 GetMp2ExplanationScreenIndex(s16 arg0) {
         }
         D_800F93C8 = curMinigameData->gameOverlayID;
     } else if (D_800F93C8 >= HAND_LINE_AND_SINKER && D_800F93C8 <= MARIO_PUZZLE_PARTY_PRO) { //mp3
-        //TODO: fill in logic
+        SaveMp2PlayerStructs();
+        PushMp2BoardState();
+        PushMp2MinigamesPlayedList();
         ForeignMinigameIndexToLoad = D_800F93C8;
         ForeignMinigameAlreadyLoaded = FALSE;
         PushMp2OvlHis();

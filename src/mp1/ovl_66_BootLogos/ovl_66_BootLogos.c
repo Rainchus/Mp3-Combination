@@ -23,8 +23,6 @@ void CopyMp2_gPlayerCopy_To_Mp1(void);
 extern s16 mp1_D_800F5144;
 extern s32 ForeignMinigameIndexToLoad;
 extern s32 CurBaseGame;
-extern u8 mp1_D_800ED5E3;
-extern u16 mp1_D_800ED5DE;
 extern u32 mp1_rnd_seed;
 extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
 
@@ -116,13 +114,13 @@ void mp1_newBootLogo(void) {
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp1_gPlayers[i].coins - mp2_PlayersCopy[i].coins;
                 mp2_PlayersCopy[i].coins += coinsEarned;
-                if (mp2_PlayersCopy[i].coins < 0) {
-                    mp2_PlayersCopy[i].coins = 0;
-                }
+                // if (mp2_PlayersCopy[i].coins < 0) {
+                //     mp2_PlayersCopy[i].coins = 0;
+                // }
                 
-                mp2_PlayersCopy[i].coins_mg += coinsEarned;
-                if (mp2_PlayersCopy[i].coins > mp2_PlayersCopy[i].coins_mg) {
-                    mp2_PlayersCopy[i].coins_mg = mp2_PlayersCopy[i].coins;
+                mp2_PlayersCopy[i].mg_star_coins += coinsEarned;
+                if (mp2_PlayersCopy[i].coins > mp2_PlayersCopy[i].coins_total) {
+                    mp2_PlayersCopy[i].coins_total = mp2_PlayersCopy[i].coins;
                 }
             }
             
@@ -133,13 +131,13 @@ void mp1_newBootLogo(void) {
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp1_gPlayers[i].coins - mp3_PlayersCopy[i].coins;
                 mp3_PlayersCopy[i].coins += coinsEarned;
-                if (mp3_PlayersCopy[i].coins < 0) {
-                    mp3_PlayersCopy[i].coins = 0;
-                }
+                // if (mp3_PlayersCopy[i].coins < 0) {
+                //     mp3_PlayersCopy[i].coins = 0;
+                // }
                 
-                mp3_PlayersCopy[i].minigameCoinsTotal += coinsEarned;
-                if (mp3_PlayersCopy[i].coins > mp3_PlayersCopy[i].coinsPeak) {
-                    mp3_PlayersCopy[i].coinsPeak = mp3_PlayersCopy[i].coins;
+                mp3_PlayersCopy[i].mg_star_coins += coinsEarned;
+                if (mp3_PlayersCopy[i].coins > mp3_PlayersCopy[i].coins_total) {
+                    mp3_PlayersCopy[i].coins_total = mp3_PlayersCopy[i].coins;
                 }
             }
             
