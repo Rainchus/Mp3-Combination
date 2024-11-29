@@ -102,7 +102,7 @@ setCustomMinigameIndex:
         NOP
 
     isMp2Minigame:
-        JAL StoreBattleMinigameCoins
+        JAL mp3_StoreBattleMinigameCoins
         NOP
 
         //swap to mp2
@@ -183,9 +183,24 @@ checkIfCursorShouldMove:
     //J 0x800FCDE0
     //LW v1, 0x1240 (v1)
 
-IfMidTurnMinigameCheckAsm2:
-    JAL IfMidTurnMinigameCheck
+mp3_IfMidTurnMinigameCheckAsm2:
+    JAL mp3_IfMidTurnMinigameCheck
     NOP
     LUI v0, 0x800D
     J 0x800FCAD0
     LW v0, 0x1240 (v0)
+
+mp2_IfMidTurnMinigameCheckAsm2:
+    JAL mp2_IfMidTurnMinigameCheck
+    NOP
+    LUI v0, 0x800E
+    J 0x800653F0
+    LW v0, 0x1F8C (v0)
+
+EepromCheckAsmHook:
+    JAL EepromTypeSet
+        ADDU a0, v0, r0
+    
+    ADDU a0, v0, r0
+    J 0x8000C254
+    SLL v0, v0, 16

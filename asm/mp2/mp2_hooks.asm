@@ -67,3 +67,7 @@
 .org 0x80018AFC
     J rand8_Shared
     NOP
+
+.org 0x800653E8
+    JAL mp2_IfMidTurnMinigameCheckAsm2
+    NOP

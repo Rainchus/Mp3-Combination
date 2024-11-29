@@ -17,11 +17,25 @@ s32 WriteEepromCustom(void);
 
 extern s32 shouldShowKofiText;
 s32 shouldShowCustomSplashScreen = 0;
+s32 eepType = -1;
+
+s32 EepromTypeSet(s32 arg0) {
+    eepType = arg0;
+    return arg0;
+}
 
 void NewInitialSplashScreen(void) {
     s16 temp_v0;
     s32 temp_v0_2;
     s32 temp_s0;
+    s32 eepresult;
+
+    if (eepType != EEPROM_TYPE_16K) {
+        mp3_omOvlCallEx(0, 0, 0);
+        mp3_HuPrcExit();
+    }
+
+    eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, 0x18);
 
     temp_v0 = func_8000B838_C438(CUSTOM_LOGO);
     temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
@@ -214,7 +228,13 @@ void mp3_newBootLogos(void) {
             }
         } else if (CurBaseGame == MP2_BASE) {
             s32 i;
-            //copy over player changes
+            //award battle minigame coins/extra coins if they were collected
+            // if (isMidTurnMinigame == 1) {
+            //     for (i = 0; i < 4; i++) {
+            //         mp3_gPlayers[i].coins += mp3_gPlayers[i].coins_mg_bonus;
+            //     }
+            // }
+
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp3_gPlayers[i].coins - mp2_PlayersCopy[i].coins;
                 mp2_PlayersCopy[i].coins += coinsEarned;
@@ -267,7 +287,13 @@ void mp3_newBootLogos(void) {
     mp3_omInitObjMan(16, 4);
     ForeignMinigameAlreadyLoaded = TRUE;
     mp3_BoardState[0x10] = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame();
     mp3_omOvlCallEx(0x70, 0, 0x192);
+
+    //used for item minigames, duels, and battle minigames
+    if (isMidTurnMinigame == 1) {
+        mp3_BattleMinigameCoins = mp2_BattleMinigameCoins_Copy;
+    }
 
     while (1) {
         mp3_HuPrcVSleep();

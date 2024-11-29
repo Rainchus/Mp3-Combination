@@ -95,6 +95,7 @@ s16 GetMp2ExplanationScreenIndex(s16 arg0) {
         PushMp2MinigamesPlayedList();
         ForeignMinigameIndexToLoad = D_800F93C8;
         ForeignMinigameAlreadyLoaded = FALSE;
+        mp2_StoreBattleMinigameCoins();
         PushMp2OvlHis();
         ComboSwitchGameToMp3();
     } else { //mp1

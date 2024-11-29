@@ -8,6 +8,7 @@
 #define osAppNmiBufferSize 64
 
 //in the eeprom, 0x2C0 through 0x400 is free to use
+u16 mp2_BattleMinigameCoins_Copy = 0;
 u16 mp3_BattleMinigameCoins_Copy = 0;
 s32 shouldShowKofiText = 0;
 
@@ -26,7 +27,7 @@ u16 func_8000B838_C438(s32);
 extern u16 mp2_BattleMinigameCoins;
 extern s32 isBattleMinigame;
 s32 printTimer = 0;
-s32 eepromLoadFailed = 0;
+// s32 eepromLoadFailed = 0;
 //also prevents wacky watches from being found from this point on if not 0
 s32 wackyWatchUsedCopy = 0;
 extern s16 D_800CD0AA;
@@ -263,7 +264,11 @@ void checkosAppNmiBufferReset(s32 resetType) {
     }
 }
 
-void StoreBattleMinigameCoins(void) {
+void mp2_StoreBattleMinigameCoins(void) {
+    mp2_BattleMinigameCoins_Copy = mp2_BattleMinigameCoins;
+}
+
+void mp3_StoreBattleMinigameCoins(void) {
     mp3_BattleMinigameCoins_Copy = mp3_BattleMinigameCoins;
 }
 
@@ -698,28 +703,30 @@ void mp3_LoadMinigameList(void) {
 //     }
 // }
 
-void SetInvalidEepromFound(void) {
-    eepromLoadFailed = 1;
-}
+// void SetInvalidEepromFound(void) {
+//     eepromLoadFailed = 1;
+// }
 
-void InvalidEep2(s32 arg0, s32 arg1, s32 arg2) {
-    if (eepromLoadFailed == 1) {
-        arg1 = 0x01BC; //draw coin off screen
-    }
-    mp3_SetSpriteCenter(arg0, arg1, arg2);
-}
+// void InvalidEep2(s32 arg0, s32 arg1, s32 arg2) {
+//     if (eepromLoadFailed == 1) {
+//         arg1 = 0x01BC; //draw coin off screen
+//     }
+//     mp3_SetSpriteCenter(arg0, arg1, arg2);
+// }
 
-void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    if (eepromLoadFailed == 0) {
-        mp3_HuObjCreate(arg0, arg1, arg2, arg3, arg4);
-    }
-}
+// void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+//     if (eepromLoadFailed == 0) {
+//         mp3_HuObjCreate(arg0, arg1, arg2, arg3, arg4);
+//     }
+// }
+
+extern s32 eepType;
 
 void drawMessageOnBootLogos(void) {
     if (shouldShowKofiText == 1) {
         return;
     }
-    if (mp3_osResetType == 0) {
+    if (mp3_osResetType == 0 && eepType == EEPROM_TYPE_16K) {
         mp3_debug_font_color = 4;
         mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.2.1");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
@@ -770,7 +777,7 @@ u8 rand8_Shared(void) {
 extern s32 mp3_midTurnMinigameThing;
 s32 isMidTurnMinigame = 0;
 
-void IfMidTurnMinigameCheck(void) {
+void mp3_IfMidTurnMinigameCheck(void) {
     if (isMidTurnMinigame) {
         isMidTurnMinigame = 0;
         mp3_midTurnMinigameThing = 0x12;

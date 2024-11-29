@@ -86,6 +86,7 @@
 .definelabel mp2_D_800E1F50_E2B50, 0x800E1F50
 .definelabel mp2_D_800E1F52_E2B52, 0x800E1F52
 .definelabel mp2_rand8, 0x80018AFC
+.definelabel mp2_midTurnMinigameThing, 0x800E1F8C
 
 //hardcoded symbols
 .definelabel mp2_omovlhisidx_copy, 0x807FFB00

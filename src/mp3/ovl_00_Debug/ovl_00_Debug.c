@@ -15,7 +15,7 @@
 s32 pageIndex = 0;
 s32 cursorIndex = 0;
 s32 flipMinigameFlags = 0;
-
+extern s32 eepType;
 extern u8 mp3_D_800D09A8;
 extern OSMesgQueue mp3_D_800CE1A0;
 //unsure if this needs to be aligned, but it cant hurt
@@ -111,11 +111,16 @@ s32 DrawImageWrapper(s32 mainFileSystemID, s32 xPos, s32 yPos) {
     return curESpriteID;
 }
 
-void InvalidEepCheck(s32 xPos, s32 yPos) {
-    if (eepromLoadFailed == 1) {
+void InvalidEepDetected(s32 xPos, s32 yPos) {
+    mp3_omOvlCallEx(0, 0, 0);
+}
+
+void PrintInvalidEepWarning(s32 xPos, s32 yPos) {
+    while (1) {
         mp3_DrawDebugText(xPos, yPos, "INVALID SAVE TYPE FOUND");
         mp3_DrawDebugText(xPos, yPos + 10, "PLEASE SET THE SAVE TYPE TO");
         mp3_DrawDebugText(xPos, yPos + 20, "EEPROM 16KBIT");
+        mp3_HuPrcVSleep();
     }
 }
 
@@ -161,7 +166,7 @@ void newDebugMenuMain(void) {
     
     mp3_HuAudSeqPlay(8);
 
-    if (eepromLoadFailed == 1) {
+    if (eepType != EEPROM_TYPE_16K) {
         s32 invalidEepBoxSpriteId = DrawImageWrapper(MESSAGE_BOX_ID, 0, 0);
         mp3_ScaleESprite(invalidEepBoxSpriteId, 1.25f, 1.0f);
         //mp3_Hu3dModelCreateWrapper(0x000200A2, 0x6A9); //create tumble model
@@ -170,7 +175,7 @@ void newDebugMenuMain(void) {
         while (1) {
             mp3_func_8000BBD4_C7D4(invalidEepBoxSpriteId, xPos, yPos); //set sprite position
             mp3_debug_font_color = 9;
-            InvalidEepCheck(xPos + 27, yPos - 15);
+            PrintInvalidEepWarning(xPos + 27, yPos - 15);
             mp3_HuPrcVSleep();
         }
     }

@@ -660,12 +660,14 @@ mp3MinigameIndexTable minigameLUT[] = {
 
 s32 ForeignMinigameIsMidTurnMinigame(s32 minigameCombinedIndex) {
     s32 i;
-    //find the minigame and get the overlay id for the specific game
+    //find the minigame and check if it's a mid turn minigame
     for (i = 0; i < MINIGAME_END; i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
             if (minigameLUT[i].minigameType == PLAYERS_BATTLE ||
                 minigameLUT[i].minigameType == PLAYERS_DUEL ||
-                minigameLUT[i].minigameType == PLAYERS_ITEM) {
+                minigameLUT[i].minigameType == PLAYERS_ITEM ||
+                minigameLUT[i].minigameType == PLAYERS_1P //pretty sure this check is useless
+                ) {
                 return 1;
             } else {
                 return 0;

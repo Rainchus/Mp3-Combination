@@ -464,6 +464,7 @@ extern mp1_GW_PLAYER mp1_gPlayers[4];
 
 extern u8 mp2_debugMode;
 extern s32 eepromLoadFailed;
+extern s32 isMidTurnMinigame;
 
 u16 func_8000B838_C438(s32);
 s32 InitEspriteSlot(s16, s32, s32);

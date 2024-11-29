@@ -65,11 +65,15 @@
     ADDU a0, s0, r0
 
 
-.org 0x8000C2A8 //remove save type check assert
-    JAL SetInvalidEepromFound
-    NOP
+//.org 0x8000C2A8 //remove save type check assert
+    //JAL InvalidEepDetected
+    //NOP
 
 .org 0x8000C2C0 //remove another save type check assert
-    JAL SetInvalidEepromFound
+    JAL InvalidEepDetected
+    NOP
+
+.org 0x8000C24C
+    JAL EepromCheckAsmHook
     NOP
     

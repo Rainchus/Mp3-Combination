@@ -24,7 +24,7 @@ extern UnkBoardStatus mp2_D_800F93A8;
 extern s8 mp2_D_800F93CD_F9FCD;
 extern s32 CurBaseGame;
 extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
-extern s32 isMidTurnMinigame;
+extern s32 mp2_midTurnMinigameThing;
 
 s16 mp2_func_8001A2F8_1AEF8(s32);
 u16 mp2_func_8001AAAC_1B6AC(s16, s16, u16);
@@ -212,8 +212,8 @@ void LoadBackIntoMp2Board(void) {
 //the blacklisted minigames below are blacklisted due to having issues loading them...
 //once this is fixed this can be removed
 u8 mp2_battleMinigameBlacklist[] = {
-    STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP, SLAP_DOWN, LOCKED_OUT,
-    ALL_FIRED_UP, STORM_CHASERS, EYE_SORE
+    // STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP, SLAP_DOWN, LOCKED_OUT,
+    // ALL_FIRED_UP, STORM_CHASERS, EYE_SORE
 };
 
 u8 mp2_duelMinigameBlacklist[] = {
@@ -435,15 +435,12 @@ void mp2_newBootLogos(void) {
             ComboSwitchGameToMp1();
             return;
         } else if (CurBaseGame == MP3_BASE) {
-                //award battle minigame coins/extra coins if they were collected
-                if (isMidTurnMinigame == 1) {
-                    //is updating isMidTurnMinigame here fine? i would just always do this -
-                    //but normal minigames correctly account for these bonus coins. It's only -
-                    //battles that dont
-                    for (i = 0; i < 4; i++) {
-                        mp2_gPlayers[i].coins += mp2_gPlayers[i].coins_mg_bonus;
-                    }
+            //award battle minigame coins/extra coins if they were collected
+            if (isMidTurnMinigame == 1) {
+                for (i = 0; i < 4; i++) {
+                    mp2_gPlayers[i].coins += mp2_gPlayers[i].coins_mg_bonus;
                 }
+            }
 
             for (i = 0; i < 4; i++) {
                 s32 coinsEarned = mp2_gPlayers[i].coins - mp3_PlayersCopy[i].coins;
@@ -489,5 +486,14 @@ void mp2_newBootLogos(void) {
     mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93A8.unk_20), 0, 0x84);
     while (1) {
         mp2_HuPrcVSleep();
+    }
+}
+
+void mp2_IfMidTurnMinigameCheck(void) {
+    if (isMidTurnMinigame) {
+        //this needs to be done here so turn status is popped correctly
+        LoadMp2PlayerStructs();
+        isMidTurnMinigame = 0;
+        mp2_midTurnMinigameThing = 0xE;
     }
 }

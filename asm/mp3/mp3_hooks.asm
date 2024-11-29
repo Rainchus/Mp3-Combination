@@ -93,7 +93,7 @@
     //NOP
 
 .org 0x800FCAC8
-    JAL IfMidTurnMinigameCheckAsm2
+    JAL mp3_IfMidTurnMinigameCheckAsm2
     NOP
 
 .org 0x800F930C
