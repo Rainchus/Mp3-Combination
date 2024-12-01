@@ -14,6 +14,7 @@
 .include "asm\mp2\mp2_hooks.asm"
 .include "asm\mp2\mp2_symbols.asm"
 .include "asm\mp3\mp3_boot.asm"
+.include "asm\mp3\mp3_crash_screen_binary.asm"
 .include "asm\mp3\mp3_hooks.asm"
 .include "asm\mp3\mp3_ovl_00_hooks.asm"
 .include "asm\mp3\mp3_ovl_58_hooks.asm"

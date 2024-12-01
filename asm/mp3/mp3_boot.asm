@@ -76,4 +76,26 @@
 .org 0x8000C24C
     JAL EepromCheckAsmHook
     NOP
+
+.org 0x8000E7B8
+    mp3_mainThreadCopy:
+    ADDIU sp, sp, -0x18
+    SW ra, 0x0010 (sp)
+    JAL 0x80099424 //crash screen main binary
+    NOP
+    mp3_threadInfiniteLoop:
+    JAL 0x8004F074
+    NOP
+    JAL 0x8000B16C
+    NOP
+    JAL 0x8000BA30
+    NOP
+    JAL 0x80014A3C
+    ORI a0, r0, 2
+    LUI a0, 0x800D
+    ADDIU a0, a0, 0xCF38
+    JAL 0x8001B0B4
+    ADDIU a1, r0, 2
+    J mp3_threadInfiniteLoop
+    NOP
     

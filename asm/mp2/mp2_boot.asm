@@ -83,23 +83,22 @@
 //hook an mp2 looping thread to init a crash screen on its initialization
 .headersize 0x7DFFF400 //ROM Addr of combination rom
 .org 0x8001C81C
-    mainThreadCopy:
-        ADDIU sp, sp, -0x18
-        SW ra, 0x0010 (sp)
-        JAL 0x800C13F0 //crash_screen_init
-        NOP
-        threadInfiniteLoop:
-        JAL 0x8007DA44
-        NOP
-        JAL 0x8002FB6C
-        NOP
-        JAL 0x80020E70
-        NOP
-        LUI a0, 0x0200
-        LUI a1, 0x003D
-        JAL 0x800295D4
-        ORI a1, a1, 0x0800
-        JAL 0x8007C668
-        NOP
-        J threadInfiniteLoop
-        NOP
+    ADDIU sp, sp, -0x18
+    SW ra, 0x0010 (sp)
+    JAL 0x800C13F0 //crash_screen_init
+    NOP
+    mp2_threadInfiniteLoop:
+    JAL 0x8007DA44
+    NOP
+    JAL 0x8002FB6C
+    NOP
+    JAL 0x80020E70
+    NOP
+    LUI a0, 0x0200
+    LUI a1, 0x003D
+    JAL 0x800295D4
+    ORI a1, a1, 0x0800
+    JAL 0x8007C668
+    NOP
+    J mp2_threadInfiniteLoop
+    NOP
