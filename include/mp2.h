@@ -40,8 +40,7 @@ extern mp2_GW_PLAYER mp2_PlayersCopy[4];
 extern s16 mp2_hidden_block_coins_space_index;
 extern s16 mp2_hidden_block_star_space_index;
 extern mp2_BoardStatus mp2_BoardStateCopy;
-extern u16 mp2_BattleMinigameCoins_Copy;
-
+extern s16 mp2_BattleMinigameCoins_Copy;
 extern mp2_BoardStatus mp2_BoardState;
 
 #endif

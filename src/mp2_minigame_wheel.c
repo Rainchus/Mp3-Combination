@@ -13,6 +13,9 @@ extern u8 mp2_prevMinigamesPlayed[MP2_PREV_MINIGAMES_PLAYED_SIZE];
 void PushMp2OvlHis(void);
 void PushMp2BoardState(void);
 
+s16 mp2_hidden_block_coins_space_index_copy = 0;
+s16 mp2_hidden_block_star_space_index_copy = 0;
+
 u8 mp2_newCategoryAmounts[] = {
     0x15, //4p
     0x0B, //1v3
@@ -42,10 +45,6 @@ void mp2_GetNewMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     mp2_func_800890CC(arg0, (char*)arg1, arg2, arg3);
 }
-
-
-s16 mp2_hidden_block_coins_space_index_copy = 0;
-s16 mp2_hidden_block_star_space_index_copy = 0;
 
 void SaveMp2PlayerStructs(void) {
     s32 i;

@@ -32,6 +32,20 @@
 .definelabel mp1_D_800ED5DE, 0x800ED5DE
 .definelabel mp1_rnd_seed, 0x800C2FF4
 .definelabel mp1_osGetCount, 0x80093780
+.definelabel mp1_osMemSize, 0x80000318
+.definelabel mp1_memcpy, 0x8008C45C
+.definelabel mp1__Printf, 0x80095470
+.definelabel mp1_osWritebackDCache, 0x80088570
+.definelabel mp1_osViBlack, 0x8008B6A0
+.definelabel mp1_osViSwapBuffer, 0x8008B650
+.definelabel mp1___osActiveQueue, 0x800C64AC
+.definelabel mp1_osSetEventMesg, 0x800935B0
+.definelabel mp1_osRecvMesg, 0x800889E0
+.definelabel mp1_osStopThread, 0x80088E30
+.definelabel mp1_osCreateMesgQueue, 0x80088620
+.definelabel mp1_osCreateThread, 0x80088650
+.definelabel mp1_osStartThread, 0x80088D10
+.definelabel mp1___osCurrentTime, 0x800F0A30
 
 //hardcoded symbols
 .definelabel mp1_omovlhisidx_copy, 0x807FF900

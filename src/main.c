@@ -8,8 +8,8 @@
 #define osAppNmiBufferSize 64
 
 //in the eeprom, 0x2C0 through 0x400 is free to use
-u16 mp2_BattleMinigameCoins_Copy = 0;
-u16 mp3_BattleMinigameCoins_Copy = 0;
+s16 mp2_BattleMinigameCoins_Copy = 0;
+s16 mp3_BattleMinigameCoins_Copy = 0;
 s32 shouldShowKofiText = 0;
 
 // u8 CustomMinigamesEepromBytes[] = {
@@ -36,10 +36,11 @@ extern mp2_GW_PLAYER mp2_PlayersCopy[4];
 extern u8 osAppNmiBuffer[osAppNmiBufferSize];
 extern u32 rnd_seed_shared;
 extern s8 D_800B23B0;
-
 extern s16 D_800D6B60;
 extern omOvlHisData D_800D20F0[];
 omOvlHisData mp2_omovlhis_copy[12] = {0};
+extern s16 mp2_hidden_block_coins_space_index_copy;
+extern s16 mp2_hidden_block_star_space_index_copy;
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE] = {0};
@@ -211,16 +212,13 @@ void CopyMp2_gPlayerCopy_To_Mp3(void) {
     }
 }
 
-u8 mp3_hidden_block_item_space_copy = 0;
-u8 mp3_hidden_block_coins_space_copy = 0;
-u8 mp3_hidden_block_star_space_copy = 0;
+s16 mp3_hidden_block_item_space_copy = 0;
+s16 mp3_hidden_block_coins_space_copy = 0;
+s16 mp3_hidden_block_star_space_copy = 0;
 
-u8 mp2_hidden_block_coins_space_copy = 0;
-u8 mp2_hidden_block_star_space_copy = 0;
-
-extern u8 mp3_hidden_block_item_space_index; //hidden_block_item_space
-extern u8 mp3_hidden_block_coins_space_index; //hidden_block_coins_space
-extern u8 mp3_hidden_block_star_space_index; //hidden_block_star_space
+extern s16 mp3_hidden_block_item_space_index; //hidden_block_item_space
+extern s16 mp3_hidden_block_coins_space_index; //hidden_block_coins_space
+extern s16 mp3_hidden_block_star_space_index; //hidden_block_star_space
 
 void SaveMp3PlayerStructs(void) {
     s32 i;
@@ -250,8 +248,8 @@ void LoadMp2PlayerStructs(void) {
         mp2_gPlayers[i] = mp2_PlayersCopy[i];
     }
 
-    mp2_hidden_block_coins_space_index = mp2_hidden_block_coins_space_copy;
-    mp2_hidden_block_star_space_index = mp2_hidden_block_star_space_copy;
+    mp2_hidden_block_coins_space_index = mp2_hidden_block_coins_space_index_copy;
+    mp2_hidden_block_star_space_index = mp2_hidden_block_star_space_index_copy;
 }
 
 void checkosAppNmiBufferReset(s32 resetType) {

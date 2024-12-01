@@ -204,3 +204,10 @@ EepromCheckAsmHook:
     ADDU a0, v0, r0
     J 0x8000C254
     SLL v0, v0, 16
+
+mp1_prevCode:
+    LW ra, 0x0018 (sp)
+    LW s1, 0x0014 (sp)
+    LW s0, 0x0010 (sp)
+    JR RA
+    ADDIU sp, sp, 0x20

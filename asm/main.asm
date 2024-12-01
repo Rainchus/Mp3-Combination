@@ -5,6 +5,7 @@
 .include "rom_start.asm"
 .include "asm\mp1\mp1_boot.asm"
 .include "asm\mp1\mp1_boot_logos.asm"
+.include "asm\mp1\mp1_crash_screen.asm"
 .include "asm\mp1\mp1_hooks.asm"
 .include "asm\mp1\mp1_symbols.asm"
 .include "asm\mp2\mp2_boot.asm"

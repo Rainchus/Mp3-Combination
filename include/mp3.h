@@ -98,7 +98,7 @@ extern u8 mp3_BoardState[BOARD_STATE_STRUCT_SIZE];
 extern OSMesgQueue mp3_D_800CE1A0;
 extern u8 customEepromData[0x140];
 extern s32 ForeignMinigameIndexToLoad;
-extern u16 mp3_BattleMinigameCoins;
+extern s16 mp3_BattleMinigameCoins;
 extern s16 mp3_D_800D530C;
 extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];
 
