@@ -270,14 +270,14 @@ enum MinigameIDs {
     MINIGAME_END
 };
 
-typedef struct mp3MinigameIndexTable {
+typedef struct MinigameIndexTable {
     u8 minigameIndex; //index for string look up and id tracking
     char* minigameStr;
     u8 gameOverlayID; //actual overlay index in the game
     u8 minigameType;
-} mp3MinigameIndexTable;
+} MinigameIndexTable;
 
-extern mp3MinigameIndexTable minigameLUT[];
+extern MinigameIndexTable minigameLUT[];
 
 typedef struct mp1_GW_PLAYER {
 /* 0x00 */ u8 group;
@@ -466,6 +466,7 @@ extern u8 mp2_debugMode;
 extern s32 eepromLoadFailed;
 extern s32 isMidTurnMinigame;
 
+s32 ForeignMinigameIsMidTurnMinigame(s32);
 u16 func_8000B838_C438(s32);
 s32 InitEspriteSlot(s16, s32, s32);
 void crash_screen_init(void);

@@ -15,6 +15,8 @@ void mp3_omInitObjMan(s32, s32);
 void mp3_PlaySound(s16);
 s32 WriteEepromCustom(void);
 
+mp1BoardState mp1_BoardStateCopy = {0};
+
 extern s32 shouldShowKofiText;
 s32 shouldShowCustomSplashScreen = 0;
 s32 eepType = -1;
@@ -219,7 +221,6 @@ void mp3_newBootLogos(void) {
     
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP3_BASE) {
-            //TODO: load back into mp3 board
             mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
             LoadBackIntoMp3Board();
             mp3_HuPrcEnd();
@@ -275,19 +276,18 @@ void mp3_newBootLogos(void) {
     if (CurBaseGame == MP3_BASE) {
         mp3_OriginalBootLogos();
     } else if (CurBaseGame == MP2_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
-        CopyMp2_gPlayerCopy_To_Mp3(); //TODO: is this wrong?
+        CopyMp2_gPlayerCopy_To_Mp3();
         mp3_BoardState[0x13] = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp3();
-        //TODO: fill in mp1
-        //mp3_BoardState[0x13] = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
+        mp3_BoardState[0x13] = mp1_BoardState.minigameExplanation;
     }
 
     //load minigame
     mp3_omInitObjMan(16, 4);
     ForeignMinigameAlreadyLoaded = TRUE;
     mp3_BoardState[0x10] = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
-    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame();
+    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
     mp3_omOvlCallEx(0x70, 0, 0x192);
 
     //used for item minigames, duels, and battle minigames

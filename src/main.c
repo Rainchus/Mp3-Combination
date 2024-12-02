@@ -7,6 +7,9 @@
 #define WARM_BOOT 1
 #define osAppNmiBufferSize 64
 
+
+extern s16 mp1_omovlhisidx_copy;
+
 //in the eeprom, 0x2C0 through 0x400 is free to use
 s16 mp2_BattleMinigameCoins_Copy = 0;
 s16 mp3_BattleMinigameCoins_Copy = 0;
@@ -38,6 +41,7 @@ extern u32 rnd_seed_shared;
 extern s8 D_800B23B0;
 extern s16 D_800D6B60;
 extern omOvlHisData D_800D20F0[];
+omOvlHisData mp1_omovlhis_copy[12] = {0};
 omOvlHisData mp2_omovlhis_copy[12] = {0};
 extern s16 mp2_hidden_block_coins_space_index_copy;
 extern s16 mp2_hidden_block_star_space_index_copy;
@@ -66,6 +70,15 @@ void PushMp2OvlHis(void) {
         mp2_omovlhis_copy[i] = mp2_omovlhis[i];
     }
     mp2_omovlhisidx_copy = mp2_omovlhisidx;
+}
+
+void PushMp1OvlHis(void) {
+    s32 i;
+
+    for (i = 0; i < 12; i++) {
+        mp1_omovlhis_copy[i] = mp1_omovlhis[i];
+    }
+    mp1_omovlhisidx_copy = mp1_omovlhisidx;
 }
 
 void PushMp3MinigamesPlayedList(void) {
@@ -117,6 +130,15 @@ void PopMp2OvlHis(void) {
         mp2_omovlhis[i] = mp2_omovlhis_copy[i];
     }
     mp2_omovlhisidx = mp2_omovlhisidx_copy;
+}
+
+void PopMp1OvlHis(void) {
+    s32 i;
+
+    for (i = 0; i < 12; i++) {
+        mp1_omovlhis[i] = mp1_omovlhis_copy[i];
+    }
+    mp1_omovlhisidx = mp1_omovlhisidx_copy;
 }
 
 //we only want to copy the necessary data so that the mp2 results screen is correct,
@@ -250,6 +272,16 @@ void LoadMp2PlayerStructs(void) {
 
     mp2_hidden_block_coins_space_index = mp2_hidden_block_coins_space_index_copy;
     mp2_hidden_block_star_space_index = mp2_hidden_block_star_space_index_copy;
+}
+
+void LoadMp1PlayerStructs(void) {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        mp1_gPlayers[i] = mp1_PlayersCopy[i];
+    }
+
+    // mp2_hidden_block_coins_space_index = mp2_hidden_block_coins_space_index_copy;
+    // mp2_hidden_block_star_space_index = mp2_hidden_block_star_space_index_copy;
 }
 
 void checkosAppNmiBufferReset(s32 resetType) {
@@ -527,7 +559,7 @@ void mp3_ClearMinigameList(void) {
 }
 
 void mp3_LoadMinigameList(void) {
-    mp3MinigameIndexTable* curMinigameData;
+    MinigameIndexTable* curMinigameData;
     s32 i, j;
     s32 minigameIsBlacklisted;
     u8 minigame4PCount = 0;

@@ -47,6 +47,16 @@
 .definelabel mp1_osStartThread, 0x80088D10
 .definelabel mp1___osCurrentTime, 0x800F0A30
 
+.definelabel mp1_prevMinigamesPlayed, 0x800D6438
+.definelabel mp1_fontTable, 0x800C4DD0
+.definelabel mp1_minigameCategoryCounts, 0x800C4E10
+.definelabel mp1_func_8006D7D8, 0x8006D7D8
+.definelabel mp1_omovlhisidx, 0x800C597E
+.definelabel mp1_omovlhis, 0x800F37F8
+.definelabel mp1_HuPrcEnd, 0x80063514
+.definelabel mp1_D_800F64F2, 0x800F64F2
+.definelabel mp1_boardstate, 0x800ED5C0
+
 //hardcoded symbols
 .definelabel mp1_omovlhisidx_copy, 0x807FF900
 .definelabel mp1_PlayersCopy, 0x807FFA00

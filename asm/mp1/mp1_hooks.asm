@@ -18,3 +18,59 @@
 .org 0x8001758C
     J rand8_Shared
     NOP
+
+//extend minigame font color to support more minigames
+.org 0x80043CC8
+    LUI a1, hi(minigameTextColor)
+    ADDU a1, a1, v0
+    LBU a1, lo(minigameTextColor) (a1)
+
+//poke some minigame wheel related loads from LB -> LBU
+.org 0x80043AE0
+    LBU v1, 0x6454 (v1)
+
+.org 0x80043AEC
+    LBU v0, 0x6454 (v0)
+
+.org 0x80043B24
+    LBU a0, 0x6454 (a0)
+
+.org 0x80043B64
+    LBU v1, 0x6454 (v1)
+
+.org 0x80043B84
+    LBU v0, 0x6454 (v0)
+
+.org 0x80043CA0
+    LBU a1, 0x6454 (a1)
+
+.org 0x80043CC0
+    LBU v0, 0x6454 (v0)
+
+.org 0x800430E8
+    LBU a1, 0x6454 (a1)
+
+.org 0x800432EC
+    LBU a0, 0x6454 (a0)
+    //remove s8 cast
+    NOP
+    NOP
+
+//get minigame string from lookup table if applicable
+.org 0x80043CB0
+    JAL mp1_GetNewMinigameString
+    ADDIU a3, r0, 0x0004
+
+.org 0x80043100
+    JAL mp1_GetNewMinigameString
+    ADDIU a3, r0, 0x0004
+
+.headersize 0x800F665C - 0x42DB31C
+.org 0x800F6660
+    JAL mp1_getMinigameExplanationOverlay
+    NOP
+    //NOPs for clarity (code that is skipped)
+    NOP
+    NOP
+    NOP
+

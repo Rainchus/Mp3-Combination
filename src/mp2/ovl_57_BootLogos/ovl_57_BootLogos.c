@@ -56,7 +56,6 @@ void PopMp2MinigamesPlayedList(void);
 void LoadMp2PlayerStructs(void);
 void PopMp2OvlHis(void);
 void mp2_HuPrcEnd(void);
-s32 ForeignMinigameIsMidTurnMinigame(void);
 
 s32 isBattleMinigame = 0;
 
@@ -128,6 +127,14 @@ mp2_BoardStatus mp2_BoardStateCopy = {0};
 //no idea how large this is or where it starts....
 u8 mp2_OtherBoardStateCopy[0x20] = {0};
 extern u8 mp2_OtherBoardState[0x20];
+
+void PushMp1BoardState(void) {
+    mp1_BoardStateCopy = mp1_BoardState;
+}
+
+void PopMp1BoardState(void) {
+    mp1_BoardState = mp1_BoardStateCopy;
+}
 
 void PushMp2BoardState(void) {
     s32 i;
@@ -282,7 +289,7 @@ void mp2_ClearMinigameList(void) {
 }
 
 void mp2_LoadMinigameList(void) {
-    mp3MinigameIndexTable* curMinigameData;
+    MinigameIndexTable* curMinigameData;
     s32 i, j;
     s32 minigameIsBlacklisted;
     u8 minigame4PCount = 0;
@@ -476,7 +483,7 @@ void mp2_newBootLogos(void) {
     mp2_D_800F93A8.unk_20 = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     mp2_D_800F93A8.unk_22 = 0x55;
     ForeignMinigameAlreadyLoaded = TRUE;
-    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame();
+    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
 
     //used for item minigames, duels, and battle minigames
     if (isMidTurnMinigame == 1) {

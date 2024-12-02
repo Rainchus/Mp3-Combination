@@ -85,8 +85,8 @@
 .org 0x8001C81C
     ADDIU sp, sp, -0x18
     SW ra, 0x0010 (sp)
-    JAL 0x800C13F0 //crash_screen_init
-    NOP
+    //JAL 0x800C13F0 //crash_screen_init
+    //NOP
     mp2_threadInfiniteLoop:
     JAL 0x8007DA44
     NOP

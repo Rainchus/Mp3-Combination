@@ -35,7 +35,7 @@ void mp3_bzero(void*, s32);
 void ComboSwitchGameToMp3(void);
 s32 directionHeldFrames = 0;
 s32 buttonHeld = 0;
-extern mp3MinigameIndexTable minigameLUT[];
+extern MinigameIndexTable minigameLUT[];
 extern u32 mp3_debug_font_color;
 
 void SetMusicID(void) {
@@ -152,7 +152,7 @@ s32 WriteEepromCustom(void) {
 }
 
 void newDebugMenuMain(void) {
-    mp3MinigameIndexTable* curMinigameData;
+    MinigameIndexTable* curMinigameData;
     char outputbuffer[40];
     // s32 eSprite0;
     s32 eSprite1;

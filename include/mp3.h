@@ -102,6 +102,9 @@ extern s16 mp3_BattleMinigameCoins;
 extern s16 mp3_D_800D530C;
 extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];
 
+void mp3_LoadMinigameList(void);
+void LoadBackIntoMp3Board(void);
+void mp3_HuPrcEnd(void);
 void mp3_func_8000BBD4_C7D4(s32, s32, s32);
 void mp3_DrawDebugText(s32 xPos, s32 yPos, char* str);
 void mp3_SetSpriteCenter(s32, s32, s32);

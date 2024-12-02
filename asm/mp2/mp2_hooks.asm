@@ -58,7 +58,9 @@
     ADDU at, at, v0
     LBU v0, lo(mp2_itemMinigameList) (at)
 
-//this fixes a crash when loading back into a mp2 board...not sure what's going on here
+//this fixes a crash with the camera. normally, this gets initialized to 1.0f on -
+//board load, but since we skip some of that, it's 0.0f and divides by zero, causing a crash
+//manually set it to 1.0f
 .org 0x800654C8
     LUI at, 0x800E
     JAL mp2_Unk_Camera_Function

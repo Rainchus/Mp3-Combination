@@ -175,7 +175,7 @@ char WhackAPlantStr[] = {"\x0B""Whack""\x3D""a""\x3D""Plant"}; //mp1 17
 char BashNCashStr[] = {"\x0B""Bash ""\x5C""n""\x5C"" Cash"}; //mp1 20
 char mp1_BowlOverStr[] = {"\x0B""\x5D""MP1""\x5E"" Bowl Over"}; //mp1 21
 char GroundPoundStr[] = {"\x0B""Ground Pound"}; //mp1 22
-char BalloonBurstStr[] = {"\x0B""Balloon Burst"}; //mp1 23
+char mp1_BalloonBurstStr[] = {"\x0B""\x5D""MP1""\x5E"" Balloon Burst"}; //mp1 23
 char CoinBlockBlitzStr[] = {"\x0B""Coin Block Blitz"}; //mp1 24
 char CoinBlockBashStr[] = {"\x0B""Coin Block Bash"}; //mp1 25
 char mp1_SkateboardScamperStr[] = {"\x0B""\x5D""MP1""\x5E"" Skateboard Scamper"}; //mp1 26
@@ -422,7 +422,7 @@ u8 minigameTextColor[] = {
     #endif
 };
 
-mp3MinigameIndexTable minigameLUT[] = {
+MinigameIndexTable minigameLUT[] = {
     {ACES_HIGH, AcesHighStr, 23, PLAYERS_4P},
     {AWFUL_TOWER, AwfulTowerStr, 37, PLAYERS_4P},
     {BOUNCE_N_TROUNCE, BounceNTrounceStr, 24, PLAYERS_4P},
@@ -469,7 +469,7 @@ mp3MinigameIndexTable minigameLUT[] = {
 
     #ifdef MP1
     //mp1 4p minigames
-    {MP1_BALLOON_BURST, BalloonBurstStr, 19, PLAYERS_4P}, //mp1 19
+    {MP1_BALLOON_BURST, mp1_BalloonBurstStr, 19, PLAYERS_4P}, //mp1 19
     {MP1_BOMBS_AWAY, mp1_BombsAwayStr, 34, PLAYERS_4P}, //mp1 34  
     {BOX_MOUNTAIN_MAYHEM, BoxMountainMayhemStr, 23, PLAYERS_4P}, //mp1 23
     {MP1_BUMPER_BALLS, mp1_BumperBallsStr, 30, PLAYERS_4P}, //mp1 30

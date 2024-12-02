@@ -4,7 +4,7 @@
 #define MP2_PREV_MINIGAMES_PLAYED_SIZE 0x1E
 
 void mp2_func_800890CC(s16, char*, s32, s32); //RefreshMsg
-extern mp3MinigameIndexTable minigameLUT[];
+extern MinigameIndexTable minigameLUT[];
 extern s32 ForeignMinigameIndexToLoad;
 extern s16 D_800F93C8;
 NORETURN void ComboSwitchGameToMp3(void);
@@ -80,7 +80,7 @@ void PopMp2MinigamesPlayedList(void) {
 s16 GetMp2ExplanationScreenIndex(s16 arg0) {
     s32 i;
     if (D_800F93C8 >= BOWSER_SLOTS && D_800F93C8 <= DEEP_SEA_SALVAGE) { //mp2
-        mp3MinigameIndexTable* curMinigameData = NULL;
+        MinigameIndexTable* curMinigameData = NULL;
         for (i = 0; i < MINIGAME_END; i++) {
             if (D_800F93C8 == minigameLUT[i].minigameIndex) {
                 curMinigameData = &minigameLUT[i];
