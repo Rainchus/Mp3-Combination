@@ -96,8 +96,7 @@ u8 mp1_minigame1PBlacklist[] = {
 
 s16 mp1_getMinigameExplanationOverlay(s16 arg0) {
     s32 i;
-
-    mp1_D_800F64F2 = 1; //restore from hook
+    
     if (mp1_D_800ED5DE >= MEMORY_MATCH && mp1_D_800ED5DE <= PADDLE_BATTLE) { //mp1
         MinigameIndexTable* curMinigameData = NULL;
         for (i = 0; i < MINIGAME_END; i++) {

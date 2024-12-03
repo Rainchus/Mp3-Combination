@@ -80,11 +80,7 @@
     ADDIU a3, r0, 0x0004
 
 .headersize 0x800F665C - 0x42DB31C
-.org 0x800F6660
+.org 0x800F665C
     JAL mp1_getMinigameExplanationOverlay
-    NOP
-    //NOPs for clarity (code that is skipped)
-    NOP
-    NOP
     NOP
 
