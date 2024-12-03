@@ -19,6 +19,15 @@
     J rand8_Shared
     NOP
 
+//.org 0x80043A80
+    //JAL mp1_GetRandomMinigame
+
+//set category amounts for expanded minigame lists
+.org 0x80043A8C
+    LUI v1, hi(newCategoryAmountsNormalMp1)
+    ADDU v1, v1, s2
+    LBU v1, lo(newCategoryAmountsNormalMp1) (v1)
+
 //extend minigame font color to support more minigames
 .org 0x80043CC8
     LUI a1, hi(minigameTextColor)
@@ -55,6 +64,11 @@
     //remove s8 cast
     NOP
     NOP
+    NOP //remove the -1
+
+//prev minigame load list needs to also be unsigned
+.org 0x80043B70
+    LBU v0, 0x6438 (v0)
 
 //get minigame string from lookup table if applicable
 .org 0x80043CB0

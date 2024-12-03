@@ -56,6 +56,32 @@
 .definelabel mp1_HuPrcEnd, 0x80063514
 .definelabel mp1_D_800F64F2, 0x800F64F2
 .definelabel mp1_boardstate, 0x800ED5C0
+.definelabel mp1_D_800D86B0, 0x800D86B0
+
+//
+.definelabel mp1_GetPlayerStruct, 0x80052A8C
+.definelabel mp1_CreateTextWindow, 0x8004D930
+.definelabel mp1_LoadStringIntoWindow, 0x8006D7D8
+.definelabel mp1_func_8006E070, 0x8006E070
+.definelabel mp1_CreateObject, 0x8003DBE0
+.definelabel mp1_func_8003E174, 0x8003E174
+.definelabel mp1_GetRandomSpaceOfTypeInChain, 0x8004C2CC
+.definelabel mp1_GetAbsSpaceIndexFromChainSpaceIndex, 0x8004C204
+.definelabel mp1_GetChainSpaceIndexFromAbsSpaceIndex, 0x8004C24C
+.definelabel mp1_RNGPercentChance, 0x8004CFC0
+.definelabel mp1_GetSpaceData, 0x8004C1EC
+.definelabel mp1_func_800A0D50, 0x800A0D50
+.definelabel mp1_PlaySound, 0x800602AC
+.definelabel mp1_PlayerIsCPU, 0x80052B20
+.definelabel mp1_D_800F5460, 0x800F5460
+.definelabel mp1_func_800AEFD0, 0x800AEFD0
+.definelabel mp1_func_800A0D00, 0x800A0D00
+.definelabel mp1_DestroyObject, 0x8003E694
+.definelabel mp1_func_80070D90, 0x80070D90
+.definelabel mp1_D_800F98A8_WariosBattleCanyon, 0x800F98A8
+.definelabel mp1_D_800F98B4_WariosBattleCanyon, 0x800F98B4
+.definelabel mp1_D_800F544C, 0x800F544C
+.definelabel mp1_D_800C51B0, 0x800C51B0
 
 //hardcoded symbols
 .definelabel mp1_omovlhisidx_copy, 0x807FF900
