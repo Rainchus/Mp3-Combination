@@ -83,6 +83,18 @@
 .definelabel mp1_D_800F544C, 0x800F544C
 .definelabel mp1_D_800C51B0, 0x800C51B0
 
+
+.definelabel mp1_D_800F8ED0_BowserSpaceEvent, 0x800F8ED0
+.definelabel mp1_func_800F8EA8_BowserSpaceEvent, 0x800F8EA8
+.definelabel mp1_func_800F8DC0_BowserSpaceEvent, 0x800F8DC0
+.definelabel mp1_func_80054654, 0x80054654
+.definelabel mp1_func_80070ED4, 0x80070ED4
+.definelabel mp1_omOvlReturnEx, 0x8005DFB8
+.definelabel mp1_SetBoardFeatureFlag, 0x800597DC
+.definelabel mp1_omOvlGotoEx, 0x8005E044
+.definelabel mp1_func_80059348, 0x80059348
+.definelabel mp1_omOvlHisChg, 0x8005E36C
+
 //hardcoded symbols
 .definelabel mp1_omovlhisidx_copy, 0x807FF900
 .definelabel mp1_PlayersCopy, 0x807FFA00
