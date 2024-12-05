@@ -29,6 +29,7 @@
 .include "asm\combo.s"
 .include "asm\hooked_code.s"
 .importobj "obj\cache.o"
+.importobj "obj\initialSaveFileData.o"
 .importobj "obj\main.o"
 .importobj "obj\mp2_hooks.o"
 .importobj "obj\mp2_minigame_wheel.o"

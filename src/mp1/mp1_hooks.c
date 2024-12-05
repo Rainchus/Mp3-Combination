@@ -52,6 +52,8 @@ s32 mp1_func_80019438_New(UnkEep* arg0) {
     return 2;
 }
 
+extern u8 MarioParty1CompletedSaveData[];
+
 s32 mp1_GetEepType_New(s8** arg0) {
     // s32 eepromProbeResult;
     s32 var_s1;
@@ -80,6 +82,7 @@ s32 mp1_GetEepType_New(s8** arg0) {
                 }
 
                 for (i = 8; i < EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE; i++) {
+                    //mp1_D_800D1B20[i] = MarioParty1CompletedSaveData[i];
                     mp1_D_800D1B20[i] = 0;
                 }
 
@@ -122,5 +125,5 @@ s32 mp1_GetSaveFileChecksum_New(u16 checksumAddrOffset, u16 size) {
 }
 
 u16 mp1_func_8005AFC8_New(void) {
-    return mp1_GetSaveFileChecksum_New(NEW_EEP_OFFSET, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
+    return mp1_GetSaveFileChecksum_New(0, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
 }
