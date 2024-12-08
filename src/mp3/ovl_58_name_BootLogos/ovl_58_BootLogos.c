@@ -15,7 +15,8 @@ void mp3_omInitObjMan(s32, s32);
 void mp3_PlaySound(s16);
 s32 WriteEepromCustom(void);
 
-mp1BoardState mp1_BoardStateCopy = {0};
+mp1_GameStatus mp1_GwSystemCopy = {0};
+mp1_GWCOMMON mp1_GwCommonCopy = {0};
 
 extern s32 shouldShowKofiText;
 s32 shouldShowCustomSplashScreen = 0;
@@ -280,7 +281,7 @@ void mp3_newBootLogos(void) {
         mp3_BoardState[0x13] = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp3();
-        mp3_BoardState[0x13] = mp1_BoardState.minigameExplanation;
+        mp3_BoardState[0x13] = mp1_GwSystemCopy.minigameExplanation;
     }
 
     //load minigame

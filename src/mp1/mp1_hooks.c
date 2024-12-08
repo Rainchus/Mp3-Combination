@@ -7,54 +7,23 @@
 #define EEP_BLOCK_OFFSET NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE
 
 typedef struct UnkEep {
-    u16 unk0;
-    char unk2[2];
-    u8* unk4;
-    u16 unk8;
+/* 0x00 */ u16 dest;
+/* 0x04 */ u8* src;
+/* 0x08 */ u16 size;
 } UnkEep;
 
 extern u8 mp1_D_800D1B20[];
 extern u8 mp1_D_800D1B28[];
 extern OSMesgQueue mp1_D_800EE960;
 extern u8 mp1_D_800C30B0[];
+extern u8 MarioParty1CompletedSaveData[];
 
 s32 mp1_func_800195E0(void);
 s32 mp1_func_80019540(UnkEep* arg0);
 s32 mp1_func_80019438(UnkEep* arg0);
 s32 mp1_GetEepType(s8** arg0);
 
-s32 mp1_func_80019540_New(UnkEep* arg0) {
-    if (mp1_osEepromLongRead(&mp1_D_800EE960, EEP_BLOCK_OFFSET, mp1_D_800D1B20, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
-        return 2;
-    }
-    mp1_bcopy(&mp1_D_800D1B20[arg0->unk0], arg0->unk4, arg0->unk8);
-    return 0;
-}
-
-s32 mp1_func_80019438_New(UnkEep* arg0) {
-    u8 eepromBlockCount;
-    s16 i;
-    // s32 alignmentOffset;
-    s32 startOffset;
-
-    if (arg0->unk0 >= 8) {
-        for (i = 0; i < arg0->unk8; i++) {
-            if (arg0->unk0 + i >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) {
-                break;
-            }
-            mp1_D_800D1B20[arg0->unk0 + i] = arg0->unk4[i];
-        }
-        
-        eepromBlockCount = (arg0->unk0 / EEPROM_BLOCK_SIZE) + EEP_BLOCK_OFFSET;
-        startOffset = (((u8)arg0->unk8 + ((u8)arg0->unk0 & 7) + 7) & 0xF8);
-        return (mp1_osEepromLongWrite(&mp1_D_800EE960, eepromBlockCount, &mp1_D_800D1B20[eepromBlockCount * EEPROM_BLOCK_SIZE], startOffset) != 0) * 2;
-    }
-    return 2;
-}
-
-extern u8 MarioParty1CompletedSaveData[];
-
-s32 mp1_GetEepType_New(s8** arg0) {
+s32 mp1__InitEeprom(s8** arg0) {
     // s32 eepromProbeResult;
     s32 var_s1;
     s16 i;
@@ -82,8 +51,8 @@ s32 mp1_GetEepType_New(s8** arg0) {
                 }
 
                 for (i = 8; i < EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE; i++) {
-                    //mp1_D_800D1B20[i] = MarioParty1CompletedSaveData[i];
-                    mp1_D_800D1B20[i] = 0;
+                    mp1_D_800D1B20[i] = MarioParty1CompletedSaveData[i];
+                    //mp1_D_800D1B20[i] = 0;
                 }
 
                 if (mp1_osEepromLongWrite(&mp1_D_800EE960, EEP_BLOCK_OFFSET + 1, &mp1_D_800D1B20[8], (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - EEPROM_BLOCK_SIZE) != 0) {
@@ -106,24 +75,33 @@ s32 mp1_GetEepType_New(s8** arg0) {
     return 0;
 }
 
-s32 mp1_GetSaveFileChecksum_New(u16 checksumAddrOffset, u16 size) {
-    u16 offset;
-    u16 checksumTotal;
+#define HUDSON_HEADER_SIZE 8
 
-    checksumTotal = 0;
-    checksumAddrOffset += 8;
-
-    while (size--) {
-        offset = checksumAddrOffset;
-        checksumAddrOffset++;
-        checksumTotal += mp1_D_800D1B20[offset];
-        if ((checksumAddrOffset) >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) {
-            break;
-        }
+s32 mp1__ReadEeprom(UnkEep* arg0) {
+    if (mp1_osEepromLongRead(&mp1_D_800EE960, EEP_BLOCK_OFFSET, mp1_D_800D1B20, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
+        return 2;
     }
-    return checksumTotal;
+    mp1_bcopy(&mp1_D_800D1B20[arg0->dest], arg0->src, arg0->size);
+    return 0;
 }
 
-u16 mp1_func_8005AFC8_New(void) {
-    return mp1_GetSaveFileChecksum_New(0, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
+s32 mp1__WriteEeprom(UnkEep* arg0) {
+    u8 eepromBlockOffset;
+    s16 i;
+    s32 alignmentOffset;
+    s32 startOffset;
+
+    if (arg0->dest >= 8) {
+        for (i = 0; i < arg0->size; i++) {
+            if (arg0->dest + i >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) {
+                break;
+            }
+            mp1_D_800D1B20[arg0->dest + i] = arg0->src[i];
+        }
+        
+        eepromBlockOffset = (arg0->dest / EEPROM_BLOCK_SIZE);
+        startOffset = ((u8)arg0->size + ((u8)arg0->dest & 7) + 7) & 0xF8;
+        return (mp1_osEepromLongWrite(&mp1_D_800EE960, eepromBlockOffset + EEP_BLOCK_OFFSET, &mp1_D_800D1B20[eepromBlockOffset * EEPROM_BLOCK_SIZE], startOffset) != 0) * 2;
+    }
+    return 2;
 }

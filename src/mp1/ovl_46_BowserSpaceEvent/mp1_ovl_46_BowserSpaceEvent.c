@@ -1,3 +1,5 @@
+
+
 #include "marioparty.h"
 #include "mp1.h"
 
@@ -15,6 +17,7 @@ void mp1_omOvlHisChg(s16 arg0, s32 overlay, s16 event, s16 stat);
 s32 mp1_omOvlCallEx(s32 arg0, s16 arg1, u16 arg2);
 
 void new_func_800F8B1C_BowserSpaceEvent(void) {
+    #ifdef MP1
     s32 combinedIndex;
 
     if (mp1_func_80072718() == 0) {
@@ -80,4 +83,5 @@ void new_func_800F8B1C_BowserSpaceEvent(void) {
                 break;
         }
     }
+    #endif
 }

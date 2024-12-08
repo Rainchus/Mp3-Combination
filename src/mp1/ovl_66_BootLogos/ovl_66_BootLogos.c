@@ -96,21 +96,24 @@ u8 mp1_minigame1PBlacklist[] = {
 
 s16 mp1_getMinigameExplanationOverlay(s16 arg0) {
     s32 i;
-    
-    if (mp1_D_800ED5DE >= MEMORY_MATCH && mp1_D_800ED5DE <= PADDLE_BATTLE) { //mp1
+    #ifdef MP1
+    if (mp1_GwSystem.curMinigame >= MEMORY_MATCH && mp1_GwSystem.curMinigame <= PADDLE_BATTLE) { //mp1
         MinigameIndexTable* curMinigameData = NULL;
         for (i = 0; i < MINIGAME_END; i++) {
-            if (mp1_D_800ED5DE == minigameLUT[i].minigameIndex) {
+            if (mp1_GwSystem.curMinigame == minigameLUT[i].minigameIndex) {
                 curMinigameData = &minigameLUT[i];
                 break;
             }
         }
-        mp1_D_800ED5DE = curMinigameData->gameOverlayID;
-    } else if (mp1_D_800ED5DE >= HAND_LINE_AND_SINKER && mp1_D_800ED5DE <= MARIO_PUZZLE_PARTY_PRO) { //mp3
+        mp1_GwSystem.curMinigame = curMinigameData->gameOverlayID;
+        return mp1_GwSystem.curMinigame; //restore from hook
+    }
+    #endif
+    if (mp1_GwSystem.curMinigame >= HAND_LINE_AND_SINKER && mp1_GwSystem.curMinigame <= MARIO_PUZZLE_PARTY_PRO) { //mp3
         SaveMp1PlayerStructs();
         PushMp1BoardState();
         PushMp1MinigamesPlayedList();
-        ForeignMinigameIndexToLoad = mp1_D_800ED5DE;
+        ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
         ForeignMinigameAlreadyLoaded = FALSE;
         PushMp1OvlHis();
         ComboSwitchGameToMp3();
@@ -118,12 +121,12 @@ s16 mp1_getMinigameExplanationOverlay(s16 arg0) {
         SaveMp1PlayerStructs();
         PushMp1BoardState();
         PushMp1MinigamesPlayedList();
-        ForeignMinigameIndexToLoad = mp1_D_800ED5DE;
+        ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
         ForeignMinigameAlreadyLoaded = FALSE;
         PushMp1OvlHis();
         ComboSwitchGameToMp2();
     }
-    return mp1_D_800ED5DE; //restore from hook
+    return mp1_GwSystem.curMinigame; //restore from hook
 }
 
 void mp1_GetNewMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -245,9 +248,9 @@ void LoadBackIntoMp1Board(void) {
     PopMp1MinigamesPlayedList();
     LoadMp1PlayerStructs();
 
-    curTurn = mp1_BoardState.curTurn;
-    totalTurns = mp1_BoardState.maxTurns;
-    curBoardIndex = mp1_BoardState.curBoardIndex;
+    curTurn = mp1_GwSystem.currentTurn;
+    totalTurns = mp1_GwSystem.maxTurns;
+    curBoardIndex = mp1_GwSystem.curBoardIndex;
 
     if (curTurn > totalTurns) {
         PopMp1OvlHis();
@@ -517,16 +520,16 @@ void mp1_newBootLogos(void) {
         return;
     } else if (CurBaseGame == MP2_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp2_gPlayerCopy_To_Mp1();
-        mp1_D_800ED5E3 = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off depending on mp2 setting
+        mp1_GwSystem.minigameExplanation = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp1();
-        mp1_D_800ED5E3 = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 setting
+        mp1_GwSystem.minigameExplanation = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 setting
     }
     
     mp1_omInitObjMan(16, 4);
-    mp1_D_800ED5DE = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    mp1_GwSystem.curMinigame = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     ForeignMinigameAlreadyLoaded = TRUE;
-    mp1_omOvlCallEx(0x6F, 0, 0x84); //load explanation screen overlay (might be skipped depending on mp1_D_800ED5E3)
+    mp1_omOvlCallEx(0x6F, 0, 0x84);
     while (1) {
         mp1_HuPrcVSleep();
     }

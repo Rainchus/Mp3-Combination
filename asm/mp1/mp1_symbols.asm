@@ -26,10 +26,8 @@
 .definelabel mp1_HuPrcVSleep, 0x800635B4
 .definelabel mp1_HuPrcSleep, 0x80063550
 .definelabel mp1_omOvlCallEx, 0x8005DF44
-.definelabel mp1_D_800ED5E3, 0x800ED5E3
 .definelabel mp1_gPlayers, 0x800F32B0
 .definelabel mp1_omInitObjMan, 0x8005CF30
-.definelabel mp1_D_800ED5DE, 0x800ED5DE
 .definelabel mp1_rnd_seed, 0x800C2FF4
 .definelabel mp1_osGetCount, 0x80093780
 .definelabel mp1_osMemSize, 0x80000318
@@ -55,7 +53,8 @@
 .definelabel mp1_omovlhis, 0x800F37F8
 .definelabel mp1_HuPrcEnd, 0x80063514
 .definelabel mp1_D_800F64F2, 0x800F64F2
-.definelabel mp1_boardstate, 0x800ED5C0
+.definelabel mp1_GwSystem, 0x800ED5C0
+.definelabel mp1_GwCommon, 0x800ED100
 .definelabel mp1_D_800D86B0, 0x800D86B0
 
 //

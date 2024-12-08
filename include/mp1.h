@@ -4,20 +4,38 @@
 #include "ultra64.h"
 #include "marioparty.h"
 
-typedef struct mp1BoardState {
-/* 0x00 */ char unk_00[0x02];
+typedef struct mp1_GameStatus {
+/* 0x00 */ s16 unk_00;
 /* 0x02 */ s16 curBoardIndex;
 /* 0x04 */ s16 playType; //lite play, standard play, full play (20, 35, 50 turns)
 /* 0x06 */ s16 maxTurns;
-/* 0x08 */ s16 curTurn;
-/* 0x0A */ char unk_0A[0x12];
-/* 0x1C */ s16 playerIndex;
-/* 0x1E */ char unk_1E[4];
+/* 0x08 */ s16 currentTurn;
+/* 0x0A */ s16 chosenStarSpaceIndex;
+/* 0x0C */ s16 starSpaces[7];
+/* 0x1A */ s16 unk_1A;
+/* 0x1C */ s16 curPlayerIndex;
+/* 0x1E */ s16 curMinigame;
+/* 0x20 */ s16 curSpaceIndex;
 /* 0x22 */ u8 saveSetting;
-/* 0x23 */ u8 minigameExplanation;
+/* 0x23 */ s8 minigameExplanation;
 /* 0x24 */ u8 messageSpeed;
-/* 0x25 */ char unk_25[3];
-} mp1BoardState; //0x28 in size???
+/* 0x25 */ char unk_25;
+} mp1_GameStatus; //sizeof 0x26
+
+typedef struct mp1_GwCommon_s {
+/* 0x00 */ u8 unk0;
+/* 0x01 */ char unk_01[1];
+/* 0x02 */ s16 mgRecord[8];
+/* 0x12 */ u8 mgUnlock[7];
+/* 0x19 */ u8 mgBuy[7];
+/* 0x20 */ u16 boardRecord[8][2];
+/* 0x40 */ u32 coinNum;
+/* 0x44 */ s16 starNum;
+/* 0x46 */ s8 unk_46;
+/* 0x47 */ s8 boardItem;
+/* 0x48 */ u8 flag[12];
+/* 0x54 */ s16 boardWork[32];
+} mp1_GWCOMMON; //sizeof 0x94
 
 typedef struct unk_Struct04 {
     /* 0x00 */ Vec3f pos;
@@ -91,10 +109,10 @@ extern omOvlHisData mp1_omovlhis[12];
 extern omOvlHisData mp1_omovlhis_copy[12];
 extern s16 mp1_omovlhisidx;
 extern mp1_GW_PLAYER mp1_PlayersCopy[4];
-extern u8 mp1_D_800ED5E3;
-extern u16 mp1_D_800ED5DE;
-extern mp1BoardState mp1_BoardState;
-extern mp1BoardState mp1_BoardStateCopy;
+extern mp1_GameStatus mp1_GwSystem;
+extern mp1_GameStatus mp1_GwSystemCopy;
+extern mp1_GWCOMMON mp1_GwCommon;
+extern mp1_GWCOMMON mp1_GwCommonCopy;
 extern u8 mp1_D_800F64F2;
 
 #endif

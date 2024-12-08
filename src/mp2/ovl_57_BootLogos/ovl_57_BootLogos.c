@@ -129,11 +129,13 @@ u8 mp2_OtherBoardStateCopy[0x20] = {0};
 extern u8 mp2_OtherBoardState[0x20];
 
 void PushMp1BoardState(void) {
-    mp1_BoardStateCopy = mp1_BoardState;
+    mp1_GwSystemCopy = mp1_GwSystem;
+    mp1_GwCommonCopy = mp1_GwCommon;
 }
 
 void PopMp1BoardState(void) {
-    mp1_BoardState = mp1_BoardStateCopy;
+    mp1_GwSystem = mp1_GwSystemCopy;
+    mp1_GwCommon = mp1_GwCommonCopy;
 }
 
 void PushMp2BoardState(void) {
@@ -472,7 +474,7 @@ void mp2_newBootLogos(void) {
         return;
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp2();
-        mp2_D_800F93CD_F9FCD = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off depending on mp2 setting
+        mp2_D_800F93CD_F9FCD = mp1_GwSystemCopy.minigameExplanation; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp2();
         mp2_D_800F93CD_F9FCD = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 setting

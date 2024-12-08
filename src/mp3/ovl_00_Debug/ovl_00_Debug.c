@@ -2,7 +2,11 @@
 #include "mp3.h"
 
 #define MINIGAMES_PER_PAGE 16
-#define MAX_PAGES 12
+#ifdef MP1
+    #define MAX_PAGES 12
+#else
+    #define MAX_PAGES 9
+#endif
 
 #define BACKGROUND_IMAGE_ID 0x001E0005
 #define MENU_BACKGROUND_IMAGE_ID 0x000E0024
@@ -187,6 +191,11 @@ void newDebugMenuMain(void) {
         s32 xPos = 105;
         s32 yPos = 23;
         s32 currentlyHeldButtons;
+        #ifdef MP1
+            s32 cursorIndexLastPageMax = 13;
+        #else
+            s32 cursorIndexLastPageMax = 9;
+        #endif
 
         // if (mp3_D_800C9520 & 0x200) { //dpad left
         //     mp3_debug_font_color--;
@@ -199,7 +208,7 @@ void newDebugMenuMain(void) {
             switch (currentlyHeldButtons) {
             case 0x400:
                 //hardcoded check for last page
-                if (cursorIndex >= 13 && pageIndex == MAX_PAGES - 1) {
+                if (cursorIndex >= cursorIndexLastPageMax && pageIndex == MAX_PAGES - 1) {
                     cursorIndex = 0; //wrap around
                 } else {
                     if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
@@ -212,7 +221,7 @@ void newDebugMenuMain(void) {
             case 0x800:
                 //hardcoded check for last page
                 if (cursorIndex == 0 && pageIndex == MAX_PAGES - 1) {
-                    cursorIndex = 13; //wrap around
+                    cursorIndex = cursorIndexLastPageMax; //wrap around
                 } else {
                     if (cursorIndex > 0) {
                         cursorIndex--;
@@ -225,7 +234,7 @@ void newDebugMenuMain(void) {
             if (mp3_D_800C9520 & 0x800) { //dpad up
                 //hardcoded check for last page
                 if (cursorIndex == 0 && pageIndex == MAX_PAGES - 1) {
-                    cursorIndex = 13; //wrap around
+                    cursorIndex = cursorIndexLastPageMax; //wrap around
                 } else {
                     if (cursorIndex > 0) {
                         cursorIndex--;
@@ -235,7 +244,7 @@ void newDebugMenuMain(void) {
                 }
             } else if (mp3_D_800C9520 & 0x400) { //dpad down
                 //hardcoded check for last page
-                if (cursorIndex >= 13 && pageIndex == MAX_PAGES - 1) {
+                if (cursorIndex >= cursorIndexLastPageMax && pageIndex == MAX_PAGES - 1) {
                     cursorIndex = 0; //wrap around
                 } else {
                     if (cursorIndex < MINIGAMES_PER_PAGE - 1) {
@@ -260,8 +269,8 @@ void newDebugMenuMain(void) {
             }
         }
         //if swapped to last page, make sure cursor is set accordingly
-        if (cursorIndex > 13 && pageIndex == MAX_PAGES - 1) {
-            cursorIndex = 13; //wrap around
+        if (cursorIndex > cursorIndexLastPageMax && pageIndex == MAX_PAGES - 1) {
+            cursorIndex = cursorIndexLastPageMax; //wrap around
         }
         for (i = 0; i < MINIGAMES_PER_PAGE; i++) {
             s32 minigameIndex = pageIndex * MINIGAMES_PER_PAGE + i;
