@@ -26,10 +26,6 @@
     J LoadOverlayHook_Mp2
     NOP
 
-.org 0x8001B014
-    J mp2_func_8001B014_1BC14_New
-    NOP
-
 //.org 0x8001AD60
 //if this fails, the game hangs
 //it originally checks for a 4Kbit eeprom, but we want to check for 16Kbit since mp3 uses that
@@ -39,45 +35,15 @@
 //mp3 has 2 save files, and will use file slots 1 and 2.
 //slot 3 will be removed from mp3 to make room for mp2's save file
 .org 0x8001ACD0 //replace with decompiled version of function
-    J GetEepType
+    J mp2__InitEeprom
     NOP
 
 .org 0x8001AF0C
-    J func_8001AF0C_1BB0C
-    NOP
-
-.org 0x8001AFD8
-    J func_8001AFD8_1BBD8
+    J mp2__WriteEeprom
     NOP
 
 .org 0x8001B014
-    J func_8001B014_1BC14
-    NOP
-
-.org 0x8001B078
-    J func_8001B078_1BC78
-    NOP
-
-.org 0x8001B0B4
-    J func_8001B0B4_1BCB4
-    NOP
-
-.org 0x8001B0E8
-    J func_8001B0E8_1BCE8
-    NOP
-
-.org 0x8001B114
-    J GetSaveFileChecksum
-    NOP
-
-//mp2 checksum searching patches
-//.headersize 0x8007DC50 - 0x207E850 //0x7E850
-.org 0x8007DC50
-    J func_8007DC50_7E850
-    NOP
-
-.org 0x80068720
-    J func_80068720_69320
+    J mp2__ReadEeprom
     NOP
 
 //hook an mp2 looping thread to init a crash screen on its initialization

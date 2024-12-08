@@ -15,6 +15,7 @@ void mp2_UnkCamThing(f32);
 extern u8 mp2_HUDSON_Header[];
 extern u8 eepromBuffer[(EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)];
 extern OSMesgQueue mp2_D_800FA5E0;
+extern u8 MarioParty2CompletedSaveData[];
 
 typedef struct unkfunc_8001AFD8 {
     s16 unk0;
@@ -36,7 +37,7 @@ typedef struct UnkEep {
     u16 unk8;
 } UnkEep;
 
-s32 GetEepType(s8** arg0) {
+s32 mp2__InitEeprom(s8** arg0) {
     s16 eepromProbeResult;
     s32 var_s1;
     s16 i;
@@ -73,7 +74,8 @@ s32 GetEepType(s8** arg0) {
                 }
 
                 for (i = 8; i < EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE; i++) {
-                    eepromBuffer[i] = 0;
+                    //eepromBuffer[i] = 0;
+                    eepromBuffer[i] = MarioParty2CompletedSaveData[i];
                 }
 
                 //write actual save data (write all eeprom blocks except first)
@@ -97,19 +99,19 @@ s32 GetEepType(s8** arg0) {
     return 0;
 }
 
-s32 func_8001AEDC_1BADC(unkfunc_8001AFD8* arg0) {
-    unkfunc_8007EE0C sp10;
-    unkfunc_8001AFD8* sp20 = arg0; //?
-
-    return mp2_func_8007ee0c_7fa0c(&sp10, &GetEepType, &sp20, 1);
+s32 mp2__ReadEeprom(UnkEep* arg0) {
+    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
+        return 2;
+    }
+    mp2_bcopy(&eepromBuffer[arg0->unk0], arg0->unk4, arg0->unk8);
+    return 0;
 }
 
-s32 func_8001AF0C_1BB0C(UnkEep* arg0) {
+s32 mp2__WriteEeprom(UnkEep* arg0) {
     u8 eepromBlockOffset;
-    u8 eepromBufferOffset;
     s16 i;
     s32 alignmentOffset;
-    s32 size;
+    s32 startOffset;
 
     if (arg0->unk0 >= 8) {
         for (i = 0; i < arg0->unk8; i++) {
@@ -120,87 +122,11 @@ s32 func_8001AF0C_1BB0C(UnkEep* arg0) {
         }
         
         eepromBlockOffset = (arg0->unk0 / EEPROM_BLOCK_SIZE);
-        eepromBufferOffset = eepromBlockOffset;
-        eepromBlockOffset = eepromBlockOffset + EEP_BLOCK_OFFSET;
         alignmentOffset = arg0->unk0 & 7;
-        size = (arg0->unk8 + alignmentOffset + 7) & 0xFFF8;
-        return (mp2_osEepromLongWrite(&mp2_D_800FA5E0, eepromBlockOffset, &eepromBuffer[eepromBufferOffset * EEPROM_BLOCK_SIZE], size) != 0) * 2;
+        startOffset = (arg0->unk8 + alignmentOffset + 7) & 0xFFF8;
+        return (mp2_osEepromLongWrite(&mp2_D_800FA5E0, eepromBlockOffset + EEP_BLOCK_OFFSET, &eepromBuffer[eepromBlockOffset * EEPROM_BLOCK_SIZE], startOffset) != 0) * 2;
     }
     return 2;
-}
-
-void func_8001AFD8_1BBD8(s32 arg0, unkfunc_8001AFD8* arg1, s16 arg2) {
-    unkfunc_8007EE0C sp10;
-    unkfunc_8001AFD8 sp20;
-
-    sp20.unk0 = arg0 + 8;
-    sp20.unk4 = arg1;
-    sp20.unk8 = arg2;
-
-    mp2_func_8007ee0c_7fa0c(&sp10, func_8001AF0C_1BB0C, &sp20, 1);
-}
-
-s32 func_8001B014_1BC14(UnkEep* arg0) {
-    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
-        return 2;
-    }
-    mp2_bcopy(&eepromBuffer[arg0->unk0], arg0->unk4, arg0->unk8);
-    return 0;
-}
-
-void func_8001B078_1BC78(s32 arg0, unkfunc_8001AFD8* arg1, s16 arg2) {
-    unkfunc_8007EE0C sp10;
-    unkfunc_8001AFD8 sp20;
-
-    sp20.unk0 = arg0 + 8;
-    sp20.unk4 = arg1;
-    sp20.unk8 = arg2;
-
-    mp2_func_8007ee0c_7fa0c(&sp10, func_8001B014_1BC14, &sp20, 1);
-}
-
-s32 func_8001B0B4_1BCB4(void) {
-    return (mp2_osEepromWrite(&mp2_D_800FA5E0, 0, &mp2_HUDSON_Header[1]) != 0) * 2;
-}
-
-s32 func_8001B0E8_1BCE8(unkfunc_8001AFD8* arg0) {
-    unkfunc_8007EE0C sp10;
-
-    return mp2_func_8007ee0c_7fa0c(&sp10, &func_8001B0B4_1BCB4, 0, 1);
-}
-
-s32 GetSaveFileChecksum(u16 checksumAddrOffset, u16 size) {
-    u16 offset;
-    u16 checksumTotal;
-
-    checksumTotal = 0;
-    checksumAddrOffset += 8;
-
-    while (size--) {
-        offset = checksumAddrOffset;
-        checksumAddrOffset++;
-        checksumTotal += eepromBuffer[offset];
-        if ((checksumAddrOffset) >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE + NEW_EEP_OFFSET)) {
-            break;
-        }
-    }
-    return checksumTotal;
-}
-
-s32 mp2_func_8001B014_1BC14_New(UnkEep* arg0) {
-    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
-        return 2;
-    }
-    mp2_bcopy(&eepromBuffer[arg0->unk0], arg0->unk4, arg0->unk8);
-    return 0;
-}
-
-u16 func_8007DC50_7E850(void) {
-    return GetSaveFileChecksum(0, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
-}
-
-u16 func_80068720_69320(void) {
-    return GetSaveFileChecksum(0, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - 0x10);
 }
 
 void mp2_Unk_Camera_Function(f32 arg0) {
