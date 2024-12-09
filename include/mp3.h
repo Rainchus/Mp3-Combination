@@ -81,6 +81,36 @@ enum TEXT_COLORS_ADJUSTED {
     TEXT_ADJUST_WHITE
 };
 
+typedef struct mp3_GW_SYSTEM {
+    /* 0x00 - 800CD058 */ s8 playMode; //0x01 - Lite Play pause screen, 0x04 - Story Play pause screen
+    /* 0x01 - 800CD059 */ s8 current_board_index;
+    /* 0x02 - 800CD05A */ s8 total_turns;
+    /* 0x03 - 800CD05B */ s8 current_turn;
+    /* 0x04 - 800CD05C */ s8 current_game_length; // 00=Lite Play,01=Standard Play,02=Full Play,03=Custom Play
+    /* 0x05 - 800CD05D */ s8 current_star_spawn; // Index of star space (index into star_spawn_indices)
+    /* 0x06 - 800CD05E */ s8 star_spawn_indices[7];
+    /* 0x0D - 800CD065 */ s8 unk_0D;
+    /* 0x0E - 800CD066 */ s8 unk_0E;
+    /* 0x0F - 800CD067 */ s8 current_player_index;
+    /* 0x10 - 800CD068 */ s8 minigame_index;
+    /* 0x11 - 800CD069 */ s8 current_space_index;
+    /* 0x12 - 800CD06A */ s8 save_mode; //00 - Save every turn, 01 - Save this turn, 02 - Don't save
+    /* 0x13 - 800CD06B */ s8 show_minigame_explanations; //00 - show, 01 - hide
+    /* 0x14 - 800CD06C */ s8 message_speed; //00 - Fast, 01 - Normal, 02 - Slow
+    /* 0x15 - 800CD06D */ s8 walk_speed; //00 - Fast, 01 - Normal, 02 - Slow
+    /* 0x16 - 800CD06E */ s8 show_com_minigames; //00 - Show COM minigame, 01 - Hide COM minigame
+    /* 0x17 - 800CD06F */ char unk_17[0x26]; //unknown
+    /* 0x3E - 800CD096 */ s8 board_bytes[0x13]; //bytes related to storing information for each board
+    /* 0x51 - 800CD0A9 */ u8 cur_player_used_item; //1 if player already used an item this turn
+    /* 0x52 - 800CD0AA */ char unk_52[5];
+    /* 0x57 - 800CD0AF */ s8 slow_dice_flags;
+    /* 0x58 - 800CD0B0 */ char unk_58[4];
+    /* 0x5C - 800CD0B4 */ u16 bank_coins;
+    /* 0x5E - 800CD0B6 */ u8 data_flags; //unknown what this is, but star spawns are included in this
+    /* 0x5F - 800CD0B7 */ u8 unk_flags;
+    /* 0x60 - 800CD0B8 */ u8 unk_60[0x44];
+} mp3_GW_SYSTEM; //sizeof 0xA4
+
 extern mp3_GW_PLAYER mp3_gPlayers[4];
 extern mp3_GW_PLAYER mp3_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
@@ -94,13 +124,16 @@ extern UnkCastleGroundMessage mp3_D_80110998[];
 extern s32 mp3_D_800B1A30;
 extern s16 mp3_D_800CDA7C[];
 extern u32 mp3_debug_font_color;
-extern u8 mp3_BoardState[BOARD_STATE_STRUCT_SIZE];
+extern mp3_GW_SYSTEM mp3_BoardState;
+extern mp3_GW_SYSTEM mp3_BoardStateCopy;
 extern OSMesgQueue mp3_D_800CE1A0;
 extern u8 customEepromData[0x140];
 extern s32 ForeignMinigameIndexToLoad;
 extern s16 mp3_BattleMinigameCoins;
 extern s16 mp3_D_800D530C;
 extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];
+extern s32 mp3_D_800A12C0;
+extern s32 mp3_D_800A12C4;
 
 void mp3_LoadMinigameList(void);
 void LoadBackIntoMp3Board(void);

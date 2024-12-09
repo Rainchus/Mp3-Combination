@@ -47,7 +47,7 @@ extern s16 mp2_hidden_block_coins_space_index_copy;
 extern s16 mp2_hidden_block_star_space_index_copy;
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
-u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE] = {0};
+mp3_GW_SYSTEM mp3_BoardStateCopy = {0};
 u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 
 void cBootFunction(void) {
@@ -97,21 +97,12 @@ void PopMp3MinigamesPlayedList(void) {
     }
 }
 
-
 void PushMp3BoardState(void) {
-    s32 i;
-
-    for (i = 0; i < BOARD_STATE_STRUCT_SIZE; i++) {
-        mp3_BoardStateCopy[i] = mp3_BoardState[i];
-    }
+    mp3_BoardStateCopy = mp3_BoardState;
 }
 
 void PopMp3BoardState(void) {
-    s32 i;
-
-    for (i = 0; i < BOARD_STATE_STRUCT_SIZE; i++) {
-        mp3_BoardState[i] = mp3_BoardStateCopy[i];
-    }
+    mp3_BoardState = mp3_BoardStateCopy;
 }
 
 void PopMp3OvlHis(void) {
@@ -468,8 +459,6 @@ void LoadBackIntoMp3Board(void) {
     s8 curBoardIndex;
     s32 i;
 
-    //TODO: make mp3_BoardState a real struct...eventually
-
     PopMp3BoardState();
     PopMp3MinigamesPlayedList();
     LoadMp3PlayerStructs();
@@ -477,14 +466,14 @@ void LoadBackIntoMp3Board(void) {
     if (wackyWatchUsedCopy == 2) {
         wackyWatchUsedCopy = 3;
         //set turns as if wacky watch was used
-        mp3_BoardState[3] = mp3_BoardState[2] - 4;
+        mp3_BoardState.current_turn = mp3_BoardState.total_turns - 4;
     }
 
     D_800CD0AA = wackyWatchUsedCopy;
 
-    curTurn = mp3_BoardState[3];
-    totalTurns = mp3_BoardState[2];
-    curBoardIndex = mp3_BoardState[1];
+    curTurn = mp3_BoardState.current_turn;
+    totalTurns = mp3_BoardState.total_turns;
+    curBoardIndex = mp3_BoardState.current_board_index;
 
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
     D_800B23B0 = 1; //is party mode
@@ -758,7 +747,7 @@ void drawMessageOnBootLogos(void) {
     }
     if (mp3_osResetType == 0 && eepType == EEPROM_TYPE_16K) {
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.3.1");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.3.2");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }

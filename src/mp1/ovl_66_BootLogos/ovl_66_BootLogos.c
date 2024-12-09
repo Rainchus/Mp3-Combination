@@ -22,7 +22,6 @@ extern s16 mp1_D_800F5144;
 extern s32 ForeignMinigameIndexToLoad;
 extern s32 CurBaseGame;
 extern u32 mp1_rnd_seed;
-extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
 #define MP1_MINIGAME_PLAY 20
 extern u8 mp1_prevMinigamesPlayed[MP1_MINIGAME_PLAY];
 u8 mp1_prevMinigamesPlayedCopy[MP1_MINIGAME_PLAY] = {0};
@@ -97,6 +96,10 @@ u8 mp1_minigame1PBlacklist[] = {
 s16 mp1_getMinigameExplanationOverlay(s16 arg0) {
     s32 i;
     #ifdef MP1
+    //confusing...but this should prevent converting an already converted ID
+    if (ForeignMinigameAlreadyLoaded == TRUE) { 
+        return mp1_GwSystem.curMinigame; //restore from hook
+    }
     if (mp1_GwSystem.curMinigame >= MEMORY_MATCH && mp1_GwSystem.curMinigame <= PADDLE_BATTLE) { //mp1
         MinigameIndexTable* curMinigameData = NULL;
         for (i = 0; i < MINIGAME_END; i++) {
@@ -523,7 +526,7 @@ void mp1_newBootLogos(void) {
         mp1_GwSystem.minigameExplanation = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp1();
-        mp1_GwSystem.minigameExplanation = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 setting
+        mp1_GwSystem.minigameExplanation = mp3_BoardStateCopy.show_minigame_explanations; //minigame explanations on/off depending on mp3 setting
     }
     
     mp1_omInitObjMan(16, 4);

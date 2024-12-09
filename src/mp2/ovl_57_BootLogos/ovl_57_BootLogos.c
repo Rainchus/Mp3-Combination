@@ -23,7 +23,6 @@ extern s32 ForeignMinigameIndexToLoad;
 extern UnkBoardStatus mp2_D_800F93A8;
 extern s8 mp2_D_800F93CD_F9FCD;
 extern s32 CurBaseGame;
-extern u8 mp3_BoardStateCopy[BOARD_STATE_STRUCT_SIZE];
 extern s32 mp2_midTurnMinigameThing;
 
 s16 mp2_func_8001A2F8_1AEF8(s32);
@@ -477,7 +476,7 @@ void mp2_newBootLogos(void) {
         mp2_D_800F93CD_F9FCD = mp1_GwSystemCopy.minigameExplanation; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp2();
-        mp2_D_800F93CD_F9FCD = mp3_BoardStateCopy[0x13]; //minigame explanations on/off depending on mp3 setting
+        mp2_D_800F93CD_F9FCD = mp3_BoardStateCopy.show_minigame_explanations; //minigame explanations on/off depending on mp3 setting
     }
 
     //load minigame

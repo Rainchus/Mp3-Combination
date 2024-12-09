@@ -222,6 +222,10 @@ void mp3_newBootLogos(void) {
     
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP3_BASE) {
+            u8 TextSpeeds[] = {5, 25, 60};
+            u8 textSpeed = TextSpeeds[mp3_BoardStateCopy.message_speed];
+            mp3_D_800A12C0 = textSpeed;
+            mp3_D_800A12C4 = textSpeed;
             mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
             LoadBackIntoMp3Board();
             mp3_HuPrcEnd();
@@ -278,16 +282,16 @@ void mp3_newBootLogos(void) {
         mp3_OriginalBootLogos();
     } else if (CurBaseGame == MP2_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp2_gPlayerCopy_To_Mp3();
-        mp3_BoardState[0x13] = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
+        mp3_BoardState.show_minigame_explanations = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp3();
-        mp3_BoardState[0x13] = mp1_GwSystemCopy.minigameExplanation;
+        mp3_BoardState.show_minigame_explanations = mp1_GwSystemCopy.minigameExplanation;
     }
 
     //load minigame
     mp3_omInitObjMan(16, 4);
     ForeignMinigameAlreadyLoaded = TRUE;
-    mp3_BoardState[0x10] = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    mp3_BoardState.minigame_index = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
     mp3_omOvlCallEx(0x70, 0, 0x192);
 

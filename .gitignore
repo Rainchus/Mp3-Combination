@@ -1,4 +1,6 @@
 *.z64
+*.v64
+*.n64
 obj/
 .vscode/
 .ninja_deps
