@@ -114,6 +114,8 @@
 .definelabel mp3_midTurnMinigameThing, 0x800D1240
 .definelabel mp3_HuPrcEnd, 0x8004EFD4
 
+.definelabel mp3_osEPiStartDma, 0x80072B40
+
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00
 .definelabel mp3_omovlhis_copy, 0x807FFE00

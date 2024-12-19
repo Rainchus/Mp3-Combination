@@ -247,6 +247,12 @@ void LoadBackIntoMp1Board(void) {
     s8 curBoardIndex;
     s32 i;
 
+    omOvlHisData NormalLoadInHis[] = {
+        {0x81, 0x0000, 0x0091},
+        {0x69, 0x0000, 0x0091},
+        {0x35, 0x0001, 0x0092}
+    };
+
     PopMp1BoardState();
     PopMp1MinigamesPlayedList();
     LoadMp1PlayerStructs();
@@ -255,6 +261,23 @@ void LoadBackIntoMp1Board(void) {
     totalTurns = mp1_GwSystem.maxTurns;
     curBoardIndex = mp1_GwSystem.curBoardIndex;
 
+    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
+
+    //if it's a midturn minigame, always boot back into the board (though this is impossible in mp1 currently)
+    if (isMidTurnMinigame) {
+        //copy a hardcoded overlay history in
+        for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
+            mp1_omovlhis[i] = NormalLoadInHis[i];
+        }
+
+        mp1_omovlhisidx = 2;
+        //load into the board
+        mp1_D_800D86B0 = 1; //required for board events to load back into the board correctly
+        mp1_omOvlCallEx(0x36 + curBoardIndex, 2, 0x92);
+        return;
+    }
+
+    //if game should end, load credits
     if (curTurn > totalTurns) {
         PopMp1OvlHis();
         mp1_omovlhisidx--;
@@ -278,12 +301,6 @@ void LoadBackIntoMp1Board(void) {
         mp1_omOvlCallEx(0x3F, 0, 0x92); //last 5 turns
         return;
     }
-
-    omOvlHisData NormalLoadInHis[] = {
-        {0x81, 0x0000, 0x0091},
-        {0x69, 0x0000, 0x0091},
-        {0x35, 0x0001, 0x0092}
-    };
 
     //copy a hardcoded overlay history in
     for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {

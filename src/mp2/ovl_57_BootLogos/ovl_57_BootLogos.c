@@ -161,6 +161,22 @@ void LoadBackIntoMp2Board(void) {
     s8 curBoardIndex;
     s32 i;
 
+    omOvlHisData NormalLoadInHis[] = {
+        {0x62, 0x0000, 0x0192},
+        {0x62, 0x0000, 0x0192},
+        {0x5B, 0x0000, 0x1014},
+        {0x3D, 0x0001, 0x0192},
+    };
+
+    u8 boardOverlays[] = {
+        0x3E, //western land
+        0x41, //pirate land
+        0x43, //horror land
+        0x45, //space land
+        0x47, //mystery land
+        0x49, //koopa land
+    };
+
     PopMp2BoardState();
     PopMp2MinigamesPlayedList();
     LoadMp2PlayerStructs();
@@ -169,6 +185,22 @@ void LoadBackIntoMp2Board(void) {
     totalTurns = mp2_BoardState.maxTurns;
     curBoardIndex = mp2_BoardState.curBoardIndex;
 
+    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
+
+    //if it's a midturn minigame, always boot back into the board
+    if (isMidTurnMinigame) {
+        //copy a hardcoded overlay history in
+        for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
+            mp2_omovlhis[i] = NormalLoadInHis[i];
+        }
+
+        mp2_omovlhisidx = 3;
+        //load into the board
+        mp2_omOvlCallEx(boardOverlays[curBoardIndex], 2, 0x192);
+        return;
+    }
+
+    //if game should end, load credits
     if (curTurn > totalTurns) {
         PopMp2OvlHis();
         mp2_omovlhisidx--;
@@ -193,25 +225,11 @@ void LoadBackIntoMp2Board(void) {
         return;
     }
 
-    omOvlHisData NormalLoadInHis[] = {
-        {0x62, 0x0000, 0x0192},
-        {0x62, 0x0000, 0x0192},
-        {0x5B, 0x0000, 0x1014},
-        {0x3D, 0x0001, 0x0192},
-    };
-
     //copy a hardcoded overlay history in
     for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
         mp2_omovlhis[i] = NormalLoadInHis[i];
     }
-    u8 boardOverlays[] = {
-        0x3E, //western land
-        0x41, //pirate land
-        0x43, //horror land
-        0x45, //space land
-        0x47, //mystery land
-        0x49, //koopa land
-    };
+
     mp2_omovlhisidx = 3;
     //load into the board
     mp2_omOvlCallEx(boardOverlays[curBoardIndex], 2, 0x192);

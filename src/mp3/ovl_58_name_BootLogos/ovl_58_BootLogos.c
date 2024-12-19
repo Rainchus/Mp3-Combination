@@ -27,18 +27,31 @@ s32 EepromTypeSet(s32 arg0) {
     return arg0;
 }
 
+void mp3_ReadMinigameList(void) {
+    mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, 0x18);
+}
+
 void NewInitialSplashScreen(void) {
     s16 temp_v0;
     s32 temp_v0_2;
     s32 temp_s0;
-    s32 eepresult;
+    //s32 eepresult;
 
     if (eepType != EEPROM_TYPE_16K) {
         mp3_omOvlCallEx(0, 0, 0);
         mp3_HuPrcExit();
     }
+    {
+        //no idea what any of these args do
+        char sp10[16] = {0};
+        s16 temp = 0x20;
 
-    eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, 0x18);
+        //why is it required you do this this way?
+        //and why only when writing? reading works fine?
+        mp3_RequestSIFunction(&sp10, &mp3_ReadMinigameList, &temp, 1);
+    }
+
+    //eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, 0x18);
 
     temp_v0 = func_8000B838_C438(CUSTOM_LOGO);
     temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
@@ -111,6 +124,9 @@ void NewInitialSplashScreen(void) {
     
 }
 
+extern s16 Player1Buttons;
+extern s16 Player1Pressedbuttons;
+
 void mp3_OriginalBootLogos(void) {
     s16 temp_v0_copy;
     s16 temp_v0_3;
@@ -130,6 +146,7 @@ void mp3_OriginalBootLogos(void) {
     mp3_func_8000BCC8_C8C8(temp_s0_copy, 0xFFFF);
 
     mp3_HuWipeFadeIn(0xB, 5);
+
     while (mp3_HuWipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }

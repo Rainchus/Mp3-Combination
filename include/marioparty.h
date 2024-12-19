@@ -5,6 +5,7 @@
 #define BOARD_STATE_STRUCT_SIZE 0x80
 #define EEPROM_ABS_POS 0x2C0
 #define EEPROM_BLOCK_POS EEPROM_ABS_POS / EEPROM_BLOCK_SIZE
+#define EEPROM_BLOCK_VI_POS 0x300 / EEPROM_BLOCK_SIZE
 
 #include "ultra64.h"
 #include "functions.h"

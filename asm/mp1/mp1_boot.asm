@@ -15,7 +15,3 @@
     //NOP
     //J mp1_prevCode
     //NOP
-
-//remove checksum failed (TODO: fix the code to not need this)
-//.org 0x8005B1D0
-    //NOP

@@ -293,15 +293,6 @@ void mp3_StoreBattleMinigameCoins(void) {
     mp3_BattleMinigameCoins_Copy = mp3_BattleMinigameCoins;
 }
 
-omOvlHisData last5Turns[] = {
-    {0x7A, 0x0002, 0x0092},
-    {0x7A, 0x0002, 0x0092},
-    {0x77, 0x0000, 0x0091},
-    {0x47, 0x0001, 0x0192},
-    {0x71, 0x0000, 0x0012},
-    {0x01, 0x0000, 0x0014},
-};
-
 s32 D_80101B40_115760_Copy[] = {
     0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x48
 };
@@ -459,6 +450,13 @@ void LoadBackIntoMp3Board(void) {
     s8 curBoardIndex;
     s32 i;
 
+    omOvlHisData NormalLoadInHis[] = {
+        {0x7A, 0x0002, 0x0092},
+        {0x7A, 0x0002, 0x0092},
+        {0x77, 0x0000, 0x0091},
+        {0x47, 0x0001, 0x0192},
+    };
+
     PopMp3BoardState();
     PopMp3MinigamesPlayedList();
     LoadMp3PlayerStructs();
@@ -477,16 +475,50 @@ void LoadBackIntoMp3Board(void) {
 
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
     D_800B23B0 = 1; //is party mode
+    isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
 
+    //if it was a midturn minigame, it should always boot back into the board
+    if (isMidTurnMinigame) {
+        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+
+        //copy a hardcoded overlay history in
+        for (i = 0; i < ARRAY_COUNT(NormalLoadInHis); i++) {
+            mp3_omovlhis[i] = NormalLoadInHis[i];
+        }
+        mp3_omovlhisidx = 3;
+        //load into the board
+        mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192);
+        return;
+    }
+
+    //if game should end, load credits
     if (curTurn > totalTurns) {
-        PopMp3OvlHis();
-        mp3_omovlhisidx--;
+        omOvlHisData CreditsSceneOvlHis[] = {
+            {0x7A, 0x0002, 0x0092},
+            {0x7A, 0x0002, 0x0092},
+            {0x77, 0x0000, 0x0091},
+            {0x47, 0x0001, 0x0192},
+        };
+
+        //copy a hardcoded overlay history in
+        for (i = 0; i < ARRAY_COUNT(CreditsSceneOvlHis); i++) {
+            mp3_omovlhis[i] = CreditsSceneOvlHis[i];
+        }
+
+        mp3_omovlhisidx = 3;
+        mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
         mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
         return;
     } else if ((totalTurns - curTurn) == 4) {
-        //there's probably a better way to do this over hardcoding the ovl history
+        omOvlHisData last5Turns[] = {
+            {0x7A, 0x0002, 0x0092},
+            {0x7A, 0x0002, 0x0092},
+            {0x77, 0x0000, 0x0091},
+            {0x47, 0x0001, 0x0192},
+            {0x71, 0x0000, 0x0012},
+            {0x01, 0x0000, 0x0014},
+        };
         //set last 5 turns event
-        // PopMp3OvlHis();
         s32 i;
         for (i = 0; i < ARRAY_COUNT(last5Turns); i++) {
             mp3_omovlhis[i] = last5Turns[i];
@@ -497,12 +529,6 @@ void LoadBackIntoMp3Board(void) {
         mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
         return;
     }
-    omOvlHisData NormalLoadInHis[] = {
-        {0x7A, 0x0002, 0x0092},
-        {0x7A, 0x0002, 0x0092},
-        {0x77, 0x0000, 0x0091},
-        {0x47, 0x0001, 0x0192},
-    };
 
     mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
 
@@ -747,7 +773,7 @@ void drawMessageOnBootLogos(void) {
     }
     if (mp3_osResetType == 0 && eepType == EEPROM_TYPE_16K) {
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.3.2");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.3.4");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
