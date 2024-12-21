@@ -265,8 +265,13 @@ void mp3_newBootLogos(void) {
                 if (mp2_PlayersCopy[i].coins < 0) {
                     mp2_PlayersCopy[i].coins = 0;
                 }
+
+                isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
+                //dont count battle minigames in minigame star
+                if (!isMidTurnMinigame) {
+                    mp2_PlayersCopy[i].mg_star_coins += coinsEarned;
+                }
                 
-                mp2_PlayersCopy[i].mg_star_coins += coinsEarned;
                 if (mp2_PlayersCopy[i].coins > mp2_PlayersCopy[i].coins_total) {
                     mp2_PlayersCopy[i].coins_total = mp2_PlayersCopy[i].coins;
                 }
@@ -283,8 +288,13 @@ void mp3_newBootLogos(void) {
                 if (mp1_PlayersCopy[i].coins < 0) {
                     mp1_PlayersCopy[i].coins = 0;
                 }
+
+                isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
+                //dont count battle minigames in minigame star
+                if (!isMidTurnMinigame) {
+                    mp1_PlayersCopy[i].mg_star_coins += coinsEarned;
+                }
                 
-                mp1_PlayersCopy[i].mg_star_coins += coinsEarned;
                 if (mp1_PlayersCopy[i].coins > mp1_PlayersCopy[i].coins_total) {
                     mp1_PlayersCopy[i].coins_total = mp1_PlayersCopy[i].coins;
                 }

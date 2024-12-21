@@ -4,6 +4,30 @@
 #include "ultra64.h"
 #include "marioparty.h"
 
+enum ITEMS {
+    ITEM_NONE = -1,
+    ITEM_MUSHROOM = 0,
+    ITEM_SKELETON_KEY = 1,
+    ITEM_POISON_MUSHROOM = 2,
+    ITEM_REVERSE_MUSHROOM = 3,
+    ITEM_CELLULAR_SHOPPER = 4,
+    ITEM_WARP_BLOCK = 5,
+    ITEM_PLUNDER_CHEST = 6,
+    ITEM_BOWSER_PHONE = 7,
+    ITEM_DUEL_GLOVE = 8,
+    ITEM_LUCKY_LAMP = 9,
+    ITEM_GOLDEN_MUSHROOM = 10,
+    ITEM_BOO_BELL = 11,
+    ITEM_BOO_REPELLENT = 12,
+    ITEM_BOWSER_SUIT = 13,
+    ITEM_MAGIC_LAMP = 14,
+    ITEM_KOOPA_KARD = 15,
+    ITEM_BARTER_BOX = 16,
+    ITEM_LUCKY_CHARM = 17,
+    ITEM_WACKY_WATCH = 18,
+    ITEMS_END
+};
+
 typedef struct mp3_GW_PLAYER {
 /* 0x00 */ u8 group; //for which group you belong to in a minigame
 /* 0x01 */ u8 cpu_difficulty;
@@ -25,7 +49,7 @@ typedef struct mp3_GW_PLAYER {
 /* 0x15 */ u8 chainIndexPrevious;
 /* 0x16 */ u8 spaceIndexPrevious;
 /* 0x17 */ u8 flags2;
-/* 0x18 */ u8 items[3];
+/* 0x18 */ s8 items[3];
 /* 0x1B */ u8 bowser_suit_flags;
 /* 0x1C */ u8 turn_status; //space type landed on (blue, red, etc.)
 /* 0x1D */ s8 playerIndex;

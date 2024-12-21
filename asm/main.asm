@@ -21,6 +21,7 @@
 .include "asm\mp3\mp3_hooks.asm"
 .include "asm\mp3\mp3_ovl_00_hooks.asm"
 .include "asm\mp3\mp3_ovl_58_hooks.asm"
+.include "asm\mp3\mp3_ovl_80_hooks.asm"
 .include "asm\mp3\mp3_ovl_bootlogos.asm"
 .include "asm\mp3\mp3_symbols.asm"
 .include "asm\mp3\ovl_castlegrounds_hooks.asm"
@@ -41,6 +42,7 @@
 .importobj "obj\mp1\ovl_46_BowserSpaceEvent\mp1_ovl_46_BowserSpaceEvent.o"
 .importobj "obj\mp1\ovl_66_BootLogos\ovl_66_BootLogos.o"
 .importobj "obj\mp2\ovl_57_BootLogos\ovl_57_BootLogos.o"
+.importobj "obj\mp3\teams.o"
 .importobj "obj\mp3\ovl_00_Debug\ovl_00_Debug.o"
 .importobj "obj\mp3\ovl_58_name_BootLogos\ovl_58_BootLogos.o"
 
