@@ -105,7 +105,7 @@ extern RGB D_8010188C_1154AC_shared_board[];
 extern s8 D_800D20B1_D2CB1;
 extern s32 D_80101780_1153A0_shared_board;
 extern s16 D_8010559C_1191BC_shared_board[];
-extern s16 D_801018E4_115504_shared_board[4][2];
+extern s16 D_801018E4_115504_shared_board[8][2]; //is this actually [8][2]?
 extern s32 D_80101790_1153B0_shared_board;
 extern f32 D_801055C8_1191E8_shared_board;
 extern s16 D_801055E4_119204_shared_board;

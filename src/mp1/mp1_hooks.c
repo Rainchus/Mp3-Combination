@@ -88,7 +88,6 @@ s32 mp1__ReadEeprom(UnkEep* arg0) {
 s32 mp1__WriteEeprom(UnkEep* arg0) {
     u8 eepromBlockOffset;
     s16 i;
-    s32 alignmentOffset;
     s32 startOffset;
 
     if (arg0->dest >= 8) {

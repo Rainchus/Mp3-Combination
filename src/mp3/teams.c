@@ -13,6 +13,7 @@
 
 #define STARS_TENS_DIGIT 7
 #define STARS_ONES_DIGIT 8
+#define COM_ICON 9
 
 #define ITEMS_POS_OFFSET_X 56
 #define ITEMS_POS_OFFSET_Y 19
@@ -198,7 +199,7 @@ void originalUpdatePlayerBoardStatus(s32 playerIndex) {
 void originalfunc_800F3400_107020_shared_board(omObjData* arg0) {
     BoardStatus* temp_s2;
     s32 var_v1;
-    s32 i, j, k;
+    s32 i, k;
 
     while (1) {
         if (D_800D20B1_D2CB1 == 0) {
@@ -222,7 +223,7 @@ void originalfunc_800F3400_107020_shared_board(omObjData* arg0) {
 
                     for (k = 0; k < 14; k++) {
                         switch (k) {
-                        case 9:
+                        case COM_ICON:
                             if (mp3_gPlayers[i].flags1 & 1) {
                                 break;
                             }
@@ -325,7 +326,7 @@ void originalfunc_800F3400_107020_shared_board(omObjData* arg0) {
 void newfunc_800F3400_107020_shared_board(omObjData* arg0) {
     BoardStatus* temp_s2;
     s32 var_v1;
-    s32 i, j, k;
+    s32 i, k;
 
     while (1) {
         if (D_800D20B1_D2CB1 == 0) {

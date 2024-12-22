@@ -37,7 +37,7 @@ s16 new_func_800F7DCC_WariosBattleCanyon(s32 arg0) {
     s16 temp_a0;
     s32 frameCounter;
     s32 cpuFrameTimer;
-    s32 i;
+    //s32 i;
     u32 isCpu = mp1_PlayerIsCPU(-1);
     s32 frameCooldown = 0;
 

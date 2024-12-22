@@ -79,3 +79,7 @@
 .org 0x800653E8
     JAL mp2_IfMidTurnMinigameCheckAsm2
     NOP
+
+.org 0x80064C98
+    J newfunc_80064C98_65898
+    NOP

@@ -534,3 +534,38 @@ void mp2_IfMidTurnMinigameCheck(void) {
         mp2_midTurnMinigameThing = 0xE;
     }
 }
+
+void newfunc_80064C98_65898(void) {
+    s32 var_a0;
+    s32 var_s2;
+    s32 i;
+
+    //if the minigame was not a mp2 minigame, prevent coins from being awarded
+    if (ForeignMinigameIndexToLoad < BOWSER_SLOTS || ForeignMinigameIndexToLoad > DEEP_SEA_SALVAGE) {
+        for (i = 0; i < 4; i++) {
+            mp2_gPlayers[i].coins_mg_bonus = 0; //for some reason this is sometimes not 0?
+        }
+        return;
+    }
+
+    var_s2 = -1;
+    var_a0 = 0;
+    for (i = 0; i < 4; i++) {
+        if (var_a0 < mp2_gPlayers[i].coins_mg_bonus) {
+            var_s2 = i;
+            var_a0 = mp2_gPlayers[i].coins_mg_bonus;
+        }
+    }
+
+    for (i = 0; i < 4; i++) {
+        if (mp2_gPlayers[i].coins_mg_bonus != 0) {
+            mp2_func_8004CA14_4D614(i, mp2_gPlayers[i].coins_mg_bonus);
+            if (var_s2 == i) {
+                mp2_func_8006135C_61F5C(i, mp2_gPlayers[i].coins_mg_bonus, 1);
+            } else {
+                mp2_func_8006135C_61F5C(i, mp2_gPlayers[i].coins_mg_bonus, 0);    
+            }            
+        }
+    }
+    mp2_HuPrcSleep(30);
+}

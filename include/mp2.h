@@ -32,6 +32,8 @@ typedef struct mp2_BoardState {
     s16 unk_2E;
 } mp2_BoardStatus;
 
+void mp2_func_8004CA14_4D614(s32, s32);
+void mp2_func_8006135C_61F5C(s32, s32, s32);
 u32 mp2_osGetCount(void);
 void mp2_StoreBattleMinigameCoins(void);
 extern omOvlHisData mp2_omovlhis[12];

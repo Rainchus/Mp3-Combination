@@ -94,8 +94,8 @@ u8 mp1_minigame1PBlacklist[] = {
 };
 
 s16 mp1_getMinigameExplanationOverlay(s16 arg0) {
-    s32 i;
     #ifdef MP1
+    s32 i;
     //confusing...but this should prevent converting an already converted ID
     if (ForeignMinigameAlreadyLoaded == TRUE) { 
         return mp1_GwSystem.curMinigame; //restore from hook
