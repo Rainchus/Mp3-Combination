@@ -159,6 +159,9 @@ extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];
 extern s32 mp3_D_800A12C0;
 extern s32 mp3_D_800A12C4;
 
+void mp3_HuFreeFilePerm(void*);
+s16 mp3_func_80055810_56410(void*);
+void* mp3_ReadMainFS(s32);
 void mp3_LoadMinigameList(void);
 void LoadBackIntoMp3Board(void);
 void mp3_HuPrcEnd(void);

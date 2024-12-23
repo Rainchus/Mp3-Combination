@@ -395,7 +395,7 @@ void func_800F8610_10C230_Copy(s32 arg0, s16 arg1, s16 arg2, s32 curBoardIndex) 
 #define MP3_2V2_MINIGAME_MAX 28
 #define MP3_BATTLE_MINIGAME_MAX 17
 #define MP3_ITEM_MINIGAME_MAX 7
-#define MP3_DUEL_MINIGAME_MAX 11
+#define MP3_DUEL_MINIGAME_MAX 16
 #define MP3_TOTAL_CATEGORIES 6
 
 
@@ -415,8 +415,8 @@ u8 mp3_battleMinigameBlacklist[] = {
 };
 
 u8 mp3_duelMinigameBlacklist[] = {
-    PIRATE_LAND_DUEL, WESTERN_LAND_DUEL, SPACE_LAND_DUEL, MYSTERY_LAND_DUEL, HORROR_LAND_DUEL,
-    KOOPA_LAND_DUEL
+    // PIRATE_LAND_DUEL, WESTERN_LAND_DUEL, SPACE_LAND_DUEL, MYSTERY_LAND_DUEL, HORROR_LAND_DUEL,
+    // KOOPA_LAND_DUEL
 };
 
 u8 mp3_itemMinigameBlacklist[] = {

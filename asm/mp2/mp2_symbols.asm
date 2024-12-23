@@ -25,6 +25,7 @@
 .definelabel func_8003f6f0_402f0, 0x8003f6f0; //rom:0x402f0
 .definelabel mp2_omOvlCallEx, 0x800770EC; //rom:0x77CEC
 .definelabel mp2_omOvlHisChg, 0x80077538; // rom:0x78138
+.definelabel mp2__ClearFlag, 0x800683BC;
 .definelabel D_800F93C6, 0x800F93C6;
 .definelabel D_800F93C8, 0x800F93C8;
 

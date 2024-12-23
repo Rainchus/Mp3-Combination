@@ -421,7 +421,7 @@ void mp2_LoadMinigameList(void) {
         }
     }
 }
-
+void mp2__ClearFlag(s32 input);
 //func_80102AD8_36DC78_BootLogos
 void mp2_newBootLogos(void) {
     s32 i;
@@ -510,7 +510,19 @@ void mp2_newBootLogos(void) {
 
     //load minigame
     mp2_omInitObjMan(16, 4);
-    mp2_D_800F93A8.unk_20 = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    u8 duelOverlayIDs[] = {
+        0x3F, //Western land (0x42, 0x00, 0x92)
+        0x42, //Pirate land (0x42, 0x00, 0x92)
+        0x44, //Horror land (0x44, 0x00, 0x92)
+        0x46, //Space land (0x46, 0x00, 0x92)
+        0x48, //Mystery land (0x48, 0x00, 0x92)
+        0x4A, //Koopa land (0x4A, 0x00, 0x92)
+    };
+
+    s32 minigameID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    s32 isDuelMinigame = 0;
+
+    mp2_D_800F93A8.unk_20 = minigameID;
     mp2_D_800F93A8.unk_22 = 0x55;
     ForeignMinigameAlreadyLoaded = TRUE;
     isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
@@ -520,7 +532,23 @@ void mp2_newBootLogos(void) {
         mp2_BattleMinigameCoins = mp3_BattleMinigameCoins_Copy;
     }
 
-    mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93A8.unk_20), 0, 0x84);
+    for (i = 0; i < ARRAY_COUNT(duelOverlayIDs); i++) {
+        if (minigameID == duelOverlayIDs[i]) {
+            isDuelMinigame = 1;
+            break;
+        }
+    }
+
+    if (isDuelMinigame == 1) {
+        //duel minigame start
+        mp2__ClearFlag(0xC);
+        mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93A8.unk_20), 0, 0x92);
+    } else {
+        //normal minigame start
+        mp2_omOvlCallEx(func_8003F6F0_402F0(mp2_D_800F93A8.unk_20), 0, 0x84);
+    }
+
+    
     while (1) {
         mp2_HuPrcVSleep();
     }

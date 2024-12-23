@@ -65,7 +65,7 @@ s32 func_800D9E0C_EDA2C_shared_board(s32);
 void func_800D9D84_ED9A4_shared_board(s32, s16, s32, s32, u16);
 void func_800EE7AC_1023CC_shared_board(omObjData* func);
 s32 BoardPlayerRankCalc(s32 player);
-void newUpdatePlayerBoardStatus(s32);
+void newUpdatePlayerBoardStatus(s32, s32);
 void func_800F6A88_10A6A8_shared_board(s16, u16);
 void func_800F6AD0_10A6F0_shared_board(s32, f32, f32);
 void func_800F6E4C_10AA6C_shared_board(s32, s32, s32*, s32*);
@@ -95,17 +95,18 @@ void func_80054904_55504(s16, s16, s16, s16);
 void UpdatePlayerBoardStatus(s32);
 void SprScale(s16, s16, f32, f32);
 
+extern s16 D_80105592_1191B2_shared_board[];
 extern s32 D_80101788_1153A8_shared_board;
 extern s32 D_8010178C_1153AC_shared_board;
 extern char D_800D5218_D5E18[];
 extern s16 gCoinBlockSpaceIndex;
 extern s16 gStarBlockSpaceIndex;
-extern s16 D_80105588_1191A8_shared_board[];
+extern s16 mp3_D_80105588_1191A8_shared_board[];
 extern RGB D_8010188C_1154AC_shared_board[];
 extern s8 D_800D20B1_D2CB1;
 extern s32 D_80101780_1153A0_shared_board;
 extern s16 D_8010559C_1191BC_shared_board[];
-extern s16 D_801018E4_115504_shared_board[8][2]; //is this actually [8][2]?
+extern s16 D_801018E4_115504_shared_board[12][2]; //is this actually [12][2]?
 extern s32 D_80101790_1153B0_shared_board;
 extern f32 D_801055C8_1191E8_shared_board;
 extern s16 D_801055E4_119204_shared_board;
@@ -121,5 +122,5 @@ extern BoardStatus D_801057E0_119400_shared_board[];
 extern UnkBoard D_80105718_119338_shared_board[16];
 extern s32 D_801055E8_119208_shared_board[];
 extern s32 D_80101F30_115B50_shared_board[3];
-extern s32 D_80101944_115564_shared_board[]; //mainFS ids for character images
-extern s32 D_801019D0_1155F0_shared_board[];
+extern s32 mp3_D_80101944_115564_shared_board[]; //mainFS ids for character images
+extern s32 mp3_D_801019D0_1155F0_shared_board[];

@@ -105,6 +105,18 @@
 .definelabel mp3_osEepromProbe, 0x80072420
 .definelabel mp3_D_800D1350, 0x800D1350
 .definelabel mp3_Hu3dModelCreateWrapper, 0x8000B108
+.definelabel mp3_ReadMainFS, 0x80009C10
+.definelabel mp3_func_80055810_56410, 0x80055810
+.definelabel mp3_HuFreeFilePerm, 0x80009E6C
+.definelabel mp3_D_80105588_1191A8_shared_board, 0x80105588
+.definelabel mp3_D_80101944_115564_shared_board, 0x80101944
+.definelabel mp3_D_801019D0_1155F0_shared_board, 0x801019D0
+.definelabel PlayerBoardStatusRootPosition, 0x80101794
+.definelabel D_80105592_1191B2_shared_board, 0x80105592
+.definelabel func_800552DC_55EDC, 0x800552DC
+.definelabel func_80055458_56058, 0x80055458
+.definelabel D_8010188C_1154AC_shared_board, 0x8010188C
+.definelabel func_80055420_56020, 0x80055420
 
 .definelabel mp3_WriteEepromCommonBuf, 0x8000C8F0
 .definelabel mp3_ReadEepromCommonBuf, 0x8000C954

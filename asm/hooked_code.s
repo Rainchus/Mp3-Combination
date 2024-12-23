@@ -211,3 +211,15 @@ mp1_prevCode:
     LW s0, 0x0010 (sp)
     JR RA
     ADDIU sp, sp, 0x20
+
+checkColorSetAsm:
+    JAL checkColorSet_C_1
+    NOP
+    J 0x800FE254
+    NOP
+
+checkColorSetAsm2:
+    JAL checkColorSet_C_2
+    NOP
+    J 0x800FCD30
+    NOP
