@@ -56,7 +56,13 @@ s32 GetCurrentPlayerScore(s32 arg0) {
 void checkColorSet_C_2(u32 playerIndex, s32 turnStatus) {
     RGB team0Color = {0x00, 0x00, 0xC0}; //blue
     RGB team1Color = {0xC0, 0x00, 0x00}; //red
-    //otherwise it's normal 4p, allow color setting
+    //if not teams, do normal colors
+    if ((mp3_gPlayers[0].flags1 & 0x30) == 0) {
+        func_80055420_56020(D_801057E0_119400_shared_board[playerIndex].playerIndex, 0, D_8010188C_1154AC_shared_board[turnStatus].r, D_8010188C_1154AC_shared_board[turnStatus].g, D_8010188C_1154AC_shared_board[turnStatus].b);
+        D_801057E0_119400_shared_board[playerIndex].spaceType = turnStatus;
+        return;
+    }
+
     if (playerIndex < MAX_PLAYERS) {
         s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
         if (curPlayerTeamIndex == 0) {
@@ -453,8 +459,13 @@ void newfunc_800F4190_107DB0_shared_board(void) {
     D_801018E4_115504_shared_board[1][1] = 0;
 
     spriteIDs = mp3_D_80105588_1191A8_shared_board;
-    //unk sprite id
-    temp_v0 = mp3_ReadMainFS(0x13010F);
+    //if teams, use extended graphic
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        temp_v0 = mp3_ReadMainFS(0x13027A); //extended background graphic
+    } else {
+        temp_v0 = mp3_ReadMainFS(0x13010F); //normal background graphic
+    }
+    
     spriteIDs[0] = mp3_func_80055810_56410(temp_v0);
     mp3_HuFreeFilePerm(temp_v0);
     

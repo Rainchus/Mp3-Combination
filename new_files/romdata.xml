@@ -2873,6 +2873,7 @@
             <file path="mp3_extract/filedata/board/631.anm" comptype="1"/>
             <file path="mp3_extract/filedata/board/632.anm" comptype="1"/>
             <file path="mp3_extract/filedata/board/633.anm" comptype="1"/>
+            <file path="mp3_extract/filedata/board/634.anm" comptype="1"/>
         </datadir>
         <datadir>
             <file path="mp3_extract/filedata/starlift/0.hmf" comptype="1"/>
