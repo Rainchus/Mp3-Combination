@@ -2173,6 +2173,9 @@
             <file path="mp3_extract/filedata/boot/17.anm" comptype="1"/>
             <file path="mp3_extract/filedata/boot/18.hmf" comptype="1"/>
             <file path="mp3_extract/filedata/boot/19.anm" comptype="1"/>
+            <file path="mp3_extract/filedata/boot/20.anm" comptype="1"/>
+            <file path="mp3_extract/filedata/boot/21.anm" comptype="1"/>
+            <file path="mp3_extract/filedata/boot/22.anm" comptype="1"/>
         </datadir>
         <datadir>
             <file path="mp3_extract/filedata/mgroom/0.hmf" comptype="2"/>

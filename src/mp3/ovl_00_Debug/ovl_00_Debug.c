@@ -162,6 +162,8 @@ void newDebugMenuMain(void) {
     s32 eSprite1;
     u8 minigameflag;
     s32 i;
+    s32 eSpriteMainMenu;
+    s32 eSpriteMp3TitleMenu;
     
     mp3_HuPrcVSleep();
     mp3_HuWipeFadeIn(0xFF, 0x10);
@@ -186,6 +188,16 @@ void newDebugMenuMain(void) {
 
     eSprite1 = DrawImageWrapper(MENU_BACKGROUND_IMAGE_ID, 200, 105);
     mp3_ScaleESprite(eSprite1, 1.70f, 1.0f);
+
+    // eSpriteMainMenu = DrawImageWrapper(0x00110016, 154, 125);
+    // mp3_ScaleESprite(eSpriteMainMenu, 1.0f, 1.0f);
+
+    // eSpriteMp3TitleMenu = DrawImageWrapper(0x00100002, 160, 19);
+    // mp3_ScaleESprite(eSpriteMp3TitleMenu, 0.5f, 0.5f);
+
+    // while (1) {
+    //     mp3_HuPrcVSleep();
+    // }
 
     while (1) {
         s32 xPos = 105;

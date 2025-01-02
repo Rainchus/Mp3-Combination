@@ -553,7 +553,7 @@ void mp1_newBootLogos(void) {
         mp1_GwSystem.minigameExplanation = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp1();
-        mp1_GwSystem.minigameExplanation = mp3_BoardStateCopy.show_minigame_explanations; //minigame explanations on/off depending on mp3 setting
+        mp1_GwSystem.minigameExplanation = mp3_GwSystemCopy.show_minigame_explanations; //minigame explanations on/off depending on mp3 setting
     }
     
     mp1_omInitObjMan(16, 4);

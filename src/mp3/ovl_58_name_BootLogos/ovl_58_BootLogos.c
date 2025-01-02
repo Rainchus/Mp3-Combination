@@ -56,7 +56,7 @@ void NewInitialSplashScreen(void) {
     temp_v0 = func_8000B838_C438(CUSTOM_LOGO);
     temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
     temp_s0 = temp_v0_2 & 0xFFFF;
-    mp3_func_8000BBD4_C7D4(temp_s0, 210, 0x78);
+    mp3_func_8000BBD4_C7D4(temp_s0, 210, 0x78); //set sprite pos?
     mp3_func_8000BB54_C754(temp_s0);
     mp3_func_8000BCC8_C8C8(temp_s0, 0xFFFF);
 
@@ -240,7 +240,7 @@ void mp3_newBootLogos(void) {
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP3_BASE) {
             u8 TextSpeeds[] = {5, 25, 60};
-            u8 textSpeed = TextSpeeds[mp3_BoardStateCopy.message_speed];
+            u8 textSpeed = TextSpeeds[mp3_GwSystemCopy.message_speed];
             mp3_D_800A12C0 = textSpeed;
             mp3_D_800A12C4 = textSpeed;
             mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
@@ -309,16 +309,16 @@ void mp3_newBootLogos(void) {
         mp3_OriginalBootLogos();
     } else if (CurBaseGame == MP2_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp2_gPlayerCopy_To_Mp3();
-        mp3_BoardState.show_minigame_explanations = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
+        mp3_GwSystem.show_minigame_explanations = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp3();
-        mp3_BoardState.show_minigame_explanations = mp1_GwSystemCopy.minigameExplanation;
+        mp3_GwSystem.show_minigame_explanations = mp1_GwSystemCopy.minigameExplanation;
     }
 
     //load minigame
     mp3_omInitObjMan(16, 4);
     ForeignMinigameAlreadyLoaded = TRUE;
-    mp3_BoardState.minigame_index = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    mp3_GwSystem.minigame_index = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
     mp3_omOvlCallEx(0x70, 0, 0x192);
 

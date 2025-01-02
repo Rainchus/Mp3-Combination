@@ -114,7 +114,7 @@ void originalUpdatePlayerBoardStatus(s32 playerIndex) {
     }
 }
 
-void originalfunc_800F3400_107020_shared_board(omObjData* arg0) {
+void originalfunc_800F3400_107020_shared_board(mp3_omObjData* arg0) {
     BoardStatus* temp_s2;
     s32 var_v1;
     s32 i, k;
@@ -155,7 +155,7 @@ void originalfunc_800F3400_107020_shared_board(omObjData* arg0) {
 
                             func_80055024_55C24(temp_s2->playerIndex, k, D_8010559C_1191BC_shared_board[mp3_gPlayers[i].items[k - 11]], 0);
                             func_800550F4_55CF4(temp_s2->playerIndex, k, 0);
-                            func_80055294_55E94(temp_s2->playerIndex, k, (i * 5) + 0x478E);
+                            SprPriSet(temp_s2->playerIndex, k, (i * 5) + 0x478E);
                             SprAttrSet(temp_s2->playerIndex, k, 0);
                             var_v1 = k;
                             if (i >= 2) {
@@ -244,8 +244,6 @@ void originalfunc_800F3400_107020_shared_board(omObjData* arg0) {
 //initialize player UIs
 void originalfunc_800F4874_108494_shared_board(s32 playerIndex, s16 arg1, s16 arg2) {
     BoardStatus* boardStatus;
-    f32 temp_f0;
-    f32 temp_f0_2;
 
     boardStatus = &D_801057E0_119400_shared_board[playerIndex];
     boardStatus->unk_18 = arg1;
@@ -310,7 +308,7 @@ void originalfunc_800F3A80_1076A0_shared_board(s32 arg0) {
 
     for (i = 0; i < 2; i++) {
         func_80055024_55C24(temp_s2, i + 2, D_80105592_1191B2_shared_board[i], 0);
-        func_80055294_55E94(temp_s2, i + 2, ((arg0 * 5) + 0x4790));
+        SprPriSet(temp_s2, i + 2, ((arg0 * 5) + 0x4790));
         SprAttrReset(temp_s2, i + 2, 0xFFFF);
         SprAttrSet(temp_s2, i + 2, 0x1000);
         func_800552DC_55EDC(temp_s2, i + 2, 0.0f);
@@ -318,4 +316,156 @@ void originalfunc_800F3A80_1076A0_shared_board(s32 arg0) {
         func_800550B4_55CB4(temp_s2, i + 2, 0.0f);
         func_80055458_56058(temp_s2, i + 2, 0x100);
     }
+}
+
+void originalfunc_800F3F0C_107B2C_shared_board(s32 arg0) {
+    s16 temp_s2;
+
+    temp_s2 = D_801057E0_119400_shared_board[arg0].playerIndex;
+    func_80055024_55C24(temp_s2, 9, D_8010559A_1191BA_shared_board, 0);
+    func_800550F4_55CF4(temp_s2, 9, 0);
+    SprPriSet(temp_s2, 9, ((arg0 * 5) + 0x478E) & 0xFFFF);
+    SprAttrSet(temp_s2, 9, 0);
+    func_80054904_55504(temp_s2, 9, D_80101908_115528_shared_board[0], D_80101908_115528_shared_board[1]);
+    if (!(mp3_gPlayers[arg0].flags1 & 1)) {
+        SprAttrSet(temp_s2, 9, 0x8000);
+    }
+}
+
+s32 originalfunc_800EEA58_102678_shared_board(s32 arg0) {
+    s32 var_a0_2;
+    s32 var_a0;
+    s32 i;
+    s32 score[4];
+
+    if (mp3_GWBoardFlagCheck(0xF) == 0) {
+        return BoardPlayerRankCalc(arg0);
+    }
+    
+    for (i = 0; i < 4; i++) {
+        score[i] = func_800EECB0_1028D0_shared_board(i);
+    }
+
+    //calc what the highest mg coin total is
+    for (i = 0, var_a0_2 = -100000; i < 4; i++) {
+        if (var_a0_2 < mp3_gPlayers[i].mg_star_coins) {
+            var_a0_2 = mp3_gPlayers[i].mg_star_coins;
+        }
+    }
+
+    //award players 1000 points (a star) for having the highest mg coin total
+    for (i = 0; i < 4; i++) {
+        if (mp3_gPlayers[i].mg_star_coins == var_a0_2) {
+            score[i] += 1000;
+        }
+    }
+
+    //calc what the highest amount of coins collected was
+    for (i = 0, var_a0_2 = -100000; i < 4; i++) {
+        if (var_a0_2 < mp3_gPlayers[i].coins_total) {
+            var_a0_2 = mp3_gPlayers[i].coins_total;
+        }
+    }
+
+    //award players 1000 points (a star) for having the highest amount of coins
+    for (i = 0; i < 4; i++) {
+        if (mp3_gPlayers[i].coins_total == var_a0_2) {
+            score[i] += 1000;
+        }
+    }
+
+    //calc what the highest amount of happening spaces landed on was
+    for (i = 0, var_a0_2 = -100000; i < 4; i++) {
+        if (var_a0_2 < mp3_gPlayers[i].happeningSpacesLandedOn) {
+            var_a0_2 =  mp3_gPlayers[i].happeningSpacesLandedOn;
+        }
+    }
+
+    //award players 1000 points (a star) for landing on the most happening spaces
+    for (i = 0; i < 4; i++) {
+        if (mp3_gPlayers[i].happeningSpacesLandedOn == var_a0_2) {
+            score[i] += 1000;
+        }
+    }
+
+    for (i = 0, var_a0 = 0; i < 4; i++) {
+        if (i != arg0) {
+            var_a0 += score[arg0] < score[i];
+        }
+    }
+
+    return var_a0;
+}
+
+/////////
+void originalShowPlayerCoinChange(s32 player, s32 coins) {
+    D_80102C48_116868_shared_board = 1;
+    func_800E1934_F5554_shared_board(player, coins);
+}
+
+s32 originalPlayerHasItem(s32 playerIndex, s32 itemID) {
+    s32 i;
+
+    if (playerIndex == CUR_PLAYER) {
+        playerIndex = mp3_GwSystem.current_player_index;
+    }
+
+    for (i = 0; i < ARRAY_COUNT(mp3_gPlayers->items); i++) {
+        if (mp3_gPlayers[playerIndex].items[i] == itemID) {
+            break;
+        }
+    }
+
+    if (i == 3) {
+        return -1;
+    } else {
+        return i;
+    }
+}
+
+void originalPlayerHasEmptyItemSlot(s32 arg0) {
+    if (arg0 == CUR_PLAYER) {
+        arg0 = mp3_GwSystem.current_player_index;
+    }
+    
+    mp3_PlayerHasItem(arg0, -1);
+}
+
+void originalFixUpPlayerItemSlots(s32 arg0) {
+    s8* playerItems;
+    s32 i;
+
+
+    if (arg0 == -1) {
+        arg0 = mp3_GwSystem.current_player_index;
+    }
+
+    playerItems = mp3_gPlayers[arg0].items;
+
+    for (i = 0; i < 2; i++) {
+        if (playerItems[i] == -1) {
+            playerItems[i] = playerItems[i+1];
+            playerItems[i+1] = -1;
+        }
+    }
+}
+
+void originalAdjustPlayerCoins(s32 arg0, s32 arg1) {
+    mp3_GW_PLAYER* player;
+
+    player = mp3_GetPlayerStruct(arg0);
+    player->coins = player->coins + arg1;
+    if (player->coins >= 1000) {
+        player->coins = 999;
+    }
+    if (player->coins < 0) {
+        player->coins = 0;
+    }
+    if (player->coins_total <= player->coins) {
+        player->coins_total = player->coins;
+    }
+}
+
+s32 originalPlayerHasCoins(s32 playerIndex, s32 requiredCoins) {
+    return mp3_GetPlayerStruct(playerIndex)->coins >= requiredCoins;
 }

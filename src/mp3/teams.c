@@ -37,12 +37,12 @@ s16 newTeamRootPositions[][2] = {
 
 s16 newTeam0RootPositions[][2] = {
     0x0010, 0x0010, //team0 player 0
-    0x000D, 0x0002, //team0 player 1
+    0x001C, 0x0011, //team0 player 1
 };
 
 s16 newTeam1RootPositions[][2] = {
     0x00A0, 0x0010, //team1 player 0
-    0x009D, 0x0002, //team1 player 1
+    0x00AC, 0x0011, //team1 player 1
 };
 
 s32 get_team_index(mp3_GW_PLAYER* player) {
@@ -93,27 +93,124 @@ void newfunc_800F4798_1083B8_shared_board(u32 playerIndex, s32 turnStatus) {
     // }
 }
 
-//used so the placement icon updates correctly
-//in other instances, the game actually 
-s32 BoardPlayerTeamRankCalc(s32 player) {
-    s32 rank;
+//takes player index, gets players current team and scores against the other team
+s32 GetCurrentTeamBonusStarScore(mp3_GW_PLAYER* player) {
+    s32 curPlayerTeam = get_team_index(player);
+    s32 i;
+    mp3_GW_PLAYER* curPlayer1stTeammate = NULL;
+    mp3_GW_PLAYER* otherTeam1stTeammate = NULL;
+    s32 bonusStarsScore = 0;
+
+    s32 team0Stat = -1;
+    s32 team1Stat = -1;
+
+    //find first player from each team
+    for (i = 0; i < 4; i++) {
+        if (get_team_index(&mp3_gPlayers[i]) == curPlayerTeam) {
+            if (curPlayer1stTeammate == NULL) {
+                curPlayer1stTeammate = &mp3_gPlayers[i];
+            }
+        } else {
+            if (otherTeam1stTeammate == NULL) {
+                otherTeam1stTeammate = &mp3_gPlayers[i];
+            }
+        }
+        if (curPlayer1stTeammate != NULL && otherTeam1stTeammate != NULL) {
+            break;
+        }
+    }
+
+    //calculate each teams extra score
+    team0Stat = curPlayer1stTeammate->mg_star_coins;
+    team1Stat = otherTeam1stTeammate->mg_star_coins;
+    if (team0Stat >= team1Stat) {
+        bonusStarsScore += 1000;
+    }
+
+
+    team0Stat = curPlayer1stTeammate->coins_total;
+    team1Stat = otherTeam1stTeammate->coins_total;
+    if (team0Stat >= team1Stat) {
+        bonusStarsScore += 1000;
+    }
+
+    team0Stat = curPlayer1stTeammate->happeningSpacesLandedOn;
+    team1Stat = otherTeam1stTeammate->happeningSpacesLandedOn;
+    if (team0Stat >= team1Stat) {
+        bonusStarsScore += 1000;
+    }
+
+    return bonusStarsScore;
+}
+
+s32 newfunc_800EEA58_102678_shared_board(s32 player) {
     s32 i;
     s32 score[4];
+
+    if (mp3_GWBoardFlagCheck(0xF) == 0) {
+        return BoardPlayerRankCalc(player);
+    }
 
     s32 team0Score = 0;
     s32 team1Score = 0;
 
     s32 curPlayerTeam = get_team_index(&mp3_gPlayers[player]);
+    mp3_GW_PLAYER* curPlayer1stTeammate = NULL;
+    mp3_GW_PLAYER* otherTeam1stTeammate = NULL;
 
-
+    //find first player from each team, calculate their score
     for (i = 0; i < 4; i++) {
-        s32 score = GetCurrentPlayerScore(i);
-        if (mp3_gPlayers[i].flags1 & 0x10) {
-            //is team index 0
-            team0Score += score;
+        if (get_team_index(&mp3_gPlayers[i]) == curPlayerTeam) {
+            if (curPlayer1stTeammate == NULL) {
+                curPlayer1stTeammate = &mp3_gPlayers[i];
+                team0Score += curPlayer1stTeammate->stars * 1000 + curPlayer1stTeammate->coins;
+            }
         } else {
-            //else, team index 1
-            team1Score += score;
+            if (otherTeam1stTeammate == NULL) {
+                otherTeam1stTeammate = &mp3_gPlayers[i];
+                team1Score += otherTeam1stTeammate->stars * 1000 + otherTeam1stTeammate->coins;
+            }
+        }
+        if (curPlayer1stTeammate != NULL && otherTeam1stTeammate != NULL) {
+            break;
+        }
+    }
+
+    team0Score += GetCurrentTeamBonusStarScore(curPlayer1stTeammate);
+    team1Score += GetCurrentTeamBonusStarScore(otherTeam1stTeammate);
+    
+    if (curPlayerTeam == 0) {
+        return team0Score < team1Score;
+    } else {
+        return team1Score < team0Score;
+    }
+}
+
+//used so the placement icon updates correctly
+s32 BoardPlayerTeamRankCalc(s32 player) {
+    s32 i;
+    s32 curPlayerTeam = get_team_index(&mp3_gPlayers[player]);
+    mp3_GW_PLAYER* curPlayer1stTeammate = NULL;
+    mp3_GW_PLAYER* otherTeam1stTeammate = NULL;
+    s32 team0Score = 0;
+    s32 team1Score = 0;
+
+
+    //find first player from each team, calculate their score
+    for (i = 0; i < 4; i++) {
+        if (get_team_index(&mp3_gPlayers[i]) == curPlayerTeam) {
+            if (curPlayer1stTeammate == NULL) {
+                curPlayer1stTeammate = &mp3_gPlayers[i];
+                team0Score += mp3_gPlayers[i].stars * 1000 + mp3_gPlayers[i].coins;
+            }
+        } else {
+            if (otherTeam1stTeammate == NULL) {
+                otherTeam1stTeammate = &mp3_gPlayers[i];
+                team1Score += mp3_gPlayers[i].stars * 1000 + mp3_gPlayers[i].coins;
+            }
+        }
+        if (curPlayer1stTeammate != NULL && otherTeam1stTeammate != NULL) {
+            break;
         }
     }
 
@@ -134,10 +231,10 @@ void newUpdatePlayerBoardStatus(s32 playerIndex, s32 teamIndex) {
 
     //find current player's teammate
     for (i = 0; i < 4; i++) {
+        teammate = &mp3_gPlayers[i];
         if (i == playerIndex) {
             continue;
         }
-        teammate = &mp3_gPlayers[i];
         s32 curPlayerTeam = get_team_index(teammate);
         if (curPlayerTeam == teamIndex) {
             break;
@@ -230,11 +327,8 @@ void newUpdatePlayerBoardStatus(s32 playerIndex, s32 teamIndex) {
     }
 }
 
-
-
-void newfunc_800F3400_107020_shared_board(omObjData* arg0) {
+void newfunc_800F3400_107020_shared_board(mp3_omObjData* arg0) {
     BoardStatus* temp_s2;
-    BoardStatus* temp_s3;
     s32 var_v1;
     s32 i, k;
     u8 teams[2] = {0, 0};
@@ -280,7 +374,7 @@ void newfunc_800F3400_107020_shared_board(omObjData* arg0) {
 
                             func_80055024_55C24(temp_s2->playerIndex, k, D_8010559C_1191BC_shared_board[mp3_gPlayers[i].items[k - 11]], 0);
                             func_800550F4_55CF4(temp_s2->playerIndex, k, 0);
-                            func_80055294_55E94(temp_s2->playerIndex, k, (i * 5) + 0x478E);
+                            SprPriSet(temp_s2->playerIndex, k, (i * 5) + 0x478E);
                             SprAttrSet(temp_s2->playerIndex, k, 0);
                             var_v1 = k;
                             if (i >= 2) {
@@ -310,10 +404,15 @@ void newfunc_800F3400_107020_shared_board(omObjData* arg0) {
                     } else {
                         //it's the second person encountered in this team, only draw face
                         //turn all sprites off
-                        for (j = 0; j < 14; j++) {
+                        for (j = 0; j < 11; j++) {
                             //if face sprite, dont turn sprite off and set high priority
                             if (j == 1) {
-                                func_80055294_55E94(temp_s2->playerIndex, j, 0x1000);
+                                SprPriSet(temp_s2->playerIndex, j, 0x1000);
+                                continue;
+                            }
+                            //dont hide COM text if it's needed
+                            if (j == 9) {
+                                SprPriSet(temp_s2->playerIndex, j, 0xFFF);
                                 continue;
                             }
                             //turn sprite off
@@ -350,10 +449,10 @@ void newfunc_800F3400_107020_shared_board(omObjData* arg0) {
                     //it's the second person encountered in this team, only draw face
                     if (teams2[teamIndex] != 0) {
                         //turn all sprites off
-                        for (j = 0; j < 14; j++) {
+                        for (j = 0; j < 11; j++) {
                             //if face sprite, dont turn sprite off
                             if (j == 1) {
-                                func_80055294_55E94(temp_s2->playerIndex, j, 0x1000);
+                                SprPriSet(temp_s2->playerIndex, j, 0x1000);
                                 SprAttrSet(temp_s2->playerIndex, j, 0x8000);
                             }
                             //turn sprite off
@@ -406,8 +505,6 @@ void newfunc_800F3400_107020_shared_board(omObjData* arg0) {
 //initialize player UIs
 void newfunc_800F4874_108494_shared_board(s32 playerIndex, s16 arg1, s16 arg2) {
     BoardStatus* boardStatus;
-    f32 temp_f0;
-    f32 temp_f0_2;
 
     boardStatus = &D_801057E0_119400_shared_board[playerIndex];
     boardStatus->unk_18 = arg1;
@@ -421,14 +518,12 @@ void newfunc_800F4874_108494_shared_board(s32 playerIndex, s16 arg1, s16 arg2) {
 
 //create sprite IDs for hud elements
 void newfunc_800F4190_107DB0_shared_board(void) {
-    BoardStatus* temp_s2;
     void* temp_v0;
     s32 i;
     s16* spriteIDs;
     s32 sp10[2] = {0x130112, 0x130111};
     s32 team0Set = 0;
     s32 team1Set = 0;
-    u8 teams[2] = {0, 0};
 
     //player icon with "page" background
     s32 originalPlayerHUDIDs[] = {
@@ -531,6 +626,23 @@ void newfunc_800F4190_107DB0_shared_board(void) {
     s32 team0 = 0;
     s32 team1 = 0;
     for (i = 0; i < MAX_PLAYERS; i++) {
+        //if team0, else team1
+        if (mp3_gPlayers[i].flags1 & 0x10) {
+            //team0
+            PlayerBoardStatusRootPosition[i][0] = newTeam0RootPositions[team0][0];
+            PlayerBoardStatusRootPosition[i][1] = newTeam0RootPositions[team0][1];
+            team0++;
+        } else {
+            //team1
+            PlayerBoardStatusRootPosition[i][0] = newTeam1RootPositions[team1][0];
+            PlayerBoardStatusRootPosition[i][1] = newTeam1RootPositions[team1][1];
+            team1++;
+        }
+    }
+
+    team0 = 0;
+    team1 = 0;
+    for (i = 0; i < MAX_PLAYERS; i++) {
         s32 teamIndex = get_team_index(&mp3_gPlayers[i]);
         //if team0, else team1
         if (mp3_gPlayers[i].flags1 & 0x10) {
@@ -547,15 +659,6 @@ void newfunc_800F4190_107DB0_shared_board(void) {
     }
 }
 
-// 00000000 00000000 00030007 0003FFF7
-// 0010000A 001A000A 0024000A 0010FFFA
-// 001AFFFA FFEC000E FFD30000 00030017
-// 00140017 00250017 0003FFE9 0014FFE9
-// 0025FFE9 00040000
-
-// 0x0030, 0x0007
-// 0x0030, 0xFFF7
-
 void newfunc_800F3A80_1076A0_shared_board(s32 arg0) {
     s16 temp_s2;
     s32 i;
@@ -564,7 +667,7 @@ void newfunc_800F3A80_1076A0_shared_board(s32 arg0) {
 
     for (i = 0; i < 2; i++) {
         func_80055024_55C24(temp_s2, i + 2, D_80105592_1191B2_shared_board[i], 0);
-        func_80055294_55E94(temp_s2, i + 2, ((arg0 * 5) + 0x4790));
+        SprPriSet(temp_s2, i + 2, ((arg0 * 5) + 0x4790));
         SprAttrReset(temp_s2, i + 2, 0xFFFF);
         SprAttrSet(temp_s2, i + 2, 0x1000);
         func_800552DC_55EDC(temp_s2, i + 2, 0.0f);
@@ -573,3 +676,277 @@ void newfunc_800F3A80_1076A0_shared_board(s32 arg0) {
         func_80055458_56058(temp_s2, i + 2, 0x100);
     }
 }
+
+
+
+void newfunc_800F3F0C_107B2C_shared_board(s32 arg0) {
+    s32 x;
+    s32 y;
+    s16 temp_s2;
+    s32 i;
+    s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[arg0]);
+    s32 posIndex = -1;
+
+    s16 newCOM_TextPos[4][2] = {
+        {-20, 15}, //player team0 index0
+        {0, 14}, //player team0 index1
+        {-20, 15}, //player team1 index0
+        {0, 14}, //player team1 index1
+    };
+
+    //get player team is on, then get the index of the player
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        //is current player
+        if (arg0 == i) {
+            posIndex = 0;
+            break;
+        }
+        //if 2 players are on the same team and it wasn't the current player
+        if (curPlayerTeamIndex == get_team_index(&mp3_gPlayers[i])) {
+            posIndex = 1;
+            break;
+        }
+    }
+
+    x = newCOM_TextPos[curPlayerTeamIndex * 2 + posIndex][0];
+    y = newCOM_TextPos[curPlayerTeamIndex * 2 + posIndex][1];
+
+    temp_s2 = D_801057E0_119400_shared_board[arg0].playerIndex;
+    func_80055024_55C24(temp_s2, 9, D_8010559A_1191BA_shared_board, 0);
+    func_800550F4_55CF4(temp_s2, 9, 0);
+    SprPriSet(temp_s2, 9, ((arg0 * 5) + 0x478E) & 0xFFFF);
+    SprAttrSet(temp_s2, 9, 0);
+    
+    func_80054904_55504(temp_s2, 9, x, y);
+    if (!(mp3_gPlayers[arg0].flags1 & 1)) {
+        SprAttrSet(temp_s2, 9, 0x8000);
+    }
+}
+
+/////
+void newShowPlayerCoinChange(s32 player, s32 coins) {
+    s32 teamIndex = get_team_index(&mp3_gPlayers[player]);
+    D_80102C48_116868_shared_board = 1;
+    // //find first player in current player team
+    // s32 i;
+    // for (i = 0; i < MAX_PLAYERS; i++) {
+    //     if (teamIndex == get_team_index(&mp3_gPlayers[i])) {
+    //         func_800E1934_F5554_shared_board(player, coins);
+    //         break;
+    //     }
+    // }
+    //always want to pass 0 or 1 for HUD display (so pass team index)
+    func_800E1934_F5554_shared_board(teamIndex, coins);
+}
+
+s32 newPlayerHasItem(s32 playerIndex, s32 itemID) {
+    s32 i;
+    s32 teamIndex;
+    mp3_GW_PLAYER* player0Team0 = NULL;
+    mp3_GW_PLAYER* player1Team0 = NULL;
+
+    if (playerIndex == CUR_PLAYER) {
+        playerIndex = mp3_GwSystem.current_player_index;
+    }
+
+    teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+        if (teamIndex == curPlayerTeam) {
+            if (player0Team0 == NULL) {
+                player0Team0 = &mp3_gPlayers[i];
+            } else {
+                player1Team0 = &mp3_gPlayers[i];
+                break;
+            }
+        }
+    }
+
+    //should this return the index from the combined team (0-4) or -
+    //the index for the specific player's slot?
+    //currently, it returns the item slot for each individual player
+
+    //search first player's inventory (all 3 items)
+    for (i = 0; i < ARRAY_COUNT(mp3_gPlayers->items); i++) {
+        if (player0Team0->items[i] == itemID) {
+            return i;
+        }
+    }
+
+    //search second player's inventory (2 items)
+    for (i = 0; i < 2; i++) {
+        if (player1Team0->items[i] == itemID) {
+            return i;
+        }
+    }
+
+    //wasn't found, return -1
+    return -1;
+}
+
+void newPlayerHasEmptyItemSlot(s32 arg0) {
+    if (arg0 == CUR_PLAYER) {
+        arg0 = mp3_GwSystem.current_player_index;
+    }
+    
+    mp3_PlayerHasItem(arg0, -1);
+}
+
+void newFixUpPlayerItemSlots(s32 playerIndex) {
+    s8* playerItems;
+    s8* teammateItems;
+    s32 i;
+    mp3_GW_PLAYER* player0Team0 = NULL;
+    mp3_GW_PLAYER* player1Team0 = NULL;
+    s32 teamIndex;
+
+    if (playerIndex == CUR_PLAYER) {
+        playerIndex = mp3_GwSystem.current_player_index;
+    }
+
+    teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+        if (teamIndex == curPlayerTeam) {
+            if (player0Team0 == NULL) {
+                player0Team0 = &mp3_gPlayers[i];
+            } else {
+                player1Team0 = &mp3_gPlayers[i];
+                break;
+            }
+        }
+    }
+
+    playerItems = player0Team0->items;
+    teammateItems = player1Team0->items;
+
+    for (i = 0; i < 4; i++) {
+        if (playerItems[i] == -1) {
+            //special case because this is the 1st players last item
+            if (i == 2) {
+                playerItems[2] = teammateItems[0];
+                teammateItems[0] = -1;
+            } else if (i >= 3) {
+                teammateItems[i - 3] = teammateItems[i - 2];
+                teammateItems[i - 2] = -1;
+            } else {
+                playerItems[i] = playerItems[i+1];
+                playerItems[i+1] = -1;
+            }
+        }
+    }
+}
+
+void newAdjustPlayerCoins(s32 playerIndex, s32 arg1) {
+    mp3_GW_PLAYER* player = NULL;
+    s32 teamIndex;
+    s32 i;
+
+    if (playerIndex == CUR_PLAYER) {
+        playerIndex = mp3_GwSystem.current_player_index;
+    }
+
+    teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
+
+    //get first player of team
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+        if (teamIndex == curPlayerTeam) {
+            player = &mp3_gPlayers[i];
+            break;
+        }
+    }
+
+    // player = mp3_GetPlayerStruct(arg0);
+    player->coins = player->coins + arg1;
+    if (player->coins >= 1000) {
+        player->coins = 999;
+    }
+    if (player->coins < 0) {
+        player->coins = 0;
+    }
+    if (player->coins_total <= player->coins) {
+        player->coins_total = player->coins;
+    }
+}
+
+s32 newPlayerHasCoins(s32 playerIndex, s32 requiredCoins) {
+    mp3_GW_PLAYER* player = NULL;
+    s32 teamIndex;
+    s32 i;
+
+    if (playerIndex == CUR_PLAYER) {
+        playerIndex = mp3_GwSystem.current_player_index;
+    }
+
+    teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
+
+    //get first player of team
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+        if (teamIndex == curPlayerTeam) {
+            player = &mp3_gPlayers[i];
+            break;
+        }
+    }
+
+    return player->coins >= requiredCoins;
+}
+
+void newfunc_800F5BF4_109814_shared_board(s32 playerIndex, s32 coinAmount, s32 arg2) {
+    s32 teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
+    s32 i;
+
+    //if teams mode is active, set to 
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        //get first player of team
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                playerIndex = i;
+                break;
+            }
+        }
+    }
+    if (coinAmount != 0) {
+        if (D_801055E8_119208_shared_board[playerIndex] != NULL) {
+            mp3_AdjustPlayerCoins(playerIndex, coinAmount);
+            return;
+        }
+        
+        if ((mp3_gPlayers[playerIndex].coins == 0) && (coinAmount < 0)) {
+            return;
+        }
+        
+        D_801055E8_119208_shared_board[playerIndex] = mp3_omAddObj(-0x8000, 0, 0, -1, func_800F59B4_1095D4_shared_board);
+        D_801055E8_119208_shared_board[playerIndex]->work[0] = playerIndex;
+        D_801055E8_119208_shared_board[playerIndex]->trans.x = coinAmount;
+
+        D_801055E8_119208_shared_board[playerIndex]->scale.x = coinAmount > 0.0f ? (30.0f / coinAmount) : (30.0f / (0.0f - coinAmount));
+        
+        (D_801055E8_119208_shared_board[playerIndex])->scale.y = 0.0f;
+        (D_801055E8_119208_shared_board[playerIndex])->scale.z  = 3.0f;
+        (D_801055E8_119208_shared_board[playerIndex])->work[3] = arg2;
+    }
+}
+
+// void newfunc_800F5D44_109964_shared_board(s32 arg0, s32 arg1) {
+//     s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+//     s32 i;
+
+//     //if team mode
+//     if (mp3_gPlayers[0].flags1 & 0x30) {
+//         //get first player of team
+//         for (i = 0; i < MAX_PLAYERS; i++) {
+//             s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+//             if (teamIndex == curPlayerTeam) {
+//                 break;
+//             }
+//         }
+//         func_800F5BF4_109814_shared_board(i, arg1, 1);
+//     } else {
+//         func_800F5BF4_109814_shared_board(arg0, arg1, 1);
+//     }
+// }

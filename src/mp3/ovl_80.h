@@ -38,7 +38,7 @@ typedef struct UnkBoard {
 /* 0x00 */ s16 unk_00;
 /* 0x02 */ s16 unk_02;
 /* 0x04 */ s32 unk_04;
-/* 0x08 */ omObjData* unk_08;
+/* 0x08 */ mp3_omObjData* unk_08;
 } UnkBoard; //sizeof 0x0C
 
 typedef struct UnkBoard2 {
@@ -55,7 +55,7 @@ typedef struct UnkCoinThing {
 void func_800DA790_EE3B0_shared_board(s32, u16, char*, s32, s32);
 Object* func_800D90C8_ECCE8_shared_board(u8, s32);
 void func_800D9714_ED334_shared_board(Object*);
-void func_800F3400_107020_shared_board(omObjData*);
+void func_800F3400_107020_shared_board(mp3_omObjData*);
 void func_800F4190_107DB0_shared_board(void);
 void func_800F43FC_10801C_shared_board(s32);
 void func_800F4798_1083B8_shared_board(u32, s32);
@@ -63,7 +63,7 @@ void func_800F4874_108494_shared_board(s32, s16, s16);
 s32 func_800EECB0_1028D0_shared_board(s32);
 s32 func_800D9E0C_EDA2C_shared_board(s32);
 void func_800D9D84_ED9A4_shared_board(s32, s16, s32, s32, u16);
-void func_800EE7AC_1023CC_shared_board(omObjData* func);
+void func_800EE7AC_1023CC_shared_board(mp3_omObjData* func);
 s32 BoardPlayerRankCalc(s32 player);
 void newUpdatePlayerBoardStatus(s32, s32);
 void func_800F6A88_10A6A8_shared_board(s16, u16);
@@ -90,11 +90,19 @@ void func_80055140_55D40(s32, s16, u16, s32);
 void func_800550F4_55CF4(s16, s16, s32);
 void func_800550B4_55CB4(s32, s16, f32);
 void func_80055024_55C24(s16, s16, s16, s32);
-void func_80055294_55E94(s16, s16, u16);
+void SprPriSet(s16, s16, u16);
 void func_80054904_55504(s16, s16, s16, s16);
 void UpdatePlayerBoardStatus(s32);
 void SprScale(s16, s16, f32, f32);
+void func_800552DC_55EDC(s16, s16, f32);
+void func_80055458_56058(s16, s16, u16);
+void func_80055420_56020(s16, s32, u8, u8, s32);
+void func_800E1934_F5554_shared_board(s32, s32);
+void func_800F59B4_1095D4_shared_board(mp3_omObjData* arg0);
 
+extern s8 D_80102C48_116868_shared_board;
+extern s16 D_80101908_115528_shared_board[];
+extern s16 D_8010559A_1191BA_shared_board;
 extern s16 D_80105592_1191B2_shared_board[];
 extern s32 D_80101788_1153A8_shared_board;
 extern s32 D_8010178C_1153AC_shared_board;
@@ -120,7 +128,7 @@ extern s16 D_801055C4_1191E4_shared_board;
 extern s32 D_80101784_1153A4_shared_board;
 extern BoardStatus D_801057E0_119400_shared_board[];
 extern UnkBoard D_80105718_119338_shared_board[16];
-extern s32 D_801055E8_119208_shared_board[];
+extern mp3_omObjData* D_801055E8_119208_shared_board[];
 extern s32 D_80101F30_115B50_shared_board[3];
 extern s32 mp3_D_80101944_115564_shared_board[]; //mainFS ids for character images
 extern s32 mp3_D_801019D0_1155F0_shared_board[];

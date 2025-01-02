@@ -80,10 +80,114 @@
     NOP
 */
 
-.org 0x800FE24C
-    J checkColorSetAsm
-    LBU a1, 0x001C (s2)
+//.org 0x800FE24C
+    //J checkColorSetAsm
+    //LBU a1, 0x001C (s2)
 
-.org 0x800FCD28
-    J checkColorSetAsm2
-    ADDU a0, s1, r0
+//.org 0x800FCD28
+    //J checkColorSetAsm2
+    //ADDU a0, s1, r0
+
+.org 0x800F3F0C
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, originalfunc_800F3F0C
+    NOP   
+    J newfunc_800F3F0C_107B2C_shared_board
+    NOP
+    originalfunc_800F3F0C:
+    J originalfunc_800F3F0C_107B2C_shared_board
+    NOP
+
+
+//coin and scoring functions for teams
+.org 0x800E1F48
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label0
+    NOP
+    J newShowPlayerCoinChange
+    NOP
+    label0:
+    J originalShowPlayerCoinChange
+    NOP
+
+
+.org 0x800E4978
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label1
+    NOP
+    J newPlayerHasItem
+    NOP
+    label1:
+    J originalPlayerHasItem
+    NOP
+
+
+.org 0x800E49DC
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label2
+    NOP
+    J newPlayerHasEmptyItemSlot
+    NOP
+    label2:
+    J originalPlayerHasEmptyItemSlot
+    NOP
+
+.org 0x800E4A08
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label3
+    NOP
+    J newFixUpPlayerItemSlots
+    NOP
+    label3:
+    J originalFixUpPlayerItemSlots
+    NOP
+
+.org 0x800F21C0
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label4
+    NOP
+    J newAdjustPlayerCoins
+    NOP
+    label4:
+    J originalAdjustPlayerCoins
+    NOP
+
+.org 0x800F2230
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label5
+    NOP
+    J newPlayerHasCoins
+    NOP
+    label5:
+    J originalPlayerHasCoins
+    NOP
+
+
+//.org 0x800F5D44
+    //function is small, need to do team check in C code
+    //J newfunc_800F5D44_109964_shared_board
+    //NOP
+
+.org 0x800F5BF4
+    J newfunc_800F5BF4_109814_shared_board
+    NOP
+
+//.org 0xfunc_800F59B4_1095D4_shared_board
+    //J newfunc_800F59B4_1095D4_shared_board
+    //NOP
+
+//801067B8 stores players starting flags (0x04)

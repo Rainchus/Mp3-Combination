@@ -505,7 +505,7 @@ void mp2_newBootLogos(void) {
         mp2_D_800F93CD_F9FCD = mp1_GwSystemCopy.minigameExplanation; //minigame explanations on/off depending on mp2 setting
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp2();
-        mp2_D_800F93CD_F9FCD = mp3_BoardStateCopy.show_minigame_explanations; //minigame explanations on/off depending on mp3 setting
+        mp2_D_800F93CD_F9FCD = mp3_GwSystemCopy.show_minigame_explanations; //minigame explanations on/off depending on mp3 setting
     }
 
     //load minigame

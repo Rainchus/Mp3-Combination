@@ -28,6 +28,50 @@ enum ITEMS {
     ITEMS_END
 };
 
+//original struct
+// typedef struct mp3_GW_PLAYER {
+// /* 0x00 */ u8 group; //for which group you belong to in a minigame
+// /* 0x01 */ u8 cpu_difficulty;
+// /* 0x02 */ u8 controller_port;
+// /* 0x03 */ u8 characterID;
+// /* 0x04 */ u8 flags1; //value & 1 == Player is CPU
+// /* 0x05 */ char unk_05;
+// /* 0x06 */ s16 coins_mg_bonus; //extra coins collected in minigames
+// /* 0x08 */ s16 minigameCoins; //coins for winning current minigame
+// /* 0x0A */ s16 coins; //referenced as u16 and s16 (usually if u16 it's casted to s16)
+// /* 0x0C */ char unk_0C[2];
+// /* 0x0E */ s8 stars;
+// /* 0x0F */ u8 chainIndexCur;
+// /* 0x10 */ u8 spaceIndexCur;
+// /* 0x11 */ u8 chainIndexNext;
+// /* 0x12 */ u8 spaceIndexNext;
+// /* 0x13 */ u8 unk_13; //(Chain Index?)
+// /* 0x14 */ u8 unk_14; //(Space Index?)
+// /* 0x15 */ u8 chainIndexPrevious;
+// /* 0x16 */ u8 spaceIndexPrevious;
+// /* 0x17 */ u8 flags2;
+// /* 0x18 */ s8 items[3];
+// /* 0x1B */ u8 bowser_suit_flags;
+// /* 0x1C */ u8 turn_status; //space type landed on (blue, red, etc.)
+// /* 0x1D */ s8 playerIndex;
+// /* 0x1E */ char unk_1E[2]; //likely padding
+// /* 0x20 */ void* unk_20;
+// /* 0x24	*/ void* player_obj; //ptr to struct 0x48 in size (things like model position, rotation, etc.)
+// /* 0x24 */ s16 mg_star_coins; //used for mg star
+// /* 0x26 */ s16 coins_total; //used for coin star
+// /* 0x2C */ s8 happeningSpacesLandedOn;
+// /* 0x2D */ s8 redSpacesLandedOn;
+// /* 0x2E */ s8 blueSpacesLandedOn;
+// /* 0x2F */ s8 chanceSpacesLandedOn;
+// /* 0x30 */ s8 bowserSpacesLandedOn;
+// /* 0x31 */ s8 battleSpacesLandedOn;
+// /* 0x32 */ s8 itemSpacesLandedOn;
+// /* 0x33 */ s8 bankSpacesLandedOn;
+// /* 0x34 */ s8 gameGuySpacesLandedOn;
+// /* 0x35 */ char unk_35[3]; //likely padding
+// } mp3_GW_PLAYER; //sizeof 0x38
+
+//new struct with extended item array
 typedef struct mp3_GW_PLAYER {
 /* 0x00 */ u8 group; //for which group you belong to in a minigame
 /* 0x01 */ u8 cpu_difficulty;
@@ -49,11 +93,12 @@ typedef struct mp3_GW_PLAYER {
 /* 0x15 */ u8 chainIndexPrevious;
 /* 0x16 */ u8 spaceIndexPrevious;
 /* 0x17 */ u8 flags2;
-/* 0x18 */ s8 items[3];
-/* 0x1B */ u8 bowser_suit_flags;
-/* 0x1C */ u8 turn_status; //space type landed on (blue, red, etc.)
+//some members moved around here to support 5 items
+/* 0x18 */ s8 items[5];
 /* 0x1D */ s8 playerIndex;
-/* 0x1E */ char unk_1E[2]; //likely padding
+/* 0x1E */ u8 bowser_suit_flags;
+/* 0x1F */ u8 turn_status; //space type landed on (blue, red, etc.)
+// /* 0x1E */ char unk_1E[2]; //likely padding
 /* 0x20 */ void* unk_20;
 /* 0x24	*/ void* player_obj; //ptr to struct 0x48 in size (things like model position, rotation, etc.)
 /* 0x24 */ s16 mg_star_coins; //used for mg star
@@ -148,8 +193,8 @@ extern UnkCastleGroundMessage mp3_D_80110998[];
 extern s32 mp3_D_800B1A30;
 extern s16 mp3_D_800CDA7C[];
 extern u32 mp3_debug_font_color;
-extern mp3_GW_SYSTEM mp3_BoardState;
-extern mp3_GW_SYSTEM mp3_BoardStateCopy;
+extern mp3_GW_SYSTEM mp3_GwSystem;
+extern mp3_GW_SYSTEM mp3_GwSystemCopy;
 extern OSMesgQueue mp3_D_800CE1A0;
 extern u8 customEepromData[0x140];
 extern s32 ForeignMinigameIndexToLoad;
@@ -187,5 +232,10 @@ s32 mp3_HuWipeStatGet(void);
 void mp3_func_8000C184_CD84(s32);
 void mp3_func_80055670_56270(s16);
 void mp3_RequestSIFunction(char (*)[16], void*, void*, s32);
-
+s32 func_800EECB0_1028D0_shared_board(s32);
+mp3_GW_PLAYER* mp3_GetPlayerStruct(s32 playerIndex);
+s32 mp3_GWBoardFlagCheck(s32);
+void func_800E1934_F5554_shared_board(s32, s32);
+s32 mp3_PlayerHasItem(s32 playerIndex, s32 itemID);
+void mp3_AdjustPlayerCoins(s32 arg0, s32 arg1);
 #endif

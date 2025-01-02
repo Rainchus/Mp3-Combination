@@ -21,7 +21,6 @@
 
 //functions
 .definelabel GetCurrentPlayerIndex, 0x800F2130
-.definelabel GetPlayerStruct, 0x800F213C
 .definelabel unknownDMAFunc, 0x8004DB14
 .definelabel mp3_PlaySound, 0x8004AA88
 .definelabel mp3_DrawDebugText, 0x8004DD7C
@@ -73,11 +72,17 @@
 .definelabel osAppNmiBuffer, 0x8000031C //global location for both games
 .definelabel D_800B23B0, 0x800B23B0;
 .definelabel mp3_omOvlCallEx, 0x80048128
-.definelabel mp3_Boardstate, 0x800CD058
+.definelabel mp3_GwSystem, 0x800CD058
 .definelabel func_800F8610_10C230, 0x800F8610
 .definelabel func_80108910_119290, 0x80108910
 .definelabel mp3_omInitObjMan, 0x80047160
-
+.definelabel mp3_GWBoardFlagCheck, 0x80035F98
+.definelabel mp3_GetPlayerStruct, 0x800F213C
+.definelabel func_800EECB0_1028D0_shared_board, 0x800EECB0
+.definelabel func_800E1934_F5554_shared_board, 0x800E1934
+.definelabel D_80102C48_116868_shared_board, 0x80102C48
+.definelabel mp3_PlayerHasItem, 0x800E4978
+.definelabel func_800F5BF4_109814_shared_board, 0x800F5BF4
 .definelabel mp3_HuWipeFadeIn, 0x80061FE8
 .definelabel mp3_HuWipeFadeOut, 0x80062050
 .definelabel mp3_HuWipeStatGet, 0x800620BC
@@ -117,6 +122,8 @@
 .definelabel func_80055458_56058, 0x80055458
 .definelabel D_8010188C_1154AC_shared_board, 0x8010188C
 .definelabel func_80055420_56020, 0x80055420
+.definelabel D_8010559A_1191BA_shared_board, 0x8010559A
+.definelabel D_80101908_115528_shared_board, 0x80101908
 
 .definelabel mp3_WriteEepromCommonBuf, 0x8000C8F0
 .definelabel mp3_ReadEepromCommonBuf, 0x8000C954
@@ -127,7 +134,9 @@
 .definelabel mp3_HuPrcEnd, 0x8004EFD4
 
 .definelabel mp3_osEPiStartDma, 0x80072B40
-
+.definelabel mp3_omAddObj, 0x80047620
+.definelabel mp3_AdjustPlayerCoins, 0x800F21C0
+.definelabel func_800F59B4_1095D4_shared_board, 0x800F59B4
 .definelabel D_801057E0_119400_shared_board, 0x801057E0
 .definelabel func_80055140_55D40, 0x80055140
 .definelabel func_800550F4_55CF4, 0x800550F4
@@ -146,7 +155,7 @@
 .definelabel D_80101780_1153A0_shared_board, 0x80101780
 .definelabel D_80101784_1153A4_shared_board, 0x80101784
 .definelabel func_80055024_55C24, 0x80055024
-.definelabel func_80055294_55E94, 0x80055294
+.definelabel SprPriSet, 0x80055294
 .definelabel func_80054904_55504, 0x80054904
 .definelabel D_80101790_1153B0_shared_board, 0x80101790
 .definelabel D_801055C2_1191E2_shared_board, 0x801055C2

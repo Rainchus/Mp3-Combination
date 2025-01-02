@@ -32,7 +32,7 @@ typedef struct om_obj_data {
 /* 0x48 */ s16* motion;
 /* 0x4C */ u32 work[4];
 /* 0x5C */ void* data;
-} omObjData;
+} mp3_omObjData;
 
 typedef struct Object_s {
 /* 0x00 */ struct Object_s *prev;
@@ -45,17 +45,17 @@ typedef struct Object_s {
 /* 0x18 */ Vec unk18;
 /* 0x24 */ Vec unk24;
 /* 0x30 */ Vec unk30;
-/* 0x3C */ omObjData* unk3C;
-/* 0x40 */ omObjData* unk40;
+/* 0x3C */ mp3_omObjData* unk3C;
+/* 0x40 */ mp3_omObjData* unk40;
 /* 0x44 */ s16 unk44;
 /* 0x46 */ s16 unk46;
 } Object;
 
 Process* omInitObjMan(s16 max_objs, s32 prio);
-void omSetStatBit(omObjData *obj, u16 stat);
+void omSetStatBit(mp3_omObjData* obj, u16 stat);
 s32 omOvlReturnEx(s16 level);
-omObjData* omAddObjEx(Process *objman_process, s16 prio, u16 mdlcnt, u16 mtncnt, s16 group, omObjFunc func);
-omObjData* omAddObj(s16 priority, u16 arg1, u16 arg2, s16 arg3, omObjFunc func);
+mp3_omObjData* omAddObjEx(Process *objman_process, s16 prio, u16 mdlcnt, u16 mtncnt, s16 group, void* func);
+mp3_omObjData* omAddObj(s16 priority, u16 arg1, u16 arg2, s16 arg3, omObjFunc func);
 Process* omAddPrcObj(process_func func, u16 priority, s32 stackSize, s32 extDataSize);
 s32 omOvlCallEx(s32 arg0, s16 arg1, u16 arg2);
 void omMain(void);
@@ -64,5 +64,5 @@ s32 omOvlGotoEx(s32, s16, u16);
 void omDestroyObjMan(void);
 void omPrcSetDestructor(s32, void*);
 void omPrcResetStatBit(Process*, s32);
-
+mp3_omObjData* mp3_omAddObj(s16 priority, u16 arg1, u16 arg2, s16 arg3, omObjFunc func);
 #endif //_GAME_OBJECT_H

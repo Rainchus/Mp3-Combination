@@ -47,7 +47,7 @@ extern s16 mp2_hidden_block_coins_space_index_copy;
 extern s16 mp2_hidden_block_star_space_index_copy;
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
-mp3_GW_SYSTEM mp3_BoardStateCopy = {0};
+mp3_GW_SYSTEM mp3_GwSystemCopy = {0};
 u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 
 void cBootFunction(void) {
@@ -98,11 +98,11 @@ void PopMp3MinigamesPlayedList(void) {
 }
 
 void PushMp3BoardState(void) {
-    mp3_BoardStateCopy = mp3_BoardState;
+    mp3_GwSystemCopy = mp3_GwSystem;
 }
 
 void PopMp3BoardState(void) {
-    mp3_BoardState = mp3_BoardStateCopy;
+    mp3_GwSystem = mp3_GwSystemCopy;
 }
 
 void PopMp3OvlHis(void) {
@@ -464,14 +464,14 @@ void LoadBackIntoMp3Board(void) {
     if (wackyWatchUsedCopy == 2) {
         wackyWatchUsedCopy = 3;
         //set turns as if wacky watch was used
-        mp3_BoardState.current_turn = mp3_BoardState.total_turns - 4;
+        mp3_GwSystem.current_turn = mp3_GwSystem.total_turns - 4;
     }
 
     D_800CD0AA = wackyWatchUsedCopy;
 
-    curTurn = mp3_BoardState.current_turn;
-    totalTurns = mp3_BoardState.total_turns;
-    curBoardIndex = mp3_BoardState.current_board_index;
+    curTurn = mp3_GwSystem.current_turn;
+    totalTurns = mp3_GwSystem.total_turns;
+    curBoardIndex = mp3_GwSystem.current_board_index;
 
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
     D_800B23B0 = 1; //is party mode
