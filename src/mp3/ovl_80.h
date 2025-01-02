@@ -128,7 +128,11 @@ extern s16 D_801055E4_119204_shared_board;
 extern Vec2f D_801055CC_1191EC_shared_board;
 extern Vec2f D_801055DC_1191FC_shared_board;
 extern Vec2f D_801055D4_1191F4_shared_board;
-extern s16 PlayerBoardStatusRootPosition[8][2];
+extern s16 PlayerBoardStatusRootPosition[23][2];
+extern s16 D_8010184C_11546C_shared_board[4][2]; //4p positions before minigame
+extern s16 D_8010185C_11547C_shared_board[4][2]; //1v3 positions before minigame
+extern s16 D_8010186C_11548C_shared_board[4][2];
+extern s16 D_801017C4_1153E4_shared_board[4][2];
 extern Process* D_80105580_1191A0_shared_board;
 extern s16 D_801055C2_1191E2_shared_board;
 extern s16 D_801055C4_1191E4_shared_board;

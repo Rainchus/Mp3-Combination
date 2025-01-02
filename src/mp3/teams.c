@@ -245,11 +245,7 @@ s32 BoardPlayerTeamRankCalc(s32 player) {
         }
     }
 
-    if (curPlayerTeam == 0) {
-        return team0Score < team1Score;
-    } else {
-        return team1Score < team0Score;
-    }
+    return team0Score < team1Score;
 }
 
 void newUpdatePlayerBoardStatus(s32 playerIndex, s32 teamIndex) {
@@ -704,6 +700,151 @@ void newfunc_800F4190_107DB0_shared_board(void) {
             team1++;
         }
     }
+
+    //where player icons move before minigame
+    s16 newBeforeMinigamePositions[4][2] = {
+        {0x10, 0x4C}, //player team0 index0
+        {0x1C, 0x4D}, //player team0 index1
+        {0xA0, 0x4C}, //player team1 index0
+        {0xAC, 0x4D}, //player team1 index1
+    };
+
+    //when player icons separate for 4p
+    s16 newBeforeMinigamePositions2[4][2] = {
+        {0x0C, 0x5C}, //player team0 index0
+        {0x18, 0x5D}, //player team0 index1
+        {0xA8, 0x5C}, //player team1 index0
+        {0xB4, 0x5D}, //player team1 index1
+    };
+
+    //when player icons separate for 1v3
+    s16 newBeforeMinigamePositions3[4][2] = {
+        {0x0C, 0x5C}, //player team0 index0
+        {0x18, 0x5D}, //player team0 index1
+        {0xA8, 0x5C}, //player team1 index0
+        {0xB4, 0x5D}, //player team1 index1
+    };
+
+    //when player icons separate for 2v2
+    s16 newBeforeMinigamePositions4[4][2] = {
+        {0x0C, 0x5C}, //player team0 index0
+        {0x18, 0x5D}, //player team0 index1
+        {0xA8, 0x5C}, //player team1 index0
+        {0xB4, 0x5D}, //player team1 index1
+    };
+
+    //when a 1p minigame (item) is landed on player 0
+    s16 newBeforeMinigamePositions5[4][2] = {
+        {0x0C, 0x5C}, //player team0 index0
+        {0x18, 0x5D}, //player team0 index1
+        {0xA8, 0x5C}, //player team1 index0
+        {0xB4, 0x5D}, //player team1 index1
+    };
+
+    // //when a 1p minigame (item) is landed on player 1
+    // s16 newBeforeMinigamePositions6[4][2] = {
+    //     {0x0C, 0x5C}, //player team0 index0
+    //     {0x18, 0x5D}, //player team0 index1
+    //     {0xA8, 0x5C}, //player team1 index0
+    //     {0xB4, 0x5D}, //player team1 index1
+    // };
+
+    //surely there's a better way to do this...
+    s32 team0Count = 0;
+    s32 team1Count = 0;
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[i]);
+        if (curPlayerTeamIndex == 0) {
+            if (team0Count == 0) {
+                //
+                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[0][0];
+                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[0][1];
+
+                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[0][0];
+                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[0][1];
+                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[0][0];
+                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[0][1];
+                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[0][0];
+                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[0][1];
+                //set 1p minigame positions
+                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[0][0];
+                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[0][1];
+                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[0][0];
+                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[0][1];
+                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[0][0];
+                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[0][1];
+                team0Count = 1;
+            } else {
+                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[1][0];
+                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[1][1];
+
+                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[1][0];
+                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[1][1];
+                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[1][0];
+                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[1][1];
+                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[1][0];
+                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[1][1];
+                //set 1p minigame positions
+                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[1][0];
+                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[1][1];
+                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[1][0];
+                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[1][1];
+                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[1][0];
+                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[1][1];
+            }
+        } else {
+            if (team1Count == 0) {
+                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[2][0];
+                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[2][1];
+                
+                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[2][0];
+                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[2][1];
+                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[2][0];
+                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[2][1];
+                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[2][0];
+                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[2][1];
+                //set 1p minigame positions
+                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[2][0];
+                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[2][1];
+                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[2][0];
+                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[2][1];
+                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[2][0];
+                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[2][1];
+                team1Count = 1;
+            } else {
+                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[3][0];
+                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[3][1];
+                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[3][0];
+                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[3][1];
+                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[3][0];
+                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[3][1];
+                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[3][0];
+                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[3][1];
+                //set 1p minigame positions
+                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[3][0];
+                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[3][1];
+                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[3][0];
+                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[3][1];
+                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[3][0];
+                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[3][1];
+            }
+        }
+    }
+
+    // //set x and y position
+    // PlayerBoardStatusRootPosition[8][0] = 0x30;
+    // PlayerBoardStatusRootPosition[8][1] = 0x4C;
+    
+    // PlayerBoardStatusRootPosition[9][0] = 0xA0;
+    // PlayerBoardStatusRootPosition[9][1] = 0x4C;
+
+    // PlayerBoardStatusRootPosition[10][0] = 0x30;
+    // PlayerBoardStatusRootPosition[10][1] = 0x7E;
+
+    // PlayerBoardStatusRootPosition[11][0] = 0xA0;
+    // PlayerBoardStatusRootPosition[11][1] = 0x7E;
+    
 
     team0 = 0;
     team1 = 0;

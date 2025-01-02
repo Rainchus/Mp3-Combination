@@ -52,7 +52,7 @@
 .definelabel mp3_D_800CD2A2, 0x800CD2A2
 .definelabel mp3_SetSpriteCenter, 0x8000BBD4
 .definelabel mp3_HuObjCreate, 0x80047620
-
+.definelabel D_80101928_115548_shared_board, 0x80101928
 .definelabel D_800D20F0, 0x800D20F0
 .definelabel D_800D6B60, 0x800D6B60
 .definelabel D_800CD0AA, 0x800CD0AA
@@ -124,7 +124,10 @@
 .definelabel func_80055420_56020, 0x80055420
 .definelabel D_8010559A_1191BA_shared_board, 0x8010559A
 .definelabel D_80101908_115528_shared_board, 0x80101908
-
+.definelabel D_8010184C_11546C_shared_board, 0x8010184C
+.definelabel D_8010185C_11547C_shared_board, 0x8010185C
+.definelabel D_8010186C_11548C_shared_board, 0x8010186C
+.definelabel D_801017C4_1153E4_shared_board, 0x801017C4
 .definelabel mp3_WriteEepromCommonBuf, 0x8000C8F0
 .definelabel mp3_ReadEepromCommonBuf, 0x8000C954
 .definelabel mp3_D_800D09A8, 0x800D09A8
