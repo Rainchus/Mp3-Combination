@@ -397,7 +397,345 @@ s32 originalfunc_800EEA58_102678_shared_board(s32 arg0) {
     return var_a0;
 }
 
+void originalfunc_800F39C0_1075E0_shared_board(s32 playerIndex) {
+    s16 temp_s1;
+
+    temp_s1 = D_801057E0_119400_shared_board[playerIndex].playerIndex;
+    func_80055024_55C24(temp_s1, 1, mp3_D_80105588_1191A8_shared_board[playerIndex+1], 0);
+    func_800550F4_55CF4(temp_s1, 1, 0);
+    SprPriSet(temp_s1, 1, ((playerIndex * 5) + 0x4790));
+    SprAttrSet(temp_s1, 1, 0);
+    func_80054904_55504(temp_s1, 1, D_801018E4_115504_shared_board[1][0], D_801018E4_115504_shared_board[1][1]);
+}
+
+void originalfunc_800F3BD0_1077F0_shared_board(s32 arg0) {
+    BoardStatus* temp_s4;
+    s16 temp_s2;
+    void* temp_v0;
+    s32 i;
+
+    temp_s4 = &D_801057E0_119400_shared_board[arg0];
+    temp_s4->prevCoins = -1;
+    temp_s4->prevStars = -1;
+    temp_v0 = mp3_ReadMainFS(0x1300CF);
+    temp_s4->unk_3A = mp3_func_80055810_56410(temp_v0);
+    temp_s2 = temp_s4->playerIndex;
+    for (i = 0; i < 5; i++) {
+        func_80055024_55C24(temp_s2, i + 4, temp_s4->unk_3A, 0);
+        func_800550F4_55CF4(temp_s2, i + 4, 1);
+        func_80055140_55D40(temp_s2, i + 4, 0xAU, 0);
+        SprPriSet(temp_s2, i + 4, ((arg0 * 5) + 0x4790) & 0xFFFF);
+        SprAttrReset(temp_s2, i + 4, 0xFFFFU);
+        SprAttrSet(temp_s2, i + 4, 0U);
+        func_80054904_55504(temp_s2, i + 4, D_801018E4_115504_shared_board[i + 4][0], D_801018E4_115504_shared_board[i + 4][1]);
+        func_80055420_56020(temp_s2, i + 4, 0xFFU, 0xFFU, 0xFF);
+        func_80055458_56058(temp_s2, i + 4, 0x100U);
+        func_800552DC_55EDC(temp_s2, i + 4, 0.0f);        
+    }
+    mp3_HuFreeFilePerm(temp_v0);
+}
+
+void originalfunc_800F3E34_107A54_shared_board(s32 arg0) {
+    BoardStatus* temp_v0;
+    s16 temp_s0;
+
+    temp_v0 = &D_801057E0_119400_shared_board[arg0];
+    temp_v0->prevRank = -1;
+    temp_s0 = temp_v0->playerIndex;
+    func_80055024_55C24(temp_s0, 0xA, mp3_D_80105598_1191B8_shared_board, 0);
+    func_800550F4_55CF4(temp_s0, 0xA, 1);
+    func_80055140_55D40(temp_s0, 0xA, 0, 0);
+    SprPriSet(temp_s0, 0xA, ((arg0 * 5) + 0x478F) & 0xFFFF);
+    SprAttrSet(temp_s0, 0xA, 0);
+    func_80054904_55504(temp_s0, 0xA, D_801018E4_115504_shared_board[10][0], D_801018E4_115504_shared_board[10][1]);
+}
+
+void originalfunc_800F3FF4_107C14_shared_board(s32 arg0) {
+    s32 temp_s3;
+    s16 var_s1;
+    s32 i;
+    s32 curItem;
+    temp_s3 = D_801057E0_119400_shared_board[arg0].playerIndex;
+
+    for (i = 0; i < NORMAL_ITEM_COUNT; i++) {
+        curItem = mp3_gPlayers[arg0].items[i];
+        curItem = (curItem == -1) ? 0 : curItem;
+        func_80055024_55C24(temp_s3, i + 0xB, D_8010559C_1191BC_shared_board[curItem], 0);
+        func_800550F4_55CF4(temp_s3, i + 0xB, 0);
+        SprPriSet(temp_s3, i + 0xB, ((arg0 * 5) + 0x478E));
+        SprAttrSet(temp_s3, i + 0xB, 0);
+        var_s1 = i + 0xB;
+        if (arg0 >= 2) {
+            var_s1 = i + 0xE;
+        }
+        func_80054904_55504(temp_s3, i + 0xB, D_801018E4_115504_shared_board[var_s1][0], D_801018E4_115504_shared_board[var_s1][1]);
+        if (mp3_gPlayers[arg0].items[i] == -1) {
+            SprAttrSet(temp_s3, i + 0xB, 0x8000);
+        }
+    }
+}
+
+void originalfunc_800F6BC4_10A7E4_shared_board(s32 arg0) {
+    BoardStatus* temp_s2;
+    f32 var_f20;
+    s32 i, j;
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        if (arg0 == CUR_PLAYER || arg0 == i) {
+            temp_s2 = &D_801057E0_119400_shared_board[i];
+            if (temp_s2->uiUpdatePaused == TRUE) {
+                func_800F6A88_10A6A8_shared_board(temp_s2->playerIndex, 2);
+                func_80054904_55504(temp_s2->playerIndex, 1, D_801018E4_115504_shared_board[1][0], D_801018E4_115504_shared_board[1][1]);
+                if (mp3_gPlayers[i].items[0] != ITEM_NONE) {
+                    //used for item positions when closing items screen
+                    for (j = 0; j < NORMAL_ITEM_COUNT; j++) {
+                        switch (j) {
+                        case 0:
+                            func_80054904_55504(temp_s2->playerIndex, j + 2, j * 0x12 + 3, 5);
+                            break;
+                        case 1:
+                            func_80054904_55504(temp_s2->playerIndex, j + 2, j * 0x12 + 3, -5);
+                            break;
+                        case 2:
+                            func_80054904_55504(temp_s2->playerIndex, j + 2, j * 0x12 + 3, 5);
+                            break;
+                        }
+                    }
+                } else {
+                    func_80054904_55504(temp_s2->playerIndex, 2, 0x12, 0);
+                }
+            }
+        }
+    }
+    
+    for (var_f20 = 0.0f; var_f20 <= 90.0f; var_f20 += 15.0f) {
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            if (arg0 == CUR_PLAYER || arg0 == i) {
+                func_800F6AD0_10A6F0_shared_board(i, mp3_HuMathCos(var_f20), 1.0f);
+            }            
+        }
+        mp3_HuPrcVSleep();
+    }
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        if (arg0 == CUR_PLAYER || arg0 == i) {
+            func_800F6AD0_10A6F0_shared_board(i, 0.0f, 0);
+        }
+    }
+    mp3_HuPrcVSleep();
+}
+
+void originalfunc_800F3370_106F90_shared_board(void) {
+    s32 i, j;
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        BoardStatus* boardStatus = &D_801057E0_119400_shared_board[i];
+        for (j = 0; j < 14; j++) {
+            SprAttrSet(boardStatus->playerIndex, j, 0x8000);
+        }
+    }
+}
+
+void originalfunc_800F6ECC_10AAEC_shared_board(s32 arg0) {
+    s32 sp10;
+    s32 sp14;
+    BoardStatus* temp_s2;
+    f32 var_f20;
+    s32 i, j;
+    
+    for (var_f20 = 90.0f; var_f20 >= 0.0f; var_f20 -= 15.0f) {
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            if (arg0 == CUR_PLAYER || arg0 == i) {
+                func_800F6AD0_10A6F0_shared_board(i, mp3_HuMathCos(var_f20), 1.0f);
+            }            
+        }
+        mp3_HuPrcVSleep();
+    }
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        if (arg0 == CUR_PLAYER || arg0 == i) {
+            func_800F6AD0_10A6F0_shared_board(i, 1.0f, 1.0f);
+            temp_s2 = &D_801057E0_119400_shared_board[i];
+            if (temp_s2->uiUpdatePaused == TRUE) {
+                func_800F6A88_10A6A8_shared_board(temp_s2->playerIndex, 0);
+                sp10 = PlayerBoardStatusRootPosition[i][0] + ITEMS_POS_OFFSET_X;
+                sp14 = PlayerBoardStatusRootPosition[i][1] + ITEMS_POS_OFFSET_Y;
+                func_80054904_55504(temp_s2->playerIndex, 1, sp10, sp14);
+                if (mp3_gPlayers[i].items[0] != ITEM_NONE) {
+                    for (j = 0; j < NORMAL_ITEM_COUNT; j++) {
+                        func_800F6E4C_10AA6C_shared_board(i, j, &sp10, &sp14);
+                        func_80054904_55504(temp_s2->playerIndex, j + 2, sp10, sp14);
+                    }
+                } else {
+                    func_80054904_55504(temp_s2->playerIndex, 2, (sp10 + 0x12), sp14);
+                }
+            }
+        }
+    }
+    mp3_HuPrcVSleep();
+}
+
+void originalfunc_800F6AD0_10A6F0_shared_board(s32 arg0, f32 xScale, f32 yScale) {
+    BoardStatus* temp_s1;
+    s32 i;
+
+    temp_s1 = &D_801057E0_119400_shared_board[arg0];
+    switch(temp_s1->uiUpdatePaused) {
+    case FALSE:
+        for (i = 0; i < 14; i++) {
+            SprScale(temp_s1->playerIndex, i, xScale, yScale);
+        }
+        break;
+    case TRUE:
+        for (i = 0; i < 5; i++) {
+            SprScale(temp_s1->playerIndex, i, xScale, yScale);
+        }
+        SprScale(temp_s1->playerIndex, 9, xScale, yScale);
+        break;
+    }
+}
+
+//sets item positions when pressing B and you have control of hand cursor
+void originalfunc_800F6E4C_10AA6C_shared_board(s32 playerIndex, s32 itemIndex, s32* xPos, s32* yPos) {
+    s32 xPosTemp;
+    
+    if (playerIndex == CUR_PLAYER) {
+        playerIndex = mp3_GwSystem.current_player_index;
+    }
+
+    *xPos = PlayerBoardStatusRootPosition[playerIndex][0] + ITEMS_POS_OFFSET_X;
+    *yPos = PlayerBoardStatusRootPosition[playerIndex][1] + ITEMS_POS_OFFSET_Y;
+
+    xPosTemp = *xPos + 3;
+    *xPos = xPosTemp + (itemIndex * 18);
+    //if item index is 1, move item up on the screen 5 units
+    //if item index 0 or 2, move down on the screen 5 units
+    if (itemIndex == 1) {
+        *yPos -= 5;
+    } else {
+        *yPos += 5;
+    }
+}
+
+void originalfunc_800F5F98_109BB8_shared_board(s32 arg0, s32 arg1) {
+    s32 sp10;
+    s32 sp14;
+    BoardStatus* temp_s7;
+    s16 temp_s5;
+    s16 i;
+    void* var_s2;
+
+    temp_s7 = &D_801057E0_119400_shared_board[arg0];
+    temp_s5 = temp_s7->playerIndex;
+    var_s2 = NULL;
+    for (i = 0; i < NORMAL_ITEM_COUNT; i++) {
+        var_s2 = NULL;
+        if (mp3_gPlayers[arg0].items[i] != -1) {
+            var_s2 = mp3_ReadMainFS(D_8010197C_11559C_shared_board[mp3_gPlayers[arg0].items[i]]);
+        } else {
+            if (i == 0) {
+                var_s2 = mp3_ReadMainFS(0x13025E);
+            }
+        }
+
+        if (var_s2 != NULL) {
+            temp_s7->unk_40[i] = mp3_func_80055810_56410(var_s2);
+            mp3_HuFreeFilePerm(var_s2);
+            func_80055024_55C24(temp_s5, i + 2, temp_s7->unk_40[i], 0);
+            if (i != 0) {
+                SprPriSet(temp_s5, i + 2, (arg0 * 5) + 0x4790);
+            } else {
+                SprPriSet(temp_s5, i + 2, ((arg0 * 5) + 0x478F) & 0xFFFF);
+            }
+            SprAttrSet(temp_s5, i + 2, 0x180CU);
+            SprAttrReset(temp_s5, i + 2, 0x8000U);
+            func_800552DC_55EDC(temp_s5, i + 2, 0.0f);
+            if (mp3_gPlayers[arg0].items[0] != -1) {
+                if (arg1 != 0) {
+                    func_800F6E4C_10AA6C_shared_board(arg0, i, &sp10, &sp14);
+                    func_80054904_55504(temp_s7->playerIndex, i + 2, sp10, sp14);
+                } else {
+                    switch (i) {
+                    case 0:
+                        func_80054904_55504(temp_s5, i + 2, (i * 0x12) + 3, 5);
+                        break;
+                    case 1:
+                        func_80054904_55504(temp_s5, i + 2, (i * 0x12) + 3, -5);
+                        break;
+                    case 2:
+                        func_80054904_55504(temp_s5, i + 2, (i * 0x12) + 3, 5);
+                        break;
+                    }                    
+                }
+            } else {
+                if (arg1 != 0) {
+                    f32 xPos, yPos;
+                    xPos = (PlayerBoardStatusRootPosition[arg0][0] + 0x38);
+                    yPos = (PlayerBoardStatusRootPosition[arg0][1] + 0x13);
+                    xPos = xPos + 22.0f;
+                    xPos = xPos - 4.0f;
+                    
+                    func_80054904_55504(temp_s7->playerIndex, 2, xPos, yPos);
+                } else {
+                    func_80054904_55504(temp_s5, 2, 0x12, 0);
+                }
+            }
+            SprScale(temp_s5, i + 2, 1.0f, 1.0f);
+            func_800550B4_55CB4(temp_s5, i + 2, 0.0f);
+            if (arg0 == mp3_GwSystem.current_player_index) {
+                func_80055458_56058(temp_s5, i + 2, 0x100U);
+            } else {
+                func_80055458_56058(temp_s5, i + 2, 0x80U);
+            }
+            
+        } else {
+            temp_s7->unk_40[i] = -1;
+        }
+    }
+}
+
+void originalfunc_800F59B4_1095D4_shared_board(mp3_omObjData* arg0) {
+    s32 var_s1;
+
+    var_s1 = 0;
+    while (arg0->scale.y <= 0.0f) {
+        if (arg0->trans.x > 0.0f) {
+            mp3_AdjustPlayerCoins(arg0->work[0], 1);
+            if (((arg0->work[3] != 0) & (var_s1 == 0)) && (arg0->scale.z >= 3.0f)) {
+                mp3_PlaySound(0x106);
+                var_s1 = 1;
+                arg0->scale.z -= 3.0f;
+            }
+            arg0->trans.x -= 1.0f;
+
+        } else {
+            mp3_AdjustPlayerCoins(arg0->work[0], -1);
+            arg0->trans.x += 1.0f;
+            if (arg0->work[3] != 0) {
+                if ((var_s1 == 0) && (arg0->scale.z >= 3.0f)) {
+                    mp3_PlaySound(0x109);
+                    var_s1 = 1;
+                    arg0->scale.z -= 3.0f;
+                }
+                if ((arg0->trans.x == 0.0f) || (mp3_gPlayers[arg0->work[0]].coins == 0)) {
+                    mp3_PlaySound(0x10A);
+                }
+            }
+        }
+        
+        if ((arg0->trans.x == 0.0f) || (mp3_gPlayers[arg0->work[0]].coins == 0)) {
+            D_801055E8_119208_shared_board[arg0->work[0]] = NULL;
+            mp3_omDelObj(arg0);
+            return;
+        }
+        arg0->scale.y += arg0->scale.x;
+    }
+
+    arg0->scale.y -= 1.0f;
+    arg0->scale.z += 2.0f;
+}
+
 /////////
+
 void originalShowPlayerCoinChange(s32 player, s32 coins) {
     D_80102C48_116868_shared_board = 1;
     func_800E1934_F5554_shared_board(player, coins);
@@ -410,7 +748,7 @@ s32 originalPlayerHasItem(s32 playerIndex, s32 itemID) {
         playerIndex = mp3_GwSystem.current_player_index;
     }
 
-    for (i = 0; i < ARRAY_COUNT(mp3_gPlayers->items); i++) {
+    for (i = 0; i < NORMAL_ITEM_COUNT; i++) {
         if (mp3_gPlayers[playerIndex].items[i] == itemID) {
             break;
         }

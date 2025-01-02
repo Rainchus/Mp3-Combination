@@ -2,6 +2,9 @@
 #include "mp3/game/object.h"
 #include "mp3/malloc.h"
 
+#define NORMAL_ITEM_COUNT 3
+#define EXTENDED_ITEM_COUNT 5
+
 typedef struct BoardStatus {
     /* 0x00 */ s8 uiUpdatePaused;
     /* 0x01 */ s8 unk1;
@@ -99,7 +102,9 @@ void func_80055458_56058(s16, s16, u16);
 void func_80055420_56020(s16, s32, u8, u8, s32);
 void func_800E1934_F5554_shared_board(s32, s32);
 void func_800F59B4_1095D4_shared_board(mp3_omObjData* arg0);
+s16 func_8005279C_5339C(s32, s32);
 
+extern s32 D_8010197C_11559C_shared_board[]; //item mainFS ID array
 extern s8 D_80102C48_116868_shared_board;
 extern s16 D_80101908_115528_shared_board[];
 extern s16 D_8010559A_1191BA_shared_board;
@@ -114,7 +119,9 @@ extern RGB D_8010188C_1154AC_shared_board[];
 extern s8 D_800D20B1_D2CB1;
 extern s32 D_80101780_1153A0_shared_board;
 extern s16 D_8010559C_1191BC_shared_board[];
-extern s16 D_801018E4_115504_shared_board[12][2]; //is this actually [12][2]?
+extern s16 D_801018E4_115504_shared_board[17][2];
+extern s16 PlayerIconPositions[21][2];
+extern s16 mp3_D_80105598_1191B8_shared_board;
 extern s32 D_80101790_1153B0_shared_board;
 extern f32 D_801055C8_1191E8_shared_board;
 extern s16 D_801055E4_119204_shared_board;

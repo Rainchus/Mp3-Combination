@@ -223,3 +223,61 @@ checkColorSetAsm2:
     NOP
     J 0x800FCD30
     NOP
+
+//use gp to track the amount of items that should be parsed
+//this will make it easy to do `SLTI $rd, $rs, X -> SLT $rd, $rs, $gp
+SetItemCountToGP:
+    JR RA
+    DADDU gp, a0, r0
+
+newItemSpinCode:
+    //s3 holds current index
+    //ORI t0, r0, 3
+    J 0x800F6318
+    NOP
+
+chillyWatersBankCheck:
+    LUI v1, hi(mp3_gPlayers)
+    LBU v1, lo(mp3_gPlayers + 0x4) (v1)
+    ANDI v1, v1, 0x30
+    BEQ v1, r0, originalBank
+    NOP
+    //at bank in team mode, check coins as a team
+    SRL v1, v1, 5 //convert to team index
+    SLL v1, v1, 2
+    LUI v0, hi(firstPlayerEachTeam)
+    ADDIU v0, v0, lo(firstPlayerEachTeam)
+    ADDU v0, v0, v1
+    LW v1, 0x0000 (v0)
+    LH a2, 0x000A (v1) //load team player's coins
+    J 0x8010AE38
+    SLL v0, v1, 3
+
+    originalBank:
+    LB v1, 0x000F (s4)
+    J 0x8010AE24
+    SLL v0, v1, 3
+
+
+chillyWatersBankCheck2:
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBank2
+    NOP
+    //
+    //at bank in team mode, check coins as a team
+    SRL t0, t0, 5 //convert to team index
+    SLL t0, t0, 2
+    LUI v0, hi(firstPlayerEachTeam)
+    ADDIU v0, v0, lo(firstPlayerEachTeam)
+    ADDU v0, v0, t0
+    LW t0, 0x0000 (v0)
+    J 0x8010AF54
+    LH v0, 0x000A (t0) //load team player's coins    
+
+    originalBank2:
+    LUI v0, 0x800D
+    ADDU v0, v0, v1
+    J 0x8010AF54
+    LH v0, 0x1112 (v0)

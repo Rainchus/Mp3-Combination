@@ -20,6 +20,7 @@
 .include "asm\mp3\mp3_crash_screen_binary.asm"
 .include "asm\mp3\mp3_hooks.asm"
 .include "asm\mp3\mp3_ovl_00_hooks.asm"
+.include "asm\mp3\mp3_ovl_48_hooks.asm"
 .include "asm\mp3\mp3_ovl_58_hooks.asm"
 .include "asm\mp3\mp3_ovl_80_hooks.asm"
 .include "asm\mp3\mp3_ovl_bootlogos.asm"

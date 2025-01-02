@@ -98,7 +98,6 @@ typedef struct mp3_GW_PLAYER {
 /* 0x1D */ s8 playerIndex;
 /* 0x1E */ u8 bowser_suit_flags;
 /* 0x1F */ u8 turn_status; //space type landed on (blue, red, etc.)
-// /* 0x1E */ char unk_1E[2]; //likely padding
 /* 0x20 */ void* unk_20;
 /* 0x24	*/ void* player_obj; //ptr to struct 0x48 in size (things like model position, rotation, etc.)
 /* 0x24 */ s16 mg_star_coins; //used for mg star
@@ -204,6 +203,8 @@ extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];
 extern s32 mp3_D_800A12C0;
 extern s32 mp3_D_800A12C4;
 
+void mp3_PlaySound(s16);
+f32 mp3_HuMathCos(f32);
 void mp3_HuFreeFilePerm(void*);
 s16 mp3_func_80055810_56410(void*);
 void* mp3_ReadMainFS(s32);

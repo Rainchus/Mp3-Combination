@@ -12,7 +12,6 @@ void mp3_HuWipeFadeOut(s32, s32);
 void CopyMp2_gPlayerCopy_To_Mp3(void);
 void CopyMp1_gPlayerCopy_To_Mp3(void);
 void mp3_omInitObjMan(s32, s32);
-void mp3_PlaySound(s16);
 s32 WriteEepromCustom(void);
 
 mp1_GameStatus mp1_GwSystemCopy = {0};

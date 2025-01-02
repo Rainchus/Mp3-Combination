@@ -32,7 +32,7 @@
 .definelabel osGetTime, 0x8007CC90
 .definelabel osPiRawStartDma, 0x80080A60
 .definelabel osEPiRawStartDma, 0x80072950
-
+.definelabel mp3_omDelObj, 0x800479AC;
 .definelabel osMemSize, 0x80000318
 .definelabel __osCurrentTime, 0x800CE2B8
 .definelabel memcpy, 0x8007BD94
@@ -145,7 +145,11 @@
 .definelabel BoardPlayerRankCalc, 0x800EE9C0
 .definelabel SprAttrSet, 0x800553A8
 .definelabel SprAttrReset, 0x8005532C
-
+.definelabel func_8005279C_5339C, 0x8005279C
+.definelabel func_800F6AD0_10A6F0_shared_board, 0x800F6AD0
+.definelabel func_800F6A88_10A6A8_shared_board, 0x800F6A88
+.definelabel mp3_HuMathCos, 0x8008E3F0
+.definelabel mp3_D_80105598_1191B8_shared_board, 0x80105598
 .definelabel D_8010559C_1191BC_shared_board, 0x8010559C
 .definelabel D_801018E4_115504_shared_board, 0x801018e4
 .definelabel D_801055D4_1191F4_shared_board, 0x801055d4
@@ -157,13 +161,14 @@
 .definelabel func_80055024_55C24, 0x80055024
 .definelabel SprPriSet, 0x80055294
 .definelabel func_80054904_55504, 0x80054904
+.definelabel D_8010197C_11559C_shared_board, 0x8010197C
 .definelabel D_80101790_1153B0_shared_board, 0x80101790
 .definelabel D_801055C2_1191E2_shared_board, 0x801055C2
 .definelabel D_801055C8_1191E8_shared_board, 0x801055C8
 .definelabel D_801055E4_119204_shared_board, 0x801055E4
 .definelabel SprScale, 0x800551D8
 .definelabel UpdatePlayerBoardStatus, 0x800F2E30
-
+.definelabel func_800F6E4C_10AA6C_shared_board, 0x800F6E4C
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00
 .definelabel mp3_omovlhis_copy, 0x807FFE00

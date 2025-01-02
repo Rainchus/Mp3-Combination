@@ -65,4 +65,6 @@ void omDestroyObjMan(void);
 void omPrcSetDestructor(s32, void*);
 void omPrcResetStatBit(Process*, s32);
 mp3_omObjData* mp3_omAddObj(s16 priority, u16 arg1, u16 arg2, s16 arg3, omObjFunc func);
+void mp3_omDelObj(mp3_omObjData*);
+
 #endif //_GAME_OBJECT_H
