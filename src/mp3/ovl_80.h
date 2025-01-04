@@ -65,6 +65,11 @@ void func_800F4798_1083B8_shared_board(u32, s32);
 void func_800F4874_108494_shared_board(s32, s16, s16);
 s32 func_800EECB0_1028D0_shared_board(s32);
 s32 func_800D9E0C_EDA2C_shared_board(s32);
+void func_800DCA64_F0684_shared_board(s32);
+void func_800DE9AC_F25CC_shared_board(s32, s32);
+void func_800FF900_113520_shared_board(s32, s32);
+void func_800DC128_EFD48_shared_board(s32);
+extern void (*D_80102C70_116890_shared_board)(void);
 void func_800D9D84_ED9A4_shared_board(s32, s16, s32, s32, u16);
 void func_800EE7AC_1023CC_shared_board(mp3_omObjData* func);
 s32 BoardPlayerRankCalc(s32 player);
@@ -103,7 +108,16 @@ void func_80055420_56020(s16, s32, u8, u8, s32);
 void func_800E1934_F5554_shared_board(s32, s32);
 void func_800F59B4_1095D4_shared_board(mp3_omObjData* arg0);
 s16 func_8005279C_5339C(s32, s32);
+void func_800F696C_10A58C_shared_board(s32 arg0, s32 arg1, f32 arg2, f32 arg3);
+s32 func_800DEB2C_F274C_shared_board(s32);
+void func_800EC590_1001B0_shared_board(s32, s32);
+s32 func_800EEF80_102BA0_shared_board(f32);
+void func_800F76A4_10B2C4_shared_board(s32 arg0);
+void func_800F68E0_10A500_shared_board(s32 arg0, s32 arg1, s32 arg2);
 
+extern s32 D_80101A50_115670_shared_board[]; //randomly generated items
+extern s32 D_80105630_119250_shared_board[];
+extern s32 D_80100F90_114BB0_shared_board;
 extern s32 D_8010197C_11559C_shared_board[]; //item mainFS ID array
 extern s8 D_80102C48_116868_shared_board;
 extern s16 D_80101908_115528_shared_board[];
@@ -132,7 +146,7 @@ extern s16 PlayerBoardStatusRootPosition[23][2];
 extern s16 D_8010184C_11546C_shared_board[4][2]; //4p positions before minigame
 extern s16 D_8010185C_11547C_shared_board[4][2]; //1v3 positions before minigame
 extern s16 D_8010186C_11548C_shared_board[4][2];
-extern s16 D_801017C4_1153E4_shared_board[4][2];
+extern s16 D_801017C4_1153E4_shared_board[16][2];
 extern Process* D_80105580_1191A0_shared_board;
 extern s16 D_801055C2_1191E2_shared_board;
 extern s16 D_801055C4_1191E4_shared_board;

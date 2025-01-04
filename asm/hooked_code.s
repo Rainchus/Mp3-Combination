@@ -281,3 +281,228 @@ chillyWatersBankCheck2:
     ADDU v0, v0, v1
     J 0x8010AF54
     LH v0, 0x1112 (v0)
+
+chillyWatersItemMenuClosing:
+    //v0 currently holds the item index chosen
+    ADDU s0, v0, r0
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalItemMenuClosing
+    NOP
+    
+    JAL GetTeamCurrentIndex
+    NOP
+    SLL v1, v0, 3
+    SUBU v1, v1, v0
+    ADDU v0, s0, r0
+    J 0x801122CC
+    ADDU s0, s3, r0
+
+    originalItemMenuClosing:
+    SLL v1, s2, 3
+    SUBU v1, v1, s2
+    ADDU v0, s0, r0
+    J 0x801122CC
+    ADDU s0, s3, r0
+
+chillyWatersSkeletonKeyThing:
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalchillyWatersSkeletonKeyThing
+    NOP
+
+    JAL GetTeamCurrentIndex
+    NOP
+    LUI a0, 0x8010
+    J 0x80112184
+    LH a0, 0x570C (a0)
+
+    originalchillyWatersSkeletonKeyThing:
+    LUI a0, 0x8010
+    J 0x80112184
+    LH a0, 0x570C (a0)
+
+chillyWatersSkeletonKeyThing4:
+//this hook is really strange. we replace s2 with the player index of the combined team
+//this lets us use s2 temporarily
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalchillyWatersSkeletonKeyThing4
+    NOP
+
+    //is team mode
+    ADDU s2, v0, r0 //push v0
+
+    JAL GetTeamCurrentIndex
+    NOP
+
+    ADDU v1, s2, r0 //pop v0 temporarily to v1
+    ADDU s2, v0, r0 //copy first found player's index of current player's team to s2
+    ADDU v0, v1, r0 //pop original v0 back to v0
+
+    SLL v1, s2, 3
+    SUBU v1, v1, s2
+    J 0x80112440
+    NOP
+    
+
+    originalchillyWatersSkeletonKeyThing4:
+    SLL v1, s2, 3
+    J 0x80112440
+    SUBU v1, v1, s2
+    
+
+
+
+teamCheck0Asm: //s3 holds player index (return result to v1)
+    LUI a0, 0x800D
+    JAL GetTeamCurrentIndex
+    LB a0, 0xD067 (a0)
+    ADDU v1, v0, r0
+    J 0x800E3B1C
+    SLL v0, v1, 3
+
+teamCheck1Asm:
+    JAL GetTeamCurrentIndex
+    NOP
+    J 0x800E3A28
+    NOP
+
+teamCheck2Asm:
+    JAL GetTeamCurrentIndex
+    NOP
+    ADDU v1, v0, r0
+    J 0x800E3A80
+    SLL v0, v1, 3
+
+teamCheck3Asm:
+    SH v0, 0x0000 (s0)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalTeamCheck3
+    NOP
+    //
+    JAL GetTeamCurrentIndex
+    NOP
+    SLL v1, v0, 3
+    SUBU v0, v1, v0
+    J 0x800E3C94
+    NOP
+        
+    originalTeamCheck3:
+    SLL v0, s3, 3
+    SUBU v0, v0, s3
+    J 0x800E3C94
+    NOP
+
+
+teamCheck4Asm:
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalCpuItemGet
+    NOP
+    //team item get
+    ADDIU sp, sp, -0x20
+    SW v0, 0x0018 (sp)
+    JAL GetTeamCurrentIndex
+    NOP
+    JAL mp3_GetPlayerStruct
+    ADDU a0, v0, r0 //move first teammate index to a0
+    ADDU v1, v0, r0 //move player pointer to v1
+    LW v0, 0x0018 (sp) //pop item id to give player
+    ADDIU sp, sp, 0x20
+
+    originalCpuItemGet:
+    J 0x800FE9B0 //jump back to normal location
+    SB v0, 0x0000 (v1) //store item to either current player or current team
+
+unkItemsAsm0:
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0010 (sp)
+    JAL GetTeamCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return result to a0
+    LW v0, 0x0010 (sp)
+    ADDIU sp, sp, 0x18
+    J 0x801111FC
+    SLL v1, a0, 3
+
+unkCheck:
+    JAL GetCurrentPlayerIndex
+    NOP
+    JAL GetTeamCurrentIndex
+    ADDU a0, v0, r0
+    J 0x800F76F8
+    NOP
+
+shopCoinsCheck:
+    JAL GetCurrentPlayerIndex
+    NOP
+    JAL GetTeamCurrentIndex
+    ADDU a0, v0, r0
+    J 0x8010BBDC
+    NOP
+
+boughtItemShopper:
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0010 (sp)
+    JAL GetCurrentPlayerIndex
+    NOP
+    JAL GetTeamCurrentIndex
+    ADDU a0, v0, r0
+
+    ADDU v1, v0, r0 //return to v1
+    LW v0, 0x0010 (sp)
+    J 0x8010BF90
+    ADDIU sp, sp, 0x18
+
+
+teamCheck5Asm:
+    LUI a0, 0x800D
+    JAL GetTeamCurrentIndex
+    LB a0, 0xD067 (a0)
+    ADDU v1, v0, r0 //store result in v1
+    J 0x800E2B74
+    ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x800E2BA8)
+
+teamCheck7Asm:
+    LUI a0, 0x800D
+    JAL GetTeamCurrentIndex
+    LB a0, 0xD067 (a0)
+    ADDU v1, v0, r0 //store result in v1
+    J 0x800E2BF8
+    ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x800E2C28)
+
+//when you use an item and the item list background flips, -
+//it pulls the player index to see where to remove the item from
+//adjusted for teams
+itemUsedRemoveFromLargeItemList:
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0010 (sp)
+    JAL GetTeamCurrentIndex
+    LB a0, 0x000F (s3) //load current player index
+    ADDU a0, v0, r0 //return to a0
+    LW v0, 0x0010 (sp)
+    ADDIU sp, sp, 0x18
+    J 0x801170B8
+    ADDU a1, v0, r0
+
+teamCheck6Asm:
+    JAL teamCheck6_C
+    NOP
+    J 0x8010FDAC
+    NOP
+
+storeTeamIndex_Asm:
+    JAL mp3_GetPlayerStruct //restore from hook
+    ADDIU a0, r0, 0xFFFF //restore from hook
+    SW v0, 0x0074 (sp) //restore from hook
+    JAL storeTeamIndex
+    NOP
+    J 0x8010B6AC
+    SW v0, 0x00E8 (sp) //store to extended stack space

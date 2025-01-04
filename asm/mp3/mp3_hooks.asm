@@ -104,6 +104,16 @@
     J clearWackyWatchCopy
     NOP
 
+//.org 0x800E3A20
+    //JAL GetTeamCurrentIndex
+    //ADDU a0, s3, r0
+    //NOP
+    //NOP
+    //NOP
+    //NOP
+    //NOP
+    //NOP
+
 
 //mp3 load minigame index and short after converts to overlay id
 .headersize 0x80105A60 - 0x4DEC20

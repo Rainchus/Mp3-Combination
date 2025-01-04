@@ -81,8 +81,8 @@
     mp3_mainThreadCopy:
     ADDIU sp, sp, -0x18
     SW ra, 0x0010 (sp)
-    //JAL 0x80099424 //crash screen main binary
-    //NOP
+    JAL 0x80099424 //crash screen main binary
+    NOP
     mp3_threadInfiniteLoop:
     JAL 0x8004F074
     NOP

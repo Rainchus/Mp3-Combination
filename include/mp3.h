@@ -203,6 +203,8 @@ extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];
 extern s32 mp3_D_800A12C0;
 extern s32 mp3_D_800A12C4;
 
+void mp3_omDelPrcObj(s32); 
+f32 mp3_HuMathSin(f32);
 void mp3_PlaySound(s16);
 f32 mp3_HuMathCos(f32);
 void mp3_HuFreeFilePerm(void*);

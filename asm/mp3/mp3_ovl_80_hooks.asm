@@ -130,6 +130,7 @@
     NOP
 
 
+//PlayerHasItem
 .org 0x800E4978
     LUI v0, hi(0x800D110C)
     LBU v0, lo(0x800D110C) (v0)
@@ -143,6 +144,7 @@
     NOP
 
 
+//PlayerHasEmptyItemSlot
 .org 0x800E49DC
     LUI v0, hi(0x800D110C)
     LBU v0, lo(0x800D110C) (v0)
@@ -155,6 +157,7 @@
     J originalPlayerHasEmptyItemSlot
     NOP
 
+//FixUpPlayerItemSlots
 .org 0x800E4A08
     LUI v0, hi(0x800D110C)
     LBU v0, lo(0x800D110C) (v0)
@@ -167,6 +170,7 @@
     J originalFixUpPlayerItemSlots
     NOP
 
+//AdjustPlayerCoins
 .org 0x800F21C0
     LUI v0, hi(0x800D110C)
     LBU v0, lo(0x800D110C) (v0)
@@ -179,6 +183,7 @@
     J originalAdjustPlayerCoins
     NOP
 
+//PlayerHasCoins
 .org 0x800F2230
     LUI v0, hi(0x800D110C)
     LBU v0, lo(0x800D110C) (v0)
@@ -191,7 +196,7 @@
     J originalPlayerHasCoins
     NOP
 
-//team check is done in the hook
+//team check is done in the hook for both of these
 .org 0x800F3D70
     J newfunc_800F3D70_107990_shared_board
     NOP
@@ -199,6 +204,7 @@
 .org 0x800F5BF4
     J newfunc_800F5BF4_109814_shared_board
     NOP
+
 
 .org 0x800F39C0
     LUI v0, hi(0x800D110C)
@@ -337,10 +343,106 @@
     J originalfunc_800F59B4_1095D4_shared_board
     NOP
 
+.org 0x800E35F8
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label17
+    NOP
+    J newfunc_800E35F8_F7218_shared_board
+    NOP
+    label17:
+    J originalfunc_800E35F8_F7218_shared_board
+    NOP
+
+.org 0x800E3B14
+    J teamCheck0Asm
+    NOP
+
+.org 0x800E3A20
+    J teamCheck1Asm
+    ADDU a0, s3, r0 //player index into a0
+
+.org 0x800E3A78
+    J teamCheck2Asm
+    ADDU a0, s3, r0 //player index into a0
+
+.org 0x800E3C88
+    J teamCheck3Asm
+    ADDU a0, s3, r0 //player index into a0
+
+//items awarded after minigames (cpu only?)
+.org 0x800FE8B0
+    J teamCheck4Asm
+    NOP
+
+.org 0x800F7610
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label18
+    NOP
+    J newfunc_800F7610_10B230_shared_board
+    NOP
+    label18:
+    J originalfunc_800F7610_10B230_shared_board
+    NOP    
+
+
+
+.org 0x800E29E8
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label19
+    NOP
+    J newfunc_800E29E8_F6608_shared_board
+    NOP
+    label19:
+    J originalfunc_800E29E8_F6608_shared_board
+    NOP
+
+
+
+.org 0x800E3B70
+    JAL itemHandCursor3
+    ADDIU a3, sp, 0x0014
+
+.org 0x800E3944
+    JAL itemHandCursor2
+    ADDIU a3, sp, 0x0014
+
+.org 0x800FE7F4
+    JAL checkIfHideItemIcons
+    ADDU s1, r0, r0
+
 .org 0x800F5D44
     J newfunc_800F5D44_109964_shared_board
     NOP
 
+.org 0x800F76F0
+    JAL GetTeamCurrentIndex
+    SW v0, 0x0034 (sp)
+
+
+//another item removal check
+//this hook sets t0 for the 0x800E2BA8 hook below it
+.org 0x800E2B6C
+    J teamCheck5Asm 
+    NOP
+    NOP
+.org 0x800E2BA8
+    ADDU a0, t0, r0
+
+
+//another another item removal check
+//this hook sets t0 for the 0x800E2BA8 hook below it
+.org 0x800E2BEC
+    J teamCheck7Asm 
+    NOP
+    NOP
+.org 0x800E2C28
+    ADDU a0, t0, r0
 
 /* F7720 800E3B00 28420003 */  //slti       $v0, $v0, 0x3
 .org 0x800E3B00

@@ -22,7 +22,8 @@ turn_status_direct_new   equ 0x1127 //0x1124 -> 0x1127
 | 105F70 800F2350 8202001B |  lb         $v0, 0x1B($s0)//
 | 106020 800F2400 8202001B |  lb         $v0, 0x1B($s0)//
 | 10CC14 800F8FF4 A060001B |   sb        $zero, 0x1B($v1)//
-| 110714 800FCAF4 A040001C |   sb        $zero, 0x1C($v0)
+| 105EF4 800F22D4 8062001B |  lb         $v0, 0x1B($v1)
+
 
 //access directly into GwPlayer[x].bowser_suit_flags
 | F81D0 800E45B0 80221123 |  lb         $v0, %lo(GwPlayer + 0x1B)($at)//
@@ -57,6 +58,11 @@ turn_status_direct_new   equ 0x1127 //0x1124 -> 0x1127
 .org 0x800F8FF4
     SB r0, bowser_suit_flags_indirect_new (v1)
 
+.headersize 0x800F22D4 - 0x105EF4
+.org 0x800F22D4
+    LB v0, bowser_suit_flags_indirect_new (v1)
+
+    
 
 //direct references
 .headersize 0x800E45B0 - 0xF81D0
@@ -145,6 +151,7 @@ turn_status_direct_new   equ 0x1127 //0x1124 -> 0x1127
     | 110944 800FCD24 9045001C |  lbu        $a1, 0x1C($v0)
     | 111E70 800FE250 9245001C |  lbu       $a1, 0x1C($s2)
     | 100A58 800ECE38 A062001C |  sb         $v0, 0x1C($v1)
+    | 110714 800FCAF4 A040001C |   sb        $zero, 0x1C($v0)
 //access directly into GwPlayer[x].turn_status
     | 3C5800 801089E0 90A51124 |  lbu        $a1, %lo(GwPlayer + 0x1C)($a1)
     | 467B54 80105F24 90421124 |  lbu        $v0, %lo(GwPlayer + 0x1C)($v0)

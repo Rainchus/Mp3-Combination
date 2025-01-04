@@ -47,7 +47,7 @@ void HuPrcChildLink(Process*process, Process*child);
 void HuPrcChildUnlink(Process*process);
 Process* HuPrcCreateChild(process_func func, u16 priority, s32 stack_size, s32 extra_data_size, Process* parent);
 void HuPrcChildWait();
-Process* HuPrcCurrentGet();
+Process* mp3_HuPrcCurrentGet();
 s32 HuPrcChildGet(Process*process);
 s32 HuPrcStatKill(Process*process);
 void HuPrcKill(Process*process);

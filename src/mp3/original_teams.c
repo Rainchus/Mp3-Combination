@@ -693,6 +693,34 @@ void originalfunc_800F5F98_109BB8_shared_board(s32 arg0, s32 arg1) {
     }
 }
 
+void originalfunc_800E35F8_F7218_shared_board(void) {
+    f32 temp_f0;
+    f32 var_f20;
+    s32* temp_s0;
+    s32 prev;
+
+    temp_s0 = mp3_HuPrcCurrentGet()->user_data;
+    var_f20 = 0.0f;
+    prev = *temp_s0;
+    while (*temp_s0 != -1) {
+        if (*temp_s0 != prev) {
+            func_800F696C_10A58C_shared_board(mp3_GwSystem.current_player_index, prev, 1.0f, 1.0f);
+            var_f20 = 0.0f;
+            prev = *temp_s0;
+        }
+        if (var_f20 > 360.0f) {
+            var_f20 -= 360.0f;
+        }
+        temp_f0 = (mp3_HuMathSin(var_f20) * 0.2f) + 1.0f;
+        func_800F696C_10A58C_shared_board(mp3_GwSystem.current_player_index, *temp_s0, temp_f0, temp_f0);
+        mp3_HuPrcVSleep();
+        var_f20 += 13.0f;
+        
+    }
+    func_800F696C_10A58C_shared_board(mp3_GwSystem.current_player_index, prev, 1.0f, 1.0f);
+    mp3_omDelPrcObj(0);
+}
+
 void originalfunc_800F59B4_1095D4_shared_board(mp3_omObjData* arg0) {
     s32 var_s1;
 
@@ -732,6 +760,23 @@ void originalfunc_800F59B4_1095D4_shared_board(mp3_omObjData* arg0) {
 
     arg0->scale.y -= 1.0f;
     arg0->scale.z += 2.0f;
+}
+
+void originalfunc_800F7610_10B230_shared_board(void) {
+    s32 prevItem = -1;
+    s32 i = 0;
+    s32* boardItemIds = D_80105630_119250_shared_board;
+    
+    for (; i < NORMAL_ITEM_COUNT; i++) {
+        boardItemIds = &D_80105630_119250_shared_board[i];
+        while (1) {
+            *boardItemIds = D_80101A50_115670_shared_board[func_800EEF80_102BA0_shared_board(9.0f)];
+            if (*boardItemIds != prevItem) {
+                prevItem = *boardItemIds;
+                break;
+            }
+        }
+    }
 }
 
 /////////
@@ -806,4 +851,33 @@ void originalAdjustPlayerCoins(s32 arg0, s32 arg1) {
 
 s32 originalPlayerHasCoins(s32 playerIndex, s32 requiredCoins) {
     return mp3_GetPlayerStruct(playerIndex)->coins >= requiredCoins;
+}
+
+s32 originalfunc_800E29E8_F6608_shared_board(void) {
+    mp3_GW_PLAYER* player;
+    mp3_GW_SYSTEM* system = &mp3_GwSystem;
+
+    player = mp3_GetPlayerStruct(CUR_PLAYER);
+    if (func_800DEB2C_F274C_shared_board(system->current_player_index) == 3 && player->flags2 & 0x80) {
+        player->flags2 &= ~0x80;
+        func_800EC590_1001B0_shared_board(-1, 0x3A2B);
+    } else {
+        if (func_800DEB2C_F274C_shared_board(system->current_player_index) == 3) {
+            func_800EC590_1001B0_shared_board(-1, 0x3A27);
+        }
+        if (player->flags2 & 0x80) {
+            player->flags2 &= ~0x80;
+            func_800EC590_1001B0_shared_board(-1, 0x3A29);
+        }
+    }
+
+    func_800DCA64_F0684_shared_board(mp3_GwSystem.current_player_index);
+    (*D_80102C70_116890_shared_board)();
+    mp3_gPlayers[mp3_GwSystem.current_player_index].items[D_80100F90_114BB0_shared_board] = -1;
+    originalFixUpPlayerItemSlots(mp3_GwSystem.current_player_index);
+    func_800DE9AC_F25CC_shared_board(mp3_GwSystem.current_player_index, 2);
+    func_800FF900_113520_shared_board(-1, 2);
+    func_800DC128_EFD48_shared_board(mp3_GwSystem.current_player_index);
+    mp3_HuPrcSleep(0xF);
+    return 1;
 }

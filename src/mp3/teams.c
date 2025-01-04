@@ -176,7 +176,6 @@ s32 GetCurrentTeamBonusStarScore(mp3_GW_PLAYER* player) {
 
 s32 newfunc_800EEA58_102678_shared_board(s32 player) {
     s32 i;
-    s32 score[4];
 
     if (mp3_GWBoardFlagCheck(0xF) == 0) {
         return BoardPlayerRankCalc(player);
@@ -253,27 +252,14 @@ void newUpdatePlayerBoardStatus(s32 playerIndex, s32 teamIndex) {
     BoardStatus* playerBoardStatus;
     s32 var_v1;
     s32 i;
-    mp3_GW_PLAYER* teammate;
     mp3_GW_PLAYER* curPlayer = &mp3_gPlayers[playerIndex];
-
-    //find current player's teammate
-    for (i = 0; i < 4; i++) {
-        teammate = &mp3_gPlayers[i];
-        if (i == playerIndex) {
-            continue;
-        }
-        s32 curPlayerTeam = get_team_index(teammate);
-        if (curPlayerTeam == teamIndex) {
-            break;
-        }
-    }
     
     playerBoardStatus = &D_801057E0_119400_shared_board[playerIndex];
-    s32 combinedCoins = curPlayer->coins + teammate->coins;
-    if (playerBoardStatus->prevCoins != combinedCoins) {
-        coinDigits.digits[HUNDREDS] = combinedCoins / 100;
-        coinDigits.digits[TENS] = combinedCoins / 10 % 10;
-        coinDigits.digits[ONES] = combinedCoins % 10;
+    //s32 combinedCoins = curPlayer->coins + teammate->coins;
+    if (playerBoardStatus->prevCoins != curPlayer->coins) {
+        coinDigits.digits[HUNDREDS] = curPlayer->coins / 100;
+        coinDigits.digits[TENS] = curPlayer->coins / 10 % 10;
+        coinDigits.digits[ONES] = curPlayer->coins % 10;
         if (coinDigits.digits[HUNDREDS] == 0 && coinDigits.digits[TENS] == 0) {
             var_v1 = 1;
         } else if (coinDigits.digits[HUNDREDS] == 0 && coinDigits.digits[TENS] != 0) {
@@ -297,30 +283,28 @@ void newUpdatePlayerBoardStatus(s32 playerIndex, s32 teamIndex) {
             func_800550F4_55CF4(playerBoardStatus->playerIndex, i + COINS_HUNDREDS_DIGIT, 1);
         }
     
-        playerBoardStatus->prevCoins = combinedCoins;
+        playerBoardStatus->prevCoins = curPlayer->coins;
     }
 
-    s32 combinedStars = curPlayer->stars + teammate->stars;
-
-    if (playerBoardStatus->prevStars != combinedStars) {
-        if (combinedStars > 99) {
+    if (playerBoardStatus->prevStars != curPlayer->stars) {
+        if (curPlayer->stars > 99) {
             func_80055140_55D40(playerBoardStatus->playerIndex, STARS_TENS_DIGIT, 9, 0);
             func_80055140_55D40(playerBoardStatus->playerIndex, STARS_ONES_DIGIT, 9, 0);
         } else {
-            if (combinedStars > 9) {
-                func_80055140_55D40(playerBoardStatus->playerIndex, STARS_TENS_DIGIT, combinedStars, 0);
+            if (curPlayer->stars > 9) {
+                func_80055140_55D40(playerBoardStatus->playerIndex, STARS_TENS_DIGIT, curPlayer->stars, 0);
             } else {
                 func_80055140_55D40(playerBoardStatus->playerIndex, STARS_TENS_DIGIT, DIGIT_X, 0);
             }
-            func_80055140_55D40(playerBoardStatus->playerIndex, STARS_ONES_DIGIT, combinedStars % 10, 0);
+            func_80055140_55D40(playerBoardStatus->playerIndex, STARS_ONES_DIGIT, curPlayer->stars % 10, 0);
         }
         func_800550F4_55CF4(playerBoardStatus->playerIndex, STARS_TENS_DIGIT, 1);
         func_800550F4_55CF4(playerBoardStatus->playerIndex, STARS_ONES_DIGIT, 1);
     
-        playerBoardStatus->prevStars = combinedStars;
+        playerBoardStatus->prevStars = curPlayer->stars;
     }
-    coinDigits.unk_08[0] = combinedCoins;
-    coinDigits.unk_08[1] = combinedStars;
+    coinDigits.unk_08[0] = curPlayer->coins;
+    coinDigits.unk_08[1] = curPlayer->stars;
     
     for (i = 0; i < ARRAY_COUNT(coinDigits.unk_08); i++) {
         if ((i != 0 && playerBoardStatus->counts[i] != coinDigits.unk_08[i]) || (i == 0 && D_801055E8_119208_shared_board[playerIndex] != 0)) {
@@ -797,7 +781,7 @@ void newfunc_800F4190_107DB0_shared_board(void) {
             if (team1Count == 0) {
                 PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[2][0];
                 PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[2][1];
-                
+
                 D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[2][0];
                 D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[2][1];
                 D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[2][0];
@@ -982,11 +966,22 @@ void newfunc_800F3E34_107A54_shared_board(s32 arg0) {
     func_80054904_55504(temp_s0, 0xA, PlayerIconPositions[10][0], PlayerIconPositions[10][1]);
 }
 
+//for giving an item after an item minigame
 void newfunc_800F3FF4_107C14_shared_board(s32 arg0) {
     s32 temp_s3;
     s16 var_s1;
     s32 i;
     s32 curItem;
+    s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+        if (teamIndex == curPlayerTeam) {
+            arg0 = i;
+            break;
+        }
+    }
+    
+    
     temp_s3 = D_801057E0_119400_shared_board[arg0].playerIndex;
 
     for (i = 0; i < EXTENDED_ITEM_COUNT; i++) {
@@ -1169,13 +1164,25 @@ void newfunc_800F5F98_109BB8_shared_board(s32 arg0, s32 arg1) {
     s16 temp_s5;
     s16 i;
     void* var_s2;
+    s32 temp;
 
     temp_s7 = &D_801057E0_119400_shared_board[arg0];
     temp_s5 = temp_s7->playerIndex;
     var_s2 = NULL;
+
+    s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+        if (teamIndex == curPlayerTeam) {
+            temp = i;
+            break;
+        }
+    }
+
     for (i = 0; i < EXTENDED_ITEM_COUNT; i++) {
         var_s2 = NULL;
-        if (mp3_gPlayers[arg0].items[i] != -1) {
+        if (mp3_gPlayers[temp].items[i] != -1) {
             var_s2 = mp3_ReadMainFS(D_8010197C_11559C_shared_board[mp3_gPlayers[arg0].items[i]]);
         } else {
             if (i == 0) {
@@ -1234,7 +1241,9 @@ void newfunc_800F5F98_109BB8_shared_board(s32 arg0, s32 arg1) {
             }
             SprScale(temp_s5, i + 2, 1.0f, 1.0f);
             func_800550B4_55CB4(temp_s5, i + 2, 0.0f);
-            if (arg0 == mp3_GwSystem.current_player_index) {
+            s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+            s32 teamIndex2 = get_team_index(&mp3_gPlayers[mp3_GwSystem.current_player_index]);
+            if (teamIndex == teamIndex2) {
                 func_80055458_56058(temp_s5, i + 2, 0x100U);
             } else {
                 func_80055458_56058(temp_s5, i + 2, 0x80U);
@@ -1244,6 +1253,225 @@ void newfunc_800F5F98_109BB8_shared_board(s32 arg0, s32 arg1) {
             temp_s7->unk_40[i] = -1;
         }
     }
+}
+
+void func_800F6848_10A468_shared_board(s32 arg0, s32 arg1, f32* arg2, f32* arg3);
+
+void itemHandCursor2(s32 arg0, s32 arg1, f32* arg2, f32* arg3) {
+    s32 i;
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                arg0 = i;
+                break;
+            }
+        }
+        func_800F6848_10A468_shared_board(arg0, arg1, arg2, arg3);
+    } else {
+        func_800F6848_10A468_shared_board(arg0, arg1, arg2, arg3);
+    } 
+}
+
+void itemHandCursor3(s32 arg0, s32 arg1, f32* arg2, f32* arg3) {
+    s32 i;
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                arg0 = i;
+                break;
+            }
+        }
+    }
+    //related to where you drag an item
+    func_800F6848_10A468_shared_board(arg0, arg1, arg2, arg3);
+}
+
+void itemHandCursor(s32 arg0, s32 arg1, f32* arg2, f32* arg3) {
+    s32 i;
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                arg0 = i;
+                break;
+            }
+        }
+        func_800F6848_10A468_shared_board(arg0, arg1, arg2, arg3);
+    } else {
+        func_800F6848_10A468_shared_board(arg0, arg1, arg2, arg3);
+    } 
+}
+
+s32 GetTeamCurrentIndex(s32 playerIndex) {
+    s32 i;
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                break;
+            }
+        }
+        return i;
+    } else {
+        return mp3_GwSystem.current_player_index;
+    }   
+}
+
+void newfunc_800E35F8_F7218_shared_board(void) {
+    f32 temp_f0;
+    f32 var_f20;
+    s32* temp_s0;
+    s32 prev;
+    s32 teamIndex = get_team_index(&mp3_gPlayers[mp3_GwSystem.current_player_index]);
+    s32 i;
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[i]);
+        if (teamIndex == curPlayerTeamIndex) {
+            break;
+        }
+    }
+
+    temp_s0 = mp3_HuPrcCurrentGet()->user_data;
+    var_f20 = 0.0f;
+    prev = *temp_s0;
+    while (*temp_s0 != -1) {
+        if (*temp_s0 != prev) {
+            func_800F696C_10A58C_shared_board(i, prev, 1.0f, 1.0f);
+            var_f20 = 0.0f;
+            prev = *temp_s0;
+        }
+        if (var_f20 > 360.0f) {
+            var_f20 -= 360.0f;
+        }
+        temp_f0 = (mp3_HuMathSin(var_f20) * 0.2f) + 1.0f;
+        func_800F696C_10A58C_shared_board(i, *temp_s0, temp_f0, temp_f0);
+        mp3_HuPrcVSleep();
+        var_f20 += 13.0f;
+        
+    }
+    func_800F696C_10A58C_shared_board(i, prev, 1.0f, 1.0f);
+    mp3_omDelPrcObj(0);
+}
+
+void func_800F6848_10A468_shared_board(s32 arg0, s32 arg1, f32* arg2, f32* arg3);
+void func_800F688C_10A4AC_shared_board(s32 arg0, s32 arg1, s16 arg2, s16 arg3);
+
+void chillyWatersSkeletonKeyThing2(s32 arg0, s32 arg1, f32* arg2, f32* arg3) {
+    s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+    s32 i;
+
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        // //get first player of team (this needs a different approach)
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                arg0 = i;
+                break;
+            }
+        }
+        func_800F6848_10A468_shared_board(arg0, arg1, arg2, arg3);
+    } else {
+        func_800F6848_10A468_shared_board(arg0, arg1, arg2, arg3);
+    }
+}
+
+void chillyWatersSkeletonKeyThing3(s32 arg0, s32 arg1, s16 arg2, s16 arg3) {
+    s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+    s32 i;
+
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        // //get first player of team (this needs a different approach)
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                arg0 = i;
+                break;
+            }
+        }
+        func_800F688C_10A4AC_shared_board(arg0, arg1, arg2, arg3);
+    } else {
+        func_800F688C_10A4AC_shared_board(arg0, arg1, arg2, arg3);
+    }
+}
+
+//TODO: hopefully the array D_80105630_119250_shared_board can hold 5 items...
+void newfunc_800F7610_10B230_shared_board(void) {
+    s32 prevItem = -1;
+    s32 i = 0;
+    s32* boardItemIds = D_80105630_119250_shared_board;
+    
+    for (; i < EXTENDED_ITEM_COUNT; i++) {
+        boardItemIds = &D_80105630_119250_shared_board[i];
+        while (1) {
+            *boardItemIds = D_80101A50_115670_shared_board[func_800EEF80_102BA0_shared_board(9.0f)];
+            if (*boardItemIds != prevItem) {
+                prevItem = *boardItemIds;
+                break;
+            }
+        }
+    }
+}
+
+//Baby bowser gives warp blocks from item space
+void newfunc_800F7F7C_10BB9C_shared_board(void) {
+    func_800EC590_1001B0_shared_board(5, 0x3C21);
+    D_80105630_119250_shared_board[0] = D_80105630_119250_shared_board[1] = D_80105630_119250_shared_board[2] = ITEM_WARP_BLOCK;
+    func_800F76A4_10B2C4_shared_board(0);
+    func_800EC590_1001B0_shared_board(5, 0x3C1D);
+}
+
+void teamCheck6_C(s32 arg0, s32 arg1, s32 arg2) {
+    s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+    s32 i;
+
+    if (mp3_gPlayers[0].flags1 & 0x30) {   
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                arg0 = i;
+                break;
+            }
+        }
+    }
+
+    func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
+}
+
+//if team is in second, return that they are in 4th for item pool
+s32 GetPlayerPlacementForTeamShop(s32 playerIndex) {
+    //if teams are not on, do normal rank calc
+    if (!(mp3_gPlayers[0].flags1 & 0x30)) {
+        return BoardPlayerRankCalc(playerIndex);
+    }
+
+    s32 teamRank = BoardPlayerTeamRankCalc(playerIndex);
+
+    if (teamRank > 0) {
+        teamRank = 3;
+    }
+    return teamRank;
+}
+
+s32 storeTeamIndex(void) {
+    s32 teamIndex = get_team_index(&mp3_gPlayers[mp3_GwSystem.current_player_index]);
+    s32 i;
+
+    if (mp3_gPlayers[0].flags1 & 0x30) {   
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                return i;
+            }
+        }
+    }
+    return -1;
 }
 
 /////
@@ -1305,10 +1533,8 @@ void newPlayerHasEmptyItemSlot(s32 arg0) {
 
 void newFixUpPlayerItemSlots(s32 playerIndex) {
     s8* playerItems;
-    s8* teammateItems;
     s32 i;
     mp3_GW_PLAYER* player0Team0 = NULL;
-    mp3_GW_PLAYER* player1Team0 = NULL;
     s32 teamIndex;
 
     if (playerIndex == CUR_PLAYER) {
@@ -1330,7 +1556,6 @@ void newFixUpPlayerItemSlots(s32 playerIndex) {
 void newAdjustPlayerCoins(s32 playerIndex, s32 arg1) {
     mp3_GW_PLAYER* player = NULL;
     s32 teamIndex;
-    s32 i;
 
     if (playerIndex == CUR_PLAYER) {
         playerIndex = mp3_GwSystem.current_player_index;
@@ -1355,7 +1580,6 @@ void newAdjustPlayerCoins(s32 playerIndex, s32 arg1) {
 s32 newPlayerHasCoins(s32 playerIndex, s32 requiredCoins) {
     mp3_GW_PLAYER* player = NULL;
     s32 teamIndex;
-    s32 i;
 
     if (playerIndex == CUR_PLAYER) {
         playerIndex = mp3_GwSystem.current_player_index;
@@ -1450,4 +1674,58 @@ void newfunc_800F5BF4_109814_shared_board(s32 playerIndex, s32 coinAmount, s32 a
         (D_801055E8_119208_shared_board[playerIndex])->scale.z  = 3.0f;
         (D_801055E8_119208_shared_board[playerIndex])->work[3] = arg2;
     }
+}
+
+void checkIfHideItemIcons(void) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        D_80101790_1153B0_shared_board = 1; //leave item icons on during 1p minigame hud movement
+    } else {
+        D_80101790_1153B0_shared_board = 0; //vanilla code, hide item icons
+    }
+}
+
+s32 func_800DEB2C_F274C_shared_board(s32);
+void func_800EC590_1001B0_shared_board(s32, s32);
+
+s32 newfunc_800E29E8_F6608_shared_board(void) {
+    mp3_GW_PLAYER* player;
+    mp3_GW_SYSTEM* system = &mp3_GwSystem;
+    s32 arg0 = 0;
+
+    player = mp3_GetPlayerStruct(CUR_PLAYER);
+    if (func_800DEB2C_F274C_shared_board(system->current_player_index) == 3 && player->flags2 & 0x80) {
+        player->flags2 &= ~0x80;
+        func_800EC590_1001B0_shared_board(-1, 0x3A2B);
+    } else {
+        if (func_800DEB2C_F274C_shared_board(system->current_player_index) == 3) {
+            func_800EC590_1001B0_shared_board(-1, 0x3A27);
+        }
+        if (player->flags2 & 0x80) {
+            player->flags2 &= ~0x80;
+            func_800EC590_1001B0_shared_board(-1, 0x3A29);
+        }        
+    }
+
+    func_800DCA64_F0684_shared_board(mp3_GwSystem.current_player_index);
+    (*D_80102C70_116890_shared_board)();
+    s32 teamIndex = get_team_index(&mp3_gPlayers[mp3_GwSystem.current_player_index]);
+
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 i;
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                arg0 = i;
+                break;
+            }
+        }
+    }
+
+    mp3_gPlayers[arg0].items[D_80100F90_114BB0_shared_board] = -1;
+    newFixUpPlayerItemSlots(mp3_GwSystem.current_player_index);
+    func_800DE9AC_F25CC_shared_board(mp3_GwSystem.current_player_index, 2);
+    func_800FF900_113520_shared_board(-1, 2);
+    func_800DC128_EFD48_shared_board(mp3_GwSystem.current_player_index);
+    mp3_HuPrcSleep(0xF);
+    return 1;
 }
