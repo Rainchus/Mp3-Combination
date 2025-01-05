@@ -401,25 +401,25 @@ teamCheck3Asm:
 
 
 teamCheck4Asm:
+    //v0 holds current item index to write to
     LUI t0, hi(mp3_gPlayers)
     LBU t0, lo(mp3_gPlayers + 0x4) (t0)
     ANDI t0, t0, 0x30
-    BEQ t0, r0, originalCpuItemGet
-    NOP
+    BEQL t0, r0, originalCpuItemGet
+    LB v1, 0x000F (s4)
     //team item get
     ADDIU sp, sp, -0x20
     SW v0, 0x0018 (sp)
+    LUI a0, 0x800D
     JAL GetTeamCurrentIndex
-    NOP
-    JAL mp3_GetPlayerStruct
-    ADDU a0, v0, r0 //move first teammate index to a0
-    ADDU v1, v0, r0 //move player pointer to v1
+    LB a0, 0xD067 (a0)
+    ADDU v1, v0, r0
     LW v0, 0x0018 (sp) //pop item id to give player
     ADDIU sp, sp, 0x20
 
     originalCpuItemGet:
-    J 0x800FE9B0 //jump back to normal location
-    SB v0, 0x0000 (v1) //store item to either current player or current team
+    J 0x800FE88C //jump back to normal location
+    SLL a0, v1, 3
 
 unkItemsAsm0:
     ADDIU sp, sp, -0x18
@@ -478,6 +478,27 @@ teamCheck7Asm:
     J 0x800E2BF8
     ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x800E2C28)
 
+teamCheck8Asm:
+    LUI a0, 0x800D
+    JAL GetTeamCurrentIndex
+    LB a0, 0xD067 (a0)
+    J 0x80106DD0
+    ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x80106DF8)
+
+teamCheck9Asm:
+    LUI a0, 0x800D
+    JAL GetTeamCurrentIndex
+    LB a0, 0xD067 (a0)
+    J 0x80106DD0
+    ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x80106DF8)
+
+teamCheck10Asm:
+    LUI a0, 0x800D
+    JAL GetTeamCurrentIndex
+    LB a0, 0xD067 (a0)
+    J 0x8010C540
+    ADDU a0, v0, r0 //store in t0 for another hook (hook at 0x800DDAE8)    
+
 //when you use an item and the item list background flips, -
 //it pulls the player index to see where to remove the item from
 //adjusted for teams
@@ -506,3 +527,18 @@ storeTeamIndex_Asm:
     NOP
     J 0x8010B6AC
     SW v0, 0x00E8 (sp) //store to extended stack space
+
+getItemFromItemSpaceQuestionHook:
+    JAL 0x800E49DC
+    ADDU a0, s3, r0
+    //we need to poke s7 to either 0 or 1 for top left or top right area for items to go to
+    ADDIU sp, sp, -0x20
+    SW v0, 0x0014 (sp)
+    JAL CStuff
+    NOP
+    ADDU s7, v0, r0
+    LW v0, 0x0014 (sp)
+    J 0x800F7750
+    ADDIU sp, sp, 0x20
+
+    

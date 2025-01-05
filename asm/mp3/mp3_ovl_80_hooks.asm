@@ -371,10 +371,10 @@
     J teamCheck3Asm
     ADDU a0, s3, r0 //player index into a0
 
-//items awarded after minigames (cpu only?)
-.org 0x800FE8B0
-    J teamCheck4Asm
-    NOP
+//items awarded after item minigames
+//.org 0x800FE884
+    //J teamCheck4Asm
+    //NOP
 
 .org 0x800F7610
     LUI v0, hi(0x800D110C)
@@ -402,6 +402,17 @@
     J originalfunc_800E29E8_F6608_shared_board
     NOP
 
+.org 0x800F52C4
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label20
+    NOP
+    J newfunc_800F52C4_108EE4_shared_board
+    NOP
+    label20:
+    J originalfunc_800F52C4_108EE4_shared_board
+    NOP
 
 
 .org 0x800E3B70
@@ -420,10 +431,16 @@
     J newfunc_800F5D44_109964_shared_board
     NOP
 
+//related to spawning of items above player's head when given items from a question
+//TODO: by sheer chance, a0 happens to be the player index in this instance. probably shouldn't rely on this...
 .org 0x800F76F0
     JAL GetTeamCurrentIndex
     SW v0, 0x0034 (sp)
 
+//for repositioning where items go when you get them in large form from toad/baby bowser
+.org 0x800F7748
+    J getItemFromItemSpaceQuestionHook
+    NOP
 
 //another item removal check
 //this hook sets t0 for the 0x800E2BA8 hook below it
@@ -444,8 +461,34 @@
 .org 0x800E2C28
     ADDU a0, t0, r0
 
+//award star to 1st player on current player's team from hidden star block
+//this hook sets t0 for the 0x800DDAE8 hook below it
+.org 0x800DDAB4
+    J teamCheck9Asm 
+    NOP
+    NOP
+.org 0x800DDAE8
+    ADDU v1, t0, r0
+
 /* F7720 800E3B00 28420003 */  //slti       $v0, $v0, 0x3
 .org 0x800E3B00
     SLT v0, v0, gp
+
+.org 0x800E5870
+    JAL CustomMinigameSetCheck
+    NOP
+
+.org 0x800F7F7C
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label21
+    NOP
+    J newfunc_800F7F7C_10BB9C_shared_board
+    NOP
+    label21:
+    J originalfunc_800F7F7C_10BB9C_shared_board
+    NOP
+
 
 //801067B8 stores players starting flags (0x04)

@@ -298,6 +298,13 @@ void originalfunc_800F4190_107DB0_shared_board(void) {
         spriteIDs[i + 10] = mp3_func_80055810_56410(temp_v0);
         mp3_HuFreeFilePerm(temp_v0);
     }
+
+    //if teams, set gp to 5 for item cap
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        SetItemCountToGP(5); //5 items for teams
+    } else {
+        SetItemCountToGP(3); //3 items for teams
+    }
 }
 
 void originalfunc_800F3A80_1076A0_shared_board(s32 arg0) {
@@ -779,6 +786,50 @@ void originalfunc_800F7610_10B230_shared_board(void) {
     }
 }
 
+//decide what type of minigame will be played
+s32 originalfunc_800F52C4_108EE4_shared_board(void) {
+    u8 type1Indices[4];
+    u8 type2Indices[4];
+    u8 otherCount = 0;
+    u8 type2Count = 0;
+    u8 type1Count = 0;
+    s32 i;
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        switch (D_801057E0_119400_shared_board[i].spaceType) {
+        case 1:
+            type1Indices[type1Count++] = i;
+            break;
+        case 2:
+            type2Indices[type2Count++] = i;
+            break;
+        default:
+            otherCount++;
+        }
+    }
+
+    // Determine result based on counts
+    if (otherCount > 0) {
+        return -1;
+    }
+
+    if (type1Count == 0 || type1Count == 4) {
+        return 0;
+    }
+
+    if (type1Count == 1) {
+        D_801055F8_119218_shared_board = type1Indices[0];
+        return 1;
+    }
+
+    if (type1Count == 3) {
+        D_801055F8_119218_shared_board = type2Indices[0];
+        return 1;
+    }
+
+    return 2;
+}
+
 /////////
 
 void originalShowPlayerCoinChange(s32 player, s32 coins) {
@@ -880,4 +931,12 @@ s32 originalfunc_800E29E8_F6608_shared_board(void) {
     func_800DC128_EFD48_shared_board(mp3_GwSystem.current_player_index);
     mp3_HuPrcSleep(0xF);
     return 1;
+}
+
+//Baby bowser gives warp blocks from item space
+void originalfunc_800F7F7C_10BB9C_shared_board(void) {
+    func_800EC590_1001B0_shared_board(5, 0x3C21);
+    D_80105630_119250_shared_board[0] = D_80105630_119250_shared_board[1] = D_80105630_119250_shared_board[2] = ITEM_WARP_BLOCK;
+    func_800F76A4_10B2C4_shared_board(0);
+    func_800EC590_1001B0_shared_board(5, 0x3C1D);
 }

@@ -27,7 +27,7 @@ s32 EepromTypeSet(s32 arg0) {
 }
 
 void mp3_ReadMinigameList(void) {
-    mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, 0x18);
+    mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData.minigameFlags, sizeof(customEepromData.minigameFlags));
 }
 
 void NewInitialSplashScreen(void) {
@@ -50,7 +50,7 @@ void NewInitialSplashScreen(void) {
         mp3_RequestSIFunction(&sp10, &mp3_ReadMinigameList, &temp, 1);
     }
 
-    //eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, 0x18);
+    //eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData.minigameFlags, sizeof(customEepromData.minigameFlags));
 
     temp_v0 = func_8000B838_C438(CUSTOM_LOGO);
     temp_v0_2 = InitEspriteSlot(temp_v0, 0, 1);
@@ -206,13 +206,13 @@ void InitializeInitialMinigameList(void) {
     s32 eepromByteResults = 0;
     s32 i;
 
-    for (i = 0; i < 0x18; i++) {
-        eepromByteResults += customEepromData[i];
+    for (i = 0; i < sizeof(customEepromData.minigameFlags); i++) {
+        eepromByteResults += customEepromData.minigameFlags[i];
     }
 
     if (eepromByteResults == 0) {
-        for (i = 0; i < 0x18; i++) {
-            customEepromData[i] = CustomMinigamesEepromBytes[i];
+        for (i = 0; i < sizeof(customEepromData.minigameFlags); i++) {
+            customEepromData.minigameFlags[i] = CustomMinigamesEepromBytes[i];
         }
         //no idea what any of these args do
         char sp10[16] = {0};

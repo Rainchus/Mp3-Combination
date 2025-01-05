@@ -23,7 +23,7 @@ extern s32 eepType;
 extern u8 mp3_D_800D09A8;
 extern OSMesgQueue mp3_D_800CE1A0;
 //unsure if this needs to be aligned, but it cant hurt
-u8 customEepromData[0x140] __attribute__((aligned(16))) = {0};
+EepData customEepromData = {0};
 extern int		mp3_sprintf(char *s, const char *fmt, ...);
 void mp3_HuAudSeqPlay(s32);
 extern s16 mp3_D_800CDA7C[];
@@ -65,16 +65,16 @@ void SetMusicID(void) {
 }
 
 s32 GetMinigameFlag(s32 arg0) {
-    return (customEepromData[arg0 / 8] >> (arg0 % 8)) & 1;
+    return (customEepromData.minigameFlags[arg0 / 8] >> (arg0 % 8)) & 1;
 }
 
 void SetMinigameFlag(s32 arg0, s32 value) {
     if (value) {
         // Set the bit (use OR to turn the bit on)
-        customEepromData[arg0 / 8] |= (1 << (arg0 % 8));
+        customEepromData.minigameFlags[arg0 / 8] |= (1 << (arg0 % 8));
     } else {
         // Clear the bit (use AND with the complement to turn the bit off)
-        customEepromData[arg0 / 8] &= ~(1 << (arg0 % 8));
+        customEepromData.minigameFlags[arg0 / 8] &= ~(1 << (arg0 % 8));
     }
 }
 
@@ -148,11 +148,11 @@ typedef struct UnkEepStruct {
 } UnkEepStruct;
 
 s32 InitializeCustomEepromData(void) {
-    return mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
+    return mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, (void*)&customEepromData, sizeof(customEepromData));
 }
 
 s32 WriteEepromCustom(void) {
-    return mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, 0x18);
+    return mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData.minigameFlags, sizeof(customEepromData.minigameFlags));
 }
 
 void newDebugMenuMain(void) {

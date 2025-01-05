@@ -179,6 +179,13 @@ typedef struct mp3_GW_SYSTEM {
     /* 0x60 - 800CD0B8 */ u8 unk_60[0x44];
 } mp3_GW_SYSTEM; //sizeof 0xA4
 
+typedef struct EepData {
+/* 0x00 */ u8 minigameFlags[0x18];
+/* 0x18 */ u8 teamModeFlag; //used for setting bits in player structs on board start for team mode (TODO: implement)
+/* 0x19 */ u8 force2v2Minigame; //if teams mode is active, this will force 2v2 minigames every turn from all 3 mario parties
+/* 0x1A */ char pad[0x126];
+} EepData __attribute__((aligned(16))); //sizeof 0x140
+
 extern mp3_GW_PLAYER mp3_gPlayers[4];
 extern mp3_GW_PLAYER mp3_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
@@ -195,7 +202,7 @@ extern u32 mp3_debug_font_color;
 extern mp3_GW_SYSTEM mp3_GwSystem;
 extern mp3_GW_SYSTEM mp3_GwSystemCopy;
 extern OSMesgQueue mp3_D_800CE1A0;
-extern u8 customEepromData[0x140];
+extern EepData customEepromData;
 extern s32 ForeignMinigameIndexToLoad;
 extern s16 mp3_BattleMinigameCoins;
 extern s16 mp3_D_800D530C;

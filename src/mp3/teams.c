@@ -22,6 +22,7 @@
 #define Y_OFFSET 0
 
 void SetItemCountToGP(s32 itemCount);
+s32 GetMinigameCategoryForEndTurnMinigame(void);
 
 s16 PlayerIconPositions[][2] = {
 {0x0000, 0x0000},
@@ -82,6 +83,24 @@ s32 get_team_index(mp3_GW_PLAYER* player) {
 
 s32 GetCurrentPlayerScore(s32 arg0) {
     return mp3_gPlayers[arg0].stars * 1000 + mp3_gPlayers[arg0].coins;
+}
+
+//i believe the code assumes that the first team0 member is player index 0. this should mask that problem
+void setTeamsHack(void) {
+    s32 i;
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        //if player index 0 is not on team0, flip the teams
+        if (!(mp3_gPlayers[0].flags1 & 0x10)) {
+            for (int i = 0; i < 4; i++) {
+                if ((mp3_gPlayers[i].flags1 & 0x10)) {
+                    mp3_gPlayers[i].flags1 = (mp3_gPlayers[i].flags1 & ~0xF0) | 0x20; // Change 0x10 to 0x20
+                } else if ((mp3_gPlayers[i].flags1 & 0x20)) {
+                    mp3_gPlayers[i].flags1 = (mp3_gPlayers[i].flags1 & ~0xF0) | 0x10; // Change 0x20 to 0x10
+                }
+            }            
+        }
+    }
+    mp3_func_800F453C();
 }
 
 void checkColorSet_C_2(u32 playerIndex, s32 turnStatus) {
@@ -559,6 +578,155 @@ void newfunc_800F4874_108494_shared_board(s32 playerIndex, s16 arg1, s16 arg2) {
 
 mp3_GW_PLAYER* firstPlayerEachTeam[2] = {NULL, NULL};
 
+void SetMinigamePositions(void) {
+    s32 i;
+    
+    //where player icons move before minigame
+    s16 newBeforeMinigamePositions[4][2] = {
+        {0x10, 0x4C}, //player team0 index0
+        {0x1C, 0x4D}, //player team0 index1
+        {0xA0, 0x4C}, //player team1 index0
+        {0xAC, 0x4D}, //player team1 index1
+    };
+
+    //when player icons separate for 4p
+    s16 newBeforeMinigamePositions2[4][2] = {
+        {0x0C, 0x5C}, //player team0 index0
+        {0x18, 0x5D}, //player team0 index1
+        {0xA8, 0x5C}, //player team1 index0
+        {0xB4, 0x5D}, //player team1 index1
+    };
+
+    //when player icons separate for 1v3
+    s16 newBeforeMinigamePositions3[4][2] = {
+        {0x0C, 0x5C}, //player team0 index0
+        {0x18, 0x5D}, //player team0 index1
+        {0xA8, 0x5C}, //player team1 index0
+        {0xB4, 0x5D}, //player team1 index1
+    };
+
+    //when player icons separate for 2v2
+    s16 newBeforeMinigamePositions4[4][2] = {
+        {0x0C, 0x5C}, //player team0 index0
+        {0x18, 0x5D}, //player team0 index1
+        {0xA8, 0x5C}, //player team1 index0
+        {0xB4, 0x5D}, //player team1 index1
+    };
+
+    //when a 1p minigame (item) is landed on player 0
+    s16 newBeforeMinigamePositions5[4][2] = {
+        {0x0C, 0x5C}, //player team0 index0
+        {0x18, 0x5D}, //player team0 index1
+        {0xA8, 0x5C}, //player team1 index0
+        {0xB4, 0x5D}, //player team1 index1
+    };
+
+    // //when a 1p minigame (item) is landed on player 1
+    // s16 newBeforeMinigamePositions6[4][2] = {
+    //     {0x0C, 0x5C}, //player team0 index0
+    //     {0x18, 0x5D}, //player team0 index1
+    //     {0xA8, 0x5C}, //player team1 index0
+    //     {0xB4, 0x5D}, //player team1 index1
+    // };
+
+
+    // //set x and y position
+    // PlayerBoardStatusRootPosition[8][0] = 0x30;
+    // PlayerBoardStatusRootPosition[8][1] = 0x4C;
+    
+    // PlayerBoardStatusRootPosition[9][0] = 0xA0;
+    // PlayerBoardStatusRootPosition[9][1] = 0x4C;
+
+    // PlayerBoardStatusRootPosition[10][0] = 0x30;
+    // PlayerBoardStatusRootPosition[10][1] = 0x7E;
+
+    // PlayerBoardStatusRootPosition[11][0] = 0xA0;
+    // PlayerBoardStatusRootPosition[11][1] = 0x7E;
+
+    //surely there's a better way to do this...
+    s32 team0Count = 0;
+    s32 team1Count = 0;
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[i]);
+        if (curPlayerTeamIndex == 0) {
+            if (team0Count == 0) {
+                //
+                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[0][0];
+                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[0][1];
+
+                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[0][0];
+                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[0][1];
+                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[0][0];
+                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[0][1];
+                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[0][0];
+                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[0][1];
+                //set 1p minigame positions
+                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[0][0];
+                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[0][1];
+                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[0][0];
+                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[0][1];
+                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[0][0];
+                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[0][1];
+                team0Count = 1;
+            } else {
+                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[1][0];
+                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[1][1];
+
+                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[1][0];
+                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[1][1];
+                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[1][0];
+                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[1][1];
+                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[1][0];
+                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[1][1];
+                //set 1p minigame positions
+                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[1][0];
+                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[1][1];
+                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[1][0];
+                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[1][1];
+                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[1][0];
+                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[1][1];
+            }
+        } else {
+            if (team1Count == 0) {
+                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[2][0];
+                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[2][1];
+
+                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[2][0];
+                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[2][1];
+                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[2][0];
+                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[2][1];
+                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[2][0];
+                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[2][1];
+                //set 1p minigame positions
+                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[2][0];
+                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[2][1];
+                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[2][0];
+                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[2][1];
+                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[2][0];
+                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[2][1];
+                team1Count = 1;
+            } else {
+                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[3][0];
+                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[3][1];
+                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[3][0];
+                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[3][1];
+                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[3][0];
+                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[3][1];
+                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[3][0];
+                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[3][1];
+                //set 1p minigame positions
+                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[3][0];
+                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[3][1];
+                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[3][0];
+                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[3][1];
+                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[3][0];
+                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[3][1];
+            }
+        }
+    }
+}
+
 void newfunc_800F4190_107DB0_shared_board(void) {
     void* temp_v0;
     s32 i;
@@ -570,7 +738,7 @@ void newfunc_800F4190_107DB0_shared_board(void) {
     firstPlayerEachTeam[0] = NULL;
     firstPlayerEachTeam[1] = NULL;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < MAX_PLAYERS; i++) {
         s32 teamIndex = get_team_index(&mp3_gPlayers[i]);
         if (teamIndex == 0) { 
             if (firstPlayerEachTeam[0] == NULL) {
@@ -684,151 +852,8 @@ void newfunc_800F4190_107DB0_shared_board(void) {
             team1++;
         }
     }
-
-    //where player icons move before minigame
-    s16 newBeforeMinigamePositions[4][2] = {
-        {0x10, 0x4C}, //player team0 index0
-        {0x1C, 0x4D}, //player team0 index1
-        {0xA0, 0x4C}, //player team1 index0
-        {0xAC, 0x4D}, //player team1 index1
-    };
-
-    //when player icons separate for 4p
-    s16 newBeforeMinigamePositions2[4][2] = {
-        {0x0C, 0x5C}, //player team0 index0
-        {0x18, 0x5D}, //player team0 index1
-        {0xA8, 0x5C}, //player team1 index0
-        {0xB4, 0x5D}, //player team1 index1
-    };
-
-    //when player icons separate for 1v3
-    s16 newBeforeMinigamePositions3[4][2] = {
-        {0x0C, 0x5C}, //player team0 index0
-        {0x18, 0x5D}, //player team0 index1
-        {0xA8, 0x5C}, //player team1 index0
-        {0xB4, 0x5D}, //player team1 index1
-    };
-
-    //when player icons separate for 2v2
-    s16 newBeforeMinigamePositions4[4][2] = {
-        {0x0C, 0x5C}, //player team0 index0
-        {0x18, 0x5D}, //player team0 index1
-        {0xA8, 0x5C}, //player team1 index0
-        {0xB4, 0x5D}, //player team1 index1
-    };
-
-    //when a 1p minigame (item) is landed on player 0
-    s16 newBeforeMinigamePositions5[4][2] = {
-        {0x0C, 0x5C}, //player team0 index0
-        {0x18, 0x5D}, //player team0 index1
-        {0xA8, 0x5C}, //player team1 index0
-        {0xB4, 0x5D}, //player team1 index1
-    };
-
-    // //when a 1p minigame (item) is landed on player 1
-    // s16 newBeforeMinigamePositions6[4][2] = {
-    //     {0x0C, 0x5C}, //player team0 index0
-    //     {0x18, 0x5D}, //player team0 index1
-    //     {0xA8, 0x5C}, //player team1 index0
-    //     {0xB4, 0x5D}, //player team1 index1
-    // };
-
-    //surely there's a better way to do this...
-    s32 team0Count = 0;
-    s32 team1Count = 0;
-
-    for (i = 0; i < MAX_PLAYERS; i++) {
-        s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[i]);
-        if (curPlayerTeamIndex == 0) {
-            if (team0Count == 0) {
-                //
-                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[0][0];
-                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[0][1];
-
-                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[0][0];
-                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[0][1];
-                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[0][0];
-                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[0][1];
-                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[0][0];
-                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[0][1];
-                //set 1p minigame positions
-                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[0][0];
-                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[0][1];
-                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[0][0];
-                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[0][1];
-                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[0][0];
-                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[0][1];
-                team0Count = 1;
-            } else {
-                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[1][0];
-                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[1][1];
-
-                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[1][0];
-                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[1][1];
-                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[1][0];
-                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[1][1];
-                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[1][0];
-                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[1][1];
-                //set 1p minigame positions
-                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[1][0];
-                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[1][1];
-                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[1][0];
-                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[1][1];
-                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[1][0];
-                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[1][1];
-            }
-        } else {
-            if (team1Count == 0) {
-                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[2][0];
-                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[2][1];
-
-                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[2][0];
-                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[2][1];
-                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[2][0];
-                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[2][1];
-                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[2][0];
-                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[2][1];
-                //set 1p minigame positions
-                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[2][0];
-                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[2][1];
-                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[2][0];
-                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[2][1];
-                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[2][0];
-                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[2][1];
-                team1Count = 1;
-            } else {
-                PlayerBoardStatusRootPosition[i + 8][0] = newBeforeMinigamePositions[3][0];
-                PlayerBoardStatusRootPosition[i + 8][1] = newBeforeMinigamePositions[3][1];
-                D_8010184C_11546C_shared_board[i][0] = newBeforeMinigamePositions2[3][0];
-                D_8010184C_11546C_shared_board[i][1] = newBeforeMinigamePositions2[3][1];
-                D_8010185C_11547C_shared_board[i][0] = newBeforeMinigamePositions3[3][0];
-                D_8010185C_11547C_shared_board[i][1] = newBeforeMinigamePositions3[3][1];
-                D_8010186C_11548C_shared_board[i][0] = newBeforeMinigamePositions4[3][0];
-                D_8010186C_11548C_shared_board[i][1] = newBeforeMinigamePositions4[3][1];
-                //set 1p minigame positions
-                D_801017C4_1153E4_shared_board[i][0] = newBeforeMinigamePositions5[3][0];
-                D_801017C4_1153E4_shared_board[i][1] = newBeforeMinigamePositions5[3][1];
-                D_801017C4_1153E4_shared_board[i+4][0] = newBeforeMinigamePositions5[3][0];
-                D_801017C4_1153E4_shared_board[i+4][1] = newBeforeMinigamePositions5[3][1];
-                D_801017C4_1153E4_shared_board[i+8][0] = newBeforeMinigamePositions5[3][0];
-                D_801017C4_1153E4_shared_board[i+8][1] = newBeforeMinigamePositions5[3][1];
-            }
-        }
-    }
-
-    // //set x and y position
-    // PlayerBoardStatusRootPosition[8][0] = 0x30;
-    // PlayerBoardStatusRootPosition[8][1] = 0x4C;
     
-    // PlayerBoardStatusRootPosition[9][0] = 0xA0;
-    // PlayerBoardStatusRootPosition[9][1] = 0x4C;
-
-    // PlayerBoardStatusRootPosition[10][0] = 0x30;
-    // PlayerBoardStatusRootPosition[10][1] = 0x7E;
-
-    // PlayerBoardStatusRootPosition[11][0] = 0xA0;
-    // PlayerBoardStatusRootPosition[11][1] = 0x7E;
-    
+    SetMinigamePositions();
 
     team0 = 0;
     team1 = 0;
@@ -1422,7 +1447,12 @@ void newfunc_800F7610_10B230_shared_board(void) {
 //Baby bowser gives warp blocks from item space
 void newfunc_800F7F7C_10BB9C_shared_board(void) {
     func_800EC590_1001B0_shared_board(5, 0x3C21);
-    D_80105630_119250_shared_board[0] = D_80105630_119250_shared_board[1] = D_80105630_119250_shared_board[2] = ITEM_WARP_BLOCK;
+    D_80105630_119250_shared_board[0] =
+    D_80105630_119250_shared_board[1] =
+    D_80105630_119250_shared_board[2] =
+    D_80105630_119250_shared_board[3] =
+    D_80105630_119250_shared_board[4] =
+    ITEM_WARP_BLOCK;
     func_800F76A4_10B2C4_shared_board(0);
     func_800EC590_1001B0_shared_board(5, 0x3C1D);
 }
@@ -1472,6 +1502,185 @@ s32 storeTeamIndex(void) {
         }
     }
     return -1;
+}
+
+#define MINIGAME_4P 0
+#define MINIGAME_1V3 1
+#define MINIGAME_2V2 2
+#define MINIGAME_ITEM 3
+#define MINIGAME_BATTLE 4
+#define MINIGAME_1V1 5
+
+s32 findUniqueIndex(void) {
+    BoardStatus* playerStatus = &D_801057E0_119400_shared_board[0];
+    // Check for the unique value using comparisons
+    if (D_801057E0_119400_shared_board[0].spaceType == D_801057E0_119400_shared_board[1].spaceType) {
+        // If the first two values are the same, check the rest
+        if (D_801057E0_119400_shared_board[0].spaceType == D_801057E0_119400_shared_board[2].spaceType) {
+            // If the first three values are the same, the last one is unique
+            return 3;
+        } else {
+            // If the third value is different, it's unique
+            return 2;
+        }
+    } else {
+        // If the first two values are different, one of them is unique
+        // Compare with the third value to identify
+        if (D_801057E0_119400_shared_board[0].spaceType == D_801057E0_119400_shared_board[2].spaceType) {
+            return 1; // Second value is unique
+        } else {
+            return 0; // First value is unique
+        }
+    }
+}
+
+void SetTeamsTo2v2Minigame(void) {
+    s32 i;
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        BoardStatus* playerStatus = &D_801057E0_119400_shared_board[i];
+        s32 teamIndex = get_team_index(&mp3_gPlayers[i]);
+        //if team 0 set to blue space. otherwise, set to red
+        if (teamIndex == 0) {
+            playerStatus->spaceType = 1; //blue
+        } else {
+            playerStatus->spaceType = 2; //red
+        }
+    }
+}
+
+void CustomMinigameSetCheck(void) {
+    s32 i;
+    //if teams off, run normal function, exit
+    if (!(mp3_gPlayers[0].flags1 & 0x30)) {
+        func_800F52C4_108EE4_shared_board();
+        return;
+    }
+
+    SetMinigamePositions();
+
+    s32 minigameCategory = GetMinigameCategoryForEndTurnMinigame();
+
+    //if force 2v2 is on or players landed on 2 red and 2 blue, force correct teams
+    if (customEepromData.force2v2Minigame == TRUE || minigameCategory == MINIGAME_2V2) {
+        SetTeamsTo2v2Minigame();
+        func_800F52C4_108EE4_shared_board();
+        return;
+    }
+
+    //if 1v3
+    if (minigameCategory == MINIGAME_1V3) {
+        s32 playerOn1Team = findUniqueIndex();
+        s32 playerWantedColor;
+        s32 randVal = func_800EEF80_102BA0_shared_board(100.0f);
+
+        //50/50 between 4p and 2v2
+        if (randVal > 50) {
+            //1v3
+            //copy any player that's not the unique player to get the color
+            if (playerOn1Team == 0) {
+                playerWantedColor = D_801057E0_119400_shared_board[1].spaceType;
+            } else {
+                playerWantedColor = D_801057E0_119400_shared_board[0].spaceType;
+            }
+            //set player to team with rest of players
+            D_801057E0_119400_shared_board[playerOn1Team].spaceType = playerWantedColor;
+        } else {
+            //2v2
+            SetTeamsTo2v2Minigame();
+        }
+    }
+    func_800F52C4_108EE4_shared_board();
+}
+
+s32 GetMinigameCategoryForEndTurnMinigame(void) {
+    #define BLUE_SPACE 1
+    #define RED_SPACE 2
+    u8 blueSpaceIndices[4];
+    u8 type2Indices[4];
+    u8 otherCount = 0;
+    u8 redCount = 0;
+    u8 blueCount = 0;
+    s32 i;
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        switch (D_801057E0_119400_shared_board[i].spaceType) {
+        case BLUE_SPACE:
+            blueSpaceIndices[blueCount++] = i;
+            break;
+        case RED_SPACE:
+            type2Indices[redCount++] = i;
+            break;
+        default:
+            otherCount++;
+        }
+    }
+
+    // Determine result based on counts
+    if (otherCount > 0) {
+        return -1;
+    }
+
+    if (blueCount == 0 || blueCount == 4) {
+        return 0;
+    }
+
+    if (blueCount == 1) {
+        //D_801055F8_119218_shared_board = blueSpaceIndices[0];
+        return 1;
+    }
+
+    if (blueCount == 3) {
+        //D_801055F8_119218_shared_board = type2Indices[0];
+        return 1;
+    }
+
+    return 2;
+}
+
+//decide what type of minigame will be played
+s32 newfunc_800F52C4_108EE4_shared_board(void) {
+    #define BLUE_SPACE 1
+    #define RED_SPACE 2
+    u8 blueSpaceIndices[4];
+    u8 type2Indices[4];
+    u8 otherCount = 0;
+    u8 redCount = 0;
+    u8 blueCount = 0;
+    s32 i;
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        switch (D_801057E0_119400_shared_board[i].spaceType) {
+        case BLUE_SPACE:
+            blueSpaceIndices[blueCount++] = i;
+            break;
+        case RED_SPACE:
+            type2Indices[redCount++] = i;
+            break;
+        default:
+            otherCount++;
+        }
+    }
+
+    // Determine result based on counts
+    if (otherCount > 0) {
+        return -1;
+    }
+
+    if (blueCount == 0 || blueCount == 4) {
+        return 0;
+    }
+
+    if (blueCount == 1) {
+        D_801055F8_119218_shared_board = blueSpaceIndices[0];
+        return 1;
+    }
+
+    if (blueCount == 3) {
+        D_801055F8_119218_shared_board = type2Indices[0];
+        return 1;
+    }
+
+    return 2;
 }
 
 /////
@@ -1728,4 +1937,12 @@ s32 newfunc_800E29E8_F6608_shared_board(void) {
     func_800DC128_EFD48_shared_board(mp3_GwSystem.current_player_index);
     mp3_HuPrcSleep(0xF);
     return 1;
+}
+
+//assumes team index 0 is first
+    //we are going to use the team index as either a 0 or 1 for what -
+    //direction the items should go when awarded from item space
+s32 CStuff(void) {
+    s32 curPlayerIndex = mp3_GwSystem.current_player_index;
+    return get_team_index(&mp3_gPlayers[curPlayerIndex]);
 }

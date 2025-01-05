@@ -115,6 +115,7 @@ s32 func_800EEF80_102BA0_shared_board(f32);
 void func_800F76A4_10B2C4_shared_board(s32 arg0);
 void func_800F68E0_10A500_shared_board(s32 arg0, s32 arg1, s32 arg2);
 
+extern s32 D_801055F8_119218_shared_board;
 extern s32 D_80101A50_115670_shared_board[]; //randomly generated items
 extern s32 D_80105630_119250_shared_board[];
 extern s32 D_80100F90_114BB0_shared_board;

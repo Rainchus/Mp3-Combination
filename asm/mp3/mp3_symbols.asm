@@ -164,9 +164,12 @@
 .definelabel D_801055E8_119208_shared_board, 0x801055E8
 .definelabel func_800550B4_55CB4, 0x800550B4
 .definelabel BoardPlayerRankCalc, 0x800EE9C0
+.definelabel D_801055F8_119218_shared_board, 0x801055F8
 .definelabel SprAttrSet, 0x800553A8
 .definelabel SprAttrReset, 0x8005532C
+.definelabel func_800F52C4_108EE4_shared_board, 0x800F52C4
 .definelabel func_8005279C_5339C, 0x8005279C
+.definelabel mp3_func_800F453C, 0x800F453C
 .definelabel func_800F6AD0_10A6F0_shared_board, 0x800F6AD0
 .definelabel func_800F6A88_10A6A8_shared_board, 0x800F6A88
 .definelabel mp3_HuMathCos, 0x8008E3F0

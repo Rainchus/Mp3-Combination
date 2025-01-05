@@ -94,3 +94,17 @@
 .org 0x8010BDA8 //load team player index for coin checks in shop
     LW v0, 0x00E8 (sp) //get team index stored from earlier
     NOP
+
+//make item bag give items to team leader
+.org 0x8010C538
+    J teamCheck10Asm
+    NOP
+
+//award star to 1st player on current player's team
+//this hook sets t0 for the 0x80106DF8 hook below it
+.org 0x80106DC4
+    J teamCheck8Asm 
+    NOP
+    NOP
+.org 0x80106DF8
+    ADDU v1, t0, r0

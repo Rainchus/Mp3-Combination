@@ -21,8 +21,9 @@ turn_status_direct_new   equ 0x1127 //0x1124 -> 0x1127
 //indirect access from a pointer
 | 105F70 800F2350 8202001B |  lb         $v0, 0x1B($s0)//
 | 106020 800F2400 8202001B |  lb         $v0, 0x1B($s0)//
-| 10CC14 800F8FF4 A060001B |   sb        $zero, 0x1B($v1)//
+| 10CC14 800F8FF4 A060001B |  sb        $zero, 0x1B($v1)//
 | 105EF4 800F22D4 8062001B |  lb         $v0, 0x1B($v1)
+| 105E9C 800F227C 8062001B |  lb         $v0, 0x1B($v1)
 
 
 //access directly into GwPlayer[x].bowser_suit_flags
@@ -62,7 +63,10 @@ turn_status_direct_new   equ 0x1127 //0x1124 -> 0x1127
 .org 0x800F22D4
     LB v0, bowser_suit_flags_indirect_new (v1)
 
-    
+.org 0x800F227C
+    LB v0, bowser_suit_flags_indirect_new (v1)
+
+
 
 //direct references
 .headersize 0x800E45B0 - 0xF81D0
