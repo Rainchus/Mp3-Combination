@@ -193,6 +193,15 @@
 .definelabel SprScale, 0x800551D8
 .definelabel UpdatePlayerBoardStatus, 0x800F2E30
 .definelabel func_800F6E4C_10AA6C_shared_board, 0x800F6E4C
+.definelabel D_801094F4_3C6314_name_50, 0x801094F4
+.definelabel FixUpPlayerItemSlots, 0x800E4A08
+.definelabel PlayerHasEmptyItemSlot, 0x800E49DC
+.definelabel func_800EC3C0_FFFE0_shared_board, 0x800EC3C0
+.definelabel func_800F5E24_109A44_shared_board, 0x800F5E24
+.definelabel func_800F6AA4_10A6C4_shared_board, 0x800F6AA4
+.definelabel func_800F69B0_10A5D0_shared_board, 0x800F69B0
+.definelabel func_800EC4E4_100104_shared_board, 0x800EC4E4
+.definelabel func_800F6780_10A3A0_shared_board, 0x800F6780
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00
 .definelabel mp3_omovlhis_copy, 0x807FFE00

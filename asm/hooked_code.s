@@ -226,7 +226,7 @@ checkColorSetAsm2:
 
 //use gp to track the amount of items that should be parsed
 //this will make it easy to do `SLTI $rd, $rs, X -> SLT $rd, $rs, $gp
-SetItemCountToGP:
+PushItemCountToGP:
     JR RA
     DADDU gp, a0, r0
 
@@ -291,7 +291,7 @@ chillyWatersItemMenuClosing:
     BEQ t0, r0, originalItemMenuClosing
     NOP
     
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     NOP
     SLL v1, v0, 3
     SUBU v1, v1, v0
@@ -313,7 +313,7 @@ chillyWatersSkeletonKeyThing:
     BEQ t0, r0, originalchillyWatersSkeletonKeyThing
     NOP
 
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     NOP
     LUI a0, 0x8010
     J 0x80112184
@@ -336,7 +336,7 @@ chillyWatersSkeletonKeyThing4:
     //is team mode
     ADDU s2, v0, r0 //push v0
 
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     NOP
 
     ADDU v1, s2, r0 //pop v0 temporarily to v1
@@ -359,20 +359,20 @@ chillyWatersSkeletonKeyThing4:
 
 teamCheck0Asm: //s3 holds player index (return result to v1)
     LUI a0, 0x800D
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     LB a0, 0xD067 (a0)
     ADDU v1, v0, r0
     J 0x800E3B1C
     SLL v0, v1, 3
 
 teamCheck1Asm:
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     NOP
     J 0x800E3A28
     NOP
 
 teamCheck2Asm:
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     NOP
     ADDU v1, v0, r0
     J 0x800E3A80
@@ -386,7 +386,7 @@ teamCheck3Asm:
     BEQ t0, r0, originalTeamCheck3
     NOP
     //
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     NOP
     SLL v1, v0, 3
     SUBU v0, v1, v0
@@ -411,7 +411,7 @@ teamCheck4Asm:
     ADDIU sp, sp, -0x20
     SW v0, 0x0018 (sp)
     LUI a0, 0x800D
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     LB a0, 0xD067 (a0)
     ADDU v1, v0, r0
     LW v0, 0x0018 (sp) //pop item id to give player
@@ -424,7 +424,7 @@ teamCheck4Asm:
 unkItemsAsm0:
     ADDIU sp, sp, -0x18
     SW v0, 0x0010 (sp)
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     NOP
     ADDU a0, v0, r0 //return result to a0
     LW v0, 0x0010 (sp)
@@ -435,7 +435,7 @@ unkItemsAsm0:
 unkCheck:
     JAL GetCurrentPlayerIndex
     NOP
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     ADDU a0, v0, r0
     J 0x800F76F8
     NOP
@@ -443,7 +443,7 @@ unkCheck:
 shopCoinsCheck:
     JAL GetCurrentPlayerIndex
     NOP
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     ADDU a0, v0, r0
     J 0x8010BBDC
     NOP
@@ -453,7 +453,7 @@ boughtItemShopper:
     SW v0, 0x0010 (sp)
     JAL GetCurrentPlayerIndex
     NOP
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     ADDU a0, v0, r0
 
     ADDU v1, v0, r0 //return to v1
@@ -464,7 +464,7 @@ boughtItemShopper:
 
 teamCheck5Asm:
     LUI a0, 0x800D
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     LB a0, 0xD067 (a0)
     ADDU v1, v0, r0 //store result in v1
     J 0x800E2B74
@@ -472,7 +472,7 @@ teamCheck5Asm:
 
 teamCheck7Asm:
     LUI a0, 0x800D
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     LB a0, 0xD067 (a0)
     ADDU v1, v0, r0 //store result in v1
     J 0x800E2BF8
@@ -480,24 +480,38 @@ teamCheck7Asm:
 
 teamCheck8Asm:
     LUI a0, 0x800D
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     LB a0, 0xD067 (a0)
     J 0x80106DD0
     ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x80106DF8)
 
 teamCheck9Asm:
     LUI a0, 0x800D
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     LB a0, 0xD067 (a0)
     J 0x80106DD0
     ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x80106DF8)
 
 teamCheck10Asm:
     LUI a0, 0x800D
-    JAL GetTeamCurrentIndex
     LB a0, 0xD067 (a0)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalTeamCheck10Asm
+    NOP
+
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0014 (sp)
+    originalTeamCheck10Asm:
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return to a0
+    LW v0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+    
     J 0x8010C540
-    ADDU a0, v0, r0 //store in t0 for another hook (hook at 0x800DDAE8)    
+    ADDU a0, v0, r0 //return to a0
 
 //when you use an item and the item list background flips, -
 //it pulls the player index to see where to remove the item from
@@ -505,7 +519,7 @@ teamCheck10Asm:
 itemUsedRemoveFromLargeItemList:
     ADDIU sp, sp, -0x18
     SW v0, 0x0010 (sp)
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     LB a0, 0x000F (s3) //load current player index
     ADDU a0, v0, r0 //return to a0
     LW v0, 0x0010 (sp)
@@ -519,6 +533,12 @@ teamCheck6Asm:
     J 0x8010FDAC
     NOP
 
+teamCheck11Asm:
+    JAL teamCheck11_C
+    NOP
+    J 0x8010FDC8
+    NOP
+
 storeTeamIndex_Asm:
     JAL mp3_GetPlayerStruct //restore from hook
     ADDIU a0, r0, 0xFFFF //restore from hook
@@ -528,17 +548,495 @@ storeTeamIndex_Asm:
     J 0x8010B6AC
     SW v0, 0x00E8 (sp) //store to extended stack space
 
-getItemFromItemSpaceQuestionHook:
-    JAL 0x800E49DC
-    ADDU a0, s3, r0
-    //we need to poke s7 to either 0 or 1 for top left or top right area for items to go to
+GiveTeamCaptainMinigameItem2:
+    LB v1, 0x000F (s4)
+    J 0x800FE88C
+    SLL a0, v1, 3
+
+GiveTeamCaptainMinigameItem3:
+    LUI t1, hi(mp3_gPlayers)
+    LBU t1, lo(mp3_gPlayers + 0x4) (t1)
+    ANDI t1, t1, 0x30
+    BEQL t1, r0, GiveTeamCaptainMinigameItemExit3
+    SB v0, 0x0000 (v1)
+    
     ADDIU sp, sp, -0x20
-    SW v0, 0x0014 (sp)
-    JAL CStuff
-    NOP
-    ADDU s7, v0, r0
-    LW v0, 0x0014 (sp)
-    J 0x800F7750
+    SW t0, 0x0014 (sp) //empty item slot
+    SW v0, 0x0018 (sp) //item id
+
+    JAL GetTeamCaptainCurrentIndex
+    LB a0, 0x000F (s4) //current player index
+
+    JAL mp3_GetPlayerStruct
+    ADDU a0, v0, r0
+    ADDIU v0, v0, 0x18 //point to items beginning
+
+    LW t0, 0x0014 (sp) //empty item slot
+    ADDU v0, v0, t0 //now points to player's item slot to store to
+    LW v1, 0x0018 (sp) //item id
+    SB v1, 0x0000 (v0) //store to team captain's item array
     ADDIU sp, sp, 0x20
 
+    GiveTeamCaptainMinigameItemExit3:
+    J 0x800FE9B0
+    NOP
+
+bowserCoinCheckAsm:
+    JAL bowserCoinCheck
+    NOP
+    J 0x80108F50
+    ADDU a0, v0, r0 //return result to a0
     
+duelingGloveCheck:
+    LUI s0, 0x800D //restore from hook
+    ADDIU s0, s0, 0xD067 //restore from hook
+    LB v1, 0x0000 (s0) //restore from hook
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalDuelingGlove
+    NOP
+    //
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //pass current player index to a0
+    ADDU v1, v0, r0
+    originalDuelingGlove:
+    J 0x800E2D18
+    NOP
+
+//removes warp block from inventory
+warpBlockCheck:
+    LUI v1, 0x800D
+    LB v1, 0xD067 (v1)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalWarpBlockCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //pass current player index to a0
+    ADDU v1, v0, r0 //return to v1 for hooked code
+    originalWarpBlockCheck:
+    J 0x800E2E54
+    NOP
+
+//checks if you can afford to steal (5 coins)
+newBooCheck:
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBooCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v0, r0 //pass current player index to a0    
+    originalBooCheck:
+    J 0x8010E374
+    SLL v1, v0, 3
+
+//TODO: add check so if a teammate is the only one you can steal from, gray out the option
+newBooCanStealStarCheck:
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBooStarStealCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v0, r0 //pass current player index to a0
+    originalBooStarStealCheck:
+    J 0x8010E4BC
+    SLL v1, v0, 3
+
+newPlunderChestCheck:
+    //black out all 4 characters, then go back and make enemy team captain available
+    lui        $v0, 0x800D //restore from hook
+    lb         $v0, 0xD067($v0) //restore from hook
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BNE t0, r0, newPlunderChestCheckLabel
+    NOP
+    //is vanilla, exit
+    J 0x80117E34
+    NOP
+    //teams active, modify selectable players in plunder chest
+    newPlunderChestCheckLabel:
+    //black out all 4 character's name in plunder chest event
+    sll       $v0, $s0, 4
+    addu       $v0, $s1, $v0
+    sb         $s3, 0x0($v0)
+    addu       $v0, $s2, $s0
+    j          L80117E60_32D9D0_name_48
+    sb        $zero, 0x0($v0)
+
+    //fallthrough
+
+    L80117E60_32D9D0_name_48:
+        sll        $a1, $s0, 4
+        addu       $a1, $s1, $a1
+        addu       $a0, $s0, $zero
+        jal        0x800E2260
+        addiu     $a1, $a1, 0x1
+        addiu      $s0, $s0, 0x1
+        slti       $v0, $s0, 0x4
+        bnez       $v0, newPlunderChestCheck
+        addiu     $v0, $zero, 0x1
+
+    //all 4 characters have been set as invalid. now set enemy team captain to active
+    //makes character able to be chosen
+    //s0 was just the loop counter so we can use it here
+    L80117E50_32D9C0_name_48: //s0 needs to be player index
+        lui        $a0, 0x800D
+        JAL mp3_GetPlayerStruct
+        lb         $a0, 0xD067($a0)
+
+        LBU t0, 0x0004 (v0) //load flags1
+        ANDI t0, t0, 0x0030
+        SRL t0, t0, 5 //convert team index into index (0 or 1)
+        XORI t0, t0, 1 //flip to other team
+        LI t1, firstPlayerEachTeam
+        SLL t0, t0, 2
+        ADDU t1, t1, t0
+        LW t1, 0x0000 (t1) //load enemy captain player pointer
+        LBU s0, 0x001D (t1) //load current player turn order
+        sll       $v0, $s0, 4
+        addu       $v0, $s1, $v0
+        sb         $s5, 0x0($v0)
+        addu       $v0, $s2, $s0
+        sb         $s3, 0x0($v0)
+        J 0x80117E84
+        ADDIU v0, r0, 1
+
+
+newPlunderChestItemStoreCheck:
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalPlunderChestItemStoreCheck
+    LB a0, 0x000F (s6)
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0014 (sp)
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return team captain index to a0
+    LW v0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+    originalPlunderChestItemStoreCheck:
+    J 0x80118004
+    SLL v1, a0, 3
+
+//related to how items spawn when using a plunder chest
+newPlunderChest2:
+    LB a0, 0x000F (s6) //restore from hook
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalNewPlunderChest2
+    NOP
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0014 (sp)
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return team captain index to a0
+    LW v0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+    originalNewPlunderChest2:
+    J 0x80118098
+    SLL v1, a0, 3 //restore from hook
+
+newPlunderChest5:
+    LB v0, 0x000F (s6) //restore from hook
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalPlunderChest5
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v0, r0 //move cur player index into a0
+    ADDU a0, v0, r0 //return team captain index to a0    
+    originalPlunderChest5:
+    J 0x80118134
+    SLL v0, v0, 3
+
+newDuelGlove: //f0 is not pushed here but it should be fine
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalDuelGlove
+    LB a0, 0x000F (s3)
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return to a0
+    originalDuelGlove:
+    J 0x801103E8
+    MUL.S f0, f0, f20
+
+newDuelGlove3: //f0 is not pushed here but it should be fine
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalDuelGlove2
+    LB a0, 0x000F (s3)
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return to a0
+    originalDuelGlove2:
+    J 0x8011046C
+    MUL.S f0, f0, f20
+
+newBattleCheck:
+    LUI t1, hi(mp3_gPlayers)
+    LBU t1, lo(mp3_gPlayers + 0x4) (t1)
+    ANDI t1, t1, 0x30
+    LW t0, 0x0074 (sp)
+    BEQ t1, r0, originalBattleCheck
+    LBU v1, 0x001D (t0)
+    
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //move player index to a0
+    LW t0, 0x0074 (sp)
+    ADDU v1, v0, r0 //return captain index to v1
+    originalBattleCheck:
+    J 0x800FADBC
+    NOP
+
+newBattleCheck3: //s0 is loop counter
+    LUI at, 0x800D
+    ADDU at, at, v0
+    LH v0, 0x1112 (at)
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBattleCheck3
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, s0, r0 //move player index to a0
+    JAL mp3_GetPlayerStruct
+    ADDU a0, v0, r0 //player index to a0
+    LH v0, 0x000A (v0) //load coins from team captain
+    originalBattleCheck3:
+    BEQZ v0, goto800FAE58 //if team has 0 coins, use black text for player's name in duel
+    SLL v0, s0, 4
+    ADDIU sp, sp, -0x18
+    SW fp, 0x0014 (sp)
+
+    //if s0 and cur_player_index are on same team, black out text
+    JAL mp3_GetPlayerStruct
+    ADDU a0, s0, r0 //check current player in loop
+
+    ADDU fp, v0, r0 //player struct of player in loop
+
+    LUI a0, 0x800D
+    JAL mp3_GetPlayerStruct
+    LB a0, 0xD067 (a0)
+
+    //player struct of cur player
+
+    LBU t0, 0x0004 (fp) //load first player flags1
+    LBU t1, 0x0004 (v0) //load second player flags1
+    ANDI t0, t0, 0x0030
+    ANDI t1, t1, 0x0030
+    LW fp, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+
+    BEQ t0, t1, goto800FAE58 //if player is on your team, black out text
+    SLL v0, s0, 4
+    J 0x800FAE28
+    NOP
+
+    goto800FAE58:
+    J 0x800FAE58
+    NOP
+
+newDuelCheck2Asm:
+    LUI t1, hi(mp3_gPlayers)
+    LBU t1, lo(mp3_gPlayers + 0x4) (t1)
+    ANDI t1, t1, 0x30
+    BEQ t1, r0, originalDuelCheck2Asm
+    ADDU t0, s4, r0 //move s4 to t0
+
+    ADDIU sp, sp, -0x18
+    SW r0, 0x0014 (sp)
+
+    JAL newDuelCheck
+    NOP
+    SW v0, 0x0014 (sp)
+
+    JAL newDuelCheck2
+    NOP
+    LW t0, 0x0014 (sp) //we return the opponent from newDuelCheck to t0 for 2nd hook
+    J 0x800FB0D4
+    ADDIU sp, sp, 0x18
+
+    originalDuelCheck2Asm:
+    LUI v0, 0x800D
+    J 0x800FB0D4
+    LB v0, 0xD067 (v0)
+    
+dragItemCheck:
+    LUI v0, 0x800D //run this instruction a bit early
+    LB v0, 0xD067 (v0) //run this instruction a bit early
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalDragItemCheck
+    NOP
+
+    LUI a0, 0x800D //run this instruction a bit early
+    JAL GetTeamCaptainCurrentIndex
+    LB a0, 0xD067 (a0) //run this instruction a bit early
+
+    originalDragItemCheck:
+    LUI a0, 0x8010 //restore from hook
+    J 0x8010FED0
+    LH a0, 0x570C (a0) //restore from hook
+
+luckyLampRemovalCheck:
+    LUI a0, 0x800D //restore from hook
+    LB a0, 0xD067 (a0) //restore from hook
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalLuckyLampRemovalCheck
+    NOP
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0014 (sp)
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return captain team index to a0
+    LW v0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+    originalLuckyLampRemovalCheck:
+    J 0x8011176C
+    NOP
+
+wackyWatchRemovalCheck:
+    LB a0, 0x000F (s5) //load current player index
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalWackyWatchRemovalCheck
+    NOP
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0014 (sp)
+
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+
+    ADDU a0, v0, r0 //return captain index to a0
+    LW v0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+
+    originalWackyWatchRemovalCheck:
+    J 0x80115E4C
+    SLL v1, a0, 3
+
+goldenMushroomCheck:
+    LB v1, 0x0000 (s0) //load current player index
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalGoldenMushroomCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //cur player index to a0 
+    ADDU v1, v0, r0 //return to v1
+    originalGoldenMushroomCheck:
+    J 0x800E3000
+    SLL v0, v1, 3
+
+booBellCheck:
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+    LB v1, 0x0000 (a1) //restore from hook
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBooBellCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //cur player index to a0 
+
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+    originalBooBellCheck:
+    J 0x800E3104
+    NOP
+
+booRepellentSuitCheck:
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+    LB v1, 0x0000 (a1) //restore from hook
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalbooRepellentCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //cur player index to a0 
+
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+    originalbooRepellentCheck:
+    J 0x800E3184
+    NOP
+
+bowserSuitCheck:
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+    LB v1, 0x0000 (a1) //restore from hook
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBowserSuitCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //cur player index to a0 
+
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+    originalBowserSuitCheck:
+    J 0x800E321C
+    NOP
+
+magicLampCheck:
+    LUI v1, 0x800D //restore from hook
+    LB v1, 0xD067 (v1) //restore from hook
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalMagicLampCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //cur player index to a0 
+    ADDU v1, v0, r0 //return to v1
+    originalMagicLampCheck:
+    J 0x800E32B0
+    NOP
+
+koopaKardCheck:
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+    LB v1, 0x0000 (a1) //restore from hook
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalKoopaKardCheck
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //cur player index to a0 
+
+    ADDU v1, v0, r0 //return to v1
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+
+    originalKoopaKardCheck:
+    J 0x800E33C0
+    NOP

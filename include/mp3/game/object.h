@@ -51,7 +51,7 @@ typedef struct Object_s {
 /* 0x46 */ s16 unk46;
 } Object;
 
-Process* omInitObjMan(s16 max_objs, s32 prio);
+Process* mp3_omInitObjMan(s16 max_objs, s32 prio);
 void omSetStatBit(mp3_omObjData* obj, u16 stat);
 s32 omOvlReturnEx(s16 level);
 mp3_omObjData* omAddObjEx(Process *objman_process, s16 prio, u16 mdlcnt, u16 mtncnt, s16 group, void* func);

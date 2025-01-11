@@ -105,7 +105,7 @@
     NOP
 
 //.org 0x800E3A20
-    //JAL GetTeamCurrentIndex
+    //JAL GetTeamCaptainCurrentIndex
     //ADDU a0, s3, r0
     //NOP
     //NOP

@@ -21,7 +21,6 @@
 #define X_OFFSET 35
 #define Y_OFFSET 0
 
-void SetItemCountToGP(s32 itemCount);
 s32 GetMinigameCategoryForEndTurnMinigame(void);
 
 s16 PlayerIconPositions[][2] = {
@@ -91,7 +90,7 @@ void setTeamsHack(void) {
     if (mp3_gPlayers[0].flags1 & 0x30) {
         //if player index 0 is not on team0, flip the teams
         if (!(mp3_gPlayers[0].flags1 & 0x10)) {
-            for (int i = 0; i < 4; i++) {
+            for (i = 0; i < 4; i++) {
                 if ((mp3_gPlayers[i].flags1 & 0x10)) {
                     mp3_gPlayers[i].flags1 = (mp3_gPlayers[i].flags1 & ~0xF0) | 0x20; // Change 0x10 to 0x20
                 } else if ((mp3_gPlayers[i].flags1 & 0x20)) {
@@ -778,10 +777,10 @@ void newfunc_800F4190_107DB0_shared_board(void) {
     spriteIDs = mp3_D_80105588_1191A8_shared_board;
     //if teams, use extended graphic
     if (mp3_gPlayers[0].flags1 & 0x30) {
-        SetItemCountToGP(5); //5 items for teams
+        PushItemCountToGP(5); //5 items for teams
         temp_v0 = mp3_ReadMainFS(0x13027A); //extended background graphic
     } else {
-        SetItemCountToGP(3); //3 items for teams
+        PushItemCountToGP(3); //3 items for teams
         temp_v0 = mp3_ReadMainFS(0x13010F); //normal background graphic
     }
     
@@ -1189,7 +1188,7 @@ void newfunc_800F5F98_109BB8_shared_board(s32 arg0, s32 arg1) {
     s16 temp_s5;
     s16 i;
     void* var_s2;
-    s32 temp;
+    s32 temp = 0;
 
     temp_s7 = &D_801057E0_119400_shared_board[arg0];
     temp_s5 = temp_s7->playerIndex;
@@ -1332,7 +1331,7 @@ void itemHandCursor(s32 arg0, s32 arg1, f32* arg2, f32* arg3) {
     } 
 }
 
-s32 GetTeamCurrentIndex(s32 playerIndex) {
+s32 GetTeamCaptainCurrentIndex(s32 playerIndex) {
     s32 i;
     if (mp3_gPlayers[0].flags1 & 0x30) {
         s32 teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
@@ -1426,7 +1425,7 @@ void chillyWatersSkeletonKeyThing3(s32 arg0, s32 arg1, s16 arg2, s16 arg3) {
     }
 }
 
-//TODO: hopefully the array D_80105630_119250_shared_board can hold 5 items...
+//TODO: hopefully the array D_80105630_119250_shared_board can hold 5 items (I believe it does)
 void newfunc_800F7610_10B230_shared_board(void) {
     s32 prevItem = -1;
     s32 i = 0;
@@ -1442,6 +1441,30 @@ void newfunc_800F7610_10B230_shared_board(void) {
             }
         }
     }
+}
+
+void newfunc_800F7F30_10BB50_shared_board(void) {
+    func_800EC590_1001B0_shared_board(5, 0x3C20);
+    D_80105630_119250_shared_board[0] =
+    D_80105630_119250_shared_board[1] =
+    D_80105630_119250_shared_board[2] =
+    D_80105630_119250_shared_board[3] =
+    D_80105630_119250_shared_board[4] = ITEM_SKELETON_KEY;
+    func_800F76A4_10B2C4_shared_board(0);
+    func_800EC590_1001B0_shared_board(5, 0x3C1D);    
+}
+
+//Toad gives all skeleton keys
+void newfunc_800F7D4C_10B96C_shared_board(void) {
+    func_800EC590_1001B0_shared_board(3, 0x3C0B);
+    D_80105630_119250_shared_board[0] =
+    D_80105630_119250_shared_board[1] =
+    D_80105630_119250_shared_board[2] = 
+    D_80105630_119250_shared_board[3] = 
+    D_80105630_119250_shared_board[4] = 
+    ITEM_SKELETON_KEY;
+    func_800F76A4_10B2C4_shared_board(0);
+    func_800EC590_1001B0_shared_board(3, 0x3C0A);
 }
 
 //Baby bowser gives warp blocks from item space
@@ -1472,6 +1495,25 @@ void teamCheck6_C(s32 arg0, s32 arg1, s32 arg2) {
     }
 
     func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
+}
+
+void func_800F6780_10A3A0_shared_board(s32 arg0, s32 arg1, f32 arg2, f32 arg3);
+
+void teamCheck11_C(s32 arg0, s32 arg1, f32 arg2, f32 arg3) {
+    s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+    s32 i;
+
+    if (mp3_gPlayers[0].flags1 & 0x30) {   
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeam) {
+                arg0 = i;
+                break;
+            }
+        }
+    }
+
+    func_800F6780_10A3A0_shared_board(arg0, arg1, arg2, arg3);
 }
 
 //if team is in second, return that they are in 4th for item pool
@@ -1512,8 +1554,7 @@ s32 storeTeamIndex(void) {
 #define MINIGAME_1V1 5
 
 s32 findUniqueIndex(void) {
-    BoardStatus* playerStatus = &D_801057E0_119400_shared_board[0];
-    // Check for the unique value using comparisons
+    // Check for the unique value
     if (D_801057E0_119400_shared_board[0].spaceType == D_801057E0_119400_shared_board[1].spaceType) {
         // If the first two values are the same, check the rest
         if (D_801057E0_119400_shared_board[0].spaceType == D_801057E0_119400_shared_board[2].spaceType) {
@@ -1549,7 +1590,6 @@ void SetTeamsTo2v2Minigame(void) {
 }
 
 void CustomMinigameSetCheck(void) {
-    s32 i;
     //if teams off, run normal function, exit
     if (!(mp3_gPlayers[0].flags1 & 0x30)) {
         func_800F52C4_108EE4_shared_board();
@@ -1595,8 +1635,6 @@ void CustomMinigameSetCheck(void) {
 s32 GetMinigameCategoryForEndTurnMinigame(void) {
     #define BLUE_SPACE 1
     #define RED_SPACE 2
-    u8 blueSpaceIndices[4];
-    u8 type2Indices[4];
     u8 otherCount = 0;
     u8 redCount = 0;
     u8 blueCount = 0;
@@ -1605,10 +1643,10 @@ s32 GetMinigameCategoryForEndTurnMinigame(void) {
     for (i = 0; i < MAX_PLAYERS; i++) {
         switch (D_801057E0_119400_shared_board[i].spaceType) {
         case BLUE_SPACE:
-            blueSpaceIndices[blueCount++] = i;
+            blueCount++;
             break;
         case RED_SPACE:
-            type2Indices[redCount++] = i;
+            redCount++;
             break;
         default:
             otherCount++;
@@ -1625,12 +1663,10 @@ s32 GetMinigameCategoryForEndTurnMinigame(void) {
     }
 
     if (blueCount == 1) {
-        //D_801055F8_119218_shared_board = blueSpaceIndices[0];
         return 1;
     }
 
     if (blueCount == 3) {
-        //D_801055F8_119218_shared_board = type2Indices[0];
         return 1;
     }
 
@@ -1939,10 +1975,259 @@ s32 newfunc_800E29E8_F6608_shared_board(void) {
     return 1;
 }
 
-//assumes team index 0 is first
-    //we are going to use the team index as either a 0 or 1 for what -
-    //direction the items should go when awarded from item space
-s32 CStuff(void) {
-    s32 curPlayerIndex = mp3_GwSystem.current_player_index;
-    return get_team_index(&mp3_gPlayers[curPlayerIndex]);
+//bowser checks if you have any coins at all, and if not gives you some (this is the check part only)
+s32 bowserCoinCheck(void) {
+    //if teams are on, poke player index in coin check to team captain's index
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        return GetTeamCaptainCurrentIndex(D_801094F4_3C6314_name_50);
+    } else {
+        return D_801094F4_3C6314_name_50;
+    }
+}
+
+s32 bowserPhoneGiveEvent(void) {
+    //if teams are on, poke player index in bowser event to team captain's index
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        D_801094F4_3C6314_name_50 = GetTeamCaptainCurrentIndex(D_801094F4_3C6314_name_50);
+    }
+    return PlayerHasEmptyItemSlot(D_801094F4_3C6314_name_50);
+}
+
+void bowserPhoneGiveEvent2(void) {
+    // //if teams are on, poke player index back to current player
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        D_801094F4_3C6314_name_50 = mp3_GwSystem.current_player_index;
+    }
+    func_800EC3C0_FFFE0_shared_board(D_801094F4_3C6314_name_50);
+}
+
+s32 bowserSuitGiveEvent(void) {
+    //if teams are on, poke player index in bowser event to team captain's index
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        D_801094F4_3C6314_name_50 = GetTeamCaptainCurrentIndex(D_801094F4_3C6314_name_50);
+    }
+    return PlayerHasEmptyItemSlot(D_801094F4_3C6314_name_50);
+}
+
+void bowserSuitGiveEvent2(void) {
+    // //if teams are on, poke player index back to current player
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        D_801094F4_3C6314_name_50 = mp3_GwSystem.current_player_index;
+    }
+    func_800EC3C0_FFFE0_shared_board(D_801094F4_3C6314_name_50);
+}
+
+//do coin check on team captain
+s32 coinsForBowserEvent(void) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        return GetTeamCaptainCurrentIndex(mp3_GwSystem.current_player_index);
+    } else {
+        return D_801094F4_3C6314_name_50;
+    }
+}
+
+//steal coins from team captain (or give coins if player/team had 0 coins coming into bowser event?)
+void coinsForBowserEvent2(void) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        func_800F5E24_109A44_shared_board(GetTeamCaptainCurrentIndex(mp3_GwSystem.current_player_index));
+    } else {
+        func_800F5E24_109A44_shared_board(D_801094F4_3C6314_name_50);
+    }
+}
+
+void newfunc_801059A0_4E6DC0_name_71(void) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 team0PlayersFound = 0;
+        s32 team1PlayersFound = 0;
+        s32 i;
+        mp3_GW_PLAYER* player0TeamCaptain = NULL;
+        mp3_GW_PLAYER* player1TeamCaptain = NULL;
+
+        //move dummy character coins to team captain
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[i]);
+            if (curPlayerTeamIndex == 0) {
+                if (team0PlayersFound == 0) {
+                    player0TeamCaptain = &mp3_gPlayers[i];
+                    team0PlayersFound++;
+                } else {
+                    //is second player on team 0, merge coins collected into team captain
+                    player0TeamCaptain->minigameCoins += mp3_gPlayers[i].minigameCoins;
+                    player0TeamCaptain->minigameCoins += mp3_gPlayers[i].coins_mg_bonus;
+                    mp3_gPlayers[i].minigameCoins = 0;
+                    mp3_gPlayers[i].coins_mg_bonus = 0;
+                }
+                
+            } else {
+                if (team1PlayersFound == 0) {
+                    player1TeamCaptain = &mp3_gPlayers[i];
+                    team1PlayersFound++;
+                } else {
+                    //is second player on team 0, merge coins collected into team captain
+                    player1TeamCaptain->minigameCoins += mp3_gPlayers[i].minigameCoins;
+                    player1TeamCaptain->minigameCoins += mp3_gPlayers[i].coins_mg_bonus;
+                    mp3_gPlayers[i].minigameCoins = 0;
+                    mp3_gPlayers[i].coins_mg_bonus = 0;
+                }
+            }
+        }
+    }
+    mp3_omInitObjMan(0x1E, 0x1E);
+}
+
+void itemDragFadeCheck(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    }
+    func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
+}
+
+void itemDragFadeCheck2(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    }
+    func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
+}
+
+void newfunc_800F641C_10A03C_shared_board(s32 playerIndex) {
+    BoardStatus* temp_s2;
+    s32 i;
+
+    if (playerIndex == CUR_PLAYER) {
+        playerIndex = mp3_GwSystem.current_player_index;
+    }
+
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        playerIndex = GetTeamCaptainCurrentIndex(playerIndex);
+    }
+    
+    temp_s2 = &D_801057E0_119400_shared_board[playerIndex];
+    
+    for (i = 0; i < ARRAY_COUNT(temp_s2->unk_40); i++) {
+        if (temp_s2->unk_40[i] != -1) {
+            func_800F6AA4_10A6C4_shared_board(temp_s2->playerIndex, i + 2);
+            mp3_func_80055670_56270(temp_s2->unk_40[i]);
+            temp_s2->unk_40[i] = -1;
+        }
+    }
+
+    newfunc_800F5F98_109BB8_shared_board(playerIndex, 1);
+}
+
+//used when the item should disappear, needs to have team captain index if teams are active
+void ReverseMushroomVanishHook(s32 arg0, s32 arg1, f32 arg2, f32 arg3) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    }    
+    func_800F696C_10A58C_shared_board(arg0, arg1, arg2, arg3);
+}
+
+void newPlunderChest3(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    }   
+    func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
+}
+
+void func_800F69B0_10A5D0_shared_board(s32 arg0, s32 arg1, s32 arg2);
+
+void newPlunderChest4(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    }       
+    func_800F69B0_10A5D0_shared_board(arg0, arg1, arg2);
+}
+
+void newDuelGlove2(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    } 
+    func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
+}
+
+void newDuelGlove4(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    } 
+    func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
+}
+
+s32 newDuelCheck(s32 arg0) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        //get player index of captain on opposite team
+        s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
+        return firstPlayerEachTeam[teamIndex]->playerIndex;
+    } else {
+        return arg0;
+    }
+}
+
+s32 newDuelCheck2(s32 playerBeingDueledIndex) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        return GetTeamCaptainCurrentIndex(mp3_GwSystem.current_player_index);
+    } else {
+        return mp3_GwSystem.current_player_index;
+    }
+}
+
+//replaces "you already have 3 items" with "you already have 5 items"
+s32 toadShopTooManyItemsTeamsText[] = {
+    0x0B1A1A1A, 0x1A57656C, 0x636F6D65, 0x20746F0F,
+    0x2016020F, 0x546F6164, 0x5C731619, 0x0A1A1A1A,
+    0x1A020F54, 0x72616469, 0x6E672050, 0x6F737416,
+    0x19C22085, 0x85855761, 0x69740A1A, 0x1A1A1A61,
+    0x20736563, 0x6F6E6485, 0x85852059, 0x6F752061,
+    0x6C726561, 0x64790A68, 0x61766520, 0x66697665,
+    0x20697465, 0x6D738520, 0x436F6D65, 0x20626163,
+    0x6B0A6166, 0x74657220, 0x796F7520, 0x75736520,
+    0x6F6E6585, 0x19FF0000
+};
+
+//replaces "You already have 3 items?" with "You already have 5 items?"
+s32 babyBowserShopTooManyItemsTeamsText[] = {
+0x0B1A1A1A, 0x1A486182, 0x20686182, 0x20686168,
+0xC2205765, 0x6C636F6D, 0x650A1A1A, 0x1A1A746F,
+0x20030F42, 0x61627920, 0x426F7773, 0x65725C73,
+0x204A6F69, 0x6E741619, 0xC20A1A1A, 0x1A1A8585,
+0x85576861, 0x745C7320, 0x74686973, 0xC3C2C30A,
+0x596F7520, 0x616C7265, 0x61647920, 0x68617665,
+0x20666976, 0x65206974, 0x656D73C3, 0x0A546865,
+0x6E206765, 0x74206C6F, 0x7374C219, 0xFF000000
+};
+
+void func_800EC4E4_100104_shared_board(s16, s32, s32);
+
+void newfunc_800EC590_1001B0_shared_board(s16 arg0, s32 arg1) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        if (arg1 == 0x3B02) {
+            arg1 = toadShopTooManyItemsTeamsText;
+        } else if (arg1 == 0x3D02) {
+            arg1 = babyBowserShopTooManyItemsTeamsText;
+        }
+    }
+    //display shop message
+    func_800EC4E4_100104_shared_board(arg0, arg1, -1);
+}
+
+s32 gameGuyCoinCheck(s32 playerIndex) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
+        return firstPlayerEachTeam[teamIndex]->coins;
+    } else {
+        return mp3_gPlayers[playerIndex].coins;
+    }
+}
+
+void wackyWatchMovementCheck1(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    }
+    func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
+}
+
+void wackyWatchMovementCheck2(s32 arg0, s32 arg1, s32* arg2, s32* arg3) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0);
+    }
+    func_800F6E4C_10AA6C_shared_board(arg0, arg1, arg2, arg3);
 }

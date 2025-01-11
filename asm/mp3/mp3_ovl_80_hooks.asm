@@ -88,6 +88,26 @@
     //J checkColorSetAsm2
     //ADDU a0, s1, r0
 
+.org 0x800FADB4
+    J newBattleCheck
+    NOP
+
+.org 0x800FAE14
+    J newBattleCheck3
+    NOP
+
+//checks how many coins the current player has
+.org 0x800FB0CC
+    J newDuelCheck2Asm
+    ADDU a0, s4, r0
+
+.org 0x800FB0E0 //the 0x800FB0CC hook above modifies t0
+    SLL v0, t0, 3
+    SUBU v0, v0, t0
+
+.org 0x800FB118
+    SLL v0, t0, 3  //the 0x800FB0CC hook above modifies t0
+    SUBU v0, v0, t0
 
 //when hud is spinning from pressing B, we need to offset the extra items slightly
 //.org 0x800F6318
@@ -267,6 +287,18 @@
     J originalfunc_800F6BC4_10A7E4_shared_board
     NOP
 
+.org 0x800F641C
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label24
+    NOP
+    J newfunc_800F641C_10A03C_shared_board
+    NOP
+    label24:
+    J originalfunc_800F641C_10A03C_shared_board
+    NOP
+
 .org 0x800F3370
     LUI v0, hi(0x800D110C)
     LBU v0, lo(0x800D110C) (v0)
@@ -388,7 +420,38 @@
     J originalfunc_800F7610_10B230_shared_board
     NOP    
 
+//for removing warp block from inventory
+.org 0x800E2E4C
+    J warpBlockCheck
+    NOP
 
+.org 0x800E2FF8
+    J goldenMushroomCheck
+    NOP
+
+.org 0x800E30F8
+    J booBellCheck
+    NOP
+    NOP
+
+.org 0x800E3210
+    J bowserSuitCheck
+    NOP
+    NOP
+
+.org 0x800E32A8
+    J magicLampCheck
+    NOP
+
+.org 0x800E33B4
+    J koopaKardCheck
+    NOP
+    NOP
+
+.org 0x800E3178
+    J booRepellentSuitCheck
+    NOP
+    NOP
 
 .org 0x800E29E8
     LUI v0, hi(0x800D110C)
@@ -434,13 +497,13 @@
 //related to spawning of items above player's head when given items from a question
 //TODO: by sheer chance, a0 happens to be the player index in this instance. probably shouldn't rely on this...
 .org 0x800F76F0
-    JAL GetTeamCurrentIndex
+    JAL GetTeamCaptainCurrentIndex
     SW v0, 0x0034 (sp)
 
 //for repositioning where items go when you get them in large form from toad/baby bowser
-.org 0x800F7748
-    J getItemFromItemSpaceQuestionHook
-    NOP
+//.org 0x800F7748
+    //J getItemFromItemSpaceQuestionHook
+    //NOP
 
 //another item removal check
 //this hook sets t0 for the 0x800E2BA8 hook below it
@@ -490,5 +553,49 @@
     J originalfunc_800F7F7C_10BB9C_shared_board
     NOP
 
+.org 0x800F7F7C
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label22
+    NOP
+    J newfunc_800F7F30_10BB50_shared_board
+    NOP
+    label22:
+    J originalfunc_800F7F30_10BB50_shared_board
+    NOP
+
+.org 0x800F7D4C
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label23
+    NOP
+    J newfunc_800F7D4C_10B96C_shared_board
+    NOP
+    label23:
+    J originalfunc_800F7D4C_10B96C_shared_board
+    NOP
+
+//extend "all items you can carry" random item generation from 3 -> 5 on team mode
+.org 0x800F754C
+    SLT v0, s0, gp
+
+.org 0x800FE884
+    //v0 holds empty slot currently
+    J GiveTeamCaptainMinigameItem2
+    ADDU t0, v0, r0 //store open item slot in t0 for other hook (at 0x800FE8AC)
+
+.org 0x800FE8AC
+    J GiveTeamCaptainMinigameItem3
+    LBU v0, 0x1111 (v0) //item to give player
+
+.org 0x800E2D0C
+    J duelingGloveCheck
+    NOP
+
+.org 0x800EC590
+    J newfunc_800EC590_1001B0_shared_board
+    NOP
 
 //801067B8 stores players starting flags (0x04)

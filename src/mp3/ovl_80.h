@@ -114,7 +114,15 @@ void func_800EC590_1001B0_shared_board(s32, s32);
 s32 func_800EEF80_102BA0_shared_board(f32);
 void func_800F76A4_10B2C4_shared_board(s32 arg0);
 void func_800F68E0_10A500_shared_board(s32 arg0, s32 arg1, s32 arg2);
+void func_800EC3C0_FFFE0_shared_board(s32);
+void FixUpPlayerItemSlots(s32 arg0);
+s32 PlayerHasEmptyItemSlot(s32 playerIndex);
+void func_800F52C4_108EE4_shared_board(void);
+void mp3_func_800F453C(void);
+void PushItemCountToGP(s32 itemCount);
+void func_800F5E24_109A44_shared_board(s32 arg0);
 
+extern s32 D_801094F4_3C6314_name_50;
 extern s32 D_801055F8_119218_shared_board;
 extern s32 D_80101A50_115670_shared_board[]; //randomly generated items
 extern s32 D_80105630_119250_shared_board[];

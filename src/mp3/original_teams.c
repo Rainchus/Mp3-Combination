@@ -301,9 +301,9 @@ void originalfunc_800F4190_107DB0_shared_board(void) {
 
     //if teams, set gp to 5 for item cap
     if (mp3_gPlayers[0].flags1 & 0x30) {
-        SetItemCountToGP(5); //5 items for teams
+        PushItemCountToGP(5); //5 items for teams
     } else {
-        SetItemCountToGP(3); //3 items for teams
+        PushItemCountToGP(3); //3 items for teams
     }
 }
 
@@ -933,10 +933,49 @@ s32 originalfunc_800E29E8_F6608_shared_board(void) {
     return 1;
 }
 
+//Toad gives all skeleton keys
+void originalfunc_800F7D4C_10B96C_shared_board(void) {
+    func_800EC590_1001B0_shared_board(3, 0x3C0B);
+    D_80105630_119250_shared_board[0] = D_80105630_119250_shared_board[1] = D_80105630_119250_shared_board[2] = ITEM_SKELETON_KEY;
+    func_800F76A4_10B2C4_shared_board(0);
+    func_800EC590_1001B0_shared_board(3, 0x3C0A);
+}
+
+//baby bowser gives all skeleton keys
+void originalfunc_800F7F30_10BB50_shared_board(void) {
+    func_800EC590_1001B0_shared_board(5, 0x3C20);
+    D_80105630_119250_shared_board[0] =
+    D_80105630_119250_shared_board[1] =
+    D_80105630_119250_shared_board[2] = ITEM_SKELETON_KEY;
+    func_800F76A4_10B2C4_shared_board(0);
+    func_800EC590_1001B0_shared_board(5, 0x3C1D);    
+}
+
 //Baby bowser gives warp blocks from item space
 void originalfunc_800F7F7C_10BB9C_shared_board(void) {
     func_800EC590_1001B0_shared_board(5, 0x3C21);
     D_80105630_119250_shared_board[0] = D_80105630_119250_shared_board[1] = D_80105630_119250_shared_board[2] = ITEM_WARP_BLOCK;
     func_800F76A4_10B2C4_shared_board(0);
     func_800EC590_1001B0_shared_board(5, 0x3C1D);
+}
+
+void originalfunc_800F641C_10A03C_shared_board(s32 playerIndex) {
+    BoardStatus* temp_s2;
+    s32 i;
+
+    if (playerIndex == CUR_PLAYER) {
+        playerIndex = mp3_GwSystem.current_player_index;
+    }
+    
+    temp_s2 = &D_801057E0_119400_shared_board[playerIndex];
+    
+    for (i = 0; i < ARRAY_COUNT(temp_s2->unk_40); i++) {
+        if (temp_s2->unk_40[i] != -1) {
+            func_800F6AA4_10A6C4_shared_board(temp_s2->playerIndex, i + 2);
+            mp3_func_80055670_56270(temp_s2->unk_40[i]);
+            temp_s2->unk_40[i] = -1;
+        }
+    }
+
+    originalfunc_800F5F98_109BB8_shared_board(playerIndex, 1);
 }
