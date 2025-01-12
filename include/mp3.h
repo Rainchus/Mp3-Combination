@@ -84,12 +84,12 @@ typedef struct mp3_GW_PLAYER {
 /* 0x0A */ s16 coins; //referenced as u16 and s16 (usually if u16 it's casted to s16)
 /* 0x0C */ char unk_0C[2];
 /* 0x0E */ s8 stars;
-/* 0x0F */ u8 chainIndexCur;
-/* 0x10 */ u8 spaceIndexCur;
-/* 0x11 */ u8 chainIndexNext;
-/* 0x12 */ u8 spaceIndexNext;
-/* 0x13 */ u8 unk_13; //(Chain Index?)
-/* 0x14 */ u8 unk_14; //(Space Index?)
+/* 0x0F */ s8 chainIndexCur;
+/* 0x10 */ s8 spaceIndexCur;
+/* 0x11 */ s8 chainIndexNext;
+/* 0x12 */ s8 spaceIndexNext;
+/* 0x13 */ s8 unk_13; //(Chain Index?)
+/* 0x14 */ s8 unk_14; //(Space Index?)
 /* 0x15 */ u8 chainIndexPrevious;
 /* 0x16 */ u8 spaceIndexPrevious;
 /* 0x17 */ u8 flags2;
@@ -193,7 +193,6 @@ extern omOvlHisData mp2_omovlhis_copy[12];
 extern s16 mp3_omovlhisidx_copy;
 extern omOvlHisData mp3_omovlhis[12];
 extern s16 mp3_omovlhisidx;
-extern s32 CurBaseGame;
 extern s16 mp3_D_800CD2A2;
 extern UnkCastleGroundMessage mp3_D_80110998[];
 extern s32 mp3_D_800B1A30;

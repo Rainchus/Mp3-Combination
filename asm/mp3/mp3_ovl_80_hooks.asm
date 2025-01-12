@@ -453,6 +453,19 @@
     NOP
     NOP
 
+//for preventing your teammate being considered a duel opponent in last 5 turns of team mode
+.org 0x800FA818
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label25
+    NOP
+    J newfunc_800FA818_10E438_shared_board
+    NOP
+    label25:
+    J originalfunc_800FA818_10E438_shared_board
+    NOP
+
 .org 0x800E29E8
     LUI v0, hi(0x800D110C)
     LBU v0, lo(0x800D110C) (v0)

@@ -82,6 +82,9 @@
 .definelabel mp1_D_800F544C, 0x800F544C
 .definelabel mp1_D_800C51B0, 0x800C51B0
 
+.definelabel D_800FA0D0_UnknownResultsScreen, 0x800FA0D0
+.definelabel D_800FA0D8_UnknownResultsScreen, 0x800FA0D8
+.definelabel D_800FA0F0_UnknownResultsScreen, 0x800FA0F0
 
 .definelabel mp1_D_800F8ED0_BowserSpaceEvent, 0x800F8ED0
 .definelabel mp1_func_800F8EA8_BowserSpaceEvent, 0x800F8EA8

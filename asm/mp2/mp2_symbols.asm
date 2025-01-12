@@ -29,6 +29,12 @@
 .definelabel D_800F93C6, 0x800F93C6;
 .definelabel D_800F93C8, 0x800F93C8;
 
+.definelabel D_80107830_413C90_Results, 0x80107830;
+.definelabel D_80107838_413C98_Results, 0x80107838;
+.definelabel D_80107840_413CA0_Results, 0x80107840;
+.definelabel D_80107848_413CA8_Results, 0x80107848;
+.definelabel D_80107860_413CC0_Results, 0x80107860;
+
 .definelabel mp2_hidden_block_coins_space_index, 0x800FA608
 .definelabel mp2_hidden_block_star_space_index, 0x800FD418
 .definelabel mp2_BoardState, 0x800F93A8

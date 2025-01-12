@@ -5,9 +5,6 @@
 #include "game/process.h"
 #include "math.h"
 
-#define CUR_PLAYER -1
-
-#define MAX_PLAYERS 4
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 
 #define    OS_K0_TO_PHYSICAL(x)    (u32)(((char *)(x)-0x80000000))

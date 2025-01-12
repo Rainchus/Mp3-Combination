@@ -979,3 +979,30 @@ void originalfunc_800F641C_10A03C_shared_board(s32 playerIndex) {
 
     originalfunc_800F5F98_109BB8_shared_board(playerIndex, 1);
 }
+
+s16 originalfunc_800FA818_10E438_shared_board(s32 arg0) {
+    mp3_GW_SYSTEM* system =  &mp3_GwSystem;
+    mp3_GW_PLAYER* player;
+    s16 temp_s3;
+    s32 var_s2;
+    s32 i;
+
+    var_s2 = 0;
+    if ((system->total_turns - system->current_turn) >= 5) {
+        return 0;
+    }
+
+    temp_s3 = func_800EB184_FEDA4_shared_board(mp3_GetPlayerStruct(CUR_PLAYER)->chainIndexCur, mp3_GetPlayerStruct(CUR_PLAYER)->spaceIndexCur);
+    
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        if (i != mp3_GetPlayerStruct(CUR_PLAYER)->playerIndex) {
+            if (temp_s3 == func_800EB184_FEDA4_shared_board(mp3_GetPlayerStruct(i)->chainIndexCur, mp3_GetPlayerStruct(i)->spaceIndexCur)) {
+                var_s2 |= 1 << i;
+                if (arg0 != 0) {
+                    func_800FF900_113520_shared_board(i, 3);
+                }
+            }
+        }    
+    }
+    return var_s2;
+}

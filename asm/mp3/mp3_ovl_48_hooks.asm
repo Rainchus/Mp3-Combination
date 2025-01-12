@@ -112,7 +112,7 @@
     ADDIU sp, sp, 0xF0
 
 .org 0x8010BDA8 //load team player index for coin checks in shop
-    LW v0, 0x00E8 (sp) //get team index stored from earlier
+    LW v1, 0x00E8 (sp) //get team index stored from earlier
     NOP
 
 //make item bag give items to team leader

@@ -7,6 +7,9 @@
 #define EEPROM_BLOCK_POS EEPROM_ABS_POS / EEPROM_BLOCK_SIZE
 #define EEPROM_BLOCK_VI_POS 0x300 / EEPROM_BLOCK_SIZE
 
+#define CUR_PLAYER -1
+#define MAX_PLAYERS 4
+
 #include "ultra64.h"
 #include "functions.h"
 #include "macros.h"
@@ -466,6 +469,7 @@ extern mp1_GW_PLAYER mp1_gPlayers[4];
 extern u8 mp2_debugMode;
 extern s32 eepromLoadFailed;
 extern s32 isMidTurnMinigame;
+extern s32 ForeignMinigameIndexToLoad;
 
 s32 ForeignMinigameIsMidTurnMinigame(s32);
 u16 func_8000B838_C438(s32);
@@ -478,6 +482,7 @@ NORETURN void ComboSwitchGameToMp2(void);
 NORETURN void ComboSwitchGameToMp1(void);
 extern s32 ForeignMinigameAlreadyLoaded;
 extern s32 GetMinigameFlag(s32 arg0);
+extern s32 CurBaseGame;
 
 enum {
     MP1_BASE = 0,

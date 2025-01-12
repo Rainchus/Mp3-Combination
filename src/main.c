@@ -414,9 +414,10 @@ u8 mp3_battleMinigameBlacklist[] = {
     // MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST
 };
 
+//blacklist mp2 duels while playing mario party 3
 u8 mp3_duelMinigameBlacklist[] = {
-    // PIRATE_LAND_DUEL, WESTERN_LAND_DUEL, SPACE_LAND_DUEL, MYSTERY_LAND_DUEL, HORROR_LAND_DUEL,
-    // KOOPA_LAND_DUEL
+    PIRATE_LAND_DUEL, WESTERN_LAND_DUEL, SPACE_LAND_DUEL, MYSTERY_LAND_DUEL, HORROR_LAND_DUEL,
+    KOOPA_LAND_DUEL
 };
 
 u8 mp3_itemMinigameBlacklist[] = {

@@ -5,7 +5,6 @@
 
 void mp2_func_800890CC(s16, char*, s32, s32); //RefreshMsg
 extern MinigameIndexTable minigameLUT[];
-extern s32 ForeignMinigameIndexToLoad;
 extern s16 D_800F93C8;
 NORETURN void ComboSwitchGameToMp3(void);
 u8 mp2_prevMinigamesPlayedCopy[MP2_PREV_MINIGAMES_PLAYED_SIZE] = {0};

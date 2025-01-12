@@ -2231,3 +2231,37 @@ void wackyWatchMovementCheck2(s32 arg0, s32 arg1, s32* arg2, s32* arg3) {
     }
     func_800F6E4C_10AA6C_shared_board(arg0, arg1, arg2, arg3);
 }
+
+//make it so player cant duel teammate in last 5 turns
+s16 newfunc_800FA818_10E438_shared_board(s32 arg0) {
+    mp3_GW_SYSTEM* system =  &mp3_GwSystem;
+    s16 temp_s3;
+    s32 var_s2;
+    s32 i;
+
+    var_s2 = 0;
+    if ((system->total_turns - system->current_turn) >= 5) {
+        return 0;
+    }
+
+    temp_s3 = func_800EB184_FEDA4_shared_board(mp3_GetPlayerStruct(CUR_PLAYER)->chainIndexCur, mp3_GetPlayerStruct(CUR_PLAYER)->spaceIndexCur);
+    s32 teamIndex = get_team_index(&mp3_gPlayers[mp3_GetPlayerStruct(CUR_PLAYER)->playerIndex]);
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        if (i != mp3_GetPlayerStruct(CUR_PLAYER)->playerIndex) {
+            //if player being checked is on cur player's team, skip
+            s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[i]);
+            if (teamIndex == curPlayerTeamIndex) {
+                continue;
+            }
+
+            if (temp_s3 == func_800EB184_FEDA4_shared_board(mp3_GetPlayerStruct(i)->chainIndexCur, mp3_GetPlayerStruct(i)->spaceIndexCur)) {
+                var_s2 |= 1 << i;
+                if (arg0 != 0) {
+                    func_800FF900_113520_shared_board(i, 3);
+                }
+            }
+        }    
+    }
+    return var_s2;
+}

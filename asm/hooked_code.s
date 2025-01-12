@@ -492,6 +492,7 @@ teamCheck9Asm:
     J 0x80106DD0
     ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x80106DF8)
 
+//for item bag writing to items array
 teamCheck10Asm:
     LUI a0, 0x800D
     LB a0, 0xD067 (a0)
@@ -509,9 +510,8 @@ teamCheck10Asm:
     ADDU a0, v0, r0 //return to a0
     LW v0, 0x0014 (sp)
     ADDIU sp, sp, 0x18
-    
     J 0x8010C540
-    ADDU a0, v0, r0 //return to a0
+    NOP
 
 //when you use an item and the item list background flips, -
 //it pulls the player index to see where to remove the item from
