@@ -237,50 +237,98 @@ newItemSpinCode:
     NOP
 
 chillyWatersBankCheck:
-    LUI v1, hi(mp3_gPlayers)
-    LBU v1, lo(mp3_gPlayers + 0x4) (v1)
-    ANDI v1, v1, 0x30
-    BEQ v1, r0, originalBank
+    LB v1, 0x000F (s4) //restore from hook (load current player index)
+    LUI v0, hi(mp3_gPlayers)
+    LBU v0, lo(mp3_gPlayers + 0x4) (v0)
+    ANDI v0, v0, 0x30
+    BEQ v0, r0, originalBank
     NOP
     //at bank in team mode, check coins as a team
-    SRL v1, v1, 5 //convert to team index
-    SLL v1, v1, 2
-    LUI v0, hi(firstPlayerEachTeam)
-    ADDIU v0, v0, lo(firstPlayerEachTeam)
-    ADDU v0, v0, v1
-    LW v1, 0x0000 (v0)
-    LH a2, 0x000A (v1) //load team player's coins
-    J 0x8010AE38
-    SLL v0, v1, 3
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //pass current player index to a0
+
+    //team captain on v0
+    ADDU v1, v0, r0 //return to v1
 
     originalBank:
-    LB v1, 0x000F (s4)
     J 0x8010AE24
     SLL v0, v1, 3
 
 
 chillyWatersBankCheck2:
+    LB v0, 0x000F (s4) //restore from hook (load current player index)
     LUI t0, hi(mp3_gPlayers)
     LBU t0, lo(mp3_gPlayers + 0x4) (t0)
     ANDI t0, t0, 0x30
     BEQ t0, r0, originalBank2
     NOP
     //
-    //at bank in team mode, check coins as a team
-    SRL t0, t0, 5 //convert to team index
-    SLL t0, t0, 2
-    LUI v0, hi(firstPlayerEachTeam)
-    ADDIU v0, v0, lo(firstPlayerEachTeam)
-    ADDU v0, v0, t0
-    LW t0, 0x0000 (v0)
-    J 0x8010AF54
-    LH v0, 0x000A (t0) //load team player's coins    
 
+    //at bank in team mode, check coins as a team
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v0, r0 //pass current player index to a0
+
+    //team captain on v0
+  
     originalBank2:
-    LUI v0, 0x800D
-    ADDU v0, v0, v1
-    J 0x8010AF54
-    LH v0, 0x1112 (v0)
+    J 0x8010AF40
+    SLL v1, v0, 3
+
+chillyWatersBankCheck3:
+    LB v1, 0x000F (s4) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBank3
+    NOP
+    //    
+    //at bank in team mode, check coins as a team
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //pass current player index to a0
+
+    //team captain on v0
+    ADDU v1, v0, r0 //return to v1
+
+    originalBank3:
+    J 0x8010AE74
+    SLL v0, v1, 3
+
+chillyWatersBankCheck4:
+    LB v1, 0x000F (s4) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBank4
+    NOP
+
+    //at bank in team mode, check coins as a team
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //pass current player index to a0
+
+    ADDU v1, v0, r0 //return to v1
+
+    originalBank4:
+    J 0x8010AECC
+    SLL v0, v1, 3
+
+chillyWatersBankCheck5:
+    LB a0, 0x000F (s4) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBank5
+    NOP
+
+    //at bank in team mode, check coins as a team
+    JAL GetTeamCaptainCurrentIndex
+    NOP //player index already in a0
+
+    ADDU a0, v0, r0 //return to a0
+
+    originalBank5:
+    J 0x8010AF1C
+    SLL v0, a0, 3
+
 
 chillyWatersItemMenuClosing:
     //v0 currently holds the item index chosen

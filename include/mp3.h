@@ -172,7 +172,8 @@ typedef struct mp3_GW_SYSTEM {
     /* 0x51 - 800CD0A9 */ u8 cur_player_used_item; //1 if player already used an item this turn
     /* 0x52 - 800CD0AA */ char unk_52[5];
     /* 0x57 - 800CD0AF */ s8 slow_dice_flags;
-    /* 0x58 - 800CD0B0 */ char unk_58[4];
+    /* 0x58 - 800CD0B0 */ s16 unk_58;                           /* inferred */
+    /* 0x5A - 800CD0B2 */ s16 playerIndexVisitingBowser;
     /* 0x5C - 800CD0B4 */ u16 bank_coins;
     /* 0x5E - 800CD0B6 */ u8 data_flags; //unknown what this is, but star spawns are included in this
     /* 0x5F - 800CD0B7 */ u8 unk_flags;

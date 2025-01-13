@@ -1,11 +1,35 @@
 .headersize 0x8010AE2C - 0x32099C
-//.org 0x8010AE1C
-    //J chillyWatersBankCheck
-    //NOP
+.org 0x8010AE1C
+    J chillyWatersBankCheck
+    NOP
 
-//.org 0x8010AF48
-    //J chillyWatersBankCheck2
-    //NOP
+.org 0x8010AF38
+    J chillyWatersBankCheck2
+    NOP
+
+.org 0x8010AE6C
+    J chillyWatersBankCheck3
+    NOP
+
+.org 0x8010AEC4
+    J chillyWatersBankCheck4
+    NOP
+
+.org 0x8010AF14
+    J chillyWatersBankCheck5
+    NOP
+
+.org 0x8010AEF0
+    JAL BankShowPlayerCoinChangeHook
+    LB a0, 0x000F (s4)
+    //NOPs for clarity (it's implemented in the above function call)
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
 
 .org 0x801122BC
     JAL 0x800E4A7C

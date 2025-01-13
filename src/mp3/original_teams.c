@@ -1006,3 +1006,55 @@ s16 originalfunc_800FA818_10E438_shared_board(s32 arg0) {
     }
     return var_s2;
 }
+
+//related to how CPUs decide who to duel?
+s32 originalfunc_800F9D1C_10D93C_shared_board(void) {
+    s32 i;
+    s32 var_s1;
+    s32 var_s2;
+    s32 var_s3;
+    s32 sp10[MAX_PLAYERS];
+    mp3_GW_SYSTEM* system = &mp3_GwSystem;
+
+    for (i = 0, var_s2 = 99; i < MAX_PLAYERS; i++) {
+        if ((i != system->current_player_index) && ((mp3_GwSystem.unk_58 >> i) & 1) && (BoardPlayerRankCalc(i) < var_s2) && mp3_gPlayers[i].coins != 0) {
+            var_s2 = BoardPlayerRankCalc(i);
+        }
+    }
+    
+    var_s1 = 0;
+    
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        if ((i != system->current_player_index) && ((mp3_GwSystem.unk_58 >> i) & 1) && (BoardPlayerRankCalc(i) == var_s2)) {
+            sp10[var_s1] = i;
+            var_s1 += 1;
+        }        
+    }
+    
+    if (mp3_GetPlayerStruct(CUR_PLAYER)->coins >= 20) {
+        if (mp3_GetPlayerStruct(sp10[0])->coins < 20) {
+            for (i = 0, var_s2 = 99, var_s3 = 0; i < MAX_PLAYERS; i++) {
+                if ((i != system->current_player_index) && (mp3_GetPlayerStruct(i)->coins >= 20)) {
+                    var_s3 = 1;
+                    if (BoardPlayerRankCalc(i) < var_s2) {
+                        var_s2 = BoardPlayerRankCalc(i);
+                    }
+                }
+            }
+            
+            if (var_s3 != 0) {
+                for (i = 0, var_s1 = 0; i < MAX_PLAYERS; i++) {
+                    if ((i != system->current_player_index) && ((mp3_GwSystem.unk_58 >> i) & 1) && (BoardPlayerRankCalc(i) == var_s2) && mp3_gPlayers[i].coins != 0) {
+                        sp10[var_s1] = i;
+                        var_s1++;
+                    }
+                }
+            }
+        }
+    }
+    i = sp10[func_800EEF80_102BA0_shared_board(var_s1)];
+    if (mp3_gPlayers[i].coins == 0) {
+        i = 4;
+    }
+    return i;
+}

@@ -611,4 +611,16 @@
     J newfunc_800EC590_1001B0_shared_board
     NOP
 
+.org 0x800F9D1C
+    LUI v0, hi(0x800D110C)
+    LBU v0, lo(0x800D110C) (v0)
+    ANDI v0, v0, 0x0030
+    BEQ v0, r0, label26
+    NOP
+    J newfunc_800F9D1C_10D93C_shared_board
+    NOP
+    label26:
+    J originalfunc_800F9D1C_10D93C_shared_board
+    NOP
+
 //801067B8 stores players starting flags (0x04)

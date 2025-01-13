@@ -203,6 +203,8 @@
 .definelabel func_800EC4E4_100104_shared_board, 0x800EC4E4
 .definelabel func_800F6780_10A3A0_shared_board, 0x800F6780
 .definelabel func_800EB184_FEDA4_shared_board, 0x800EB184
+.definelabel mp3_ShowPlayerCoinChange, 0x800E1F48
+
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00
 .definelabel mp3_omovlhis_copy, 0x807FFE00
