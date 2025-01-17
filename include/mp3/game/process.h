@@ -55,7 +55,7 @@ void HuPrcChildKill(Process*process);
 void HuPrcTerminate(Process*process);
 void HuPrcExit();
 void HuPrcSleep(s32 time);
-void HuPrcVSleep();
+void mp3_HuPrcVSleep();
 void HuPrcAwake(Process*process);
 void HuPrcDtor(Process*process, process_func destructor);
 void HuPrcCurrentDtor(process_func destructor);

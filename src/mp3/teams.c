@@ -2200,9 +2200,9 @@ void func_800EC4E4_100104_shared_board(s16, s32, s32);
 void newfunc_800EC590_1001B0_shared_board(s16 arg0, s32 arg1) {
     if (mp3_gPlayers[0].flags1 & 0x30) {
         if (arg1 == 0x3B02) {
-            arg1 = toadShopTooManyItemsTeamsText;
+            arg1 = (s32)toadShopTooManyItemsTeamsText;
         } else if (arg1 == 0x3D02) {
-            arg1 = babyBowserShopTooManyItemsTeamsText;
+            arg1 = (s32)babyBowserShopTooManyItemsTeamsText;
         }
     }
     //display shop message
@@ -2350,5 +2350,62 @@ void BankShowPlayerCoinChangeHook(s32 playerIndex) {
     } else {
         mp3_ShowPlayerCoinChange(playerIndex, -mp3_gPlayers[playerIndex].coins);
     }
+}
 
+//replaces "You already have three items" with "You already have five items"
+s32 itemSpaceTooManyItemsTeamsText[] = {
+0x0B596F75, 0x20616C72, 0x65616479, 0x20686176,
+0x65206669, 0x76652069, 0x74656D73, 0x8220736F,
+0x20796F75, 0x0A646F6E, 0x5C742067, 0x65742074,
+0x6F20706C, 0x61792066, 0x6F722061, 0x6E79206D,
+0x6F7265C2, 0x19FF0000
+};
+
+void messageReplacementCheck(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        //strID 0x3C00: You already have three items. so you.don\t get to play for any more
+        if (arg1 == 0x3C00) {
+            arg1 = (s32)itemSpaceTooManyItemsTeamsText;
+        }
+        mp3_func_8005B43C_5C03C(arg0, (char*)arg1, arg2, arg3);
+    } else {
+        mp3_func_8005B43C_5C03C(arg0, (char*)arg1, arg2, arg3);
+    }
+}
+
+
+void GameGuyTakePlayerCoinsChangeHook(s32 playerIndex) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 captainIndex = GetTeamCaptainCurrentIndex(playerIndex);
+        mp3_GW_PLAYER* captain = mp3_GetPlayerStruct(captainIndex);
+        mp3_ShowPlayerCoinChange(playerIndex, -captain->coins);
+    } else {
+        mp3_ShowPlayerCoinChange(playerIndex, -mp3_gPlayers[playerIndex].coins);
+    }
+}
+
+void checkTeamCoinsForGameGuy2(s32 playerIndex) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        s32 teamIndex = get_team_index(&mp3_gPlayers[playerIndex]);
+        mp3_GW_PLAYER* curPlayerTeamCaptain = firstPlayerEachTeam[teamIndex];
+        mp3_gPlayers[playerIndex].coins_mg_bonus = curPlayerTeamCaptain->coins;
+    } else {
+        mp3_gPlayers[playerIndex].coins_mg_bonus = mp3_gPlayers[playerIndex].coins;
+    }
+}
+
+s32 FindCurPlayerTeammate(s32 curPlayerIndex) {
+    s32 i;
+    s32 teamIndex = get_team_index(&mp3_gPlayers[curPlayerIndex]);
+
+    for (i = 0; i < MAX_PLAYERS; i++) {
+        if (i == curPlayerIndex) {
+            continue;
+        }
+        s32 curPlayerTeamIndex = get_team_index(&mp3_gPlayers[i]);
+        if (curPlayerTeamIndex == teamIndex) {
+            return i;
+        }
+    }
+    return -1;
 }

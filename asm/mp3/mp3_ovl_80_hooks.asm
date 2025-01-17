@@ -88,6 +88,10 @@
     //J checkColorSetAsm2
     //ADDU a0, s1, r0
 
+.org 0x800FC534
+    J newGameGuyGiveCoinsHud
+    NOP
+
 .org 0x800FADB4
     J newBattleCheck
     NOP
@@ -408,6 +412,41 @@
     //J teamCheck4Asm
     //NOP
 
+.org 0x800FEA54
+    J checkTeamCoinsForGameGuy
+    NOP
+
+.org 0x800FEA80
+    JAL checkTeamCoinsForGameGuy2
+    LB a0, 0x000F (s4) //current player index to a0
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+
+.org 0x800FEACC
+    J checkTeamCoinsForGameGuy3
+    NOP
+
+.org 0x800FEAA8
+    J checkTeamCoinsForGameGuy4
+    NOP
+
+.org 0x800FEAA8
+    JAL GameGuyTakePlayerCoinsChangeHook
+    LB a0, 0x000F (s4)
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+
 .org 0x800F7610
     LUI v0, hi(0x800D110C)
     LBU v0, lo(0x800D110C) (v0)
@@ -622,5 +661,13 @@
     label26:
     J originalfunc_800F9D1C_10D93C_shared_board
     NOP
+
+.org 0x800DE260
+    J hiddenItemBlockCheck
+    NOP
+
+.org 0x800EC4A4 //replaces a message id with a custom message already in ram
+    JAL messageReplacementCheck
+    ADDIU a3, r0, 0xFFFF
 
 //801067B8 stores players starting flags (0x04)

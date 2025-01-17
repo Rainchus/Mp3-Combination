@@ -27,6 +27,7 @@
 .include "asm\mp3\mp3_ovl_53_hooks.asm"
 .include "asm\mp3\mp3_ovl_58_hooks.asm"
 .include "asm\mp3\mp3_ovl_71_hooks.asm"
+.include "asm\mp3\mp3_ovl_78_hooks.asm"
 .include "asm\mp3\mp3_ovl_80_hooks.asm"
 .include "asm\mp3\mp3_ovl_bootlogos.asm"
 .include "asm\mp3\mp3_playerStructPatches.asm"
@@ -55,6 +56,7 @@
 .importobj "obj\mp3\teams.o"
 .importobj "obj\mp3\ovl_00_Debug\ovl_00_Debug.o"
 .importobj "obj\mp3\ovl_58_name_BootLogos\ovl_58_BootLogos.o"
+.importobj "obj\mp3\ovl_78_StarLift\ovl_78_StarLift.o"
 
 .align 8
 PAYLOAD_END_RAM:

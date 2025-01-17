@@ -677,6 +677,17 @@ s32 ForeignMinigameIsMidTurnMinigame(s32 minigameCombinedIndex) {
     return -1;
 }
 
+s32 ForeignMinigameGetType(s32 minigameCombinedIndex) {
+    s32 i;
+    //find the minigame and return the type of minigame (4p, 1v3, etc)
+    for (i = 0; i < MINIGAME_END; i++) {
+        if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
+            return minigameLUT[i].minigameType;
+        }
+    }
+    return -1;
+}
+
 s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
     s32 i;
     //find the minigame and get the overlay id for the specific game

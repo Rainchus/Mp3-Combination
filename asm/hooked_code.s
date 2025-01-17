@@ -537,7 +537,7 @@ teamCheck9Asm:
     LUI a0, 0x800D
     JAL GetTeamCaptainCurrentIndex
     LB a0, 0xD067 (a0)
-    J 0x80106DD0
+    J 0x800DDAC0
     ADDU t0, v0, r0 //store in t0 for another hook (hook at 0x80106DF8)
 
 //for item bag writing to items array
@@ -694,6 +694,44 @@ newBooCanStealStarCheck:
     originalBooStarStealCheck:
     J 0x8010E4BC
     SLL v1, v0, 3
+
+newBooCheckIfAnyCanBeStolenFrom:
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBooCheckIfAnyCanBeStolenFrom
+    NOP
+
+    JAL FindCurPlayerTeammate
+    LB a0, 0x000F (s7)
+
+    ADDU t1, v0, r0 //return to t1
+
+    originalBooCheckIfAnyCanBeStolenFrom:
+    ADDU s0, r0, r0
+    J 0x8010E478
+    LB v1, 0x000F (s7)
+
+//if teammate is only valid star steal target, remove the option from being available
+newBooCheckIfAnyCanBeStolenFrom2:
+    SLL v0, s0, 3 //restore from hook
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalBooCheckIfAnyCanBeStolenFrom2
+    NOP
+
+    BEQ t1, s0, booCheckIsTeammate
+    NOP
+
+    originalBooCheckIfAnyCanBeStolenFrom2:
+    SUBU v0, v0, s0
+    J 0x8010E488
+    SLL v0, v0, 3
+
+    booCheckIsTeammate:
+    J 0x8010E49C
+    NOP
 
 newPlunderChestCheck:
     //black out all 4 characters, then go back and make enemy team captain available
@@ -1088,3 +1126,138 @@ koopaKardCheck:
     originalKoopaKardCheck:
     J 0x800E33C0
     NOP
+
+checkTeamCoinsForGameGuy:
+    LB v0, 0x000F (s4) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalCoinsGameGuy
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v0, r0 //cur player index to a0
+
+    originalCoinsGameGuy:
+    J 0x800FEA5C
+    SLL v1, v0, 3
+
+/* previous implementation of checkTeamCoinsForGameGuy2
+checkTeamCoinsForGameGuy2:
+    LB v1, 0x000F (s4) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalCoinsGameGuy2
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //cur player index to a0
+    ADDU v1, v0, r0 //return to v1
+    originalCoinsGameGuy2:
+    J 0x800FEA88
+    SLL v0, v1, 3
+    */
+
+checkTeamCoinsForGameGuy3:
+    LB a0, 0x000F (s4) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalCoinsGameGuy3
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return to a0
+
+    originalCoinsGameGuy3:
+    J 0x800FEAD4
+    SLL v0, a0, 3
+
+checkTeamCoinsForGameGuy4:
+    LB a0, 0x000F (s4) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalCoinsGameGuy4
+    NOP
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+    ADDU a0, v0, r0 //return to a0
+    originalCoinsGameGuy4:
+    J 0x800FEAB0
+    SLL v0, a0, 3
+
+newGameGuyGiveCoinsHud:
+    //if teams are active, skip showing coin change (after game guy and after something else unknown)
+    LUI v0, hi(mp3_gPlayers)
+    LBU v0, lo(mp3_gPlayers + 0x4) (v0)
+    ANDI v0, v0, 0x30
+    BEQ v0, r0, newGameGuyGiveCoinsHudLabel
+    NOP
+    //skip showing coin change
+    J 0x800FC53C
+    NOP
+    newGameGuyGiveCoinsHudLabel:
+    JAL	0x800E1F28
+    NOP
+    J 0x800FC53C
+    NOP
+
+//is this only for magic lamps?
+starPurchaseCheck:
+    LB v0, 0x000F (s1) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalStarPurchaseCheck
+    NOP
+    ADDIU sp, sp, -0x18
+    SW a0, 0x0014 (sp)
+
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v0, r0 //current player index to a0
+
+    LW a0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+
+    originalStarPurchaseCheck:
+    J 0x8010A604
+    SLL v1, v0, 3
+
+snowballThrowEventCheck:
+    LUI v1, 0x800D
+    LB v1, 0xD067 (v1) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalSnowballThrowEventCheck
+    NOP
+
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //current player index to a0
+
+    ADDU v1, v0, r0 //return to v1
+
+    originalSnowballThrowEventCheck:
+    J 0x8011BA30
+    NOP
+
+hiddenItemBlockCheck:
+    LW a0, 0x0000 (s1) //restore from hook (load current player index)
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalItemBlockCheck
+    NOP
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0014 (sp)
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+
+    ADDU a0, v0, r0 //return to a0
+
+    LW v0, 0x0014 (sp) //pop original value of v0
+    ADDIU sp, sp, 0x18
+
+    originalItemBlockCheck:
+    J 0x800DE268
+    SLL v1, a0, 3

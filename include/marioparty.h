@@ -466,6 +466,16 @@ typedef struct omOvlHisData { //Object Manager History Data
 extern mp2_GW_PLAYER mp2_gPlayers[4];
 extern mp1_GW_PLAYER mp1_gPlayers[4];
 
+typedef struct EepData {
+/* 0x00 */ u8 minigameFlags[0x18];
+/* 0x18 */ u8 teamModeFlag; //used for setting bits in player structs on board start for team mode (TODO: implement)
+/* 0x19 */ u8 force2v2Minigame; //if teams mode is active, this will force 2v2 minigames every turn from all 3 mario parties
+/* 0x1A */ u8 preventMinigameCoinLoss; //for mp1. in games where coins are the focus (ex bash n cash) coins will still be lost
+/* 0x1B */ char pad[0x125];
+} EepData __attribute__((aligned(16))); //sizeof 0x140
+
+extern EepData customEepromData;
+
 extern u8 mp2_debugMode;
 extern s32 eepromLoadFailed;
 extern s32 isMidTurnMinigame;
@@ -473,7 +483,7 @@ extern s32 ForeignMinigameIndexToLoad;
 
 s32 ForeignMinigameIsMidTurnMinigame(s32);
 u16 func_8000B838_C438(s32);
-s32 InitEspriteSlot(s16, s32, s32);
+s16 InitEspriteSlot(s16, s32, s32);                     /* extern */
 void crash_screen_init(void);
 void infiniteLoop(void);
 void WaitForSubSystems(void);

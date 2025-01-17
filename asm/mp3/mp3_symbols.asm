@@ -205,6 +205,41 @@
 .definelabel func_800EB184_FEDA4_shared_board, 0x800EB184
 .definelabel mp3_ShowPlayerCoinChange, 0x800E1F48
 
+
+.definelabel D_8011A938_516B98_name_78, 0x8011A938
+.definelabel D_8011AA45_516CA5_name_78, 0x8011AA45
+.definelabel _CheckFlag, 0x80035EB0
+.definelabel D_80119EE0_516140_name_78, 0x80119EE0
+.definelabel D_80119EAC_51610C_name_78, 0x80119EAC
+.definelabel D_80119EC4_516124_name_78, 0x80119EC4
+.definelabel D_80119E94_5160F4_name_78, 0x80119E94
+.definelabel func_8010E4BC_50A71C_name_78, 0x8010E4BC
+.definelabel func_8010DE38_50A098_name_78, 0x8010DE38
+.definelabel func_8010B82C_507A8C_name_78, 0x8010B82C
+.definelabel func_8010B858_507AB8_name_78, 0x8010B858
+.definelabel HuAudFXPlay, 0x8004AA88
+.definelabel func_8010E8C8_50AB28_name_78, 0x8010E8C8
+.definelabel func_8001C258_1CE58, 0x8001C258
+.definelabel func_8001C150_1CD50, 0x8001C150
+.definelabel func_8001C1a0_1CDA0, 0x8001C1a0
+.definelabel D_8011A948_516BA8_name_78, 0x8011A948
+.definelabel func_8010D684_5098E4_name_78, 0x8010D684
+.definelabel HuReadFileTemp, 0x80009C74
+.definelabel func_80055810_56410, 0x80055810
+.definelabel HuFreeFileTemp, 0x80009E8C
+.definelabel func_8000BC48_C848, 0x8000BC48
+.definelabel func_8000BCC8_C8C8, 0x8000BCC8
+.definelabel func_8000BBD4_C7D4, 0x8000BBD4
+.definelabel func_8000BE5C_CA5C, 0x8000BE5C
+.definelabel func_8000BBFC_C7FC, 0x8000BBFC
+.definelabel func_8000C184_CD84, 0x8000C184
+.definelabel func_80055670_56270, 0x80055670
+.definelabel func_8001ACDC_1B8DC, 0x8001ACDC
+.definelabel func_8010DDD8_50A038_name_78, 0x8010DDD8
+.definelabel D_80119420_515680_name_78, 0x80119420
+.definelabel func_8010F320_50B580_name_78, 0x8010F320
+.definelabel func_8010E4D8_50A738_name_78, 0x8010E4D8
+.definelabel func_8010B998_507BF8_name_78, 0x8010B998
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00
 .definelabel mp3_omovlhis_copy, 0x807FFE00

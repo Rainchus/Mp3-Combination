@@ -162,6 +162,14 @@
     J newBooCanStealStarCheck
     LB v0, 0x000F (s7) //restore from hook (load current player index)
 
+.org 0x8010E470
+    J newBooCheckIfAnyCanBeStolenFrom
+    NOP
+
+.org 0x8010E480
+    J newBooCheckIfAnyCanBeStolenFrom2
+    NOP
+
 //if plunder chest found player had max items, set to either 3 or 5 depending on if teams are active
 .org 0x80117FE0
     ADDU s0, r0, gp
@@ -222,6 +230,14 @@
 .org 0x80114FA0 //lucky coin item only?
     JAL gameGuyCoinCheck
     ADDU a0, s2, r0 //pass player index into a0
+    NOP
+
+.org 0x8010A5FC
+    J starPurchaseCheck
+    NOP
+
+.org 0x8011BA28
+    J snowballThrowEventCheck
     NOP
 
 //wacky watch removal check
