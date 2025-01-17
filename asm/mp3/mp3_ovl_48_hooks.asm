@@ -78,6 +78,11 @@
     JAL GetTeamCaptainCurrentIndex
     SW s0, 0x0020 (sp)
 
+//.org 0x8011CA0C
+    //J bowserPhoneCpuNoCoinsCheck
+    //NOP
+    //NOP
+
 //TODO: verify this is an item check
 .org 0x8011CC0C
     SLT v0, a0, gp //SLTI v0, a0, 3
@@ -91,6 +96,10 @@
 
 .org 0x8010BBD4
     J shopCoinsCheck
+    NOP
+
+.org 0x8010BAD8
+    J teamCheck14Asm
     NOP
 
 //bought shop item from cellular shopper
@@ -115,6 +124,10 @@
 
 .org 0x8010FDC0
     J teamCheck11Asm
+    ADDU a2, r0, r0
+
+.org 0x8010FDEC
+    JAL teamCheck12
     ADDU a2, r0, r0
 
 //if teams is on, return either 1st place for winning team and 4th for losing team

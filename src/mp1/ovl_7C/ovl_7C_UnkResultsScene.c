@@ -124,6 +124,7 @@ void FixGivenCoinsForTeamMode2v2(mp1_GW_PLAYER* curPlayer1stTeammate, mp1_GW_PLA
 }
 
 void func_800F8194_UnknownResultsScreen(void) {
+    #ifdef MP1
     s32 i;
     mp1_GW_PLAYER* curPlayer1stTeammate = NULL;
     mp1_GW_PLAYER* otherTeam1stTeammate = NULL;
@@ -198,6 +199,7 @@ void func_800F8194_UnknownResultsScreen(void) {
         otherTeam2ndTeammate->coins_mg = 0;        
     }
 
+    //original code
     for (i = 0; i < MAX_PLAYERS; i++) {
         D_800FA0F0_UnknownResultsScreen[i] = mp1_gPlayers[i].coins;
         D_800FA0D0_UnknownResultsScreen[i] = mp1_gPlayers[i].coins_mg;
@@ -211,4 +213,5 @@ void func_800F8194_UnknownResultsScreen(void) {
         D_800FA0D8_UnknownResultsScreen[i] = mp1_gPlayers[i].coins_mg;
         mp1_gPlayers[i].coins_mg = 0;
     }
+    #endif
 }

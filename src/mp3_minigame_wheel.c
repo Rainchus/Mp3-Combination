@@ -165,7 +165,7 @@ char mp1_HotBobOmbStr[] = {"\x0B""\x5D""MP1""\x5E"" Hot Bob""\x3D""omb"}; //mp1 
 //mp1 10
 char PipeMazeStr[] = {"\x0B""Pipe Maze"}; //mp1 11
 char GhostGuestStr[] = {"\x0B""Ghost Guess"}; //mp1 12
-char MusicalMushroomStr[] = {"\x0B""Mushroom Musical"}; //mp1 13
+char MusicalMushroomStr[] = {"\x0B""Musical Mushroom"}; //mp1 13
 char PedalPowerStr[] = {"\x0B""Pedal Power"}; //mp1 14
 char mp1_CrazyCutterStr[] = {"\x0B""\x5D""MP1""\x5E"" Crazy Cutter"}; //mp1 15
 char mp1_FaceLiftStr[] = {"\x0B""\x5D""MP1""\x5E"" Face Lift"}; //mp1 16

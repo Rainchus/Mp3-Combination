@@ -5,29 +5,29 @@
 typedef s16 Array2D[2][18];
 
 s16 HuAudFXPlay(s32);
-void HuFreeFileTemp(void*);                              /* extern */
-void* HuReadFileTemp(s32);                            /* extern */
-void func_8000BBD4_C7D4(u16, s32, s32);                    /* extern */
-void func_8000BBFC_C7FC(u16, s16);                     /* extern */
-void func_8000BC48_C848(u16, s32);                       /* extern */
-void func_8000BCC8_C8C8(u16, s32);                       /* extern */
-void func_8000BE5C_CA5C(u16, f32, f32);                    /* extern */
-void func_8000C184_CD84(u16);                          /* extern */
-void func_8001ACDC_1B8DC(s16);                         /* extern */
-void func_8001C150_1CD50(s16, f32, f32, f32);              /* extern */
-void func_8001C1A0_1CDA0(s16, f32, f32, f32);          /* extern */
-void func_8001C258_1CE58(s16, s32, s32);                   /* extern */
-void func_80055670_56270(s16);                         /* extern */
-void func_8010B82C_507A8C_name_78(s32);                /* extern */
-void func_8010B858_507AB8_name_78(void);                   /* extern */
-void func_8010B998_507BF8_name_78(void);                   /* extern */
-s32 func_8010D684_5098E4_name_78(s16, s16*);          /* extern */
-void func_8010DDD8_50A038_name_78(void*);              /* extern */
+void HuFreeFileTemp(void*);
+void* HuReadFileTemp(s32);
+void func_8000BBD4_C7D4(u16, s32, s32);
+void func_8000BBFC_C7FC(u16, s16);
+void func_8000BC48_C848(u16, s32);
+void func_8000BCC8_C8C8(u16, s32);
+void func_8000BE5C_CA5C(u16, f32, f32);
+void func_8000C184_CD84(u16);
+void func_8001ACDC_1B8DC(s16);
+void func_8001C150_1CD50(s16, f32, f32, f32);
+void func_8001C1A0_1CDA0(s16, f32, f32, f32);
+void func_8001C258_1CE58(s16, s32, s32);
+void func_80055670_56270(s16);
+void func_8010B82C_507A8C_name_78(s32);
+void func_8010B858_507AB8_name_78(void);
+void func_8010B998_507BF8_name_78(void);
+s32 func_8010D684_5098E4_name_78(s16, s16*);
+void func_8010DDD8_50A038_name_78(void*);
 mp3_omObjData* func_8010DE38_50A098_name_78(s32, s32, s32);
-void func_8010E4BC_50A71C_name_78(Array2D*, s32, s32);    /* extern */
-void func_8010E4D8_50A738_name_78(Array2D*, s32);       /* extern */
-void func_8010E8C8_50AB28_name_78(Array2D*, s32, s32, f32, f32, f32, f32, s32); /* extern */
-void func_8010F320_50B580_name_78(s32, s32, s16, s16);   /* extern */
+void func_8010E4BC_50A71C_name_78(Array2D*, s32, s32);
+void func_8010E4D8_50A738_name_78(Array2D*, s32);
+void func_8010E8C8_50AB28_name_78(Array2D*, s32, s32, f32, f32, f32, f32, s32);
+void func_8010F320_50B580_name_78(s32, s32, s16, s16);
 extern s32 D_80119420_515680_name_78;
 extern s32 PartyModeBoardImages[];
 // extern s32 DuelModeBoardImages[];

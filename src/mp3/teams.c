@@ -76,6 +76,21 @@ s16 newTeam1RootPositions[][2] = {
     0x00AC, 0x0011, //team1 player 1
 };
 
+void checkSetTeamMode(void) {
+    if (customEepromData.teamModeFlag == 1) {
+        s32 i;
+        //assign team 0
+        for (i = 0; i < 2; i++) {
+            mp3_gPlayers[i].flags1 |= 0x10;
+        }
+
+        for (i = 2; i < 4; i++) {
+            mp3_gPlayers[i].flags1 |= 0x20;
+        }
+
+    }
+}
+
 s32 get_team_index(mp3_GW_PLAYER* player) {
     return (player->flags1 & 0x30) >> 5; //returns team index 0 or 1
 }
@@ -1526,7 +1541,7 @@ s32 GetPlayerPlacementForTeamShop(s32 playerIndex) {
     s32 teamRank = BoardPlayerTeamRankCalc(playerIndex);
 
     if (teamRank > 0) {
-        teamRank = 3;
+        teamRank = 3; //give last place items
     }
     return teamRank;
 }
@@ -1719,22 +1734,8 @@ s32 newfunc_800F52C4_108EE4_shared_board(void) {
     return 2;
 }
 
-/////
 //AdjustPlayerCoinsGradual
 void newfunc_800F5D44_109964_shared_board(s32 arg0, s32 arg1) {
-    // s32 i;
-
-    // //if teams is on, replace playerIndex with team's player index
-    // if (mp3_gPlayers[0].flags1 & 0x30) {
-    //     s32 teamIndex = get_team_index(&mp3_gPlayers[arg0]);
-    //     for (i = 0; i < MAX_PLAYERS; i++) {
-    //         s32 curPlayerTeam = get_team_index(&mp3_gPlayers[i]);
-    //         if (teamIndex == curPlayerTeam) {
-    //             arg0 = i;
-    //             break;
-    //         }
-    //     }
-    // }
     func_800F5BF4_109814_shared_board(arg0, arg1, 1);
 }
 
@@ -2408,4 +2409,11 @@ s32 FindCurPlayerTeammate(s32 curPlayerIndex) {
         }
     }
     return -1;
+}
+
+void teamCheck12(s32 arg0, s32 arg1, s32 arg2) {
+    if (mp3_gPlayers[0].flags1 & 0x30) {
+        arg0 = GetTeamCaptainCurrentIndex(arg0); //remove teammates icon when using items from the screen
+    }
+    func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
 }

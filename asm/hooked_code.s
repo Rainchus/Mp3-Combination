@@ -587,6 +587,75 @@ teamCheck11Asm:
     J 0x8010FDC8
     NOP
 
+teamCheck13Asm:
+    LB v1, 0x0000 (a1) //restore
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalTeamCheck13Asm
+    NOP
+
+    JAL GetTeamCaptainCurrentIndex
+    ADDU a0, v1, r0 //pass current player index to a0
+
+    LUI a1, 0x800D //restore from hook
+    ADDIU a1, a1, 0xD067 //restore from hook
+
+    ADDU v1, v0, r0 //return to v1
+    originalTeamCheck13Asm:
+    J 0x800E3240
+    SLL v0, v1, 3 //restore
+
+teamCheck14Asm: //some kind of cpu shop coins check?
+    LUI a0, 0x800D //restore from hook
+    LB a0, 0xD067 (a0) //restore from hook
+
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalTeamCheck14Asm
+    NOP
+
+    JAL GetTeamCaptainCurrentIndex
+    NOP
+
+    ADDU a0, v0, r0 //return to a0
+
+    originalTeamCheck14Asm:
+    J 0x8010BAE0
+    NOP
+
+bowserPhoneCpuNoCoinsCheck:
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalbowserPhoneCpuNoCoinsCheck
+    NOP
+
+    ADDIU sp, sp, -0x18
+    SW a0, 0x0014 (sp)
+
+    LUI a0, 0x800D
+    JAL GetTeamCaptainCurrentIndex
+    LB a0, 0xD067 (a0)
+
+    JAL mp3_GetPlayerStruct
+    ADDU a0, v0, r0 //team captain player index to a0
+
+    
+    LW a0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+
+    J 0x8011CA18
+    LH v0, 0x000A (v0) //load team captain coins
+
+    originalbowserPhoneCpuNoCoinsCheck:
+    LUI at, 0x800D
+    ADDU at, at, v0
+    LH v0, 0x1112 (at)
+    J 0x8011CA18
+    NOP
+
 storeTeamIndex_Asm:
     JAL mp3_GetPlayerStruct //restore from hook
     ADDIU a0, r0, 0xFFFF //restore from hook
@@ -1085,6 +1154,8 @@ bowserSuitCheck:
     JAL GetTeamCaptainCurrentIndex
     ADDU a0, v1, r0 //cur player index to a0 
 
+    ADDU v1, v0, r0 //return to v1
+
     LUI a1, 0x800D //restore from hook
     ADDIU a1, a1, 0xD067 //restore from hook
     originalBowserSuitCheck:
@@ -1261,3 +1332,15 @@ hiddenItemBlockCheck:
     originalItemBlockCheck:
     J 0x800DE268
     SLL v1, a0, 3
+
+checkSetTeamModeAsm:
+    ADDIU sp, sp, -0x18
+    SW a0, 0x0014 (sp)
+    JAL checkSetTeamMode
+    NOP
+
+    LW a0, 0x0014 (sp) //restore a0
+    ORI a0, a0, 0x01FE //restore from hook
+    ADDIU sp, sp, 0x18
+    J 0x801067D0
+    SW r0, 0x0010 (sp)  //restore from hook

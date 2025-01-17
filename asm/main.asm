@@ -24,6 +24,7 @@
 .include "asm\mp3\mp3_ovl_00_hooks.asm"
 .include "asm\mp3\mp3_ovl_48_hooks.asm"
 .include "asm\mp3\mp3_ovl_50_Bowser_hooks.asm"
+.include "asm\mp3\mp3_ovl_53.asm"
 .include "asm\mp3\mp3_ovl_53_hooks.asm"
 .include "asm\mp3\mp3_ovl_58_hooks.asm"
 .include "asm\mp3\mp3_ovl_71_hooks.asm"
@@ -55,6 +56,7 @@
 .importobj "obj\mp3\original_teams.o"
 .importobj "obj\mp3\teams.o"
 .importobj "obj\mp3\ovl_00_Debug\ovl_00_Debug.o"
+.importobj "obj\mp3\ovl_53\ovl_53.o"
 .importobj "obj\mp3\ovl_58_name_BootLogos\ovl_58_BootLogos.o"
 .importobj "obj\mp3\ovl_78_StarLift\ovl_78_StarLift.o"
 

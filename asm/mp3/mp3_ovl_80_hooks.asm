@@ -473,9 +473,13 @@
     NOP
     NOP
 
-.org 0x800E3210
-    J bowserSuitCheck
-    NOP
+//.org 0x800E3210
+    //J bowserSuitCheck
+    //NOP
+    //NOP
+
+.org 0x800E3238
+    J teamCheck13Asm
     NOP
 
 .org 0x800E32A8
@@ -594,8 +598,8 @@
     NOP
 
 .org 0x800F7F7C
-    LUI v0, hi(0x800D110C)
-    LBU v0, lo(0x800D110C) (v0)
+    LUI v0, hi(mp3_gPlayers)
+    LBU v0, lo(mp3_gPlayers + 0x4) (v0)
     ANDI v0, v0, 0x0030
     BEQ v0, r0, label21
     NOP
@@ -605,9 +609,9 @@
     J originalfunc_800F7F7C_10BB9C_shared_board
     NOP
 
-.org 0x800F7F7C
-    LUI v0, hi(0x800D110C)
-    LBU v0, lo(0x800D110C) (v0)
+.org 0x800F7F30
+    LUI v0, hi(mp3_gPlayers)
+    LBU v0, lo(mp3_gPlayers + 0x4) (v0)
     ANDI v0, v0, 0x0030
     BEQ v0, r0, label22
     NOP

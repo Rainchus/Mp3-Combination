@@ -50,10 +50,6 @@ extern s16 mp2_hidden_block_star_space_index_copy;
 mp3_GW_SYSTEM mp3_GwSystemCopy = {0};
 u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 
-void cBootFunction(void) {
-    //crash_screen_init();
-}
-
 void PushMp3OvlHis(void) {
     s32 i;
 
@@ -774,7 +770,7 @@ void drawMessageOnBootLogos(void) {
     }
     if (mp3_osResetType == 0 && eepType == EEPROM_TYPE_16K) {
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.3.5");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS VERSION 0.4.0B");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }

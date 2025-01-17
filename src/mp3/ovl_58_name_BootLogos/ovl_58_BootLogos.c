@@ -236,6 +236,9 @@ void mp3_newBootLogos(void) {
     InitializeInitialMinigameList();
     mp3_LoadMinigameList();
     
+    //TODO: temporary always set team mode flag
+    customEepromData.teamModeFlag = 1;
+    
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP3_BASE) {
             u8 TextSpeeds[] = {5, 25, 60};
