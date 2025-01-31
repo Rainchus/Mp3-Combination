@@ -1122,7 +1122,7 @@ booBellCheck:
     J 0x800E3104
     NOP
 
-booRepellentSuitCheck:
+booRepellentCheck:
     LUI a1, 0x800D //restore from hook
     ADDIU a1, a1, 0xD067 //restore from hook
     LB v1, 0x0000 (a1) //restore from hook
@@ -1344,3 +1344,53 @@ checkSetTeamModeAsm:
     ADDIU sp, sp, 0x18
     J 0x801067D0
     SW r0, 0x0010 (sp)  //restore from hook
+
+getItemFromItemSpaceQuestionHook2:
+    SLL s7, s3, 3 //restore from hook
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalGetItemFromItemSpaceQuestionHook2
+    NOP
+
+    //get team index, not usual team captain index
+    //s3 holds current player index
+    JAL mp3_GetPlayerStruct
+    ADDU a0, s3, r0
+    LBU t0, 0x0004 (v0) //load flags1
+    ANDI t0, t0, 0x0030
+    SRL t0, t0, 5 //team index to s3 (this way items given to player go top left or top right)
+    SLL s7, t0, 3 //restore from hook
+    originalGetItemFromItemSpaceQuestionHook2:
+    J 0x800F7744
+    LUI at, 0x8010
+    
+
+getOneItemBabyBowser:
+    SLL v1, s3, 3 //restore from hook
+    SUBU v1, v1, s3 //restore from hook
+    LUI t0, hi(mp3_gPlayers)
+    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
+    ANDI t0, t0, 0x30
+    BEQ t0, r0, originalGetOneItemBabyBowser
+    NOP
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0014 (sp)
+
+    LUI a0, 0x800D
+    JAL GetTeamCaptainCurrentIndex
+    LB a0, 0xD067 (a0)
+
+    SLL v1, v0, 3 //restore from hook
+    SUBU v1, v1, v0 //restore from hook
+
+    LW v0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+
+    J 0x800F7BF0
+    NOP
+
+
+    originalGetOneItemBabyBowser:
+    J 0x800F7BF0
+    NOP

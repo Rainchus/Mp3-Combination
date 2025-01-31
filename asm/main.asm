@@ -54,6 +54,8 @@
 .importobj "obj\mp2\ovl_57_BootLogos\ovl_57_BootLogos.o"
 .importobj "obj\mp2\ovl_70_Results\ovl_70_Results.o"
 .importobj "obj\mp3\original_teams.o"
+.importobj "obj\mp3\pong.o"
+.importobj "obj\mp3\pong_assets.o"
 .importobj "obj\mp3\teams.o"
 .importobj "obj\mp3\ovl_00_Debug\ovl_00_Debug.o"
 .importobj "obj\mp3\ovl_53\ovl_53.o"

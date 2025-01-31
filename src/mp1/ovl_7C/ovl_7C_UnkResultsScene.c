@@ -1,6 +1,8 @@
 #include "marioparty.h"
 #include "mp1.h"
 
+s32 ForeignMinigameGetType(s32 minigameCombinedIndex);
+
 extern s16 D_800FA0D0_UnknownResultsScreen[];
 extern s16 D_800FA0D8_UnknownResultsScreen[];
 extern s16 D_800FA0F0_UnknownResultsScreen[];
@@ -134,9 +136,27 @@ void func_800F8194_UnknownResultsScreen(void) {
 
     //if playing mario party 3 team mode, give all coins to captain
     if ((CurBaseGame == MP3_BASE) && (mp1_gPlayers[0].flags & 0x30)) {
-
-
         //add dummy character coins to team captain
+        for (i = 0; i < MAX_PLAYERS; i++) {
+            if (mp1_get_team_index(&mp1_gPlayers[i]) == 0) {
+                if (curPlayer1stTeammate == NULL) {
+                    curPlayer1stTeammate = &mp1_gPlayers[i];
+                } else {
+                    curPlayer2ndTeammate = &mp1_gPlayers[i];
+                    curPlayer1stTeammate->coins += curPlayer2ndTeammate->coins;
+                    curPlayer2ndTeammate->coins = 0;
+                }
+            } else {
+                if (otherTeam1stTeammate == NULL) {
+                    otherTeam1stTeammate = &mp1_gPlayers[i];
+                } else {
+                    otherTeam2ndTeammate = &mp1_gPlayers[i];
+                    otherTeam1stTeammate->coins += otherTeam2ndTeammate->coins;
+                    otherTeam2ndTeammate->coins = 0;
+                }
+            }
+        }
+        //add dummy character coins_mg to team captain
         for (i = 0; i < MAX_PLAYERS; i++) {
             if (mp1_get_team_index(&mp1_gPlayers[i]) == 0) {
                 if (curPlayer1stTeammate == NULL) {

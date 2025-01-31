@@ -11,6 +11,7 @@
 #define MAX_PLAYERS 4
 
 #include "ultra64.h"
+#include "PR/mbi.h"
 #include "functions.h"
 #include "macros.h"
 

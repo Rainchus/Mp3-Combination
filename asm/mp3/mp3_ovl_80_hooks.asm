@@ -457,7 +457,11 @@
     NOP
     label18:
     J originalfunc_800F7610_10B230_shared_board
-    NOP    
+    NOP
+
+.org 0x800F7BE8
+    J getOneItemBabyBowser
+    NOP
 
 //for removing warp block from inventory
 .org 0x800E2E4C
@@ -492,7 +496,7 @@
     NOP
 
 .org 0x800E3178
-    J booRepellentSuitCheck
+    J booRepellentCheck
     NOP
     NOP
 
@@ -556,10 +560,10 @@
     JAL GetTeamCaptainCurrentIndex
     SW v0, 0x0034 (sp)
 
-//for repositioning where items go when you get them in large form from toad/baby bowser
-//.org 0x800F7748
-    //J getItemFromItemSpaceQuestionHook
-    //NOP
+//for repositioning where items move to when you get them from a toad/baby bowser question
+.org 0x800F773C
+    J getItemFromItemSpaceQuestionHook2
+    NOP
 
 //another item removal check
 //this hook sets t0 for the 0x800E2BA8 hook below it

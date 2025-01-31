@@ -64,6 +64,22 @@
     JAL mp3_ClearBss
     ADDU a0, s0, r0
 
+//when swapping to a game (mp3 in this instance) stuff would draw for a frame when it shouldn't
+//this makes it so that the game is a black screen 1 frame longer on boot, fixing the problem
+.org 0x8000EE84
+    LW	V0, 0xFD14 (S4)
+    SLTI v1, v0, 0x0002
+    BNEZ v1, 0x8000EED8
+
+//used for experimenting with drawing 2d objects to the screen
+//.org 0x8001BC80
+    //JAL drawFonts2
+    //LW a0, 0x1FF4 (a0)
+
+//used for experimenting with drawing 2d objects to the screen behind the "Wipe" overlay that happens
+//.org 0x8001BC74
+    //JAL drawFonts3
+    //SW s0, 0x0004 (v0)
 
 //.org 0x8000C2A8 //remove save type check assert
     //JAL InvalidEepDetected

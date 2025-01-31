@@ -7,18 +7,11 @@
 #define WARM_BOOT 1
 #define osAppNmiBufferSize 64
 
-
-extern s16 mp1_omovlhisidx_copy;
-
 //in the eeprom, 0x2C0 through 0x400 is free to use
 s16 mp2_BattleMinigameCoins_Copy = 0;
 s16 mp3_BattleMinigameCoins_Copy = 0;
 s32 shouldShowKofiText = 0;
 
-// u8 CustomMinigamesEepromBytes[] = {
-//     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-//     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F
-// };
 
 void func_80108910_119290(s32, s32, char*);
 void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat);
@@ -27,6 +20,7 @@ void func_8005D294_5DE94(s16);
 u32 func_80106B38_4F9028(s32);
 u16 func_8000B838_C438(s32);
 
+extern s16 mp1_omovlhisidx_copy;
 extern u16 mp2_BattleMinigameCoins;
 extern s32 isBattleMinigame;
 s32 printTimer = 0;
@@ -763,6 +757,10 @@ void mp3_LoadMinigameList(void) {
 // }
 
 extern s32 eepType;
+extern u8 ciImage[];
+extern u16 palette[];
+extern u8 bluePaddle[];
+extern u8 redPaddle[];
 
 void drawMessageOnBootLogos(void) {
     if (shouldShowKofiText == 1) {
@@ -824,4 +822,109 @@ void mp3_IfMidTurnMinigameCheck(void) {
         isMidTurnMinigame = 0;
         mp3_midTurnMinigameThing = 0x12;
     }
+}
+
+extern u8 happeningSpaceTexture[];
+
+Gfx* gfx_draw_textured_rectangle(Gfx* gfx, int x, int y, int width, int height, u8* texture) {
+    gDPPipeSync(gfx++);
+
+    gDPSetCombineMode(gfx++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+    gDPSetRenderMode(gfx++, G_RM_ZB_XLU_SURF, G_RM_ZB_XLU_SURF2);
+
+    gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_RGBA, G_IM_SIZ_32b, 32, 32,
+                        0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR,
+                        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + width) << 2, (y + height) << 2,
+                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+
+    gDPPipeSync(gfx++);
+    return gfx;
+}
+
+//bugged
+Gfx* gfx_draw_textured_rectangle_with_depth(Gfx* gfx, int x, int y, int width, int height, u8* texture) {
+    gDPPipeSync(gfx++);
+
+    // Set combine mode (no change needed for drawing behind)
+    gDPSetCombineMode(gfx++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+
+    // Set render mode with Z-buffered opaque surface
+    gDPSetRenderMode(gfx++, G_RM_ZB_OPA_SURF, G_RM_ZB_OPA_SURF2);
+
+    // Set depth source to use the prim depth (Z-buffer settings)
+    gDPSetDepthSource(gfx++, G_ZS_PRIM);
+
+    // Set the depth of the rectangle (set Z value)
+    gDPSetPrimDepth(gfx++, 0, 0); // 0 is farthest back, higher values are closer
+
+    // Load the texture
+    gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_RGBA, G_IM_SIZ_32b, 32, 32,
+                        0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR,
+                        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    // Draw the textured rectangle
+    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + width) << 2, (y + height) << 2,
+                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+
+    gDPPipeSync(gfx++);
+    return gfx;
+}
+
+//bugged
+Gfx* gfx_draw_ci_textured_rectangle(Gfx* gfx, int x, int y, int width, int height, u8* texture, u16* palette) {
+    gDPPipeSync(gfx++);
+
+    // Set combine mode for CI textures
+    gDPSetCombineMode(gfx++, G_CC_DECALRGBA , G_CC_DECALRGBA);
+
+    // Set render mode (use translucent or opaque depending on your needs)
+    gDPSetRenderMode(gfx++, G_RM_ZB_XLU_SURF, G_RM_ZB_XLU_SURF2);
+
+    // Load the texture palette (TLUT) first
+    gDPLoadTLUT_pal16(gfx++, 0, palette); // Load 16-color palette starting at index 0
+
+    // Load the CI texture
+    gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_CI, G_IM_SIZ_4b, 32, 32,
+                        0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR,
+                        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    // Draw the rectangle
+    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + width) << 2, (y + height) << 2,
+                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+
+    gDPPipeSync(gfx++);
+    return gfx;
+}
+
+extern Gfx* mp3_gMainGfxPos;
+
+Gfx* gfx_draw_rectangle(Gfx* gfx, int x, int y, int width, int height, u32 color) {
+    gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+    gDPSetPrimColor(gfx++,0,0,(color >> 24) & 0xFF,(color >> 16) & 0xFF,(color >> 8) & 0xFF,color & 0xFF);
+    gDPPipeSync(gfx++);
+    gDPFillRectangle(gfx++,x,y,x + width, y + height);
+    return gfx;
+}
+
+Gfx* pfDrawFonts(Gfx*);
+
+Gfx* drawFonts2(Gfx* gfx) {
+    //gfx = game_loop(gfx); //draw and execute pong game
+    
+    //gfx = gfx_draw_rectangle(gfx, 0, 0, 32, 32, 0xFFFFFFFF);
+    //draw upside down mirrored happening space
+    //gfx = gfx_draw_textured_rectangle(gfx, 16, 48, 32, 32, happeningSpaceTexture);
+    //gfx = gfx_draw_textured_rectangle(gfx, 16, 16, 16, 48, redPaddle);
+    //gfx = gfx_draw_ci_textured_rectangle(gfx, 16, 48, 32, 32, ciImage, palette);
+    //gfx = gfx_draw_textured_rectangle_with_depth(gfx, 16, 16, 32, 32, happeningSpaceTexture);
+    
+    return pfDrawFonts(gfx); //restore from hook
+}
+
+void drawFonts3(void) {
+    //mp3_gMainGfxPos = gfx_draw_textured_rectangle(mp3_gMainGfxPos, 16, 48, 32, 32, happeningSpaceTexture);
+    WipeExecAlways(&mp3_gMainGfxPos);
+    //mp3_gMainGfxPos
 }

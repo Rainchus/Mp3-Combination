@@ -204,9 +204,21 @@
 .definelabel func_800F6780_10A3A0_shared_board, 0x800F6780
 .definelabel func_800EB184_FEDA4_shared_board, 0x800EB184
 .definelabel mp3_ShowPlayerCoinChange, 0x800E1F48
-
-
+.definelabel D_800D41B0_D4DB0, 0x800D41B0
+.definelabel func_800E48F4_F8514_shared_board, 0x800E48F4
 .definelabel D_8011A938_516B98_name_78, 0x8011A938
+.definelabel func_800DBEC0_EFAE0_shared_board, 0x800DBEC0
+.definelabel func_800E6420_FA040_shared_board, 0x800E6420
+.definelabel func_800ECC0C_10082C_shared_board, 0x800ECC0C
+.definelabel func_800ED128_100D48_shared_board, 0x800ED128
+.definelabel D_801014A0_1150C0_shared_board, 0x801014A0
+.definelabel func_800EC8EC_10050C_shared_board, 0x800EC8EC
+.definelabel func_800EC6C8_1002E8_shared_board, 0x800EC6C8
+.definelabel func_800EC6EC_10030C_shared_board, 0x800EC6EC
+.definelabel func_8004ACE0_4B8E0, 0x8004ACE0
+.definelabel func_800E1F28_F5B48_shared_board, 0x800E1F28
+.definelabel func_800F5D44_109964_shared_board, 0x800F5D44
+.definelabel func_800DB884_EF4A4_shared_board, 0x800DB884
 .definelabel D_8011AA45_516CA5_name_78, 0x8011AA45
 .definelabel _CheckFlag, 0x80035EB0
 .definelabel D_80119EE0_516140_name_78, 0x80119EE0
@@ -240,6 +252,30 @@
 .definelabel func_8010F320_50B580_name_78, 0x8010F320
 .definelabel func_8010E4D8_50A738_name_78, 0x8010E4D8
 .definelabel func_8010B998_507BF8_name_78, 0x8010B998
+.definelabel mp3_gMainGfxPos, 0x800D1FF4
+.definelabel WipeExecAlways, 0x80061BD4
+
+.definelabel func_8004D880_4E480, 0x8004D880
+.definelabel D_800B23E0_B2FE0, 0x800B23E0
+.definelabel D_800B24F0_B30F0, 0x800B24F0
+.definelabel D_800B25A0_B31A0, 0x800B25A0
+.definelabel D_800B25C0_B31C0, 0x800B25C0
+.definelabel D_800B25C8_B31C8, 0x800B25C8
+.definelabel D_800B25CC_B31CC, 0x800B25CC
+.definelabel D_800B25D8_B31D8, 0x800B25D8
+.definelabel D_800B25F0_B31F0, 0x800B25F0
+.definelabel D_800B25F4_B31F4, 0x800B25F4
+.definelabel D_800B25FC_B31FC, 0x800B25FC
+.definelabel D_800B2604_B3204, 0x800B2604
+.definelabel D_800CC3C0_CCFC0, 0x800CC3C0
+.definelabel gThread3Stack, 0x800D0300
+.definelabel gThreadOutStack, 0x800D0548
+.definelabel gThreadOutStackSize, 0x800CB8B8
+.definelabel gThreadYieldStack, 0x800CE1FC
+.definelabel osJamMesg, 0x8007BF30
+.definelabel pfDrawFonts, 0x8004E03C
+.definelabel D_800CC3F0_CCFF0, 0x800CC3F0
+
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00
 .definelabel mp3_omovlhis_copy, 0x807FFE00

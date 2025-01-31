@@ -2417,3 +2417,111 @@ void teamCheck12(s32 arg0, s32 arg1, s32 arg2) {
     }
     func_800F68E0_10A500_shared_board(arg0, arg1, arg2);
 }
+
+void ShowPlayerCoinChange(s32 player, s32 coins);
+void func_800DB884_EF4A4_shared_board(s32);
+s32 func_800DBEC0_EFAE0_shared_board(s32);
+void func_800E1F28_F5B48_shared_board(s32, s32);
+void func_800E48F4_F8514_shared_board(void);
+void func_800E6420_FA040_shared_board(s32, s32);
+s16 func_800EB184_FEDA4_shared_board(u16 arg0, u16 arg1);
+void func_800EC6C8_1002E8_shared_board(void);
+void func_800EC6EC_10030C_shared_board(void);
+void func_800EC8EC_10050C_shared_board(s32, s32, s32, char*, s32, s32, s32);
+void func_800ECC0C_10082C_shared_board(char*);
+void func_800ED128_100D48_shared_board(Vec*, char*, Vec*, s32);
+void func_800F5D44_109964_shared_board(s32, s32);
+extern s32 D_800D41B0_D4DB0[];
+extern s32 D_801014A0_1150C0_shared_board[];
+void func_8004ACE0_4B8E0(s32, s16);
+
+void func_800E455C_F817C_shared_board(void) {
+    s8 sp20[MAX_PLAYERS];
+    char sp28[16]; //unk type
+    char sp38[16];
+    s32 sp4C;
+    mp3_GW_PLAYER* curPlayer;
+    s16 absSpace;
+    s32 temp_s0_2;
+    s32 coinsToLose;
+    s32 totalCoinsToLose;
+    s32 playerPassed;
+    s32 curPlayerIndex;
+    s32 i;
+
+
+    curPlayerIndex = mp3_GwSystem.current_player_index;
+    curPlayer = mp3_GetPlayerStruct(CUR_PLAYER);
+    if (mp3_gPlayers[curPlayerIndex].bowser_suit_flags != 0) {
+        for (playerPassed = 0, i = 0; i < MAX_PLAYERS; i++) {
+            //skip current player
+            if (i == curPlayerIndex) {
+                continue;
+            }
+            //if teams are active skip teammate in checks
+            if (mp3_gPlayers[0].flags1 & 0x30) {
+                s32 teamIndex = get_team_index(&mp3_gPlayers[curPlayerIndex]);
+                s32 playerLoopTeamIndex = get_team_index(&mp3_gPlayers[i]);
+                if (teamIndex == playerLoopTeamIndex) {
+                    continue;
+                }
+            }
+            absSpace = func_800EB184_FEDA4_shared_board(mp3_gPlayers[curPlayerIndex].chainIndexCur, mp3_gPlayers[curPlayerIndex].spaceIndexCur);
+            if (absSpace == func_800EB184_FEDA4_shared_board(mp3_gPlayers[i].chainIndexCur, mp3_gPlayers[i].spaceIndexCur)) {
+                sp20[playerPassed++] = i;
+            }
+        }
+        if (playerPassed != 0) {
+            sp4C = func_800DBEC0_EFAE0_shared_board(curPlayerIndex);
+            func_800E6420_FA040_shared_board(-1, 2);
+            func_800ECC0C_10082C_shared_board(sp28);
+            func_800ED128_100D48_shared_board(&curPlayer->player_obj->unk18, sp28, &curPlayer->player_obj->unk18, 8);
+            mp3_HuPrcSleep(8);
+            totalCoinsToLose = 0;
+
+            for (i = 0; i < playerPassed; i++) {
+                if (mp3_gPlayers[sp20[i]].coins != 0) {
+                    if (mp3_gPlayers[sp20[i]].coins < 20) {
+                        coinsToLose = mp3_gPlayers[sp20[i]].coins;
+                    } else {
+                        coinsToLose = 20;
+                    }
+                    mp3_sprintf(sp38, "%2d", coinsToLose);
+                    func_800EC8EC_10050C_shared_board(-1, 0x3A15, D_801014A0_1150C0_shared_board[mp3_gPlayers[sp20[i]].characterID], sp38, D_801014A0_1150C0_shared_board[mp3_gPlayers[curPlayerIndex].characterID], 0, 0);
+                    temp_s0_2 = -coinsToLose;
+                    func_800EC6C8_1002E8_shared_board();
+                    totalCoinsToLose += coinsToLose;
+                    func_800EC6EC_10030C_shared_board();
+                    func_8004ACE0_4B8E0(0, sp20[i]);
+                    func_800E1F28_F5B48_shared_board(sp20[i], temp_s0_2);
+                    func_800F5D44_109964_shared_board(sp20[i], temp_s0_2);
+                    mp3_HuPrcSleep(30);
+                } else {
+                    func_800EC8EC_10050C_shared_board(-1, 0x3A16, D_801014A0_1150C0_shared_board[mp3_gPlayers[sp20[i]].characterID], NULL, 0, 0, 0);
+                    func_800EC6C8_1002E8_shared_board();
+                    func_800EC6EC_10030C_shared_board();                        
+                }
+            }
+            
+            if (totalCoinsToLose != 0) {
+                if (mp3_gPlayers[0].flags1 & 0x30) {
+                    s32 teamIndex = get_team_index(&mp3_gPlayers[curPlayerIndex]);
+                    newShowPlayerCoinChange(teamIndex, totalCoinsToLose); //display to either top left or top right
+                } else {
+                    originalShowPlayerCoinChange(curPlayerIndex, totalCoinsToLose);
+                }
+                
+                func_800F5D44_109964_shared_board(curPlayerIndex, totalCoinsToLose);
+                mp3_HuPrcSleep(30);
+            }
+            if (sp4C != 0) {
+                func_800DB884_EF4A4_shared_board(mp3_GwSystem.current_player_index);
+            }
+            func_800E6420_FA040_shared_board(0, 2);
+        }
+    }
+    
+    if (D_800D41B0_D4DB0[4] == 0) {
+        func_800E48F4_F8514_shared_board();
+    }
+}

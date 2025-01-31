@@ -70,8 +70,13 @@ turn_status_direct_new   equ 0x1127 //0x1124 -> 0x1127
 
 //direct references
 .headersize 0x800E45B0 - 0xF81D0
-.org 0x800E45B0
-    LB v0, bowser_suit_flags_direct_new(at)
+//implemented by func_800E455C_F817C_shared_board hook instead
+//.org 0x800E45B0
+    //LB v0, bowser_suit_flags_direct_new(at)
+//new hook
+.org 0x800E455C
+    J func_800E455C_F817C_shared_board
+    NOP
 
 .headersize 0x8010A580 - 0x3200F0
 .org 0x8010A580

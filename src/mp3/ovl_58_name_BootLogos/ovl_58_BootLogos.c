@@ -11,7 +11,6 @@
 void mp3_HuWipeFadeOut(s32, s32);
 void CopyMp2_gPlayerCopy_To_Mp3(void);
 void CopyMp1_gPlayerCopy_To_Mp3(void);
-void mp3_omInitObjMan(s32, s32);
 s32 WriteEepromCustom(void);
 
 mp1_GameStatus mp1_GwSystemCopy = {0};
@@ -235,9 +234,9 @@ void mp3_newBootLogos(void) {
 
     InitializeInitialMinigameList();
     mp3_LoadMinigameList();
-    
+
     //TODO: temporary always set team mode flag
-    customEepromData.teamModeFlag = 1;
+    // customEepromData.teamModeFlag = 1;
     
     if (ForeignMinigameAlreadyLoaded == TRUE) {
         if (CurBaseGame == MP3_BASE) {

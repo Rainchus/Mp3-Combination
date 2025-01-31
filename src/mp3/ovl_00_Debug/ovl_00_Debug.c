@@ -24,7 +24,6 @@ extern u8 mp3_D_800D09A8;
 extern OSMesgQueue mp3_D_800CE1A0;
 //unsure if this needs to be aligned, but it cant hurt
 EepData customEepromData = {0};
-extern int		mp3_sprintf(char *s, const char *fmt, ...);
 void mp3_HuAudSeqPlay(s32);
 extern s16 mp3_D_800CDA7C[];
 extern s16 mp3_D_800C9520;

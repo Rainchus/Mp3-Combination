@@ -25,6 +25,8 @@ extern u32 mp1_rnd_seed;
 #define MP1_MINIGAME_PLAY 20
 extern u8 mp1_prevMinigamesPlayed[MP1_MINIGAME_PLAY];
 u8 mp1_prevMinigamesPlayedCopy[MP1_MINIGAME_PLAY] = {0};
+s32 teamModeGrabBagTeam0Coins = 0;
+s32 teamModeGrabBagTeam1Coins = 0;
 
 //these probably dont need to be separate from mp3's list, but this provides a bit of clarity
 #define MP1_4P_MINIGAME_MAX 66
@@ -554,6 +556,50 @@ void mp1_newBootLogos(void) {
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp3_gPlayerCopy_To_Mp1();
         mp1_GwSystem.minigameExplanation = mp3_GwSystemCopy.show_minigame_explanations; //minigame explanations on/off depending on mp3 setting
+    }
+
+    //hack: this kind of sucks, but im unsure what else to do about it
+    //check if mp3 team mode is active (the bits for this do get carried over in gPlayers)
+    if (CurBaseGame == MP3_BASE && mp1_gPlayers[0].flags & 0x30) {
+        //if grab bag, split coins between teammates
+        if (ForeignMinigameIndexToLoad == MP1_GRAB_BAG) {
+            s32 team0 = 0;
+            s32 team1 = 0;
+            mp1_GW_PLAYER* player0Team0 = NULL;
+            mp1_GW_PLAYER* player0Team1 = NULL;
+            s32 i;
+            for (i = 0; i < 4; i++) {
+                if (mp1_gPlayers[i].flags & 0x10) {
+                    if (team0 == 0) {
+                        team0++;
+                        player0Team0 = &mp1_gPlayers[i];
+                    } else {
+                        teamModeGrabBagTeam0Coins = player0Team0->coins;
+                        mp1_gPlayers[i].coins = player0Team0->coins / 2;
+                        //if coins are odd, extra coin go to team captain
+                        if (player0Team0->coins & 1) {
+                            player0Team0->coins = (player0Team0->coins / 2) + 1;
+                        } else {
+                            player0Team0->coins = (player0Team0->coins / 2);
+                        }
+                    }
+                } else if (mp1_gPlayers[i].flags & 0x20) {
+                    if (team1 == 0) {
+                        team1++;
+                        player0Team1 = &mp1_gPlayers[i];
+                    } else {
+                        teamModeGrabBagTeam1Coins = player0Team1->coins;
+                        mp1_gPlayers[i].coins = player0Team1->coins / 2;
+                        //if coins are odd, extra coin go to team captain
+                        if (player0Team1->coins & 1) {
+                            player0Team1->coins = (player0Team1->coins / 2) + 1;
+                        } else {
+                            player0Team1->coins = (player0Team1->coins / 2);
+                        }
+                    }
+                }
+            }
+        }
     }
     
     mp1_omInitObjMan(16, 4);

@@ -68,3 +68,12 @@
     NOP
     J mp2_threadInfiniteLoop
     NOP
+
+
+//when swapping to a game (mp2 in this instance) stuff would draw for a frame when it shouldn't
+//this makes it so that the game is a black screen 1 frame longer on boot, fixing the problem
+.org 0x8001CF74
+    LW	V0, 0xFD14 (S4)
+    SLTI v1, v0, 0x0002
+    BNEZ v1, 0x8001CFC8
+

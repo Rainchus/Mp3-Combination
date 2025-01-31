@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "marioparty.h"
+#include "mp3/game/object.h"
 
 enum ITEMS {
     ITEM_NONE = -1,
@@ -99,7 +100,7 @@ typedef struct mp3_GW_PLAYER {
 /* 0x1E */ u8 bowser_suit_flags;
 /* 0x1F */ u8 turn_status; //space type landed on (blue, red, etc.)
 /* 0x20 */ void* unk_20;
-/* 0x24	*/ void* player_obj; //ptr to struct 0x48 in size (things like model position, rotation, etc.)
+/* 0x24	*/ Object* player_obj; //ptr to struct 0x48 in size (things like model position, rotation, etc.)
 /* 0x24 */ s16 mg_star_coins; //used for mg star
 /* 0x26 */ s16 coins_total; //used for coin star
 /* 0x2C */ s8 happeningSpacesLandedOn;
@@ -240,4 +241,6 @@ s32 mp3_GWBoardFlagCheck(s32);
 void func_800E1934_F5554_shared_board(s32, s32);
 s32 mp3_PlayerHasItem(s32 playerIndex, s32 itemID);
 void mp3_AdjustPlayerCoins(s32 arg0, s32 arg1);
+extern int		mp3_sprintf(char *s, const char *fmt, ...);
+
 #endif
