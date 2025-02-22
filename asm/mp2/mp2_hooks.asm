@@ -83,3 +83,9 @@
 .org 0x80064C98
     J newfunc_80064C98_65898
     NOP
+
+//writes the minigame index loaded to ForeignMinigameIndexToLoad for battle minigames
+.org 0x80067E6C
+    J newfunc_80067E6C_68A6C
+    NOP
+    NOP //nop last instruction in function for clarity

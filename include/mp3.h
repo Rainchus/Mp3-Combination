@@ -202,6 +202,7 @@ extern s16 mp3_D_800D530C;
 extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];
 extern s32 mp3_D_800A12C0;
 extern s32 mp3_D_800A12C4;
+extern Gfx* mp3_gMainGfxPos;
 
 void mp3_omDelPrcObj(s32); 
 f32 mp3_HuMathSin(f32);

@@ -77,9 +77,9 @@
     //LW a0, 0x1FF4 (a0)
 
 //used for experimenting with drawing 2d objects to the screen behind the "Wipe" overlay that happens
-//.org 0x8001BC74
-    //JAL drawFonts3
-    //SW s0, 0x0004 (v0)
+.org 0x8001BC74
+    JAL drawFonts3
+    SW s0, 0x0004 (v0)
 
 //.org 0x8000C2A8 //remove save type check assert
     //JAL InvalidEepDetected

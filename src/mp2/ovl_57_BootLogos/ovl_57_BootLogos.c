@@ -597,3 +597,10 @@ void newfunc_80064C98_65898(void) {
     }
     mp2_HuPrcSleep(30);
 }
+
+extern s16 mp2_D_800F93C8_F9FC8;
+
+void newfunc_80067E6C_68A6C(s16 arg0) {
+    mp2_D_800F93C8_F9FC8 = arg0;
+    ForeignMinigameIndexToLoad = arg0;
+}

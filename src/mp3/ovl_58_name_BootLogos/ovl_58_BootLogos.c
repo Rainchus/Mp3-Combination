@@ -310,7 +310,7 @@ void mp3_newBootLogos(void) {
         mp3_OriginalBootLogos();
     } else if (CurBaseGame == MP2_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp2_gPlayerCopy_To_Mp3();
-        mp3_GwSystem.show_minigame_explanations = mp2_BoardStateCopy.minigameExplanations; //minigame explanations on/off
+        mp3_GwSystem.show_minigame_explanations = mp2_BoardStateCopy.minigameExplanations;
     } else if (CurBaseGame == MP1_BASE && ForeignMinigameAlreadyLoaded == FALSE) {
         CopyMp1_gPlayerCopy_To_Mp3();
         mp3_GwSystem.show_minigame_explanations = mp1_GwSystemCopy.minigameExplanation;

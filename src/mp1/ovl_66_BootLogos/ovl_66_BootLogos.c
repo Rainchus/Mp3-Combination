@@ -562,6 +562,7 @@ void mp1_newBootLogos(void) {
     //check if mp3 team mode is active (the bits for this do get carried over in gPlayers)
     if (CurBaseGame == MP3_BASE && mp1_gPlayers[0].flags & 0x30) {
         //if grab bag, split coins between teammates
+        #ifdef MP1
         if (ForeignMinigameIndexToLoad == MP1_GRAB_BAG) {
             s32 team0 = 0;
             s32 team1 = 0;
@@ -600,6 +601,7 @@ void mp1_newBootLogos(void) {
                 }
             }
         }
+        #endif
     }
     
     mp1_omInitObjMan(16, 4);

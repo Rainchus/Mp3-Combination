@@ -254,7 +254,9 @@
 .definelabel func_8010B998_507BF8_name_78, 0x8010B998
 .definelabel mp3_gMainGfxPos, 0x800D1FF4
 .definelabel WipeExecAlways, 0x80061BD4
-
+.definelabel mp3_nextFrameBuffer, 0x800D2090
+.definelabel osSyncPrintf, 0x8007BE80
+.definelabel mp3_currFrameBuffer, 0x800CB89C
 .definelabel func_8004D880_4E480, 0x8004D880
 .definelabel D_800B23E0_B2FE0, 0x800B23E0
 .definelabel D_800B24F0_B30F0, 0x800B24F0
