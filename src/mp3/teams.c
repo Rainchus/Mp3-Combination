@@ -1557,7 +1557,10 @@ s32 storeTeamIndex(void) {
                 return i;
             }
         }
+    } else {
+        return mp3_GwSystem.current_player_index;
     }
+    //should never be reached
     return -1;
 }
 
