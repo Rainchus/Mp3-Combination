@@ -50,6 +50,7 @@
 .definelabel mp2_func_8006836C_68F6C, 0x8006836C;
 .definelabel mp2_D_800CD2C4_CDEC4, 0x800cd2c4;
 .definelabel mp2_D_800F93C8_F9FC8, 0x800F93C8;
+.definelabel mp2_BankCoins, 0x800F8D1E
 
 .definelabel mp2_func_800794A8, 0x800794A8
 .definelabel mp2_func_800683BC_68FBC, 0x800683BC

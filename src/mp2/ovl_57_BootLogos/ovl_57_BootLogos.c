@@ -137,6 +137,9 @@ void PopMp1BoardState(void) {
     mp1_GwCommon = mp1_GwCommonCopy;
 }
 
+extern u16 mp2_BankCoins;
+u16 mp2_BankCoinsCopy = 0;
+
 void PushMp2BoardState(void) {
     s32 i;
 
@@ -144,6 +147,7 @@ void PushMp2BoardState(void) {
     for (i = 0; i < 0x20; i++) {
         mp2_OtherBoardStateCopy[i] = mp2_OtherBoardState[i];
     }
+    mp2_BankCoinsCopy = mp2_BankCoins;
 }
 
 void PopMp2BoardState(void) {
@@ -153,6 +157,7 @@ void PopMp2BoardState(void) {
     for (i = 0; i < 0x20; i++) {
         mp2_OtherBoardState[i] = mp2_OtherBoardStateCopy[i];
     }
+    mp2_BankCoins = mp2_BankCoinsCopy;
 }
 
 void LoadBackIntoMp2Board(void) {
