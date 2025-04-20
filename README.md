@@ -85,7 +85,7 @@ Probably not until decompilations progress further.
 
 ## Building from Source
 
-> **Note:** Only follow if you want to build the mod from source.
+> **Note:** If you are just wanting to play the mod, do not follow these directions. These directions are for building the mod from source.
 
 1. **Install armips**  
    Follow instructions: https://hack64.net/Thread-Importing-C-Code-Into-SM64-Using-n64chain-and-armips
