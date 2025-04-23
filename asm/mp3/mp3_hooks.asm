@@ -3,10 +3,6 @@
     J LoadOverlayHook_Mp3
     NOP
 
-//.org 0x8000E658
-    //JAL checkIfLoadingFromMp2Minigame
-    //NOP
-
 .org 0x8000B16C
     J rand8_Shared
     NOP

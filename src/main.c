@@ -11,10 +11,10 @@
 s16 mp2_BattleMinigameCoins_Copy = 0;
 s16 mp3_BattleMinigameCoins_Copy = 0;
 s32 shouldShowKofiText = 0;
-
+s32 isMidTurnMinigame = 0;
+extern s32 mp3_midTurnMinigameThing; //important for board to load in correctly after a battle minigame from another game
 
 void func_80108910_119290(s32, s32, char*);
-void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat);
 s32 WriteEepromCustom(void);
 void func_8005D294_5DE94(s16);
 u32 func_80106B38_4F9028(s32);
@@ -42,6 +42,7 @@ extern s16 mp2_hidden_block_star_space_index_copy;
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 mp3_GW_SYSTEM mp3_GwSystemCopy = {0};
+s8 mp3_ModeCopy = 0;
 u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 
 void PushMp3OvlHis(void) {
@@ -89,10 +90,12 @@ void PopMp3MinigamesPlayedList(void) {
 
 void PushMp3BoardState(void) {
     mp3_GwSystemCopy = mp3_GwSystem;
+    mp3_ModeCopy = D_800B23B0;
 }
 
 void PopMp3BoardState(void) {
     mp3_GwSystem = mp3_GwSystemCopy;
+    D_800B23B0 = mp3_ModeCopy;
 }
 
 void PopMp3OvlHis(void) {
@@ -260,7 +263,7 @@ void LoadMp1PlayerStructs(void) {
     for (i = 0; i < 4; i++) {
         mp1_gPlayers[i] = mp1_PlayersCopy[i];
     }
-
+    //TODO: add mp1 hidden blocks
     // mp2_hidden_block_coins_space_index = mp2_hidden_block_coins_space_index_copy;
     // mp2_hidden_block_star_space_index = mp2_hidden_block_star_space_index_copy;
 }
@@ -283,7 +286,8 @@ void mp3_StoreBattleMinigameCoins(void) {
     mp3_BattleMinigameCoins_Copy = mp3_BattleMinigameCoins;
 }
 
-s32 D_80101B40_115760_Copy[] = {
+//board overlays IDs
+s32 mp2_BoardOverlaysIDs[] = { //D_80101B40_115760_Copy
     0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x48
 };
 
@@ -299,7 +303,7 @@ void func_800F8610_10C230_Copy(s32 arg0, s16 arg1, s16 arg2, s32 curBoardIndex) 
             temp_v1->overlayID = arg0;
         }
     } else {
-        arg0 = D_80101B40_115760_Copy[curBoardIndex];
+        arg0 = mp2_BoardOverlaysIDs[curBoardIndex];
         temp_v1->overlayID = arg0;
     }
     temp_v1->event = arg1;
@@ -465,7 +469,6 @@ void LoadBackIntoMp3Board(void) {
     curBoardIndex = mp3_GwSystem.current_board_index;
 
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
-    D_800B23B0 = 1; //is party mode
     isMidTurnMinigame = ForeignMinigameIsMidTurnMinigame(ForeignMinigameIndexToLoad);
 
     //if it was a midturn minigame, it should always boot back into the board
@@ -679,83 +682,6 @@ void mp3_LoadMinigameList(void) {
     }
 }
 
-// void checkIfLoadingFromMp2Minigame(s32 overlayID, s16 event, s16 stat) {
-//     s32 i;
-//     s32 eepromByteResults = 0;
-//     // u8 minigameGameGuyCount = 0;
-//     // u8 minigame1PCount = 0;
-//     s32 eepresult = 0;
-
-//     for (i = 0; i < ARRAY_COUNT(newCategoryAmountsNormalMp3); i++) {
-//         newCategoryAmountsNormalMp3[i] = 0;
-//     }
-    
-//     if (eepromLoadFailed == 1) {
-//         mp3_omOvlCallEx(0, 0, 0);
-//         return;
-//     }
-
-//     eepresult = mp3_osEepromLongRead(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData, sizeof(customEepromData));
-
-//     if (eepresult == CONT_NO_RESPONSE_ERROR) {
-//         while (1) {
-//             mp3_DrawDebugText(20, 212, "EEPROM CONT_NO_RESPONSE_ERROR");
-//             mp3_HuPrcVSleep();
-//         }
-//     } else if (eepresult == -1) {
-//         while (1) {
-//             mp3_DrawDebugText(20, 212, "EEPROM INVALID ADDRESS");
-//             mp3_HuPrcVSleep();
-//         }
-//     }
-
-//     //otherwise, result was zero and the eeprom read happened correctly
-//     mp3_HuPrcVSleep();
-//     for (i = 0; i < 0x18; i++) {
-//         eepromByteResults += customEepromData[i];
-//     }
-
-//     if (eepromByteResults == 0) {
-//         for (i = 0; i < 0x18; i++) {
-//             customEepromData[i] = CustomMinigamesEepromBytes[i];
-//         }
-//         //no idea what any of these args do
-//         char sp10[16] = {0};
-//         s16 temp = 0x20;
-
-//         //why is it required you do this this way?
-//         //and why only when writing? reading works fine?
-//         mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
-//         mp3_HuPrcVSleep();
-//     }
-
-//     mp3_LoadMinigameList();
-
-//     //if mp3 is where current game is taking place and we are loading back from mp2/mp1
-//     if (CurBaseGame == MP3_BASE && ForeignMinigameAlreadyLoaded == TRUE) {
-//         LoadBackIntoMp3Board();
-//     } else {
-//         mp3_omOvlCallEx(overlayID, event, stat);
-//     }
-// }
-
-// void SetInvalidEepromFound(void) {
-//     eepromLoadFailed = 1;
-// }
-
-// void InvalidEep2(s32 arg0, s32 arg1, s32 arg2) {
-//     if (eepromLoadFailed == 1) {
-//         arg1 = 0x01BC; //draw coin off screen
-//     }
-//     mp3_SetSpriteCenter(arg0, arg1, arg2);
-// }
-
-// void InvalidEep3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-//     if (eepromLoadFailed == 0) {
-//         mp3_HuObjCreate(arg0, arg1, arg2, arg3, arg4);
-//     }
-// }
-
 extern s32 eepType;
 extern u8 ciImage[];
 extern u16 palette[];
@@ -768,7 +694,7 @@ void drawMessageOnBootLogos(void) {
     }
     if (mp3_osResetType == 0 && eepType == EEPROM_TYPE_16K) {
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS V0.4.1B");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS V0.4.2");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
@@ -814,78 +740,9 @@ u8 rand8_Shared(void) {
     return ((rnd_seed_shared + 1) >> 16);
 }
 
-extern s32 mp3_midTurnMinigameThing;
-s32 isMidTurnMinigame = 0;
-
 void mp3_IfMidTurnMinigameCheck(void) {
     if (isMidTurnMinigame) {
         isMidTurnMinigame = 0;
         mp3_midTurnMinigameThing = 0x12;
     }
-}
-
-Gfx* gfx_draw_textured_rectangle(Gfx* gfx, int x, int y, int width, int height, u8* texture) {
-    gDPPipeSync(gfx++);
-
-    gDPSetCombineMode(gfx++, G_CC_DECALRGBA, G_CC_DECALRGBA);
-    gDPSetRenderMode(gfx++, G_RM_ZB_XLU_SURF, G_RM_ZB_XLU_SURF2);
-
-    gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, height,
-                        0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR,
-                        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + width) << 2, (y + height) << 2,
-                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
-
-    gDPPipeSync(gfx++);
-    return gfx;
-}
-
-Gfx* gfx_draw_textured_rectangle_rgba16(Gfx* gfx, int x, int y, int width, int height, u8* texture) {
-    gDPPipeSync(gfx++);
-
-    gDPSetCombineMode(gfx++, G_CC_DECALRGBA, G_CC_DECALRGBA);
-    gDPSetRenderMode(gfx++, G_RM_ZB_XLU_SURF, G_RM_ZB_XLU_SURF2);
-
-    gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, height,
-                        0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR,
-                        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + width) << 2, (y + height) << 2,
-                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
-
-    gDPPipeSync(gfx++);
-    return gfx;
-}
-
-Gfx* gfx_draw_rectangle(Gfx* gfx, int x, int y, int width, int height, u32 color) {
-    gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
-    gDPSetPrimColor(gfx++,0,0,(color >> 24) & 0xFF,(color >> 16) & 0xFF,(color >> 8) & 0xFF,color & 0xFF);
-    gDPPipeSync(gfx++);
-    gDPFillRectangle(gfx++,x,y,x + width, y + height);
-    return gfx;
-}
-
-Gfx* drawCi4Image(Gfx* gfx, int x, int y, int width, int height, u8* texture, u16* palette) {
-    gDPSetTextureLUT(gfx++, G_TT_RGBA16);
-    gSPTexture(gfx++, 0xFFFF, 0xFFFF, 0, 0, G_ON);
-    gDPPipeSync(gfx++);
-    gDPSetCombineMode(gfx++, G_CC_DECALRGBA , G_CC_DECALRGBA );
-    gDPSetRenderMode(gfx++, G_RM_AA_TEX_EDGE, G_RM_AA_TEX_EDGE2);
-    gDPTileSync(gfx++);
-    gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, 0, 0, G_TX_NOMIRROR, 5, 0, G_TX_NOMIRROR, 5, 0);
-    gDPSetTileSize(gfx++, 0, 0, 0, (width - 1) << 2, (height - 1) << 2);
-    gSPClearGeometryMode(gfx++, G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
-    gSPSetGeometryMode(gfx++, G_SHADE | G_SHADING_SMOOTH);
-    gDPLoadTLUT_pal16(gfx++, 0, palette);
-    gDPLoadTextureBlock_4b(gfx++, texture, G_IM_FMT_CI,width,height,0,G_TX_NOMIRROR,G_TX_NOMIRROR,5,5,0,0);
-    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + width) << 2, (y + height) << 2,
-                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
-
-    gDPPipeSync(gfx++);
-    return gfx;
-};
-
-Gfx* drawFonts3(void) {
-    return WipeExecAlways(&mp3_gMainGfxPos); //restore from hook
 }
