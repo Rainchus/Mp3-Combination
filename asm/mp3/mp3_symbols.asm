@@ -270,6 +270,7 @@
 .definelabel D_800B25FC_B31FC, 0x800B25FC
 .definelabel D_800B2604_B3204, 0x800B2604
 .definelabel D_800CC3C0_CCFC0, 0x800CC3C0
+.definelabel D_800CE1A0_CEDA0, 0x800CE1A0
 .definelabel gThread3Stack, 0x800D0300
 .definelabel gThreadOutStack, 0x800D0548
 .definelabel gThreadOutStackSize, 0x800CB8B8
@@ -277,6 +278,8 @@
 .definelabel osJamMesg, 0x8007BF30
 .definelabel pfDrawFonts, 0x8004E03C
 .definelabel D_800CC3F0_CCFF0, 0x800CC3F0
+.definelabel _InitEeprom, 0x8000C210
+.definelabel InitEeprom, 0x8000C4AC
 
 //hardcoded symbols
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00

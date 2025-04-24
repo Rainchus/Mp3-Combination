@@ -22,3 +22,8 @@
     LW	V0, 0xFD2C (S5)
     SLTI v1, v0, 0x0002
     BNEZ v1, 0x8001AA38
+
+.org 0x8007084C
+    J mp1SetCpuDifficultyMod
+    NOP
+    

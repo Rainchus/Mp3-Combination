@@ -1394,3 +1394,34 @@ getOneItemBabyBowser:
     originalGetOneItemBabyBowser:
     J 0x800F7BF0
     NOP
+
+mp1SetCpuDifficultyMod:
+    LBU t0, 0x0011 (s0)
+    ORI t1, r0, 2
+    BEQ t0, t1, isOnHard
+    NOP
+    BEQZ t0, isOnEasy
+    NOP
+    J cpuDifficultyHookExit
+    NOP
+
+    isOnEasy:
+    BEQ s3, t1, setTo3
+    NOP
+    J cpuDifficultyHookExit
+    NOP
+
+    isOnHard:
+    //now check if they scrolled up or down
+    BEQZ s3, setTo3
+    NOP
+    J cpuDifficultyHookExit
+    NOP
+
+    setTo3:
+    ADDIU s3, r0, 3
+
+    cpuDifficultyHookExit:
+    sb $s3, 0x11($s0)
+    J 0x80070854
+    ADDIU v0, r0, 3

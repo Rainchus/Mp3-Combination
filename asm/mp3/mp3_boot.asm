@@ -114,4 +114,3 @@
     ADDIU a1, r0, 2
     J mp3_threadInfiniteLoop
     NOP
-    

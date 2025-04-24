@@ -235,7 +235,7 @@ void mp3_func_8000BCC8_C8C8(s32, s32);
 s32 mp3_HuWipeStatGet(void);
 void mp3_func_8000C184_CD84(s32);
 void mp3_func_80055670_56270(s16);
-void mp3_RequestSIFunction(char (*)[16], void*, void*, s32);
+s32 mp3_RequestSIFunction(void* siMessg, void* func, void* arg, s32 type);
 s32 func_800EECB0_1028D0_shared_board(s32);
 mp3_GW_PLAYER* mp3_GetPlayerStruct(s32 playerIndex);
 s32 mp3_GWBoardFlagCheck(s32);

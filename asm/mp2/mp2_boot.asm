@@ -77,3 +77,9 @@
     SLTI v1, v0, 0x0002
     BNEZ v1, 0x8001CFC8
 
+
+.org 0x8005D53C
+    ADDIU s1, r0, 3 //allow super hard for cpus on boards
+
+.org 0x8005D55C
+    XORI v0, s1, 3 //allow super hard for cpus on boards
