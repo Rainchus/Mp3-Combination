@@ -101,17 +101,17 @@
     NOP
 
 //checks how many coins the current player has
-.org 0x800FB0CC
-    J newDuelCheck2Asm
-    ADDU a0, s4, r0
+//.org 0x800FB0CC
+    //J newDuelCheck2Asm
+    //ADDU a0, s4, r0
 
-.org 0x800FB0E0 //the 0x800FB0CC hook above modifies t0
-    SLL v0, t0, 3
-    SUBU v0, v0, t0
+//.org 0x800FB0E0 //the 0x800FB0CC hook above modifies t0
+    //SLL v0, t0, 3
+    //SUBU v0, v0, t0
 
-.org 0x800FB118
-    SLL v0, t0, 3  //the 0x800FB0CC hook above modifies t0
-    SUBU v0, v0, t0
+//.org 0x800FB118
+    //SLL v0, t0, 3  //the 0x800FB0CC hook above modifies t0
+    //SUBU v0, v0, t0
 
 //when hud is spinning from pressing B, we need to offset the extra items slightly
 //.org 0x800F6318
@@ -501,17 +501,17 @@
     NOP
 
 //for preventing your teammate being considered a duel opponent in last 5 turns of team mode
-.org 0x800FA818
-    LUI v0, hi(0x800D110C)
-    LBU v0, lo(0x800D110C) (v0)
-    ANDI v0, v0, 0x0030
-    BEQ v0, r0, label25
-    NOP
-    J newfunc_800FA818_10E438_shared_board
-    NOP
-    label25:
-    J originalfunc_800FA818_10E438_shared_board
-    NOP
+//.org 0x800FA818
+    //LUI v0, hi(0x800D110C)
+    //LBU v0, lo(0x800D110C) (v0)
+    //ANDI v0, v0, 0x0030
+    //BEQ v0, r0, label25
+    //NOP
+    //J newfunc_800FA818_10E438_shared_board
+    //NOP
+    //label25:
+    //J originalfunc_800FA818_10E438_shared_board
+    //NOP
 
 .org 0x800E29E8
     LUI v0, hi(0x800D110C)
@@ -658,17 +658,17 @@
     J newfunc_800EC590_1001B0_shared_board
     NOP
 
-.org 0x800F9D1C
-    LUI v0, hi(0x800D110C)
-    LBU v0, lo(0x800D110C) (v0)
-    ANDI v0, v0, 0x0030
-    BEQ v0, r0, label26
-    NOP
-    J newfunc_800F9D1C_10D93C_shared_board
-    NOP
-    label26:
-    J originalfunc_800F9D1C_10D93C_shared_board
-    NOP
+//.org 0x800F9D1C
+    //LUI v0, hi(0x800D110C)
+    //LBU v0, lo(0x800D110C) (v0)
+    //ANDI v0, v0, 0x0030
+    //BEQ v0, r0, label26
+    //NOP
+    //J newfunc_800F9D1C_10D93C_shared_board
+    //NOP
+    //label26:
+    //J originalfunc_800F9D1C_10D93C_shared_board
+    //NOP
 
 .org 0x800DE260
     J hiddenItemBlockCheck

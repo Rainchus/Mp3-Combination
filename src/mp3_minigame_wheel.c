@@ -694,7 +694,7 @@ s32 ForeignMinigameGetType(s32 minigameCombinedIndex) {
 }
 
 //returns 0 for mp1, 1 for mp2, 2 for mp3
-s32 ForeignMinigameGetGame(s32 minigameCombinedIndex) {
+s32 GetForeignMinigameGame(s32 minigameCombinedIndex) {
     s32 i;
     //find the minigame and return which game it is from
     for (i = 0; i < MINIGAME_END; i++) {
@@ -744,4 +744,43 @@ void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
     mp3_func_8005B43C_5C03C(arg0, (char*)arg1, arg2, arg3);
+}
+
+extern u8 new4PMinigameListNormalMp3[];
+extern u8 new1v3MinigameListNormalMp3[];
+extern u8 new2v2MinigameListNormalMp3[];
+
+//return 0 if minigame is fine, 1 to reroll
+//minigameCurCategoryIndex is index within the category
+s32 mp3_LastTurnMinigameWheelLogic(s32 minigame) {
+    s32 var = ForeignMinigameIDToGame(minigame);
+    if (var == 2) {
+        return 0;
+    } else {
+        return 1;
+    }
+
+    // s32 foreignMinigameID;
+    // switch (category) {
+    // case PLAYERS_4P:
+    //     foreignMinigameID = new4PMinigameListNormalMp3[minigameCurCategoryIndex];
+    //     break;
+    // case PLAYERS_1V3:
+    //     foreignMinigameID = new1v3MinigameListNormalMp3[minigameCurCategoryIndex];
+    //     break;
+    // case PLAYERS_2V2:
+    //     foreignMinigameID = new2v2MinigameListNormalMp3[minigameCurCategoryIndex];
+    //     break;
+    // default: //should never get here
+    //     return 1;
+    // }
+
+    // //D_800B23B0
+    // s32 gameIndex = GetForeignMinigameGame(foreignMinigameID);
+    // if (gameIndex == 2) {
+    //     return 0;
+    // } else {
+    //     return 1;
+    // }
+
 }
