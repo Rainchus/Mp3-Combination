@@ -939,7 +939,7 @@ newDuelGlove3: //f0 is not pushed here but it should be fine
     J 0x8011046C
     MUL.S f0, f0, f20
 
-newBattleCheck:
+newDuelCheck3:
     LUI t1, hi(mp3_gPlayers)
     LBU t1, lo(mp3_gPlayers + 0x4) (t1)
     ANDI t1, t1, 0x30
@@ -955,7 +955,7 @@ newBattleCheck:
     J 0x800FADBC
     NOP
 
-newBattleCheck3: //s0 is loop counter
+newDuelCheck4: //s0 is loop counter
     LUI at, 0x800D
     ADDU at, at, v0
     LH v0, 0x1112 (at)
@@ -1425,3 +1425,45 @@ mp1SetCpuDifficultyMod:
     sb $s3, 0x11($s0)
     J 0x80070854
     ADDIU v0, r0, 3
+
+mp3LastTurnMinigameCheck:
+    //currently v0 holds the index into the current random minigame type
+    LUI t0, 0x800D
+    LBU t0, 0xD05A (t0) //total turns
+    LUI t1, 0x800D
+    LBU t1, 0xD05B (t1) //current turn
+    BNE t0, t1, isntLastTurn
+    NOP
+
+    LUI t0, 0x800B
+    LBU t0, 0x23B0 (t0)
+    BNEZ t0, isntStoryMode
+    NOP
+
+
+    ADDIU sp, sp, -0x18
+    SW v0, 0x0014 (sp)
+
+    LW v1, 0x0018 (s3) //restore from hook
+    ADDU v1, v1, v0 //restore from hook
+    LBU v0, 0x0000 (v1) //load minigame index
+    JAL mp3_LastTurnMinigameWheelLogic
+    NOP
+    ADDU v1, v0, r0 //move result to v1
+
+    LW v0, 0x0014 (sp)
+    ADDIU sp, sp, 0x18
+
+    BNEZ v1, isntMp3Game
+    NOP
+
+    isntLastTurn:
+    isntStoryMode:
+    LW v1, 0x0018 (s3) //restore from hook
+    J 0x800DFE84
+    ADDU v1, v1, v0 //restore from hook
+
+    isntMp3Game:
+    J 0x800DFE60
+    NOP
+    

@@ -280,6 +280,7 @@ typedef struct MinigameIndexTable {
     char* minigameStr;
     u8 gameOverlayID; //actual overlay index in the game
     u8 minigameType;
+    u8 gameIndex; //0 mp1, 1 mp2, 2 mp3
 } MinigameIndexTable;
 
 extern MinigameIndexTable minigameLUT[];
