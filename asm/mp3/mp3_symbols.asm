@@ -71,6 +71,8 @@
 .definelabel mp3_func_800357AC_363AC, 0x800357AC
 .definelabel osAppNmiBuffer, 0x8000031C //global location for both games
 .definelabel D_800B23B0, 0x800B23B0;
+.definelabel D_800B23B1, 0x800B23B1;
+.definelabel D_800D030A, 0x800D030A;
 .definelabel mp3_omOvlCallEx, 0x80048128
 .definelabel mp3_GwSystem, 0x800CD058
 .definelabel func_800F8610_10C230, 0x800F8610

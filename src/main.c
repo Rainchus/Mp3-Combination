@@ -32,7 +32,9 @@ extern s32 shouldShowCustomSplashScreen;
 extern mp2_GW_PLAYER mp2_PlayersCopy[4];
 extern u8 osAppNmiBuffer[osAppNmiBufferSize];
 extern u32 rnd_seed_shared;
-extern s8 D_800B23B0;
+extern u8 D_800B23B0;
+extern u8 D_800B23B1;
+extern u8 D_800D030A;
 extern s16 D_800D6B60;
 extern omOvlHisData D_800D20F0[];
 omOvlHisData mp1_omovlhis_copy[12] = {0};
@@ -42,7 +44,9 @@ extern s16 mp2_hidden_block_star_space_index_copy;
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 mp3_GW_SYSTEM mp3_GwSystemCopy = {0};
-s8 mp3_ModeCopy = 0;
+u8 mp3_ModeCopy = 0;
+u8 mp3_ModeCopy2 = 0;
+u8 mp3_StoryDifficultyCopy = 0;
 u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 
 void PushMp3OvlHis(void) {
@@ -91,11 +95,15 @@ void PopMp3MinigamesPlayedList(void) {
 void PushMp3BoardState(void) {
     mp3_GwSystemCopy = mp3_GwSystem;
     mp3_ModeCopy = D_800B23B0;
+    mp3_ModeCopy2 = D_800B23B1;
+    mp3_StoryDifficultyCopy = D_800D030A;
 }
 
 void PopMp3BoardState(void) {
     mp3_GwSystem = mp3_GwSystemCopy;
     D_800B23B0 = mp3_ModeCopy;
+    D_800B23B1 = mp3_ModeCopy2;
+    D_800D030A = mp3_StoryDifficultyCopy;
 }
 
 void PopMp3OvlHis(void) {
@@ -483,6 +491,8 @@ void LoadBackIntoMp3Board(void) {
         //load into the board
         mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192);
         return;
+
+
     }
 
     //if game should end, load credits
@@ -494,15 +504,38 @@ void LoadBackIntoMp3Board(void) {
             {0x47, 0x0001, 0x0192},
         };
 
-        //copy a hardcoded overlay history in
-        for (i = 0; i < ARRAY_COUNT(CreditsSceneOvlHis); i++) {
-            mp3_omovlhis[i] = CreditsSceneOvlHis[i];
+
+        omOvlHisData CreditsSceneStoryModeOvlHis[] = {
+            {0x7A, 0x0002, 0x0092},
+            {0x7A, 0x0002, 0x0092},
+            {0x77, 0x0000, 0x0091},
+            {0x7D, 0x0000, 0x4090}, //?
+            {0x47, 0x0001, 0x0192},
+        };
+
+        if (mp3_ModeCopy == 0) { //if is story mode
+            //copy a hardcoded overlay history in
+            for (i = 0; i < ARRAY_COUNT(CreditsSceneStoryModeOvlHis); i++) {
+                mp3_omovlhis[i] = CreditsSceneStoryModeOvlHis[i];
+            }
+            mp3_omovlhisidx = 4;
+            mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
+            mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
+            return;
+        } else {
+            //copy a hardcoded overlay history in
+            for (i = 0; i < ARRAY_COUNT(CreditsSceneOvlHis); i++) {
+                mp3_omovlhis[i] = CreditsSceneOvlHis[i];
+            }
+            mp3_omovlhisidx = 3;
+            mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
+            mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
+            return;
         }
 
-        mp3_omovlhisidx = 3;
-        mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
-        mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
-        return;
+
+
+
     } else if ((totalTurns - curTurn) == 4) {
         omOvlHisData last5Turns[] = {
             {0x7A, 0x0002, 0x0092},
@@ -694,7 +727,7 @@ void drawMessageOnBootLogos(void) {
     }
     if (mp3_osResetType == 0 && eepType == EEPROM_TYPE_16K) {
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS V0.4.3");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS V0.4.3C");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
