@@ -92,13 +92,13 @@
     J newGameGuyGiveCoinsHud
     NOP
 
-.org 0x800FADB4
-    J newBattleCheck
-    NOP
+//.org 0x800FADB4
+    //J newDuelCheck3
+    //NOP
 
-.org 0x800FAE14
-    J newBattleCheck3
-    NOP
+//.org 0x800FAE14
+    //J newDuelCheck4
+    //NOP
 
 //checks how many coins the current player has
 //.org 0x800FB0CC

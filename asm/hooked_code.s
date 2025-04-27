@@ -939,7 +939,7 @@ newDuelGlove3: //f0 is not pushed here but it should be fine
     J 0x8011046C
     MUL.S f0, f0, f20
 
-newBattleCheck:
+newDuelCheck3:
     LUI t1, hi(mp3_gPlayers)
     LBU t1, lo(mp3_gPlayers + 0x4) (t1)
     ANDI t1, t1, 0x30
@@ -955,7 +955,7 @@ newBattleCheck:
     J 0x800FADBC
     NOP
 
-newBattleCheck3: //s0 is loop counter
+newDuelCheck4: //s0 is loop counter
     LUI at, 0x800D
     ADDU at, at, v0
     LH v0, 0x1112 (at)
