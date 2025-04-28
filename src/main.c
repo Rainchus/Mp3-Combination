@@ -41,12 +41,14 @@ omOvlHisData mp1_omovlhis_copy[12] = {0};
 omOvlHisData mp2_omovlhis_copy[12] = {0};
 extern s16 mp2_hidden_block_coins_space_index_copy;
 extern s16 mp2_hidden_block_star_space_index_copy;
+extern u8 D_800D0308; //mp3 story progress byte
 
 //mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 mp3_GW_SYSTEM mp3_GwSystemCopy = {0};
 u8 mp3_ModeCopy = 0;
 u8 mp3_ModeCopy2 = 0;
 u8 mp3_StoryDifficultyCopy = 0;
+u8 mp3_StoryProgressCopy = 0;
 u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 
 void PushMp3OvlHis(void) {
@@ -97,6 +99,7 @@ void PushMp3BoardState(void) {
     mp3_ModeCopy = D_800B23B0;
     mp3_ModeCopy2 = D_800B23B1;
     mp3_StoryDifficultyCopy = D_800D030A;
+    mp3_StoryProgressCopy = D_800D0308;
 }
 
 void PopMp3BoardState(void) {
@@ -104,6 +107,7 @@ void PopMp3BoardState(void) {
     D_800B23B0 = mp3_ModeCopy;
     D_800B23B1 = mp3_ModeCopy2;
     D_800D030A = mp3_StoryDifficultyCopy;
+    D_800D0308 = mp3_StoryProgressCopy;
 }
 
 void PopMp3OvlHis(void) {

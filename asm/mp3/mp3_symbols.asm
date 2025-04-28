@@ -73,6 +73,7 @@
 .definelabel D_800B23B0, 0x800B23B0;
 .definelabel D_800B23B1, 0x800B23B1;
 .definelabel D_800D030A, 0x800D030A;
+.definelabel D_800D0308, 0x800D0308;
 .definelabel mp3_omOvlCallEx, 0x80048128
 .definelabel mp3_GwSystem, 0x800CD058
 .definelabel func_800F8610_10C230, 0x800F8610
