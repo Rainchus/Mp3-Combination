@@ -103,6 +103,7 @@ void PopMp1BoardState(void);
 void mp1_HuPrcEnd(void);
 void mp1_HuPrcVSleep(void);
 void mp1_HuPrcSleep(s32);
+void mp1_omInitObjMan(s32, s32);
 
 extern s16 mp1_D_800D86B0;
 extern omOvlHisData mp1_omovlhis[12];

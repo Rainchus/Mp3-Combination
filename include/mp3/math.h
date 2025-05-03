@@ -6,12 +6,6 @@
 #define M_PI 3.14159265358979323846
 
 typedef struct {
-    f32 x;
-    f32 y;
-    f32 z;
-} Vec;
-
-typedef struct {
     s32 x;
     s32 y;
     s32 z;

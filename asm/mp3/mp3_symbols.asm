@@ -73,6 +73,7 @@
 .definelabel D_800B23B0, 0x800B23B0;
 .definelabel D_800B23B1, 0x800B23B1;
 .definelabel D_800D030A, 0x800D030A;
+.definelabel D_800D0309, 0x800D0309;
 .definelabel D_800D0308, 0x800D0308;
 .definelabel mp3_omOvlCallEx, 0x80048128
 .definelabel mp3_GwSystem, 0x800CD058
@@ -223,7 +224,7 @@
 .definelabel func_800F5D44_109964_shared_board, 0x800F5D44
 .definelabel func_800DB884_EF4A4_shared_board, 0x800DB884
 .definelabel D_8011AA45_516CA5_name_78, 0x8011AA45
-.definelabel _CheckFlag, 0x80035EB0
+.definelabel mp3_CheckFlag, 0x80035EB0
 .definelabel D_80119EE0_516140_name_78, 0x80119EE0
 .definelabel D_80119EAC_51610C_name_78, 0x80119EAC
 .definelabel D_80119EC4_516124_name_78, 0x80119EC4

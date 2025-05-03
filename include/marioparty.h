@@ -21,6 +21,12 @@ typedef struct Vec3f {
     f32 z;
 } Vec3f;
 
+typedef struct Vec {
+    f32 x;
+    f32 y;
+    f32 z;
+} Vec;
+
 /* Buttons */
 
 #define CONT_A      0x8000
@@ -434,6 +440,30 @@ typedef struct mp2_GW_PLAYER {
 //     STR_MARIO_PUZZLE_PARTY_PRO = 0x4747,
 //     STR_QUESTION_MARKS = 0x4748,
 // };
+
+typedef struct mp1_omObjData {
+/* 0x00 */ u16 stat;
+/* 0x02 */ s16 next_idx_alloc;
+/* 0x04 */ s16 prio;
+/* 0x06 */ s16 prev;
+/* 0x08 */ s16 next;
+/* 0x0A */ s16 next_idx;
+/* 0x0C */ s16 group;
+/* 0x0E */ s16 group_idx;
+/* 0x10 */ s32 unk_10;
+/* 0x14 */ void* func_ptr;
+/* 0x18 */ Vec trans;
+/* 0x24 */ Vec rot;
+/* 0x30 */ Vec scale;
+/* 0x3C */ u16 mdlcnt;
+// /* 0x3E */ char unk_3E[2];
+/* 0x40 */ s16* model;
+/* 0x44 */ u16 mtncnt;
+// /* 0x46 */ char unk_46[2];
+/* 0x48 */ s16* motion;
+/* 0x4C */ u8 work[4];
+/* 0x50 */ void* unk_50;
+} mp1_omObjData; //sizeof 0x54
 
 typedef struct mp2_omObjData {
 /* 0x00 */ u16 stat;

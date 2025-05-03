@@ -49,6 +49,7 @@ u8 mp3_ModeCopy = 0;
 u8 mp3_ModeCopy2 = 0;
 u8 mp3_StoryDifficultyCopy = 0;
 u8 mp3_StoryProgressCopy = 0;
+u8 mp3_StoryCharacterID = 0;
 u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 
 void PushMp3OvlHis(void) {
@@ -94,12 +95,15 @@ void PopMp3MinigamesPlayedList(void) {
     }
 }
 
+extern u8 D_800D0309;
+
 void PushMp3BoardState(void) {
     mp3_GwSystemCopy = mp3_GwSystem;
     mp3_ModeCopy = D_800B23B0;
     mp3_ModeCopy2 = D_800B23B1;
     mp3_StoryDifficultyCopy = D_800D030A;
     mp3_StoryProgressCopy = D_800D0308;
+    mp3_StoryCharacterID = D_800D0309;
 }
 
 void PopMp3BoardState(void) {
@@ -108,6 +112,7 @@ void PopMp3BoardState(void) {
     D_800B23B1 = mp3_ModeCopy2;
     D_800D030A = mp3_StoryDifficultyCopy;
     D_800D0308 = mp3_StoryProgressCopy;
+    D_800D0309 = mp3_StoryCharacterID;
 }
 
 void PopMp3OvlHis(void) {

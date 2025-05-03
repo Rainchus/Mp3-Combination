@@ -22,6 +22,7 @@
 #define Y_OFFSET 0
 
 s32 GetMinigameCategoryForEndTurnMinigame(void);
+void originalShowPlayerCoinChange(s32 player, s32 coins);
 
 s16 PlayerIconPositions[][2] = {
 {0x0000, 0x0000},

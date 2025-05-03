@@ -10,11 +10,11 @@
     J mp1_osEPiRawStartDmaHook
     NOP
 
-//.org 0x8005B748
-    //JAL 0x800BB6A4 //set up crash screen
-    //NOP
-    //J mp1_prevCode
-    //NOP
+.org 0x8005B748
+    JAL 0x800BB6A4 //set up crash screen
+    NOP
+    J mp1_prevCode
+    NOP
 
 //when swapping to a game (mp1 in this instance) stuff would draw for a frame when it shouldn't
 //this makes it so that the game is a black screen 1 frame longer on boot, fixing the problem

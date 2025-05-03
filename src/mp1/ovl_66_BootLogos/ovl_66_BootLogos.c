@@ -16,7 +16,6 @@ s32 mp1_func_80072718(void);
 NORETURN void ComboSwitchGameToMp3(void);
 s32 mp1_omOvlCallEx(s32 arg0, s16 arg1, u16 arg2);
 void CopyMp3_gPlayerCopy_To_Mp1(void);
-void mp1_omInitObjMan(s32, s32);
 void CopyMp2_gPlayerCopy_To_Mp1(void);
 extern s16 mp1_D_800F5144;
 extern s32 ForeignMinigameIndexToLoad;
@@ -95,44 +94,44 @@ u8 mp1_minigame1PBlacklist[] = {
     #endif
 };
 
-s16 mp1_getMinigameExplanationOverlay(s16 arg0) {
-    #ifdef MP1
-    s32 i;
-    //confusing...but this should prevent converting an already converted ID
-    if (ForeignMinigameAlreadyLoaded == TRUE) { 
-        return mp1_GwSystem.curMinigame; //restore from hook
-    }
-    if (mp1_GwSystem.curMinigame >= MEMORY_MATCH && mp1_GwSystem.curMinigame <= PADDLE_BATTLE) { //mp1
-        MinigameIndexTable* curMinigameData = NULL;
-        for (i = 0; i < MINIGAME_END; i++) {
-            if (mp1_GwSystem.curMinigame == minigameLUT[i].minigameIndex) {
-                curMinigameData = &minigameLUT[i];
-                break;
-            }
-        }
-        mp1_GwSystem.curMinigame = curMinigameData->gameOverlayID;
-        return mp1_GwSystem.curMinigame; //restore from hook
-    }
-    #endif
-    if (mp1_GwSystem.curMinigame >= HAND_LINE_AND_SINKER && mp1_GwSystem.curMinigame <= MARIO_PUZZLE_PARTY_PRO) { //mp3
-        SaveMp1PlayerStructs();
-        PushMp1BoardState();
-        PushMp1MinigamesPlayedList();
-        ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
-        ForeignMinigameAlreadyLoaded = FALSE;
-        PushMp1OvlHis();
-        ComboSwitchGameToMp3();
-    } else { //mp2
-        SaveMp1PlayerStructs();
-        PushMp1BoardState();
-        PushMp1MinigamesPlayedList();
-        ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
-        ForeignMinigameAlreadyLoaded = FALSE;
-        PushMp1OvlHis();
-        ComboSwitchGameToMp2();
-    }
-    return mp1_GwSystem.curMinigame; //restore from hook
-}
+// s16 mp1_getMinigameExplanationOverlay(s16 arg0) {
+//     #ifdef MP1
+//     s32 i;
+//     //confusing...but this should prevent converting an already converted ID
+//     if (ForeignMinigameAlreadyLoaded == TRUE) { 
+//         return mp1_GwSystem.curMinigame; //restore from hook
+//     }
+//     if (mp1_GwSystem.curMinigame >= MEMORY_MATCH && mp1_GwSystem.curMinigame <= PADDLE_BATTLE) { //mp1
+//         MinigameIndexTable* curMinigameData = NULL;
+//         for (i = 0; i < MINIGAME_END; i++) {
+//             if (mp1_GwSystem.curMinigame == minigameLUT[i].minigameIndex) {
+//                 curMinigameData = &minigameLUT[i];
+//                 break;
+//             }
+//         }
+//         mp1_GwSystem.curMinigame = curMinigameData->gameOverlayID;
+//         return mp1_GwSystem.curMinigame; //restore from hook
+//     }
+//     #endif
+//     if (mp1_GwSystem.curMinigame >= HAND_LINE_AND_SINKER && mp1_GwSystem.curMinigame <= MARIO_PUZZLE_PARTY_PRO) { //mp3
+//         SaveMp1PlayerStructs();
+//         PushMp1BoardState();
+//         PushMp1MinigamesPlayedList();
+//         ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
+//         ForeignMinigameAlreadyLoaded = FALSE;
+//         PushMp1OvlHis();
+//         ComboSwitchGameToMp3();
+//     } else { //mp2
+//         SaveMp1PlayerStructs();
+//         PushMp1BoardState();
+//         PushMp1MinigamesPlayedList();
+//         ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
+//         ForeignMinigameAlreadyLoaded = FALSE;
+//         PushMp1OvlHis();
+//         ComboSwitchGameToMp2();
+//     }
+//     return mp1_GwSystem.curMinigame; //restore from hook
+// }
 
 void mp1_GetNewMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 minigameCombinedIndex = arg1 - 0x324;

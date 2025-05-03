@@ -86,7 +86,7 @@ typedef struct UnkStarLift {
     s16 unk4;
 } UnkStarLift;
 
-s32 _CheckFlag(s32);
+s32 mp3_CheckFlag(s32);
 s16 func_80055810_56410(void*);
 
 s32 newfunc_80113ED4_510134_name_78(UnkStarLift* arg0) {
