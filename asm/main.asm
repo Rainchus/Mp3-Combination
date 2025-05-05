@@ -3,6 +3,7 @@
 .n64 // Let armips know we're coding for the N64 architecture
 .open "rom/mp3-mp2-mp1.z64", "rom/mp3-mp2-mp1.mod.z64", 0 // Open the ROM file
 .include "rom_start.asm"
+.include "asm\mk64\mk64_boot.asm"
 .include "asm\mp1\mp1_boot.asm"
 .include "asm\mp1\mp1_boot_logos.asm"
 .include "asm\mp1\mp1_crash_screen_binary.asm"

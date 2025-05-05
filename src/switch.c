@@ -15,6 +15,13 @@
 #define FOREIGN_SIZE_MP1 0xCDA50
 #define FOREIGN_CART_MP1 0x4001000 //ROM start addr + 0x1000
 
+
+// #define FOREIGN_DRAM 0x80000400 //mp1, mp2 and mp3, and mk64 all share this addr
+#define FOREIGN_OFF 0x400
+// #define FOREIGN_SIZE_MK64 0xD9B70
+#define FOREIGN_SIZE_MK64 0xF6510
+#define FOREIGN_CART_MK64 0x6001000 //ROM start addr + 0x1000
+
 void System_DisableInterrupts(void);
 NORETURN void ComboGameSwitch2ToMp2(void);
 void System_InvalDCache(void* addr, u32 size);
@@ -75,5 +82,23 @@ NORETURN void ComboClearCacheAndExecuteMp3(void) {
     System_InvalDCache((void*)MAIN_DRAM, MAIN_SIZE);
     System_InvalICache((void*)MAIN_DRAM, MAIN_SIZE);
     ComboGameSwitch4(MAIN_DRAM);
+    __builtin_unreachable();
+}
+
+//start loading into mk64
+NORETURN void ComboSwitchGameToMk64(void) {
+    System_DisableInterrupts();
+    WaitForSubSystems();
+    ComboGameSwitch2ToMk64(); //doesn't return
+    __builtin_unreachable();
+}
+
+NORETURN void ComboClearCacheAndExecuteMk64(void) {
+    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_CART_MK64);
+    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_CART_MK64);
+    comboDma_NoCacheInval((void*)FOREIGN_OFF, FOREIGN_CART_MK64, FOREIGN_SIZE_MK64);
+    System_InvalDCache((void*)FOREIGN_DRAM, FOREIGN_CART_MK64);
+    System_InvalICache((void*)FOREIGN_DRAM, FOREIGN_CART_MK64);
+    ComboGameSwitch4(FOREIGN_DRAM);
     __builtin_unreachable();
 }

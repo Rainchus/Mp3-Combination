@@ -60,6 +60,40 @@ mp1_osEPiRawStartDmaHook:
     J 0x80090308
     NOP
 
+mk64_osEPiRawStartDmaHook:
+    ADDIU sp, sp, -0x28
+    SW ra, 0x001C (sp)
+
+    LI t0, 0x6000000 //add adjusted rom offset
+    ADDU a2, a2, t0
+
+    J 0x800D3098 //jump back
+    NOP
+
+mk64_osPiStartDmaHook:
+    ADDIU sp, sp, -0x28
+    SW ra, 0x001C (sp)
+
+    LI t0, 0x6000000 //add adjusted rom offset
+    //SLT t1, a3, t0 //if rom_addr < 0x6000000
+
+    //if not in mk64 rom range, dont add offset
+    //BNEZ t1, skipOsPiStart
+    //NOP
+
+    //LI t2, 0xC00000 //add adjusted rom offset
+    //SLT t1, a3, t2
+    //BEQZ t1, skipOsPiStart
+    //NOP
+
+    //otherwise, is mk64 rom address, dma it
+    ADDU a3, a3, t0
+
+    skipOsPiStart:
+    LW ra, 0x001C (sp)
+    J 0x800cdc38 //jump back
+    LUI t6, 0x800F    
+
 
 //unfortunately this needs to be asm due to how
 setCustomMinigameIndex:

@@ -1,184 +1,165 @@
-import glob
+import argparse
 import os
-import sys
+import glob
 import ninja_syntax
 
-pj64_rdb_path = "C:/Users/Rainchus/Desktop/Desktop/newest_pj64/Config/Project64.rdb"
+#requires python 3.9 minimum
 
-def check_and_create_rom(mp1=False):
-    mp3_mp2_path = 'rom/mp3-mp2.z64'
-    mp3_mp2_mp1_path = 'rom/mp3-mp2-mp1.z64'
-    mp3_path = 'rom/mp3-temp.z64'
-    mp2_path = 'rom/mp2.z64'
-    mp1_path = 'rom/mp1.z64'
+rom_folder_path = "rom/"
+mp3_path = f'{rom_folder_path}mp3-temp.z64'
+mp2_path = f'{rom_folder_path}mp2.z64'
+mp1_path = f'{rom_folder_path}mp1.z64'
+mk64_path = f'{rom_folder_path}mk64.z64'
 
-    if mp1:
-        # Check if mp3-mp2-mp1.z64 exists
-        if os.path.exists(mp3_mp2_mp1_path):
-            print(f"{mp3_mp2_mp1_path} found.")
-        else:
-            # Check for mp3-mp2.z64 and mp1.z64
-            missing_files = []
-            if not os.path.exists(mp3_mp2_path):
-                missing_files.append(mp3_mp2_path)
-            if not os.path.exists(mp1_path):
-                missing_files.append(mp1_path)
+c_flags = "-O2 -Wall -Wno-missing-braces -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 -fno-inline -DF3DEX_GBI_2"
 
-            if missing_files:
-                missing_files_str = ', '.join(missing_files)
-                error_message = f"The following file(s) are missing: {missing_files_str}"
-                raise FileNotFoundError(error_message)
-            else:
-                # Create mp3-mp2-mp1.z64 by appending mp1.z64 to mp3-mp2.z64
-                with open(mp3_mp2_mp1_path, 'wb') as mp3_mp2_mp1_file:
-                    with open(mp3_mp2_path, 'rb') as mp3_mp2_file:
-                        mp3_mp2_mp1_file.write(mp3_mp2_file.read())
-                    with open(mp1_path, 'rb') as mp1_file:
-                        mp3_mp2_mp1_file.write(mp1_file.read())
-                print(f"Created {mp3_mp2_mp1_path} by appending {mp1_path} to {mp3_mp2_path}.")
-    else:
-        # Check if mp3-mp2.z64 exists
-        if os.path.exists(mp3_mp2_path):
-            print(f"{mp3_mp2_path} found.")
-        else:
-            # Check for mp3.z64 and mp2.z64
-            missing_files = []
-            if not os.path.exists(mp3_path):
-                missing_files.append(mp3_path)
-            if not os.path.exists(mp2_path):
-                missing_files.append(mp2_path)
-
-            if missing_files:
-                missing_files_str = ', '.join(missing_files)
-                error_message = f"The following file(s) are missing: {missing_files_str}"
-                raise FileNotFoundError(error_message)
-            else:
-                # Create mp3-mp2.z64 by appending mp2.z64 to mp3.z64
-                with open(mp3_mp2_path, 'wb') as mp3_mp2_file:
-                    with open(mp3_path, 'rb') as mp3_file:
-                        mp3_mp2_file.write(mp3_file.read())
-                    with open(mp2_path, 'rb') as mp2_file:
-                        mp3_mp2_file.write(mp2_file.read())
-                print(f"Created {mp3_mp2_path} by appending {mp2_path} to {mp3_path}.")
-
-# Check for '-mp1' flag
-mp1_flag = '-mp1' in sys.argv
-
-# .c files are put into expansion pak ram
+#Files compiled and automatically DMAed to expansion pak ram on boot
 c_files = glob.glob('src/**/*.c', recursive=True)
 
-# Call the function based on the flag
-check_and_create_rom(mp1=mp1_flag)
+# .s files are put into expansion pak ram and are *not* intended to have their headersize changed
+s_files = glob.glob('asm/**/*.s', recursive=True)
 
-if mp1_flag == True:
-    # .s files are put into expansion pak ram and are *not* intended to have their headersize changed
-    s_files = glob.glob('asm/**/*.s', recursive=True)
+# .asm files are assembly files that often change the headersize
+asm_files = glob.glob('asm/**/*.asm', recursive=True)
 
-    # .asm files are assembly files that often change the headersize
-    asm_files = glob.glob('asm/**/*.asm', recursive=True)
-else:
-    # Exclude any files from the 'asm/mp1' directory
-    s_files = [f for f in glob.glob('asm/**/*.s', recursive=True) if 'asm/mp1' not in f]
-    asm_files = [f for f in glob.glob('asm/**/*.asm', recursive=True) if 'asm/mp1' not in f]
+def append_binary_files(input1, input2):
+    with open(input1, "ab") as f1, open(input2, "rb") as f2:
+        f1.write(f2.read())
 
-# Set the ROM name based on the presence of the -mp1 flag
-rom_name = 'mp3-mp2-mp1' if mp1_flag else 'mp3-mp2'
-rom_mod_name = f'{rom_name}.mod.z64'
+def GetGameListAndSetCFlags():
+    global c_flags
+    parser = argparse.ArgumentParser(description="Build combined string name.")
+    parser.add_argument('-mp1', action='store_true', help="Add -mp1 to the name")
+    parser.add_argument('-mk64', action='store_true', help="Add -mk64 to the name")
 
-# Conditionally add -DMP1 to STANDARDFLAGS if -mp1 flag is passed
-standard_flags = '-O2 -Wall -Wno-missing-braces -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 -fno-inline -DF3DEX_GBI_2'
-if mp1_flag:
-    standard_flags += ' -DMP1'
+    args = parser.parse_args()
 
-header = f"""
+    parts = ["mp3-mp2"]
+    extra_games = ["mp1", "mk64"]
+    for key, value in vars(args).items():
+        if key in (extra_games) and value:
+            parts.append(key)
+
+    combined_name = "-".join(parts)
+    split_name = combined_name.split("-")
+
+    #make sure a rom exist for each
+    for i in split_name:
+        rom_path_str = mp3_path if i == "mp3" else f"{rom_folder_path}{i}.z64"
+        if not os.path.exists(f"{rom_folder_path}{i}.z64"):
+            raise ValueError(f"File {rom_path_str} not found!")
+        if i == "mp3":
+            pass
+        elif i == "mp2":
+            pass
+        elif i == "mp1":
+            c_flags += " -DMP1"
+        elif i == "mk64":
+            c_flags += " -DMK64"
+        else:
+            raise ValueError(f"Unknown flag: {i}")
+
+    #print(f"Combined: {combined_name}")
+    return combined_name
+
+def build_combined_rom_file(final_rom_name):
+    split_name = final_rom_name.removesuffix(".z64").split("-")
+    final_rom_path = f"{rom_folder_path}{final_rom_name}"
+    for i in split_name:
+        rom = mp3_path if i == "mp3" else f"{rom_folder_path}{i}.z64"
+        append_binary_files(final_rom_path, rom)
+
+def create_main_asm():
+    header = f"""
 //Automatically generated by configure.py, do not edit
 .n64 // Let armips know we're coding for the N64 architecture
-.open "rom/{rom_name}.z64", "rom/{rom_mod_name}", 0 // Open the ROM file
+.open "rom/{combined_baserom_name}", "rom/{combined_rom_mod_name}", 0 // Open the ROM file
 """
 
-footer = """
+    footer = """
 .align 8
 PAYLOAD_END_RAM:
 .close //close file
 """
+    # Create an ASM file that includes other .asm and .s files and imports .o files
+    with open("asm/main.asm", 'w') as file:
+        file.write(header)
 
-with open('build.ninja', 'w') as buildfile:
-    ninja = ninja_syntax.Writer(buildfile)
-    ninja.variable('CC', 'mips64-elf-gcc')
-    ninja.variable('STANDARDFLAGS', standard_flags)
-    ninja.variable('INCLUDE_FLAGS', '-Iinclude -Isrc')
+        file.write(".include \"rom_start.asm\"\n")
 
-    ninja.rule(
-        "cc",
-        command="$CC $STANDARDFLAGS $INCLUDE_FLAGS -c $in -o $out",
-        description="Compiling $in to $out",
-        depfile="$out.d",
-        deps="gcc",
-    )
+        for asm_file in asm_files:
+            if asm_file.endswith('main.asm'):
+                continue
+            file.write(f".include \"{asm_file}\"\n")
 
-    # List to collect all object files
-    obj_files = []
+        file.write(".include \"headersize.asm\"\n")
 
-    # Create build statements for each .c file
-    for c_file in c_files:
-        obj_file = os.path.join('obj', os.path.relpath(c_file, 'src')).replace('.c', '.o')
-        ninja.build(obj_file, 'cc', c_file)
-        obj_files.append(obj_file)
+        for s_file in s_files:
+            file.write(f".include \"{s_file}\"\n")
 
-    # Add a phony target that depends on all object files
-    ninja.build('all', 'phony', obj_files)
+        for c_file in c_files:
+            obj_file = os.path.join('obj', os.path.relpath(c_file, 'src')).replace('.c', '.o')
+            file.write(f".importobj \"{obj_file}\"\n")
 
-    # Add a rule to run armips on main.asm after all .o files are built
-    ninja.rule(
-        "armips",
-        command="armips asm/main.asm -sym syms.txt",
-        description="Running armips on main.asm"
-    )
+        file.write(footer)
 
-    # Create a build statement to run armips after all .o files are built
-    ninja.build('run_armips', 'armips', 'all')
+def create_ninja_file(combined_rom_mod_name, combined_baserom_name):
+    global c_flags
+    with open('build.ninja', 'w') as buildfile:
+        ninja = ninja_syntax.Writer(buildfile)
+        ninja.variable('CC', 'mips64-elf-gcc')
+        ninja.variable('CFLAGS', c_flags)
+        ninja.variable('INCLUDE_FLAGS', '-Iinclude -Isrc')
 
-    # Add a rule to run n64crc.exe on mod.z64 after armips completes
-    ninja.rule(
-        "n64crc",
-        command=f"n64crc.exe rom/{rom_mod_name}",
-        description=f"Running n64crc.exe on {rom_mod_name}"
-    )
-
-    # Create a build statement to run n64crc.exe after armips
-    ninja.build('run_n64crc', 'n64crc', 'run_armips')
-
-    if not mp1_flag:
-        # Define the trim_rom rule to truncate the ROM
         ninja.rule(
-            "trim_rom",
-            command=f"python truncate_rom.py rom/{rom_mod_name}",
-            description=f"Trimming ROM at {rom_mod_name}"
+            "cc",
+            command="$CC $CFLAGS $INCLUDE_FLAGS -c $in -o $out",
+            description="Compiling $in to $out",
+            depfile="$out.d",
+            deps="gcc",
         )
 
-        # Create the build target for trim_rom with dependencies on run_armips and run_n64crc
-        ninja.build('trim_rom', 'trim_rom', ['run_armips', 'run_n64crc'])
 
+        # List to collect all object files
+        obj_files = []
 
+        # Create build statements for each .c file
+        for c_file in c_files:
+            obj_file = os.path.join('obj', os.path.relpath(c_file, 'src')).replace('.c', '.o')
+            ninja.build(obj_file, 'cc', c_file)
+            obj_files.append(obj_file)
 
-# Create an ASM file that includes other .asm and .s files and imports .o files
-with open("asm/main.asm", 'w') as file:
-    file.write(header)
+        # Add a phony target that depends on all object files
+        ninja.build('all', 'phony', obj_files)
 
-    file.write(".include \"rom_start.asm\"\n")
+        # Add a rule to run armips on main.asm after all .o files are built
+        ninja.rule(
+            "armips",
+            command="armips asm/main.asm -sym syms.txt",
+            description="Running armips on main.asm"
+        )
 
-    for asm_file in asm_files:
-        if asm_file.endswith('main.asm'):
-            continue
-        file.write(f".include \"{asm_file}\"\n")
+        # Create a build statement to run armips after all .o files are built
+        ninja.build('run_armips', 'armips', 'all')
 
-    file.write(".include \"headersize.asm\"\n")
+        # Add a rule to run n64crc.exe on mod.z64 after armips completes
+        ninja.rule(
+            "n64crc",
+            command=f"n64crc.exe rom/{combined_rom_mod_name}",
+            description=f"Running n64crc.exe on {combined_rom_mod_name}"
+        )
 
-    for s_file in s_files:
-        file.write(f".include \"{s_file}\"\n")
+        # Create a build statement to run n64crc.exe after armips
+        ninja.build('run_n64crc', 'n64crc', 'run_armips')
 
-    for c_file in c_files:
-        obj_file = os.path.join('obj', os.path.relpath(c_file, 'src')).replace('.c', '.o')
-        file.write(f".importobj \"{obj_file}\"\n")
+if __name__ == "__main__":
+    combined_name = GetGameListAndSetCFlags()
+    combined_baserom_name = combined_name + ".z64"
+    combined_rom_mod_name = combined_name + ".mod.z64"
 
-    file.write(footer)
+    if os.path.exists(f"{rom_folder_path}{combined_baserom_name}"):
+        os.remove(f"{rom_folder_path}{combined_baserom_name}")
+
+    build_combined_rom_file(combined_baserom_name)
+    create_ninja_file(combined_rom_mod_name, combined_baserom_name)
+    create_main_asm()

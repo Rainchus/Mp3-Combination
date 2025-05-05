@@ -207,10 +207,6 @@ void CheckIfShouldSwapGames(void) {
     //else is mp1, do nothing and exit
 }
 
-
-//coin shower flower is trying to load bumper balls maze?
-//TODO: top priority to fix ^
-
 void newfunc_800F6610_MinigameInstructions(void) {
     #ifdef MP1
     mp1_omObjData* obj;
