@@ -97,7 +97,3 @@
 .definelabel mp2_midTurnMinigameThing, 0x800E1F8C
 .definelabel mp2_func_8004CA14_4D614, 0x8004CA14
 .definelabel mp2_func_8006135C_61F5C, 0x8006135C
-
-//hardcoded symbols
-.definelabel mp2_omovlhisidx_copy, 0x807FFB00
-.definelabel mp2_PlayersCopy, 0x807FFC00

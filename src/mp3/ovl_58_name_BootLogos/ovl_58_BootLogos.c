@@ -44,8 +44,6 @@ void NewInitialSplashScreen(void) {
         char sp10[16] = {0};
         s16 temp = 0x20;
 
-        //why is it required you do this this way?
-        //and why only when writing? reading works fine?
         mp3_RequestSIFunction(&sp10, &mp3_ReadMinigameList, &temp, 1);
     }
 
@@ -205,6 +203,8 @@ void InitializeInitialMinigameList(void) {
     s32 eepromByteResults = 0;
     s32 i;
 
+    mp3_bzero(&customEepromData, sizeof(customEepromData));
+
     for (i = 0; i < sizeof(customEepromData.minigameFlags); i++) {
         eepromByteResults += customEepromData.minigameFlags[i];
     }
@@ -217,8 +217,6 @@ void InitializeInitialMinigameList(void) {
         char sp10[16] = {0};
         s16 temp = 0x20;
 
-        //why is it required you do this this way?
-        //and why only when writing? reading works fine?
         mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
         mp3_HuPrcVSleep();
     }

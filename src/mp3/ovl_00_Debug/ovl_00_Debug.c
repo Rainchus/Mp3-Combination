@@ -23,7 +23,7 @@ extern s32 eepType;
 extern u8 mp3_D_800D09A8;
 extern OSMesgQueue mp3_D_800CE1A0;
 //unsure if this needs to be aligned, but it cant hurt
-EepData customEepromData = {0};
+extern EepData customEepromData;
 void mp3_HuAudSeqPlay(s32);
 extern s16 mp3_D_800CDA7C[];
 extern s16 mp3_D_800C9520;
@@ -34,7 +34,6 @@ void mp3_func_8000BBD4_C7D4(s32, s32, s32);
 void mp3_ScaleESprite(s32 eSpriteID, f32 xScale, f32 yScale);
 void mp3_HuPrcVSleep(void);
 void mp3_HuWipeFadeIn(s32, s32);
-void mp3_bzero(void*, s32);
 void ComboSwitchGameToMp3(void);
 s32 directionHeldFrames = 0;
 s32 buttonHeld = 0;
@@ -167,7 +166,7 @@ void newDebugMenuMain(void) {
     mp3_HuPrcVSleep();
     mp3_HuWipeFadeIn(0xFF, 0x10);
     // eSprite0 = DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
-    DrawImageWrapper(BACKGROUND_IMAGE_ID, 160, 120);
+    DrawImageWrapper(BACKGROUND_IMAGE_ID, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
     
     mp3_HuAudSeqPlay(8);
 
@@ -349,8 +348,6 @@ void newDebugMenuMain(void) {
             char sp10[16] = {0};
             s16 temp = 0x20; 
 
-            //why is it required you do this this way?
-            //and why only when writing? reading works fine?
             mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
             ComboSwitchGameToMp3();
         }

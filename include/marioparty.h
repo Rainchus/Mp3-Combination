@@ -10,6 +10,9 @@
 #define CUR_PLAYER -1
 #define MAX_PLAYERS 4
 
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+
 #include "ultra64.h"
 #include "PR/mbi.h"
 #include "functions.h"

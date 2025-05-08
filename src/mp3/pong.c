@@ -1,7 +1,5 @@
 #include "mp3.h"
-
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
+#include "marioparty.h"
 
 typedef struct {
     int x, y;

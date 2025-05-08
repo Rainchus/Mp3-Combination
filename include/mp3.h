@@ -243,5 +243,5 @@ void func_800E1934_F5554_shared_board(s32, s32);
 s32 mp3_PlayerHasItem(s32 playerIndex, s32 itemID);
 void mp3_AdjustPlayerCoins(s32 arg0, s32 arg1);
 extern int		mp3_sprintf(char *s, const char *fmt, ...);
-
+void mp3_bzero(void*, s32);
 #endif

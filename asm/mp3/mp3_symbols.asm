@@ -35,7 +35,7 @@
 .definelabel mp3_omDelObj, 0x800479AC;
 .definelabel osMemSize, 0x80000318
 .definelabel __osCurrentTime, 0x800CE2B8
-.definelabel memcpy, 0x8007BD94
+.definelabel mp3_memcpy, 0x8007BD94
 .definelabel _Printf, 0x80081A40
 .definelabel osWritebackDCacheAll, 0x80078D50
 .definelabel osViBlack, 0x8007DC60
@@ -284,9 +284,3 @@
 .definelabel D_800CC3F0_CCFF0, 0x800CC3F0
 .definelabel _InitEeprom, 0x8000C210
 .definelabel InitEeprom, 0x8000C4AC
-
-//hardcoded symbols
-.definelabel mp3_omovlhisidx_copy, 0x807FFD00
-.definelabel mp3_omovlhis_copy, 0x807FFE00
-.definelabel mp3_PlayersCopy, 0x807FFF00
-.definelabel rnd_seed_shared, 0x807FFFFC

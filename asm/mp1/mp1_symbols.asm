@@ -138,7 +138,3 @@
 .definelabel func_80023684, 0x80023684
 .definelabel func_800F9E64_MinigameInstructions, 0x800F9E64
 .definelabel func_800F6990_MinigameInstructions, 0x800F6990
-
-//hardcoded symbols
-.definelabel mp1_omovlhisidx_copy, 0x807FF900
-.definelabel mp1_PlayersCopy, 0x807FFA00

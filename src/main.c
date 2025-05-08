@@ -500,8 +500,6 @@ void LoadBackIntoMp3Board(void) {
         //load into the board
         mp3_omOvlCallEx(0x48 + curBoardIndex, 2, 0x192);
         return;
-
-
     }
 
     //if game should end, load credits
