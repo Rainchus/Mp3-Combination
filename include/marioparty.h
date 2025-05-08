@@ -503,7 +503,9 @@ typedef struct EepData {
 /* 0x18 */ u8 teamModeFlag; //used for setting bits in player structs on board start for team mode (TODO: implement)
 /* 0x19 */ u8 force2v2Minigame; //if teams mode is active, this will force 2v2 minigames every turn from all 3 mario parties
 /* 0x1A */ u8 preventMinigameCoinLoss; //for mp1. in games where coins are the focus (ex bash n cash) coins will still be lost
-/* 0x1B */ char pad[0x125];
+/* 0x1B */ u8 mp3UnlockedPartyBoards;
+/* 0x1C */ u8 mp3UnlockedDuelBoards;
+/* 0x1D */ char pad[0x123];
 } EepData __attribute__((aligned(16))); //sizeof 0x140
 
 extern EepData customEepromData;

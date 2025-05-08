@@ -33,49 +33,81 @@ extern s32 PartyModeBoardImages[];
 // extern s32 DuelModeBoardImages[];
 // extern s32 PartyModeBoardDescriptions[];
 
-s32 DuelModeBoardImages[] = {
-    0x00140051,
-    0x00140052,
-    0x00140053,
-    0x00140054,
-    0x00140055,
-    0x00140056
-};
+
 
 char TestString[] = "\x0BSpooky spells \x7E floating pages\x85";
 
+enum PartyModeBoards {
+    CHILLY_WATERS,
+    DEEP_BLOOBER_SEA,
+    SPINY_DESERT,
+    WOODY_WOODS,
+    CREEPY_CAVERN,
+    WALUIGIS_ISLAND
+};
+
 //board description IDs
-void* PartyModeBoardDescriptions[] = {
-    (void*)0x0000151E,
-    (void*)0x0000151F,
-    (void*)0x00001520,
-    (void*)0x00001521,
-    (void*)0x00001522,
-    (void*)0x00001523,
-    //(void*)TestString
-    //0x0000151D, //
+s32 PartyModeBoardDescriptions[] = {
+    [CHILLY_WATERS]     0x0000151E,
+    [DEEP_BLOOBER_SEA]  0x0000151F,
+    [SPINY_DESERT]      0x00001520,
+    [WOODY_WOODS]       0x00001521,
+    [CREEPY_CAVERN]     0x00001522,
+    [WALUIGIS_ISLAND]   0x00001523,
+};
+
+s32 DuelModeBoardImages[] = {
+    [CHILLY_WATERS]     0x00140051,
+    [DEEP_BLOOBER_SEA]  0x00140052,
+    [SPINY_DESERT]      0x00140053,
+    [WOODY_WOODS]       0x00140054,
+    [CREEPY_CAVERN]     0x00140055,
+    [WALUIGIS_ISLAND]   0x00140056
 };
 
 //board background main fs ids
 s32 PartyModeBoardImages[] = {
-    0x00140048,
-    0x00140049,
-    0x0014004A,
-    0x0014004B,
-    0x0014004C,
-    0x0014004D,
+    [CHILLY_WATERS]     0x00140048,
+    [DEEP_BLOOBER_SEA]  0x00140049,
+    [SPINY_DESERT]      0x0014004A,
+    [WOODY_WOODS]       0x0014004B,
+    [CREEPY_CAVERN]     0x0014004C,
+    [WALUIGIS_ISLAND]   0x0014004D,
     //0x0014006C //extra board id
 };
 
-void* DuelModeBoardDescriptions[] = {
-    (void*)0x00002415,
-    (void*)0x00002416,
-    (void*)0x00002417,
-    (void*)0x00002418,
-    (void*)0x00002419,
-    (void*)0x0000241A,
+s32 DuelModeBoardDescriptions[] = {
+    [CHILLY_WATERS]     0x00002415,
+    [DEEP_BLOOBER_SEA]  0x00002416,
+    [SPINY_DESERT]      0x00002417,
+    [WOODY_WOODS]       0x00002418,
+    [CREEPY_CAVERN]     0x00002419,
+    [WALUIGIS_ISLAND]   0x0000241A,
     //0x00002414
 };
+
+s32 GetPartyModeBoardFlag(s32 bitIndex) {
+    return (customEepromData.mp3UnlockedPartyBoards >> bitIndex) & 1;
+}
+
+s32 GetDuelModeBoardFlag(s32 bitIndex) {
+    return (customEepromData.mp3UnlockedDuelBoards >> bitIndex) & 1;
+}
+
+s32 PartyModeBoardImagesGenerated[] = {-1, -1, -1, -1, -1, -1};
+s32 DuelModeBoardImagesGenerated[] = {-1, -1, -1, -1, -1, -1};
+s32 PartyModeBoardDescriptionsGenerated[] = {-1, -1, -1, -1, -1, -1};
+s32 DuelModeBoardDescriptionsGenerated[] = {-1, -1, -1, -1, -1, -1};
+
+//Upon reloading the area, they would still hold old data so we reset them
+void ResetGeneratedUnlockedBoardArrays(void) {
+    for (int i = 0; i < 6; i++) {
+        PartyModeBoardImagesGenerated[i] = PartyModeBoardImages[i];
+        DuelModeBoardImagesGenerated[i] = DuelModeBoardImages[i];
+        PartyModeBoardDescriptionsGenerated[i] = PartyModeBoardDescriptions[i];
+        DuelModeBoardDescriptionsGenerated[i] = DuelModeBoardDescriptions[i];
+    }
+}
 
 // extern s32 DuelModeBoardDescriptions[];
 extern s16 D_8011A938_516B98_name_78;
@@ -89,11 +121,60 @@ typedef struct UnkStarLift {
 s32 mp3_CheckFlag(s32);
 s16 func_80055810_56410(void*);
 
+//these build an array of unlocked board indexes
+s32 GetPartyModeBoardCount(u8* unlockedBoards) {
+    s32 partyBoardTotal = 0;
+
+    for (int i = 0; i < 6; i++) {
+#ifdef DEBUG
+        if (1) {
+#else
+        if (GetPartyModeBoardFlag(i) == 1) {
+#endif
+            unlockedBoards[partyBoardTotal] = i;
+            PartyModeBoardImagesGenerated[partyBoardTotal] = PartyModeBoardImages[partyBoardTotal];
+            PartyModeBoardImagesGenerated[partyBoardTotal] = PartyModeBoardImages[partyBoardTotal];
+            partyBoardTotal++;
+        }
+    }
+
+    //if this happens, this is bad! force a crash
+    if (partyBoardTotal == 0) {
+        *(s32*)0 = 0;
+    }
+
+    return partyBoardTotal;
+}
+
+s32 GetDuelModeBoardCount(u8* unlockedBoards) {
+    s32 duelBoardTotal = 0;
+
+    for (int i = 0; i < 6; i++) {
+        #ifdef DEBUG
+        if (1) {
+#else
+        if (GetDuelModeBoardFlag(i) == 1) {
+#endif
+            unlockedBoards[duelBoardTotal] = i;
+            DuelModeBoardImagesGenerated[duelBoardTotal] = DuelModeBoardImages[duelBoardTotal];
+            DuelModeBoardImagesGenerated[duelBoardTotal] = DuelModeBoardImages[duelBoardTotal];
+            duelBoardTotal++;
+        }
+    }
+    //if this happens, this is bad! force a crash
+    if (duelBoardTotal == 0) {
+        *(s32*)0 = 0;
+    }
+
+    return duelBoardTotal;
+}
+
 s32 newfunc_80113ED4_510134_name_78(UnkStarLift* arg0) {
     #define MODE_PARTY 0
     #define MODE_DUEL 1
     #define FLAG_WALUIGIS_ISLAND 0x31
     #define FLAG_BACKTRACK 0x30
+    u8 unlockedBoards[8];
     Array2D sp20;
     s16 unk_68;
     s32* mainFSArray;
@@ -107,13 +188,15 @@ s32 newfunc_80113ED4_510134_name_78(UnkStarLift* arg0) {
     s32 pad;
     s32 var_fp;
     s32 boardCountMax;
-    s32* var_s7;
+    s32* curModeBoardDescriptions;
     s16 curBoardIndex;
     s16 temp;
     s32 i;
     f32 tempFloat;
 
-    var_s7 = NULL;
+    ResetGeneratedUnlockedBoardArrays();
+
+    curModeBoardDescriptions = NULL;
     mainFSArray = NULL;
     curBoardIndex = D_8011AA45_516CA5_name_78;
     arg0->unk4 = 0;
@@ -125,17 +208,22 @@ s32 newfunc_80113ED4_510134_name_78(UnkStarLift* arg0) {
 
     switch (D_8011A938_516B98_name_78) { //current mode
     case MODE_PARTY:
-        var_s7 = (s32*)PartyModeBoardDescriptions;
-        mainFSArray = PartyModeBoardImages; //party mode board backgrounds
+        curModeBoardDescriptions = (s32*)PartyModeBoardDescriptionsGenerated;
+        mainFSArray = PartyModeBoardImagesGenerated; //party mode board backgrounds
         tempFloat = 1.0f;
         var_fp = 74;
-        boardCountMax = ARRAY_COUNT(PartyModeBoardImages);
+        boardCountMax = GetPartyModeBoardCount(unlockedBoards);
+
+        //remove this to always have waluigi's island unlocked
+        // if (_CheckFlag(FLAG_WALUIGIS_ISLAND) != 0) {
+        //     boardCountMax = 6;
+        // }
         break;
     case MODE_DUEL:
-        var_s7 = (s32*)DuelModeBoardDescriptions;
-        mainFSArray = DuelModeBoardImages; //duel mode board backgrounds
+        curModeBoardDescriptions = (s32*)DuelModeBoardDescriptionsGenerated;
+        mainFSArray = DuelModeBoardImagesGenerated; //duel mode board backgrounds
         var_fp = 74;
-        boardCountMax = ARRAY_COUNT(DuelModeBoardImages);
+        boardCountMax = GetDuelModeBoardCount(unlockedBoards);
         break;
     }
 
@@ -221,7 +309,7 @@ s32 newfunc_80113ED4_510134_name_78(UnkStarLift* arg0) {
             }
             func_8000BBFC_C7FC(backgroundEspriteSlot, 0xFF);
             prevBoardIndex = curBoardIndex;
-            func_8010B82C_507A8C_name_78(var_s7[curBoardIndex]);
+            func_8010B82C_507A8C_name_78(curModeBoardDescriptions[curBoardIndex]);
         }
         mp3_HuPrcVSleep();
     }

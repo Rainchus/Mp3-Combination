@@ -13,7 +13,7 @@ void mp2_UnkCamThing(f32);
 #define EEP_BLOCK_OFFSET NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE
 
 extern u8 mp2_HUDSON_Header[];
-extern u8 eepromBuffer[(EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)];
+extern u8 mp2_eepromBuffer[(EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)];
 extern OSMesgQueue mp2_D_800FA5E0;
 extern u8 MarioParty2CompletedSaveData[];
 
@@ -59,31 +59,31 @@ s32 mp2__InitEeprom(s8** arg0) {
 
     //ASSERT(eepromProbeResult == EEPROM_TYPE_4K);
 
-    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
+    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, mp2_eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
         //return EEPROM_TYPE_16K;
     }
 
     i = 1;
     if (mp2_HUDSON_Header[i] != 0) {
         while (1) {
-            if (eepromBuffer[i] != mp2_HUDSON_Header[i]) {
+            if (mp2_eepromBuffer[i] != mp2_HUDSON_Header[i]) {
                 var_s1 = 1;
                 //Write "HUDSON\0\0" header
                 for (i = 0; i < 8; i++) {
-                    eepromBuffer[i] = mp2_HUDSON_Header[i];
+                    mp2_eepromBuffer[i] = mp2_HUDSON_Header[i];
                 }
 
                 for (i = 8; i < EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE; i++) {
-                    //eepromBuffer[i] = 0;
-                    eepromBuffer[i] = MarioParty2CompletedSaveData[i];
+                    //mp2_eepromBuffer[i] = 0;
+                    mp2_eepromBuffer[i] = MarioParty2CompletedSaveData[i];
                 }
 
                 //write actual save data (write all eeprom blocks except first)
-                if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET + 1, &eepromBuffer[8], (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - EEPROM_BLOCK_SIZE) != 0) {
+                if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET + 1, &mp2_eepromBuffer[8], (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE) - EEPROM_BLOCK_SIZE) != 0) {
                     //return EEPROM_TYPE_16K;
                 }
                 //write "HUDSON\0\0" header (only write 1 eeprom block)
-                if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, &eepromBuffer[0], EEPROM_BLOCK_SIZE) == 0) {
+                if (mp2_osEepromLongWrite(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, &mp2_eepromBuffer[0], EEPROM_BLOCK_SIZE) == 0) {
                     **arg0 = var_s1;
                     return 0;
                 }
@@ -100,10 +100,10 @@ s32 mp2__InitEeprom(s8** arg0) {
 }
 
 s32 mp2__ReadEeprom(UnkEep* arg0) {
-    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
+    if (mp2_osEepromLongRead(&mp2_D_800FA5E0, EEP_BLOCK_OFFSET, mp2_eepromBuffer, (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) != 0) {
         return 2;
     }
-    mp2_bcopy(&eepromBuffer[arg0->unk0], arg0->unk4, arg0->unk8);
+    mp2_bcopy(&mp2_eepromBuffer[arg0->unk0], arg0->unk4, arg0->unk8);
     return 0;
 }
 
@@ -118,13 +118,13 @@ s32 mp2__WriteEeprom(UnkEep* arg0) {
             if (arg0->unk0 + i >= (EEPROM_MAXBLOCKS * EEPROM_BLOCK_SIZE)) {
                 break;
             }
-            eepromBuffer[arg0->unk0 + i] = arg0->unk4[i];
+            mp2_eepromBuffer[arg0->unk0 + i] = arg0->unk4[i];
         }
         
         eepromBlockOffset = (arg0->unk0 / EEPROM_BLOCK_SIZE);
         alignmentOffset = arg0->unk0 & 7;
         startOffset = (arg0->unk8 + alignmentOffset + 7) & 0xFFF8;
-        return (mp2_osEepromLongWrite(&mp2_D_800FA5E0, eepromBlockOffset + EEP_BLOCK_OFFSET, &eepromBuffer[eepromBlockOffset * EEPROM_BLOCK_SIZE], startOffset) != 0) * 2;
+        return (mp2_osEepromLongWrite(&mp2_D_800FA5E0, eepromBlockOffset + EEP_BLOCK_OFFSET, &mp2_eepromBuffer[eepromBlockOffset * EEPROM_BLOCK_SIZE], startOffset) != 0) * 2;
     }
     return 2;
 }

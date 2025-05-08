@@ -12,7 +12,7 @@
 .definelabel mp2_GetEepType, 0x8001ACD0; //rom:0x1B8D0
 .definelabel mp2_GetSaveFileChecksum, 0x8001B114; //rom:0x1BD14
 
-.definelabel eepromBuffer, 0x800D89F0;
+.definelabel mp2_eepromBuffer, 0x800D89F0;
 .definelabel mp2_HUDSON_Header, 0x800C9B60;
 .definelabel mp2_D_800FA5E0, 0x800FA5E0;
 .definelabel mp2_bcopy, 0x800a5210; //rom:0xa5e10
