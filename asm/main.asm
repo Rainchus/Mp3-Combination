@@ -4,6 +4,7 @@
 .open "rom/mp3-mp2-mp1.z64", "rom/mp3-mp2-mp1.mod.z64", 0 // Open the ROM file
 .include "rom_start.asm"
 .include "asm\mk64\mk64_boot.asm"
+.include "asm\mk64\mk64_symbols.asm"
 .include "asm\mp1\mp1_boot.asm"
 .include "asm\mp1\mp1_boot_logos.asm"
 .include "asm\mp1\mp1_crash_screen_binary.asm"
@@ -49,6 +50,7 @@
 .importobj "obj\mp3_minigame_wheel.o"
 .importobj "obj\switch.o"
 .importobj "obj\system.o"
+.importobj "obj\mk64\temp.o"
 .importobj "obj\mp1\mp1_hooks.o"
 .importobj "obj\mp1\ovl_39_WariosBattleCanyon\ovl_39_WariosBattleCanyon.o"
 .importobj "obj\mp1\ovl_46_BowserSpaceEvent\mp1_ovl_46_BowserSpaceEvent.o"
