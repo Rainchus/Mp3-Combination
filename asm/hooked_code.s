@@ -576,24 +576,19 @@ teamCheck9Asm:
 
 //for item bag writing to items array
 teamCheck10Asm:
-    LUI a0, 0x800D
-    LB a0, 0xD067 (a0)
-    LUI t0, hi(mp3_gPlayers)
-    LBU t0, lo(mp3_gPlayers + 0x4) (t0)
-    ANDI t0, t0, 0x30
-    BEQ t0, r0, originalTeamCheck10Asm
-    NOP
-
     ADDIU sp, sp, -0x18
     SW v0, 0x0014 (sp)
-    originalTeamCheck10Asm:
+
+    LUI a0, 0x800D
+    LB a0, 0xD067 (a0)
+    //this function does our team mode check
     JAL GetTeamCaptainCurrentIndex
     NOP
-    ADDU a0, v0, r0 //return to a0
+    ADDU a0, v0, r0 //return to a0 for original function
+
     LW v0, 0x0014 (sp)
-    ADDIU sp, sp, 0x18
     J 0x8010C540
-    NOP
+    ADDIU sp, sp, 0x18
 
 //when you use an item and the item list background flips, -
 //it pulls the player index to see where to remove the item from
