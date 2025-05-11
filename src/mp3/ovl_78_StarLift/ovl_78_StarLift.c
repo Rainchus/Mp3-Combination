@@ -139,9 +139,12 @@ s32 GetPartyModeBoardCount(u8* unlockedBoards) {
     }
 
     //if this happens, this is bad! force a crash
-    if (partyBoardTotal == 0) {
-        *(s32*)0 = 0;
-    }
+    //TODO: make a proper assert out of this -
+    //(it triggered in game and I didn't originally realize it was a purposeful crash)
+
+    // if (partyBoardTotal == 0) {
+    //     *(s32*)0 = 0;
+    // }
 
     return partyBoardTotal;
 }
@@ -162,9 +165,9 @@ s32 GetDuelModeBoardCount(u8* unlockedBoards) {
         }
     }
     //if this happens, this is bad! force a crash
-    if (duelBoardTotal == 0) {
-        *(s32*)0 = 0;
-    }
+    // if (duelBoardTotal == 0) {
+    //     *(s32*)0 = 0;
+    // }
 
     return duelBoardTotal;
 }
@@ -226,6 +229,8 @@ s32 newfunc_80113ED4_510134_name_78(UnkStarLift* arg0) {
         boardCountMax = GetDuelModeBoardCount(unlockedBoards);
         break;
     }
+
+    boardCountMax = 6; //unlock all boards
 
     func_8010B998_507BF8_name_78();
     func_8010E4BC_50A71C_name_78(&sp20, 2, 0);

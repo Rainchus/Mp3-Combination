@@ -736,7 +736,7 @@ void drawMessageOnBootLogos(void) {
     }
     if (mp3_osResetType == 0 && eepType == EEPROM_TYPE_16K) {
         mp3_debug_font_color = 4;
-        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS V0.4.5");
+        mp3_DrawDebugText(20, 212, "MOD BY: RAINCHUS V0.4.6");
         mp3_DrawDebugText(20, 221, "IF YOU WOULD LIKE TO SUPPORT MY WORK:");
         mp3_DrawDebugText(20, 230, "HTTPS://KO-FI.COM/RAINCHUS");
     }
@@ -752,13 +752,13 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     u32 temp_v0; //pointer to message
 
     //Huh? My suggestion? textbox
-    if (messageID == 0x3125) {
-        //mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, newMessage, -1, -1);
-        ForeignMinigameIndexToLoad = -1;
-        mp3_HuPrcSleep(30);
-        ComboSwitchGameToMk64();
-        return;
-    }
+    // if (messageID == 0x3125) {
+    //     //mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, newMessage, -1, -1);
+    //     ForeignMinigameIndexToLoad = -1;
+    //     mp3_HuPrcSleep(30);
+    //     ComboSwitchGameToMk64();
+    //     return;
+    // }
 
     func_8005D294_5DE94(mp3_D_80110998[arg0].unk_00);
 

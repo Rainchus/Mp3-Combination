@@ -185,24 +185,26 @@ mp1_Process* mp1_omAddPrcObj(mp1_process_func func, u16 priority, s32 stack_size
 void* func_80023684(s32, s16);
 
 
-//check if we need to swap games from currentl being in mp1
+//check if we need to swap games or not to load the wanted minigame
 void CheckIfShouldSwapGames(void) {
-    if (mp1_GwSystem.curMinigame >= HAND_LINE_AND_SINKER && mp1_GwSystem.curMinigame <= MARIO_PUZZLE_PARTY_PRO) { //mp3
-        SaveMp1PlayerStructs();
-        PushMp1BoardState();
-        PushMp1MinigamesPlayedList();
-        ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
-        ForeignMinigameAlreadyLoaded = FALSE;
-        PushMp1OvlHis();
-        ComboSwitchGameToMp3();
-    } else if (mp1_GwSystem.curMinigame >= BOWSER_SLOTS && mp1_GwSystem.curMinigame <= DEEP_SEA_SALVAGE) { //mp3 { //mp2
-        SaveMp1PlayerStructs();
-        PushMp1BoardState();
-        PushMp1MinigamesPlayedList();
-        ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
-        ForeignMinigameAlreadyLoaded = FALSE;
-        PushMp1OvlHis();
-        ComboSwitchGameToMp2();
+    if (CurBaseGame != MP1_BASE) {
+        if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp3
+            SaveMp1PlayerStructs();
+            PushMp1BoardState();
+            PushMp1MinigamesPlayedList();
+            ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
+            ForeignMinigameAlreadyLoaded = FALSE;
+            PushMp1OvlHis();
+            ComboSwitchGameToMp3();
+        } else if (ForeignMinigameIndexToLoad >= BOWSER_SLOTS && ForeignMinigameIndexToLoad <= DEEP_SEA_SALVAGE) { //mp3 { //mp2
+            SaveMp1PlayerStructs();
+            PushMp1BoardState();
+            PushMp1MinigamesPlayedList();
+            ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
+            ForeignMinigameAlreadyLoaded = FALSE;
+            PushMp1OvlHis();
+            ComboSwitchGameToMp2();
+        }
     }
     //else is mp1, do nothing and exit
 }
