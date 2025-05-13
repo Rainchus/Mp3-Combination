@@ -17,23 +17,22 @@
 .definelabel mp2_D_800FA5E0, 0x800FA5E0;
 .definelabel mp2_bcopy, 0x800a5210; //rom:0xa5e10
 .definelabel mp2_func_8007ee0c_7fa0c, 0x8007ee0c; //rom:0xa5e10
-.definelabel func_80062BE0_637E0, 0x80062BE0; //rom:0x637E0
-.definelabel func_8000e9e8, 0x8000e9e8;
-.definelabel debug_gPlayers, 0x801072B8;
+.definelabel mp2_func_80062BE0_637E0, 0x80062BE0; //rom:0x637E0
+.definelabel mp2_func_8000e9e8, 0x8000e9e8;
+.definelabel mp2_debug_gPlayers, 0x801072B8;
 .definelabel mp2_gPlayers, 0x800FD2C0;
-.definelabel func_800683BC_68FBC, 0x800683bc; //rom:0x68fbc
-.definelabel func_8003f6f0_402f0, 0x8003f6f0; //rom:0x402f0
+.definelabel mp2_func_8003f6f0_402f0, 0x8003f6f0; //rom:0x402f0
 .definelabel mp2_omOvlCallEx, 0x800770EC; //rom:0x77CEC
 .definelabel mp2_omOvlHisChg, 0x80077538; // rom:0x78138
 .definelabel mp2__ClearFlag, 0x800683BC;
-.definelabel D_800F93C6, 0x800F93C6;
-.definelabel D_800F93C8, 0x800F93C8;
+.definelabel mp2_D_800F93C6, 0x800F93C6;
+.definelabel mp2_D_800F93C8, 0x800F93C8;
 
-.definelabel D_80107830_413C90_Results, 0x80107830;
-.definelabel D_80107838_413C98_Results, 0x80107838;
-.definelabel D_80107840_413CA0_Results, 0x80107840;
-.definelabel D_80107848_413CA8_Results, 0x80107848;
-.definelabel D_80107860_413CC0_Results, 0x80107860;
+.definelabel mp2_D_80107830_413C90_Results, 0x80107830;
+.definelabel mp2_D_80107838_413C98_Results, 0x80107838;
+.definelabel mp2_D_80107840_413CA0_Results, 0x80107840;
+.definelabel mp2_D_80107848_413CA8_Results, 0x80107848;
+.definelabel mp2_D_80107860_413CC0_Results, 0x80107860;
 
 .definelabel mp2_hidden_block_coins_space_index, 0x800FA608
 .definelabel mp2_hidden_block_star_space_index, 0x800FD418

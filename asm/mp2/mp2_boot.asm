@@ -13,24 +13,6 @@
     J mp2_osEPiRawStartDmaHook
     NOP
 
-//mp2 code that runs right after minigame selection
-//8006399C
-
-//mp2 starts tear down of board play and starts a minigame
-//8006399C
-
-//mp2 s8 800CCC14 is if skip minigame explanations
-
-//mp2
-.org 0x80018B30
-    J LoadOverlayHook_Mp2
-    NOP
-
-//.org 0x8001AD60
-//if this fails, the game hangs
-//it originally checks for a 4Kbit eeprom, but we want to check for 16Kbit since mp3 uses that
-//ADDIU v1, r0, 0x0002 //set eeprom to 16Kbit check instead of 4Kbit check
-
 //reimplement functions for mp2 eeprom
 //mp3 has 2 save files, and will use file slots 1 and 2.
 //slot 3 will be removed from mp3 to make room for mp2's save file
@@ -76,10 +58,3 @@
     LW	V0, 0xFD14 (S4)
     SLTI v1, v0, 0x0002
     BNEZ v1, 0x8001CFC8
-
-
-.org 0x8005D53C
-    ADDIU s1, r0, 3 //allow super hard for cpus on boards
-
-.org 0x8005D55C
-    XORI v0, s1, 3 //allow super hard for cpus on boards
