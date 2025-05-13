@@ -23,6 +23,7 @@ s32 mp1_func_800195E0(void);
 s32 mp1_func_80019540(UnkEep* arg0);
 s32 mp1_func_80019438(UnkEep* arg0);
 s32 mp1_GetEepType(s8** arg0);
+void ComboSwitchGameToMp3(void);
 
 s32 mp1__InitEeprom(s8** arg0) {
     // s32 eepromProbeResult;
@@ -187,7 +188,26 @@ void* func_80023684(s32, s16);
 
 //check if we need to swap games or not to load the wanted minigame
 void CheckIfShouldSwapGames(void) {
-    if (CurBaseGame != MP1_BASE) {
+    //yeah it's shitty, but trying to make good logic out of this has caused many game breaking problems
+    if (CurBaseGame == MP1_BASE) {
+        if (mp1_GwSystem.curMinigame >= HAND_LINE_AND_SINKER && mp1_GwSystem.curMinigame <= MARIO_PUZZLE_PARTY_PRO) { //mp3
+            SaveMp1PlayerStructs();
+            PushMp1BoardState();
+            PushMp1MinigamesPlayedList();
+            ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
+            ForeignMinigameAlreadyLoaded = FALSE;
+            PushMp1OvlHis();
+            ComboSwitchGameToMp3();
+        } else if (mp1_GwSystem.curMinigame >= BOWSER_SLOTS && mp1_GwSystem.curMinigame <= DEEP_SEA_SALVAGE) { //mp2
+            SaveMp1PlayerStructs();
+            PushMp1BoardState();
+            PushMp1MinigamesPlayedList();
+            ForeignMinigameIndexToLoad = mp1_GwSystem.curMinigame;
+            ForeignMinigameAlreadyLoaded = FALSE;
+            PushMp1OvlHis();
+            ComboSwitchGameToMp2();
+        }        
+    } else {
         if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp3
             SaveMp1PlayerStructs();
             PushMp1BoardState();

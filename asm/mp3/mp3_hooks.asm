@@ -50,11 +50,6 @@
     ADDU v0, v0, s2
     LBU v0, lo(newCategoryAmountsNormalMp3) (v0)
 
-//hack: on the last turn of mp3 boards in story mode, force only mp3 minigames
-//.org 0x800DFE7C
-    //J mp3LastTurnMinigameCheck
-    //NOP
-
 //patch a bunch of LB -> LBU
 .org 0x800DFEAC
     LBU v1, 0x2C08 (v1)

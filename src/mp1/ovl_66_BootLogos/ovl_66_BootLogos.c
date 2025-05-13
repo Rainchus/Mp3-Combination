@@ -603,6 +603,7 @@ void mp1_newBootLogos(void) {
         #endif
     }
     
+    //call minigame
     mp1_omInitObjMan(16, 4);
     mp1_GwSystem.curMinigame = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     ForeignMinigameAlreadyLoaded = TRUE;

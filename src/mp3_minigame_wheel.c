@@ -415,10 +415,33 @@ u8 minigameTextColor[] = {
     [PIRANHA_PURSUIT] TEXT_ADJUST_WHITE,
     [TUG_O_WAR] TEXT_ADJUST_WHITE,
     [PADDLE_BATTLE] TEXT_ADJUST_WHITE,
+    
     //BUMPER_BALL_MAZE_0] 7, //mp1 27
     //BUMPER_BALL_MAZE_1] 7, //mp1 36
     //BUMPER_BALL_MAZE_2] 7, //mp1 48
     //BUMPER_BALL_MAZE_3] 7, //mp1 53
+    #endif
+    #ifdef MK64
+    [MARIO_RACEWAY] TEXT_ADJUST_WHITE,
+    [CHOCO_MOUNTAIN] TEXT_ADJUST_WHITE,
+    [BOWSER_CASTLE] TEXT_ADJUST_WHITE,
+    [BANSHEE_BOARDWALK] TEXT_ADJUST_WHITE,
+    [YOSHI_VALLEY] TEXT_ADJUST_WHITE,
+    [FRAPPE_SNOWLAND] TEXT_ADJUST_WHITE,
+    [KOOPA_BEACH] TEXT_ADJUST_WHITE,
+    [ROYAL_RACEWAY] TEXT_ADJUST_WHITE,
+    [LUIGI_RACEWAY] TEXT_ADJUST_WHITE,
+    [MOO_MOO_FARM] TEXT_ADJUST_WHITE,
+    [TOADS_TURNPIKE] TEXT_ADJUST_WHITE,
+    [KALAMARI_DESERT] TEXT_ADJUST_WHITE,
+    [SHERBET_LAND] TEXT_ADJUST_WHITE,
+    [RAINBOW_ROAD] TEXT_ADJUST_WHITE,
+    [WARIO_STADIUM] TEXT_ADJUST_WHITE,
+    [BLOCK_FORT] TEXT_ADJUST_WHITE,
+    [SKYSCRAPER] TEXT_ADJUST_WHITE,
+    [DOUBLE_DECK] TEXT_ADJUST_WHITE,
+    [DK_JUNGLE] TEXT_ADJUST_WHITE,
+    [BIG_DONUT] TEXT_ADJUST_WHITE,
     #endif
 };
 
@@ -744,43 +767,4 @@ void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
     mp3_func_8005B43C_5C03C(arg0, (char*)arg1, arg2, arg3);
-}
-
-extern u8 new4PMinigameListNormalMp3[];
-extern u8 new1v3MinigameListNormalMp3[];
-extern u8 new2v2MinigameListNormalMp3[];
-
-//return 0 if minigame is fine, 1 to reroll
-//minigameCurCategoryIndex is index within the category
-s32 mp3_LastTurnMinigameWheelLogic(s32 minigame) {
-    s32 var = ForeignMinigameIDToGame(minigame);
-    if (var == 2) {
-        return 0;
-    } else {
-        return 1;
-    }
-
-    // s32 foreignMinigameID;
-    // switch (category) {
-    // case PLAYERS_4P:
-    //     foreignMinigameID = new4PMinigameListNormalMp3[minigameCurCategoryIndex];
-    //     break;
-    // case PLAYERS_1V3:
-    //     foreignMinigameID = new1v3MinigameListNormalMp3[minigameCurCategoryIndex];
-    //     break;
-    // case PLAYERS_2V2:
-    //     foreignMinigameID = new2v2MinigameListNormalMp3[minigameCurCategoryIndex];
-    //     break;
-    // default: //should never get here
-    //     return 1;
-    // }
-
-    // //D_800B23B0
-    // s32 gameIndex = GetForeignMinigameGame(foreignMinigameID);
-    // if (gameIndex == 2) {
-    //     return 0;
-    // } else {
-    //     return 1;
-    // }
-
 }
