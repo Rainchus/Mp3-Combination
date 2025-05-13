@@ -203,6 +203,8 @@ extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];
 extern s32 mp3_D_800A12C0;
 extern s32 mp3_D_800A12C4;
 extern Gfx* mp3_gMainGfxPos;
+extern u16 mp3_D_800D530C_D5F0C;
+extern u16 mp3_D_800D5558_D6158[4];
 
 void mp3_omDelPrcObj(s32); 
 f32 mp3_HuMathSin(f32);
@@ -232,7 +234,7 @@ void mp3_func_80019C00_1A800(s32);
 void mp3_func_8005B43C_5C03C(s16, char*, s32, s32); //RefreshMsg
 void mp3_func_8000BB54_C754(s32);
 void mp3_func_8000BCC8_C8C8(s32, s32);
-s32 mp3_HuWipeStatGet(void);
+s32 mp3_WipeStatGet(void);
 void mp3_func_8000C184_CD84(s32);
 void mp3_func_80055670_56270(s16);
 s32 mp3_RequestSIFunction(void* siMessg, void* func, void* arg, s32 type);
@@ -243,5 +245,18 @@ void func_800E1934_F5554_shared_board(s32, s32);
 s32 mp3_PlayerHasItem(s32 playerIndex, s32 itemID);
 void mp3_AdjustPlayerCoins(s32 arg0, s32 arg1);
 extern int		mp3_sprintf(char *s, const char *fmt, ...);
+void mp3_Hu3DCamInit(u32 arg0);
+void mp3_GWContErrorSet(void);
+void mp3_WipeColorSet(u8, u8, u8);
+s32 mp3_WipeCreateOut(s32, s32);
+s32 mp3_WipeStatGet(void);
+void mp3_func_8005F524_60124(void);
+s32 mp3_omOvlGotoEx(s32, s16, u16);
+s32 mp3_omOvlReturnEx(s16 level);
+void mp3_omOvlHisChg(s16 arg0, s32 overlay, s16 event, s16 stat);
+s32 mp3_GWContErrorGet(void);
+s32 mp3_CheckControllerRead(s16 padNum);
+u16 mp3_func_8000B838_C438(s32);
+void mp3_WipeCreateIn(s32, s32);
 
 #endif

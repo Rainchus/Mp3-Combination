@@ -80,7 +80,7 @@
 .definelabel mp3_func_80108910_119290, 0x80108910
 .definelabel mp3_D_80102C70_116890_shared_board, 0x80102C70
 .definelabel mp3_func_800F688C_10A4AC_shared_board, 0x800F688C
-.definelabel mp3_mp3_omInitObjMan, 0x80047160
+.definelabel mp3_omInitObjMan, 0x80047160
 .definelabel mp3_func_800DE9AC_F25CC_shared_board, 0x800DE9AC
 .definelabel mp3_func_800FF900_113520_shared_board, 0x800FF900
 .definelabel mp3_func_800DC128_EFD48_shared_board, 0x800DC128
@@ -97,7 +97,7 @@
 .definelabel mp3_func_800F5BF4_109814_shared_board, 0x800F5BF4
 .definelabel mp3_HuWipeFadeIn, 0x80061FE8
 .definelabel mp3_HuWipeFadeOut, 0x80062050
-.definelabel mp3_HuWipeStatGet, 0x800620BC
+.definelabel mp3_WipeStatGet, 0x800620BC
 .definelabel mp3_InitEspriteSlot, 0x8000BFEC
 .definelabel mp3_func_8000B838_C438, 0x8000B838
 .definelabel mp3_func_8000BB54_C754, 0x8000BB54
@@ -278,9 +278,17 @@
 .definelabel mp3_D_800CC3F0_CCFF0, 0x800CC3F0
 .definelabel mp3__InitEeprom, 0x8000C210
 .definelabel mp3_InitEeprom, 0x8000C4AC
-
-//hardcoded symbols
-.definelabel mp3_omovlhisidx_copy, 0x807FFD00
-.definelabel mp3_omovlhis_copy, 0x807FFE00
-.definelabel mp3_PlayersCopy, 0x807FFF00
-.definelabel rnd_seed_shared, 0x807FFFFC
+.definelabel mp3_D_800D6A58_D7658, 0x800D6A58
+.definelabel mp3_Hu3DCamInit, 0x80012220
+.definelabel mp3_GWContErrorSet, 0x80036080
+.definelabel mp3_omAddPrcObj, 0x80047EA0
+.definelabel mp3_WipeColorSet, 0x800620C8
+.definelabel mp3_WipeCreateOut, 0x80062050
+.definelabel mp3_func_8005F524_60124, 0x8005F524
+.definelabel mp3_omOvlHisChg, 0x80048460
+.definelabel mp3_omOvlGotoEx, 0x80048228
+.definelabel mp3_GWContErrorGet, 0x800360B8
+.definelabel mp3_CheckControllerRead, 0x8000985C
+.definelabel mp3_WipeCreateIn, 0x80061FE8
+.definelabel mp3_D_800D530C_D5F0C, 0x800D530C
+.definelabel mp3_D_800D5558_D6158, 0x800D5558

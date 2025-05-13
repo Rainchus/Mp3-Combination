@@ -3,20 +3,31 @@
 .n64
 .open "rom/mp3-mp2-mp1.z64", "rom/mp3-mp2-mp1.mod.z64", 0
 .include "rom_start.asm"
+.include "asm\hardcodedSymbols.asm"
 .include "asm\mp1\mp1_boot.asm"
 .include "asm\mp1\mp1_symbols.asm"
 .include "asm\mp2\mp2_boot.asm"
 .include "asm\mp2\mp2_symbols.asm"
 .include "asm\mp3\mp3_boot.asm"
+.include "asm\mp3\mp3_minigameWheelHooks.asm"
+.include "asm\mp3\mp3_ovl58_hooks.asm"
 .include "asm\mp3\mp3_symbols.asm"
 .include "headersize.asm"
+.include "asm\combo.s"
 .include "asm\mp1\mp1_hooks.s"
 .include "asm\mp2\mp2_hooks.s"
+.include "asm\mp3\mp3_hooks.s"
 .importobj "obj\initialSaveFileData.o"
+.importobj "obj\minigameDataMain.o"
+.importobj "obj\combo\cache.o"
+.importobj "obj\combo\swap.o"
+.importobj "obj\combo\system.o"
 .importobj "obj\mp1\mp1_minigameData.o"
 .importobj "obj\mp2\mp2_eepromHooks.o"
 .importobj "obj\mp2\mp2_minigameData.o"
 .importobj "obj\mp3\mp3_minigameData.o"
+.importobj "obj\mp3\mp3_ovl58_BootLogos.o"
+.importobj "obj\mp3\mp3_SaveApi.o"
 
 .align 8
 PAYLOAD_END_RAM:

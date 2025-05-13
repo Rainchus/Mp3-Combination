@@ -20,13 +20,13 @@ extern s32 longjmp(jmp_buf *jump_buf, s32 val);
 
 typedef void (*process_func)();
 
-typedef struct Process {
-/* 0x00 */ struct Process *next;
-/* 0x04 */ struct Process *youngest_child;
-/* 0x08 */ struct Process *oldest_child;
-/* 0x0C */ struct Process *relative;
-/* 0x10 */ struct Process *parent_oldest_child;
-/* 0x14 */ struct Process *new_process;
+typedef struct mp3_Process {
+/* 0x00 */ struct mp3_Process *next;
+/* 0x04 */ struct mp3_Process *youngest_child;
+/* 0x08 */ struct mp3_Process *oldest_child;
+/* 0x0C */ struct mp3_Process *relative;
+/* 0x10 */ struct mp3_Process *parent_oldest_child;
+/* 0x14 */ struct mp3_Process *new_process;
 /* 0x18 */ void *heap;
 /* 0x1C */ u16 exec_mode;
 /* 0x1E */ u16 stat;
@@ -37,27 +37,27 @@ typedef struct Process {
 /* 0x2C */ jmp_buf prc_jump;
 /* 0x88 */ process_func destructor;
 /* 0x8C */ void *user_data;
-} Process;
+} mp3_Process;
 
 void HuPrcSysInit();
-void HuPrcLink(Process**root, Process*process);
-void HuPrcUnlink(Process**root, Process*process);
-Process* HuPrcCreate(process_func func, u16 priority, s32 stack_size, s32 extra_data_size);
-void HuPrcChildLink(Process*process, Process*child);
-void HuPrcChildUnlink(Process*process);
-Process* HuPrcCreateChild(process_func func, u16 priority, s32 stack_size, s32 extra_data_size, Process* parent);
+void HuPrcLink(mp3_Process**root, mp3_Process*process);
+void HuPrcUnlink(mp3_Process**root, mp3_Process*process);
+mp3_Process* HuPrcCreate(process_func func, u16 priority, s32 stack_size, s32 extra_data_size);
+void HuPrcChildLink(mp3_Process*process, mp3_Process*child);
+void HuPrcChildUnlink(mp3_Process*process);
+mp3_Process* HuPrcCreateChild(process_func func, u16 priority, s32 stack_size, s32 extra_data_size, mp3_Process* parent);
 void HuPrcChildWait();
-Process* mp3_HuPrcCurrentGet();
-s32 HuPrcChildGet(Process*process);
-s32 HuPrcStatKill(Process*process);
-void HuPrcKill(Process*process);
-void HuPrcChildKill(Process*process);
-void HuPrcTerminate(Process*process);
+mp3_Process* mp3_HuPrcCurrentGet();
+s32 HuPrcChildGet(mp3_Process*process);
+s32 HuPrcStatKill(mp3_Process*process);
+void HuPrcKill(mp3_Process*process);
+void HuPrcChildKill(mp3_Process*process);
+void HuPrcTerminate(mp3_Process*process);
 void HuPrcExit();
 void HuPrcSleep(s32 time);
 void mp3_HuPrcVSleep();
-void HuPrcAwake(Process*process);
-void HuPrcDtor(Process*process, process_func destructor);
+void HuPrcAwake(mp3_Process*process);
+void HuPrcDtor(mp3_Process*process, process_func destructor);
 void HuPrcCurrentDtor(process_func destructor);
 void* HuPrcAllocMem(s32 size);
 void HuPrcFreeMem(void *ptr);

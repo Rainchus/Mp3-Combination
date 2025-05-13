@@ -539,7 +539,7 @@ extern s32 ForeignMinigameIndexToLoad;
 
 s32 ForeignMinigameIsMidTurnMinigame(s32);
 u16 func_8000B838_C438(s32);
-s16 InitEspriteSlot(s16, s32, s32);                     /* extern */
+s16 mp3_InitEspriteSlot(s16, s32, s32);                     /* extern */
 void crash_screen_init(void);
 void infiniteLoop(void);
 void WaitForSubSystems(void);

@@ -51,19 +51,19 @@ typedef struct Object_s {
 /* 0x46 */ s16 unk46;
 } Object;
 
-Process* mp3_omInitObjMan(s16 max_objs, s32 prio);
+mp3_Process* mp3_omInitObjMan(s16 max_objs, s32 prio);
 void omSetStatBit(mp3_omObjData* obj, u16 stat);
 s32 omOvlReturnEx(s16 level);
-mp3_omObjData* omAddObjEx(Process *objman_process, s16 prio, u16 mdlcnt, u16 mtncnt, s16 group, void* func);
+mp3_omObjData* omAddObjEx(mp3_Process *objman_process, s16 prio, u16 mdlcnt, u16 mtncnt, s16 group, void* func);
 mp3_omObjData* omAddObj(s16 priority, u16 arg1, u16 arg2, s16 arg3, omObjFunc func);
-Process* omAddPrcObj(process_func func, u16 priority, s32 stackSize, s32 extDataSize);
+mp3_Process* mp3_omAddPrcObj(process_func func, u16 priority, s32 stackSize, s32 extDataSize);
 s32 omOvlCallEx(s32 arg0, s16 arg1, u16 arg2);
 void omMain(void);
-void omPrcSetStatBit(Process*, s32);
+void omPrcSetStatBit(mp3_Process*, s32);
 s32 omOvlGotoEx(s32, s16, u16);
 void omDestroyObjMan(void);
 void omPrcSetDestructor(s32, void*);
-void omPrcResetStatBit(Process*, s32);
+void omPrcResetStatBit(mp3_Process*, s32);
 mp3_omObjData* mp3_omAddObj(s16 priority, u16 arg1, u16 arg2, s16 arg3, omObjFunc func);
 void mp3_omDelObj(mp3_omObjData*);
 
