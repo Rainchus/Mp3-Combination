@@ -181,7 +181,7 @@ typedef struct mp3_GW_SYSTEM {
     /* 0x60 - 800CD0B8 */ u8 unk_60[0x44];
 } mp3_GW_SYSTEM; //sizeof 0xA4
 
-extern mp3_GW_PLAYER mp3_gPlayers[4];
+extern mp3_GW_PLAYER mp3_GwPlayer[4];
 extern mp3_GW_PLAYER mp3_PlayersCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
 extern omOvlHisData mp2_omovlhis_copy[12];
@@ -229,7 +229,7 @@ s32 mp3_osEepromRead(OSMesgQueue *, u8, u8 *);
 s32 mp3_osEepromWrite(OSMesgQueue *, u8, u8 *);
 s32 mp3_osEepromLongRead(OSMesgQueue *, u8, u8 *, int);
 s32 mp3_osEepromLongWrite(OSMesgQueue *, u8, u8 *, int);
-s32 mp3_omOvlCallEx(s32 overlayID, s16 event, s16 stat);
+s32 mp3_omOvlCallEx(s32 overlayID, s16 event, u16 stat);
 void mp3_func_80019C00_1A800(s32);
 void mp3_func_8005B43C_5C03C(s16, char*, s32, s32); //RefreshMsg
 void mp3_func_8000BB54_C754(s32);
@@ -258,5 +258,7 @@ s32 mp3_GWContErrorGet(void);
 s32 mp3_CheckControllerRead(s16 padNum);
 u16 mp3_func_8000B838_C438(s32);
 void mp3_WipeCreateIn(s32, s32);
+s32 mp3__CheckFlag(s32);
+void mp3_GWMgUnlockSet(s16 bitPos);
 
 #endif

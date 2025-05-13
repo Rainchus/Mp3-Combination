@@ -93,6 +93,38 @@ static void mp3_ClearMinigameList(void) {
     }
 }
 
+u8 CustomMinigamesEepromBytes[] = {
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F
+};
+
+static s32 WriteEepromCustom(void) {
+    return mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData.minigameFlags, sizeof(customEepromData.minigameFlags));
+}
+
+void InitializeInitialMinigameList(void) {
+    s32 eepromByteResults = 0;
+    s32 i;
+
+    for (i = 0; i < sizeof(customEepromData.minigameFlags); i++) {
+        eepromByteResults += customEepromData.minigameFlags[i];
+    }
+
+    if (eepromByteResults == 0) {
+        for (i = 0; i < sizeof(customEepromData.minigameFlags); i++) {
+            customEepromData.minigameFlags[i] = CustomMinigamesEepromBytes[i];
+        }
+        //no idea what any of these args do
+        char sp10[16] = {0};
+        s16 temp = 0x20;
+
+        //why is it required you do this this way?
+        //and why only when writing? reading works fine?
+        mp3_RequestSIFunction(&sp10, &WriteEepromCustom, &temp, 1);
+        mp3_HuPrcVSleep();
+    }
+}
+
 void mp3_LoadMinigameList(void) {
     MinigameIndexTable* curMinigameData;
     s32 i, j;

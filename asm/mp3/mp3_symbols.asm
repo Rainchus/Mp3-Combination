@@ -10,7 +10,7 @@
 .definelabel mp3_debugPrintBool, 0x800A1760
 .definelabel mp3_num_board_spaces, 0x80105210
 .definelabel mp3_hydrated_space_data, 0x80105214
-.definelabel mp3_gPlayers, 0x800D1108
+.definelabel mp3_GwPlayer, 0x800D1108
 .definelabel mp3_prevMinigamesPlayed, 0x800CC4A8
 .definelabel mp3_hidden_block_item_space_index, 0x800CC4E4
 .definelabel mp3_hidden_block_coins_space_index, 0x800CE1C4
@@ -222,7 +222,7 @@
 .definelabel mp3_func_800F5D44_109964_shared_board, 0x800F5D44
 .definelabel mp3_func_800DB884_EF4A4_shared_board, 0x800DB884
 .definelabel mp3_D_8011AA45_516CA5_name_78, 0x8011AA45
-.definelabel mp3_CheckFlag, 0x80035EB0
+.definelabel mp3__CheckFlag, 0x80035EB0
 .definelabel mp3_D_80119EE0_516140_name_78, 0x80119EE0
 .definelabel mp3_D_80119EAC_51610C_name_78, 0x80119EAC
 .definelabel mp3_D_80119EC4_516124_name_78, 0x80119EC4
@@ -292,3 +292,44 @@
 .definelabel mp3_WipeCreateIn, 0x80061FE8
 .definelabel mp3_D_800D530C_D5F0C, 0x800D530C
 .definelabel mp3_D_800D5558_D6158, 0x800D5558
+
+
+
+
+.definelabel mp3_func_80105D9C_4DEF5C_name_70, 0x80105D9C
+.definelabel mp3_func_801061EC_4DF3AC_name_70, 0x801061EC
+.definelabel mp3_func_80106310_4DF4D0_name_70, 0x80106310
+.definelabel mp3_func_80106388_4DF548_name_70, 0x80106388
+.definelabel mp3_func_8010674C_4DF90C_name_70, 0x8010674C
+.definelabel mp3_func_801067CC_4DF98C_name_70, 0x801067CC
+.definelabel mp3_func_80106850_4DFA10_name_70, 0x80106850
+.definelabel mp3_func_80106898_4DFA58_name_70, 0x80106898
+.definelabel mp3_func_80106EB4_4E0074_name_70, 0x80106EB4
+.definelabel mp3_func_80107308_4E04C8_name_70, 0x80107308
+.definelabel mp3_func_80107470_4E0630_name_70, 0x80107470
+.definelabel mp3_func_80108350_4E1510_name_70, 0x80108350
+.definelabel mp3_func_801094B0_4E2670_name_70, 0x801094B0
+.definelabel mp3_func_80109A90_4E2C50_name_70, 0x80109A90
+.definelabel mp3_func_8010A1D0_4E3390_name_70, 0x8010A1D0
+.definelabel mp3_func_8010B990_4E4B50_name_70, 0x8010B990
+.definelabel mp3_D_8010D400_4E65C0_name_70, 0x8010D400
+.definelabel mp3_D_8010D407_4E65C7_name_70, 0x8010D407
+.definelabel mp3_D_8010D408_4E65C8_name_70, 0x8010D408
+.definelabel mp3_D_8010D40A_4E65CA_name_70, 0x8010D40A
+.definelabel mp3_D_8010D40B_4E65CB_name_70, 0x8010D40B
+.definelabel mp3_D_8010D411_4E65D1_name_70, 0x8010D411
+.definelabel mp3_D_8010D45C_4E661C_name_70, 0x8010D45C
+.definelabel mp3_D_8010D48C_4E664C_name_70, 0x8010D48C
+.definelabel mp3_D_800A6D44_A7944, 0x800A6D44
+.definelabel mp3_GWMgUnlockSet, 0x80035B2C
+.definelabel mp3__ClearFlag, 0x80035F44
+.definelabel mp3_Hu3DAnimInit, 0x8001FE20
+.definelabel mp3_func_8005A6B0_5B2B0, 0x8005A6B0
+.definelabel mp3_func_8000B5F0_C1F0, 0x8000B5F0
+.definelabel mp3_ScissorSet, 0x8000B364
+.definelabel mp3_ViewportSet, 0x8000B3C8
+.definelabel mp3_Hu3DCamSetPerspective, 0x8001247C
+.definelabel mp3_omSetStatBit, 0x80047B38
+.definelabel mp3_func_800142A0_14EA0, 0x800142A0
+.definelabel mp3_HmfLightColorSet, 0x80019514
+.definelabel mp3_GWMgUnlockCheck, 0x80035BD8

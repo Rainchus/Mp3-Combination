@@ -8,19 +8,23 @@ void func_80105C80_3D7430_name_58(void);
 void func_80105BA4_3D7354_name_58(mp3_omObjData*);
 void mp3_BootLogosSetup(void);
 void func_80105C14_3D73C4_name_58(mp3_omObjData*);
+void InitializeInitialMinigameList(void);
 
 extern s8 mp3_D_800D6A58_D7658;
 
 mp3_Process* mp3_D_80105F10_3D76C0_name_58 = 0;
 
 /* .data */
-s32 D_80105F00_3D76B0_name_58 = 0;
+s32 D_80105F00_3D76B0_name_58 = 0; //if no controller
 s32 D_80105F04_3D76B4_name_58 = 0;
 
 void mp3_BootLogosSetup(void) {
     mp3_Hu3DCamInit(1);
     mp3_omInitObjMan(0x10, 4);
     mp3_D_800D6A58_D7658 = 1;
+
+    InitializeInitialMinigameList();
+    mp3_LoadMinigameList();
     
     if (D_80105F00_3D76B0_name_58 == 0) {
         mp3_GWContErrorSet();
@@ -34,12 +38,12 @@ void mp3_BootLogosSetup(void) {
 }
 
 void mp3_BootLogosEntryFunc(void) {
-    D_80105F00_3D76B0_name_58 = 0;
+    D_80105F00_3D76B0_name_58 = 0; //set p1 controller is in
     mp3_BootLogosSetup();
 }
 
 void func_80105ACC_3D727C_name_58(void) {
-    D_80105F00_3D76B0_name_58 = 1;
+    D_80105F00_3D76B0_name_58 = 1; //set no controller
     mp3_BootLogosSetup();
 }
 
