@@ -58,3 +58,7 @@
     LW	V0, 0xFD14 (S4)
     SLTI v1, v0, 0x0002
     BNEZ v1, 0x8001CFC8
+
+.org 0x80018AFC
+    J rand8_Shared
+    NOP

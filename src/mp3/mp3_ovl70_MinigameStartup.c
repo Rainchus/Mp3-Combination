@@ -34,6 +34,11 @@ void mp3_ViewportSet(u8 camIndex, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 ar
 void mp3_Hu3DCamSetPerspective(s16 camIndex, f32 fov, f32 near, f32 far);
 void mp3_func_800142A0_14EA0(s32);
 void mp3_HmfLightColorSet(s32, s32, s32, s32);
+void SaveMp3PlayerStructs(void);
+void PushMp3BoardState(void);
+void PushMp3MinigamesPlayedList(void);
+void mp3_StoreBattleMinigameCoins(void);
+void PushMp3OvlHis(void);
 
 extern s8 mp3_D_8010D400_4E65C0_name_70[7];
 extern s8 mp3_D_8010D407_4E65C7_name_70;
@@ -54,7 +59,6 @@ STATIC void Mp3SwapGameIfNeeded(void) {
         PushMp3BoardState();
         PushMp3MinigamesPlayedList();
         mp3_StoreBattleMinigameCoins();
-        PushMp3OvlHis();        
         ComboSwitchGameToMp2();        
     } else if (mp3_GwSystem.minigame_index >= MEMORY_MATCH && mp3_GwSystem.minigame_index <= PADDLE_BATTLE) { //mp3 { //mp2
         //save necessary data
@@ -63,12 +67,10 @@ STATIC void Mp3SwapGameIfNeeded(void) {
         PushMp3BoardState();
         PushMp3MinigamesPlayedList();
         mp3_StoreBattleMinigameCoins();
-        PushMp3OvlHis();
         ComboSwitchGameToMp1();
     }
     //is mp3 minigame, load it
     mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;
-    
 }
 
 //first function ran in ovl_70; the minigame overlay is loaded shortly after

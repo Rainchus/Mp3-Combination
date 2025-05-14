@@ -1,8 +1,6 @@
 NegativeCheck:
     JAL 0x8004EE18
     NOP
-    JAL PushMp3OvlHis
-    NOP
 
     //if the value is less than 0, it should do something different
     //however, we need this to be a LBU not a LB. so let's check if it's 0xFF directly

@@ -16,12 +16,3 @@ void checkosAppNmiBufferReset(s32 resetType) {
         }        
     }
 }
-
-void PushMp3OvlHis(void) {
-    s32 i;
-
-    for (i = 0; i < 12; i++) {
-        mp3_omovlhis_copy[i] = mp3_omovlhis[i];
-    }
-    mp3_omovlhisidx_copy = mp3_omovlhisidx;
-}

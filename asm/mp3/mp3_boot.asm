@@ -57,3 +57,13 @@
     LW	V0, 0xFD14 (S4)
     SLTI v1, v0, 0x0002
     BNEZ v1, 0x8000EED8
+
+.org 0x8000B16C
+    J rand8_Shared
+    NOP
+
+.org 0x8004FFB8 //only check file 1's checksum
+    SLTI v0, s0, 0x0001 //was SLTI v0, s0, 0x0003
+
+.org 0x8000C3F0 //only check file 1's checksum
+    SLTI v0, v0, 0x0001 //SLTI v0, v0, 0x0003

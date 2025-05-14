@@ -24,6 +24,7 @@
 .importobj "obj\combo\cache.o"
 .importobj "obj\combo\swap.o"
 .importobj "obj\combo\system.o"
+.importobj "obj\mp1\mp1_eepromHooks.o"
 .importobj "obj\mp1\mp1_minigameData.o"
 .importobj "obj\mp2\mp2_eepromHooks.o"
 .importobj "obj\mp2\mp2_minigameData.o"
