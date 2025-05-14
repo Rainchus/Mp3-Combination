@@ -39,7 +39,7 @@ void mp2_StoreBattleMinigameCoins(void);
 extern omOvlHisData mp2_omovlhis[12];
 extern s16 mp2_omovlhisidx;
 extern s16 mp2_omovlhisidx_copy;
-extern mp2_GW_PLAYER mp2_PlayersCopy[4];
+extern mp2_GW_PLAYER mp2_GwPlayerCopy[4];
 extern s16 mp2_hidden_block_coins_space_index;
 extern s16 mp2_hidden_block_star_space_index;
 extern mp2_BoardStatus mp2_BoardStateCopy;

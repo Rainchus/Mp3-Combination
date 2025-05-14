@@ -61,7 +61,7 @@ void FlipMinigameFlag(s32 flag) {
     }
 }
 
-static void mp3_ClearMinigameList(void) {
+STATIC void mp3_ClearMinigameList(void) {
     s32 i;
 
     for (i = 0; i < MP3_4P_MINIGAME_MAX; i++) {
@@ -98,7 +98,7 @@ u8 CustomMinigamesEepromBytes[] = {
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F
 };
 
-static s32 WriteEepromCustom(void) {
+STATIC s32 WriteEepromCustom(void) {
     return mp3_osEepromLongWrite(&mp3_D_800CE1A0, EEPROM_BLOCK_POS, customEepromData.minigameFlags, sizeof(customEepromData.minigameFlags));
 }
 
@@ -269,4 +269,15 @@ void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
     mp3_func_8005B43C_5C03C(arg0, (char*)arg1, arg2, arg3);
+}
+
+s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
+    s32 i;
+    //find the minigame and get the overlay id for the specific game
+    for (i = 0; i < MINIGAME_END; i++) {
+        if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
+            return minigameLUT[i].gameOverlayID;
+        }
+    }
+    return -1; //minigame not found
 }

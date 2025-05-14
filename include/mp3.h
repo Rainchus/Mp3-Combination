@@ -161,7 +161,7 @@ typedef struct mp3_GW_SYSTEM {
     /* 0x0D - 800CD065 */ s8 unk_0D;
     /* 0x0E - 800CD066 */ s8 unk_0E;
     /* 0x0F - 800CD067 */ s8 current_player_index;
-    /* 0x10 - 800CD068 */ s8 minigame_index;
+    /* 0x10 - 800CD068 */ u8 minigame_index; //changed to u8
     /* 0x11 - 800CD069 */ s8 current_space_index;
     /* 0x12 - 800CD06A */ s8 save_mode; //00 - Save every turn, 01 - Save this turn, 02 - Don't save
     /* 0x13 - 800CD06B */ s8 show_minigame_explanations; //00 - show, 01 - hide
@@ -182,7 +182,7 @@ typedef struct mp3_GW_SYSTEM {
 } mp3_GW_SYSTEM; //sizeof 0xA4
 
 extern mp3_GW_PLAYER mp3_GwPlayer[4];
-extern mp3_GW_PLAYER mp3_PlayersCopy[4];
+extern mp3_GW_PLAYER mp3_GwPlayerCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
 extern omOvlHisData mp2_omovlhis_copy[12];
 extern s16 mp3_omovlhisidx_copy;

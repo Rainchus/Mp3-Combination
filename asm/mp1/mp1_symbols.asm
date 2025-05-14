@@ -26,7 +26,7 @@
 .definelabel mp1_HuPrcVSleep, 0x800635B4
 .definelabel mp1_HuPrcSleep, 0x80063550
 .definelabel mp1_omOvlCallEx, 0x8005DF44
-.definelabel mp1_gPlayers, 0x800F32B0
+.definelabel mp1_GwPlayer, 0x800F32B0
 .definelabel mp1_omInitObjMan, 0x8005CF30
 .definelabel mp1_rnd_seed, 0x800C2FF4
 .definelabel mp1_osGetCount, 0x80093780

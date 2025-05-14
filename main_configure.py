@@ -12,7 +12,7 @@ mp2_path = f'{rom_folder_path}mp2.z64'
 mp1_path = f'{rom_folder_path}mp1.z64'
 mk64_path = f'{rom_folder_path}mk64.z64'
 
-c_flags = "-O2 -Wall -Wno-missing-braces -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 -fno-inline -DF3DEX_GBI_2"
+c_flags = "-O2 -Wall -Wno-missing-braces -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 -fno-inline -DF3DEX_GBI_2 -DDebug"
 
 #Files compiled and automatically DMAed to expansion pak ram on boot
 c_files = glob.glob('src/**/*.c', recursive=True)

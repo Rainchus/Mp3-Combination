@@ -109,7 +109,7 @@ extern s16 mp1_D_800D86B0;
 extern omOvlHisData mp1_omovlhis[12];
 extern omOvlHisData mp1_omovlhis_copy[12];
 extern s16 mp1_omovlhisidx;
-extern mp1_GW_PLAYER mp1_PlayersCopy[4];
+extern mp1_GW_PLAYER mp1_GwPlayerCopy[4];
 extern mp1_GameStatus mp1_GwSystem;
 extern mp1_GameStatus mp1_GwSystemCopy;
 extern mp1_GWCOMMON mp1_GwCommon;

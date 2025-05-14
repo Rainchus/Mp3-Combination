@@ -517,8 +517,8 @@ typedef struct omOvlHisData { //Object Manager History Data
 /* 0x06 */ u16 stat;
 } omOvlHisData; //sizeof 0x08
 
-extern mp2_GW_PLAYER mp2_gPlayers[4];
-extern mp1_GW_PLAYER mp1_gPlayers[4];
+extern mp2_GW_PLAYER mp2_GwPlayer[4];
+extern mp1_GW_PLAYER mp1_GwPlayer[4];
 
 typedef struct EepData {
 /* 0x00 */ u8 minigameFlags[0x18];
@@ -555,5 +555,12 @@ enum {
     MP2_BASE = 1,
     MP3_BASE = 2,
 };
+
+//static symbols get stripped from the map file which is annoying
+#ifdef DEBUG
+#define STATIC
+#else
+#define STATIC static
+#endif
 
 #endif //_MP_H_

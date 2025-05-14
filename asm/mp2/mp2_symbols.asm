@@ -20,7 +20,7 @@
 .definelabel mp2_func_80062BE0_637E0, 0x80062BE0; //rom:0x637E0
 .definelabel mp2_func_8000e9e8, 0x8000e9e8;
 .definelabel mp2_debug_gPlayers, 0x801072B8;
-.definelabel mp2_gPlayers, 0x800FD2C0;
+.definelabel mp2_GwPlayer, 0x800FD2C0;
 .definelabel mp2_func_8003f6f0_402f0, 0x8003f6f0; //rom:0x402f0
 .definelabel mp2_omOvlCallEx, 0x800770EC; //rom:0x77CEC
 .definelabel mp2_omOvlHisChg, 0x80077538; // rom:0x78138

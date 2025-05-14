@@ -20,6 +20,7 @@
 .include "asm\mp3\mp3_hooks.s"
 .importobj "obj\initialSaveFileData.o"
 .importobj "obj\minigameDataMain.o"
+.importobj "obj\saveGameData.o"
 .importobj "obj\combo\cache.o"
 .importobj "obj\combo\swap.o"
 .importobj "obj\combo\system.o"

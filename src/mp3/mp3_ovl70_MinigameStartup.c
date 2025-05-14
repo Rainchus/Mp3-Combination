@@ -44,6 +44,33 @@ extern s8 mp3_D_8010D411_4E65D1_name_70;
 extern Vec mp3_D_8010D45C_4E661C_name_70;
 extern Vec mp3_D_8010D48C_4E664C_name_70;
 
+//TODO: i believe mp2 doesn't load due to eep issue (it expects 4KB eeprom, has 16KB eeprom)
+STATIC void Mp3SwapGameIfNeeded(void) {
+    //determine if we are loading a mp2 or mp1 minigame
+    if (mp3_GwSystem.minigame_index >= BOWSER_SLOTS && mp3_GwSystem.minigame_index <= DEEP_SEA_SALVAGE) { //mp2
+        //save necessary data
+        ForeignMinigameIndexToLoad = ForeignMinigameIDToGame(mp3_GwSystem.minigame_index);
+        SaveMp3PlayerStructs();
+        PushMp3BoardState();
+        PushMp3MinigamesPlayedList();
+        mp3_StoreBattleMinigameCoins();
+        PushMp3OvlHis();        
+        ComboSwitchGameToMp2();        
+    } else if (mp3_GwSystem.minigame_index >= MEMORY_MATCH && mp3_GwSystem.minigame_index <= PADDLE_BATTLE) { //mp3 { //mp2
+        //save necessary data
+        ForeignMinigameIndexToLoad = ForeignMinigameIDToGame(mp3_GwSystem.minigame_index);
+        SaveMp3PlayerStructs();
+        PushMp3BoardState();
+        PushMp3MinigamesPlayedList();
+        mp3_StoreBattleMinigameCoins();
+        PushMp3OvlHis();
+        ComboSwitchGameToMp1();
+    }
+    //is mp3 minigame, load it
+    mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;
+    
+}
+
 //first function ran in ovl_70; the minigame overlay is loaded shortly after
 void mp3_MinigameEntryFunc(void) {
     void (*procFunc)(void) = NULL;
@@ -67,8 +94,17 @@ void mp3_MinigameEntryFunc(void) {
             break;
         }
     }
+
+    Mp3SwapGameIfNeeded();
+
+    // //check if we need to convert an id
+    // if (CurBaseGame == MP3_BASE) {
+    //     mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;
+    // } else {
+    //     mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;
+    // }
     
-    mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;
+    
     mp3_D_8010D40A_4E65CA_name_70 = mp3_D_800A6D44_A7944[mp3_D_8010D40B_4E65CB_name_70].minigameType;
     
     if (mp3__CheckFlag(0xF) != 0) {
