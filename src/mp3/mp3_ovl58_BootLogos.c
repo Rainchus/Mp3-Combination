@@ -18,6 +18,13 @@ mp3_Process* mp3_D_80105F10_3D76C0_name_58 = 0;
 s32 D_80105F00_3D76B0_name_58 = 0; //if no controller
 s32 D_80105F04_3D76B4_name_58 = 0;
 
+static omOvlHisData LoadIntoResultsSceneHis[] = {
+    0x0000007A, 0x0002, 0x0092,
+    0x0000007A, 0x0002, 0x0092,
+    0x00000077, 0x0000, 0x0091,
+    0x00000047, 0x0001, 0x0192, //the 0x47 here is the board overlay ID. it gets replaced 
+};
+
 void mp3_BootLogosSetup(void) {
     mp3_Hu3DCamInit(1);
     mp3_omInitObjMan(0x10, 4);
@@ -38,8 +45,36 @@ void mp3_BootLogosSetup(void) {
 }
 
 void mp3_BootLogosEntryFunc(void) {
-    D_80105F00_3D76B0_name_58 = 0; //set p1 controller is in
-    mp3_BootLogosSetup();
+    mp3_LoadMinigameList();
+
+    //we are loading from another game, determine if we should load minigame or boot back into original game
+    if (CurBaseGame != MP3_BASE) {
+        if (ForeignMinigameIndexToLoad == -1) { //we already loaded the minigame, go back to original game
+
+        } else { //first time booting in from foreign mario party game, load minigame
+
+        }
+        return;
+    }
+
+    //base game is mp3, check action to do
+    if (ForeignMinigameIndexToLoad == -2) { //normal boot into mp3 with boot sequences
+        D_80105F00_3D76B0_name_58 = 0;
+        mp3_BootLogosSetup();        
+    } else if (ForeignMinigameIndexToLoad != -1) {
+        //we have loaded into the boot overlay and do not have a minigame to load
+        //therefore, we need to load into the results scene to then load back into the board
+        //set up the necessary overlay history to accomplish this
+        omOvlHisData resultsSceneHis[5];
+        for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
+            resultsSceneHis[i] = LoadIntoResultsSceneHis[i];
+        }
+        ForeignMinigameIndexToLoad = -1;
+        resultsSceneHis[3].overlayID = 0x47; //set overlay ID for board
+        mp3_omOvlCallEx(0x71, 0x0000, 0x12); //load results scene overlay
+    } else { //else, coming from another game, load mp3 minigame
+
+    }
 }
 
 void func_80105ACC_3D727C_name_58(void) {

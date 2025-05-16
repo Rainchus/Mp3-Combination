@@ -9,10 +9,10 @@
 
 #define CUR_PLAYER -1
 #define MAX_PLAYERS 4
+#define FOREIGN_MINIGAME_INDEX_BOOT_VAL -2
 
 #include "ultra64.h"
 #include "PR/mbi.h"
-#include "functions.h"
 #include "macros.h"
 
 typedef struct Vec3f {

@@ -1,7 +1,7 @@
 #include "marioparty.h"
 #include "mp3.h"
 
-s32 ForeignMinigameIndexToLoad = -1;
+s32 ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INDEX_BOOT_VAL;
 s32 ForeignMinigameAlreadyLoaded = FALSE;
 //there's probably a better way to track this
 s32 CurBaseGame = MP3_BASE;

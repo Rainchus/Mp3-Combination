@@ -3,15 +3,15 @@
 
 #include "ultra64.h"
 
-typedef struct jump_buf
+typedef struct mp3_jmp_buf
 {
     u32* sp;
     void *func;
     u32 regs[21];
-} jmp_buf;
+} mp3_jmp_buf;
 
-extern s32 setjmp(jmp_buf *jump_buf);
-extern s32 longjmp(jmp_buf *jump_buf, s32 val);
+extern s32 setjmp(mp3_jmp_buf *jump_buf);
+extern s32 longjmp(mp3_jmp_buf *jump_buf, s32 val);
 
 #define EXEC_PROCESS_DEFAULT 0
 #define EXEC_PROCESS_SLEEPING 1
@@ -34,7 +34,7 @@ typedef struct mp3_Process {
 /* 0x22 */ s16 dtor_idx;
 /* 0x24 */ s32 sleep_time;
 /* 0x28 */ void *base_sp;
-/* 0x2C */ jmp_buf prc_jump;
+/* 0x2C */ mp3_jmp_buf prc_jump;
 /* 0x88 */ process_func destructor;
 /* 0x8C */ void *user_data;
 } mp3_Process;

@@ -36,7 +36,7 @@
 
 .definelabel mp2_hidden_block_coins_space_index, 0x800FA608
 .definelabel mp2_hidden_block_star_space_index, 0x800FD418
-.definelabel mp2_BoardState, 0x800F93A8
+.definelabel mp2_GwSystem, 0x800F93A8
 
 .definelabel mp2_omovlhis, 0x800FDBE8;
 .definelabel mp2_omovlhisidx, 0x800CD418;
@@ -55,7 +55,6 @@
 .definelabel mp2_func_800683BC_68FBC, 0x800683BC
 .definelabel mp2_omInitObjMan, 0x800760C0
 .definelabel mp2_omAddObj, 0x80076598
-.definelabel mp2_func_80079E60_7AA60, 0x80079E60
 .definelabel mp2_InitFadeIn, 0x8008F544
 .definelabel mp2_InitFadeOut, 0x8008F5AC
 .definelabel mp2_HuPrcSleep, 0x8007D9E0
@@ -70,7 +69,44 @@
 .definelabel mp2_func_80026DAC_279AC, 0x80026DAC
 .definelabel mp2_func_80026E00_27A00, 0x80026E00
 .definelabel mp2_D_800F93A8, 0x800F93A8
+.definelabel mp2_D_8010163C_10223C, 0x8010163C
+.definelabel mp2_D_80102708_103308, 0x80102708
+.definelabel mp2_PlayMusic, 0x80079390
+.definelabel mp2_func_80018E78_19A78, 0x80018E78
+.definelabel mp2_func_800202DC_20EDC, 0x800202DC
+.definelabel mp2_func_80102A14_3BE174_name_60, 0x80102A14
+.definelabel mp2_func_80102AF0_3BE250_name_60, 0x80102AF0
+.definelabel mp2_func_801085A0_3C3D00_name_60, 0x801085A0
+.definelabel mp2_omSetStatBit, 0x80076AFC
+.definelabel mp2_D_800FA610_FB210, 0x800FA610
+.definelabel mp2_D_800FD474_FE074, 0x800FD474
+.definelabel mp2_D_8010274C_10334C, 0x8010274C
+.definelabel mp2_D_801148F4_3D0054_name_60, 0x801148F4
+.definelabel mp2_D_80114AC2_3D0222_name_60, 0x80114AC2
+.definelabel mp2_func_80079E60_7AA60, 0x80079E60
+.definelabel mp2_func_80105B94_3C12F4_name_60, 0x80105B94
+.definelabel mp2_func_80018E30_19A30, 0x80018E30
+.definelabel mp2_ScissorSet, 0x80018BD0
+.definelabel mp2_ViewportSet, 0x80018C34
+.definelabel mp2_D_80114DC0_3BDF60_name_5F, 0x80114DC0
+.definelabel mp2_D_80114DC2_3BDF62_name_5F, 0x80114DC2
+.definelabel mp2_D_80114E4A_3BDFEA_name_5F, 0x80114E4A
+.definelabel mp2_D_80114E4C_3BDFEC_name_5F, 0x80114E4C
+.definelabel mp2_D_80114E50_3BDFF0_name_5F, 0x80114E50
+.definelabel mp2_D_80114E54_3BDFF4_name_5F, 0x80114E54
+.definelabel mp2_D_80114DC4_3BDF64_name_5F, 0x80114DC4
+.definelabel mp2_D_80114F70_3BE110_name_5F, 0x80114F70
+.definelabel mp2_func_80105B94_3AED34_name_5F, 0x80105B94
+.definelabel mp2_func_80102A14_3ABBB4_name_5F, 0x80102A14
+.definelabel mp2_func_80102AF0_3ABC90_name_5F, 0x80102AF0
+.definelabel mp2_func_801085A0_3B1740_name_5F, 0x801085A0
 
+.definelabel mp2_omAddPrcObj, 0x80076E64
+.definelabel mp2_func_80068410_69010, 0x80068410
+.definelabel mp2_func_80020070_20C70, 0x80020070
+.definelabel mp2_HuGetPadInserted, 0x800172CC
+.definelabel mp2_func_80068448_69048, 0x80068448
+.definelabel mp2_func_8008f624_90224, 0x8008F624
 .definelabel mp2_func_8001A2F8_1AEF8, 0x8001A2F8
 .definelabel mp2_func_8001AAAC_1B6AC, 0x8001AAAC
 .definelabel mp2_espPosSet, 0x8001A694
@@ -96,3 +132,19 @@
 .definelabel mp2_midTurnMinigameThing, 0x800E1F8C
 .definelabel mp2_func_8004CA14_4D614, 0x8004CA14
 .definelabel mp2_func_8006135C_61F5C, 0x8006135C
+.definelabel mp2_D_800CAD90, 0x800CAD90
+.definelabel mp2_func_8008CE5C_8DA5C, 0x8008CE5C
+.definelabel mp2_func_800727F0_733F0, 0x800727F0
+.definelabel mp2_func_80067EF8_68AF8, 0x80067EF8
+.definelabel mp2_func_80017800_18400, 0x80017800
+.definelabel mp2_omOvlKill, 0x80077574
+.definelabel mp2__CheckFlag, 0x80068328
+.definelabel mp2_omOvlGotoEx, 0x800771EC
+.definelabel mp2_D_800F8D18, 0x800f8d18
+
+.definelabel mp2_D_801148F0_3D0050_name_60, 0x801148F0
+.definelabel mp2_D_801148F2_3D0052_name_60, 0x801148F2
+.definelabel mp2_D_8011497A_3D00DA_name_60, 0x8011497A
+.definelabel mp2_D_8011497C_3D00DC_name_60, 0x8011497C
+.definelabel mp2_D_80114980_3D00E0_name_60, 0x80114980
+.definelabel mp2_D_80114984_3D00E4_name_60, 0x80114984
