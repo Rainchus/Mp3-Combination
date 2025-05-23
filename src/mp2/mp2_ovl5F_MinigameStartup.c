@@ -2,7 +2,7 @@
 
 void mp2_func_80102A14_3ABBB4_name_5F(void);
 void mp2_func_80102AF0_3ABC90_name_5F(void);
-void mp2_func_801085A0_3B1740_name_5F(s32);
+void func_801085A0_3B1740_name_5F(s32);
 extern s16 mp2_D_80114DC4_3BDF64_name_5F;
 extern s16 mp2_D_80114F70_3BE110_name_5F;
 void mp2_func_80105B94_3AED34_name_5F(void);
@@ -12,20 +12,23 @@ extern s16 mp2_D_80114E4A_3BDFEA_name_5F;
 extern s32 mp2_D_80114E4C_3BDFEC_name_5F;
 extern s32 mp2_D_80114E50_3BDFF0_name_5F;
 extern s32 mp2_D_80114E54_3BDFF4_name_5F;
+void Mp2SwapGameIfNeeded(void);
 
-void func_80102830_3AB9D0_name_5F(void) {
+void mp2_func_80102830_3AB9D0_name_5F(void) {
     s32 temp_s0;
     s32 i;
 
+    Mp2SwapGameIfNeeded(); //doesn't return if game swap happens
+
     mp2_func_80102A14_3ABBB4_name_5F();
     if (mp2_GwSystem.minigameExplanations == 1) {
-        mp2_func_801085A0_3B1740_name_5F(0);
+        func_801085A0_3B1740_name_5F(0);
         return;
     }
     switch (mp2_D_80114DC2_3BDF62_name_5F) {
     case 6:
     case 7:
-        mp2_func_801085A0_3B1740_name_5F(0);
+        func_801085A0_3B1740_name_5F(0);
         return;
     }
     
@@ -54,4 +57,58 @@ void func_80102830_3AB9D0_name_5F(void) {
     
     mp2_D_80114DC4_3BDF64_name_5F = mp2_D_80114F70_3BE110_name_5F = i;
     mp2_InitFadeIn(0, 0x10);
+}
+
+void func_801085A0_3B1740_name_5F(s32 arg0) {
+    s16 minigameOverlayID;
+
+    mp2_func_8008CE5C_8DA5C();
+    mp2_func_800727F0_733F0();
+    mp2_func_80067EF8_68AF8(-1);
+    
+    if (arg0 != 0) {
+        mp2_func_80017800_18400(mp2_D_80114E54_3BDFF4_name_5F);
+        mp2_func_80017800_18400(mp2_D_80114E4C_3BDFEC_name_5F);
+        mp2_func_80017800_18400(mp2_D_80114E50_3BDFF0_name_5F);
+        mp2_omOvlKill();
+    }
+    
+    if (mp2_D_80114E4A_3BDFEA_name_5F != 0) {
+        mp2_omOvlCallEx(mp2_D_800CAD90[mp2_D_80114DC0_3BDF60_name_5F].unk_00, 0, 0x14);
+        minigameOverlayID = mp2_func_8003F6F0_402F0(mp2_GwSystem.chosenMinigameIndex);
+        mp2_omOvlHisChg(1, minigameOverlayID, 0, 0x14);
+        return;
+    } 
+    
+    mp2__ClearFlag(0x15);
+    if ((mp2__CheckFlag(0x13) != 0) || !(mp2__CheckFlag(0xC) == 0)) {
+        mp2_omOvlGotoEx(mp2_D_800CAD90[mp2_D_80114DC0_3BDF60_name_5F].unk_00, 0, 0x14);
+        return;
+    }
+    
+    switch (mp2_D_80114DC2_3BDF62_name_5F) {
+        case 6:
+        case 5:
+        case 4:
+            mp2_omOvlGotoEx(mp2_D_800CAD90[mp2_D_80114DC0_3BDF60_name_5F].unk_00, 0, 0x14);
+            return;
+        case 7:
+            mp2_GwSystem.current_board_index = (u16) mp2_D_80114DC0_3BDF60_name_5F - 0x3A;
+            mp2_D_800F8D18[2] = 1;
+            mp2_D_800F8D18[1] = 0xE;
+            mp2_omOvlGotoEx(mp2_D_800CAD90[mp2_D_80114DC0_3BDF60_name_5F].unk_00, 0, 0x12);
+            return;
+            
+        case 3:
+            mp2_omOvlCallEx(mp2_D_800CAD90[mp2_D_80114DC0_3BDF60_name_5F].unk_00, 0, 0x14);
+            mp2_omOvlHisChg(1, 0x6F, 0, 0x14); //original code; push results scene to history
+            return;
+    }
+
+    mp2_omOvlCallEx(mp2_D_800CAD90[mp2_D_80114DC0_3BDF60_name_5F].unk_00, 0, 0x14);
+    if (CurBaseGame == MP2_BASE) {
+        mp2_omOvlHisChg(1, 0x70, 0, 0x14);
+    } else {
+        mp2_omOvlHisChg(1, 0, 0, 0x14); //push debug overlay (has logic for returning to original game)
+    }
 }

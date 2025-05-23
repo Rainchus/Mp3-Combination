@@ -64,7 +64,22 @@ void mp2_LoadMinigameFromBoot(void) {
         minigameExplanationOverlayID = 0x60;
     }
 
-    mp2_omOvlCallEx(minigameExplanationOverlayID, 0, 0x84); //load minigame explanation overlay
+    mp2_GwSystem.chosenMinigameIndex = localOverlayID;
+    
+    omOvlHisData temp[] = {
+        0x00000062, 0x0000, 0x0192,
+        0x00000062, 0x0000, 0x0192,
+        0x0000005B, 0x0000, 0x1014,
+        0x0000003D, 0x0001, 0x0192,
+    };
+
+    for (int i = 0; i < ARRAY_COUNT(temp); i++) {
+        mp2_omovlhis[i] = temp[i];
+    }
+
+    mp2_omovlhisidx = 3;
+    CopyMp3_gPlayerCopy_To_Mp2();
+    mp2_omOvlCallEx(minigameExplanationOverlayID, 0, 0x94); //load minigame explanation overlay
 }
 
 void mp2_BootLogosEntryFunc(void) {

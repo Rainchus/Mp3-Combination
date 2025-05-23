@@ -3,8 +3,6 @@
 #include "macros.h"
 #include "marioparty.h"
 
-void mp2_UnkCamThing(f32);
-
 #define NEW_EEP_OFFSET 0x600
 #define EEP_BLOCK_OFFSET NEW_EEP_OFFSET / EEPROM_BLOCK_SIZE
 
@@ -123,11 +121,4 @@ s32 mp2__WriteEeprom(UnkEep* arg0) {
         return (mp2_osEepromLongWrite(&mp2_D_800FA5E0, eepromBlockOffset + EEP_BLOCK_OFFSET, &mp2_eepromBuffer[eepromBlockOffset * EEPROM_BLOCK_SIZE], startOffset) != 0) * 2;
     }
     return 2;
-}
-
-void mp2_Unk_Camera_Function(f32 arg0) {
-    if (arg0 == 0.0f) {
-        arg0 = 1.0f;
-    }
-    mp2_UnkCamThing(arg0);
 }

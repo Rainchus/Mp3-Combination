@@ -25,6 +25,30 @@ static omOvlHisData LoadIntoResultsSceneHis[] = {
     0x00000047, 0x0001, 0x0192, //the 0x47 here is the board overlay ID. it gets replaced 
 };
 
+void mp3_LoadMinigameFromBoot(void) {
+    mp3_omOvlCallEx(0x70, 0, 0x192); //load minigame explanation overlay, which then loads the minigame
+}
+
+void mp3_LoadIntoResultsScene(void) {
+    for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
+        mp3_omovlhis[i] = LoadIntoResultsSceneHis[i];
+    }
+    ForeignMinigameIndexToLoad = -1;
+    mp3_omovlhis[3].overlayID = 0x47; //set overlay ID for board
+    //TODO: verify this call to results scene
+    //TODO: set ovlhisidx as well
+    mp3_omOvlCallEx(0x71, 0x0000, 0x12); //load results scene overlay
+}
+
+void mp3_LoadOriginalGame(void) {
+    if (CurBaseGame == MP1_BASE) {
+        //load into mp1
+    } else if (CurBaseGame == MP2_BASE) {
+        //load into mp2
+    }
+    //code should never get here
+}
+
 void mp3_BootLogosSetup(void) {
     mp3_Hu3DCamInit(1);
     mp3_omInitObjMan(0x10, 4);
@@ -35,10 +59,10 @@ void mp3_BootLogosSetup(void) {
     
     if (D_80105F00_3D76B0_name_58 == 0) {
         mp3_GWContErrorSet();
-        mp3_D_80105F10_3D76C0_name_58 = mp3_omAddPrcObj(func_80105C80_3D7430_name_58, 0xAU, 0, 0);
+        mp3_D_80105F10_3D76C0_name_58 = mp3_omAddPrcObj(func_80105C80_3D7430_name_58, 0xA, 0, 0);
         mp3_omAddObj(0x3E8, 0U, 0U, -1, func_80105AF0_3D72A0_name_58);
     } else {
-        mp3_D_80105F10_3D76C0_name_58 = mp3_omAddPrcObj(func_80105C80_3D7430_name_58, 0xAU, 0, 0);
+        mp3_D_80105F10_3D76C0_name_58 = mp3_omAddPrcObj(func_80105C80_3D7430_name_58, 0xA, 0, 0);
         mp3_omAddObj(0x3E8, 0U, 0U, -1, func_80105AF0_3D72A0_name_58);
         mp3_omAddObj(0xA, 0U, 0U, -1, func_80105C14_3D73C4_name_58);
     }
@@ -47,33 +71,23 @@ void mp3_BootLogosSetup(void) {
 void mp3_BootLogosEntryFunc(void) {
     mp3_LoadMinigameList();
 
-    //we are loading from another game, determine if we should load minigame or boot back into original game
-    if (CurBaseGame != MP3_BASE) {
-        if (ForeignMinigameIndexToLoad == -1) { //we already loaded the minigame, go back to original game
-
-        } else { //first time booting in from foreign mario party game, load minigame
-
-        }
-        return;
-    }
-
-    //base game is mp3, check action to do
-    if (ForeignMinigameIndexToLoad == -2) { //normal boot into mp3 with boot sequences
+    if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INDEX_BOOT_VAL) {
+        //normal boot into mp3 with boot sequences
+        ForeignMinigameIndexToLoad = -1;
         D_80105F00_3D76B0_name_58 = 0;
         mp3_BootLogosSetup();        
-    } else if (ForeignMinigameIndexToLoad != -1) {
-        //we have loaded into the boot overlay and do not have a minigame to load
+    } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == -1) {
+        //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
         //therefore, we need to load into the results scene to then load back into the board
         //set up the necessary overlay history to accomplish this
-        omOvlHisData resultsSceneHis[5];
-        for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
-            resultsSceneHis[i] = LoadIntoResultsSceneHis[i];
+        mp3_LoadIntoResultsScene();
+    } else { //isn't mp2 base, load minigame or boot back into original game
+        if (ForeignMinigameIndexToLoad == -1) {
+            //load back into original game
+            mp3_LoadOriginalGame();
+        } else { //load into minigame from boot
+            mp3_LoadMinigameFromBoot();
         }
-        ForeignMinigameIndexToLoad = -1;
-        resultsSceneHis[3].overlayID = 0x47; //set overlay ID for board
-        mp3_omOvlCallEx(0x71, 0x0000, 0x12); //load results scene overlay
-    } else { //else, coming from another game, load mp3 minigame
-
     }
 }
 

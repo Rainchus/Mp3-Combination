@@ -69,9 +69,18 @@ extern s16 mp2_omovlhisidx_copy;
 extern mp2_GW_PLAYER mp2_GwPlayerCopy[4];
 extern s16 mp2_hidden_block_coins_space_index;
 extern s16 mp2_hidden_block_star_space_index;
-extern mp2_GW_SYSTEM mp2_BoardStateCopy;
+extern mp2_GW_SYSTEM mp2_GwSystemCopy;
 extern s16 mp2_BattleMinigameCoins_Copy;
 extern mp2_GW_SYSTEM mp2_GwSystem; //was mp2_BoardState
+
+typedef struct UnkomOvl {
+    s32 unk_00;
+    u16 unk_04;
+    char unk_06[2]; //unused pad?
+} UnkomOvl;
+
+extern UnkomOvl mp2_D_800CAD90[]; //matches D_800A1920_A2520 in mp3
+extern s16 mp2_D_800F8D18[];
 
 typedef struct mp2_jump_buf
 {

@@ -28,3 +28,10 @@ mp3_ClearBss:
 
     J checkosAppNmiBufferReset
     NOP
+
+mp3_setForeignMinigameIndex:
+    LUI at, 0x800D
+    SB a0, 0xD068 (at) //set mp3_GwSystem.minigame_index
+    LI t0, ForeignMinigameIndexToLoad
+    JR RA
+    SW a0, 0x0000 (t0) //set ForeignMinigameIndexToLoad

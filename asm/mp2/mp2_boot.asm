@@ -62,3 +62,17 @@
 .org 0x80018AFC
     J rand8_Shared
     NOP
+
+//this fixes a crash with the camera. normally, this gets initialized to 1.0f on -
+//board load, but since we skip some of that, it's 0.0f and divides by zero, causing a crash
+//manually set it to 1.0f
+.org 0x800654C8
+    LUI at, 0x800E
+    JAL mp2_Unk_Camera_Function
+    LWC1 f12, 0x1F84 (at)
+
+//same thing again here
+.org 0x80066DA8
+    LUI at, 0x800E
+    JAL mp2_Unk_Camera_Function
+    LWC1 f12, 0x1F84 (at)

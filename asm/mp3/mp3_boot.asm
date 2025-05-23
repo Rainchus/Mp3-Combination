@@ -67,3 +67,7 @@
 
 .org 0x8000C3F0 //only check file 1's checksum
     SLTI v0, v0, 0x0001 //SLTI v0, v0, 0x0003
+
+.org 0x80035AB0
+    J mp3_setForeignMinigameIndex
+    NOP

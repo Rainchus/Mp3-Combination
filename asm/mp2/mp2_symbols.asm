@@ -76,7 +76,7 @@
 .definelabel mp2_func_800202DC_20EDC, 0x800202DC
 .definelabel mp2_func_80102A14_3BE174_name_60, 0x80102A14
 .definelabel mp2_func_80102AF0_3BE250_name_60, 0x80102AF0
-.definelabel mp2_func_801085A0_3C3D00_name_60, 0x801085A0
+//.definelabel mp2_func_801085A0_3C3D00_name_60, 0x801085A0
 .definelabel mp2_omSetStatBit, 0x80076AFC
 .definelabel mp2_D_800FA610_FB210, 0x800FA610
 .definelabel mp2_D_800FD474_FE074, 0x800FD474
@@ -99,7 +99,7 @@
 .definelabel mp2_func_80105B94_3AED34_name_5F, 0x80105B94
 .definelabel mp2_func_80102A14_3ABBB4_name_5F, 0x80102A14
 .definelabel mp2_func_80102AF0_3ABC90_name_5F, 0x80102AF0
-.definelabel mp2_func_801085A0_3B1740_name_5F, 0x801085A0
+//.definelabel mp2_func_801085A0_3B1740_name_5F, 0x801085A0
 
 .definelabel mp2_omAddPrcObj, 0x80076E64
 .definelabel mp2_func_80068410_69010, 0x80068410

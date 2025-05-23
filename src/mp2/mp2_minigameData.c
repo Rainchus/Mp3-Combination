@@ -1,5 +1,7 @@
 #include "mp2.h"
 
+void mp2_UnkCamThing(f32);
+
 //these probably dont need to be separate from mp3's list, but this provides a bit of clarity
 #define MP2_4P_MINIGAME_MAX 66
 #define MP2_1V3_MINIGAME_MAX 32
@@ -183,4 +185,11 @@ void mp2_LoadMinigameList(void) {
             break;
         }
     }
+}
+
+void mp2_Unk_Camera_Function(f32 arg0) {
+    if (arg0 == 0.0f) {
+        arg0 = 1.0f;
+    }
+    mp2_UnkCamThing(arg0);
 }
