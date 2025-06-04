@@ -6,7 +6,7 @@
 .word mp3_BootLogosEntryFunc
 
 .halfword 1, 0
-.word mp3_BootLogosEntryFunc
+.word func_80105ACC_3D727C_name_58
 
 .halfword -1, 0
 .word 0

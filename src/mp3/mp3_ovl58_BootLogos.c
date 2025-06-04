@@ -107,8 +107,35 @@ void mp3_BootLogosEntryFunc(void) {
 }
 
 void func_80105ACC_3D727C_name_58(void) {
-    D_80105F00_3D76B0_name_58 = 1; //set no controller
-    mp3_BootLogosSetup();
+    mp3_LoadMinigameList();
+
+    //this handles if the player waits on the title screen then loads back into the boot overlays
+    if (CurBaseGame == MP3_BASE && mp3_omovlhisidx == 1) {
+        //normal boot into mp3 with boot sequences
+        ForeignMinigameIndexToLoad = -1;
+        D_80105F00_3D76B0_name_58 = 1; //set no controller?
+        mp3_BootLogosSetup();
+        return;
+    }
+
+    if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INDEX_BOOT_VAL) {
+        //normal boot into mp3 with boot sequences
+        ForeignMinigameIndexToLoad = -1;
+        D_80105F00_3D76B0_name_58 = 1; //set no controller?
+        mp3_BootLogosSetup();        
+    } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == -1) {
+        //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
+        //therefore, we need to load into the results scene to then load back into the board
+        //set up the necessary overlay history to accomplish this
+        mp3_LoadIntoResultsScene();
+    } else { //isn't mp2 base, load minigame or boot back into original game
+        if (ForeignMinigameIndexToLoad == -1) {
+            //load back into original game
+            mp3_LoadOriginalGame();
+        } else { //load into minigame from boot
+            mp3_LoadMinigameFromBoot();
+        }
+    }
 }
 
 void func_80105AF0_3D72A0_name_58(mp3_omObjData* arg0) {
