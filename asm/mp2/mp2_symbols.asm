@@ -27,6 +27,7 @@
 .definelabel mp2__ClearFlag, 0x800683BC;
 .definelabel mp2_D_800F93C6, 0x800F93C6;
 .definelabel mp2_D_800F93C8, 0x800F93C8;
+.definelabel mp2_D_800CD416_CE016, 0x800CD416
 
 .definelabel mp2_D_80107830_413C90_Results, 0x80107830;
 .definelabel mp2_D_80107838_413C98_Results, 0x80107838;
@@ -100,6 +101,18 @@
 .definelabel mp2_func_80102A14_3ABBB4_name_5F, 0x80102A14
 .definelabel mp2_func_80102AF0_3ABC90_name_5F, 0x80102AF0
 //.definelabel mp2_func_801085A0_3B1740_name_5F, 0x801085A0
+
+.definelabel mp2_D_800E2132_E2D32, 0x800E2132
+.definelabel mp2_D_800E2134_E2D34, 0x800E2134
+.definelabel mp2_D_800E2136_E2D36, 0x800E2136
+.definelabel mp2_D_800FA63C_FB23C, 0x800FA63C
+.definelabel mp2_D_80101650_102250, 0x80101650
+.definelabel mp2_func_80079294_79E94, 0x80079294
+.definelabel mp2_func_8001A6BC_1B2BC, 0x8001A6BC
+
+.definelabel mp2_func_80077EF0_78AF0, 0x80077EF0
+.definelabel mp2_func_8007B9B8_7C5B8, 0x8007B9B8
+.definelabel mp2_func_8007BA44_7C644, 0x8007BA44
 
 .definelabel mp2_omAddPrcObj, 0x80076E64
 .definelabel mp2_func_80068410_69010, 0x80068410

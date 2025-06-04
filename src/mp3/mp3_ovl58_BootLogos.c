@@ -33,8 +33,14 @@ void mp3_LoadIntoResultsScene(void) {
     for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
         mp3_omovlhis[i] = LoadIntoResultsSceneHis[i];
     }
-    ForeignMinigameIndexToLoad = -1;
+
     mp3_omovlhis[3].overlayID = 0x47; //set overlay ID for board
+    mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+    mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
+    mp3_omovlhisidx = 3;
+    PopMp3BoardState();
+    SaveMp3PlayerCopyToMp3Player();
+    
     //TODO: verify this call to results scene
     //TODO: set ovlhisidx as well
     mp3_omOvlCallEx(0x71, 0x0000, 0x12); //load results scene overlay
@@ -70,6 +76,15 @@ void mp3_BootLogosSetup(void) {
 
 void mp3_BootLogosEntryFunc(void) {
     mp3_LoadMinigameList();
+
+    //this handles if the player waits on the title screen then loads back into the boot overlays
+    if (CurBaseGame == MP3_BASE && mp3_omovlhisidx == 1) {
+        //normal boot into mp3 with boot sequences
+        ForeignMinigameIndexToLoad = -1;
+        D_80105F00_3D76B0_name_58 = 0;
+        mp3_BootLogosSetup();
+        return;
+    }
 
     if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INDEX_BOOT_VAL) {
         //normal boot into mp3 with boot sequences
@@ -133,6 +148,10 @@ void func_80105C14_3D73C4_name_58(mp3_omObjData* arg0) {
     }
 }
 
+void DoCustomLogos(void) {
+    //TODO: fill in logic for custom logos
+}
+
 void func_80105C80_3D7430_name_58(void) {
     u16 temp_v0;
     u16 temp_v0_3;
@@ -140,48 +159,52 @@ void func_80105C80_3D7430_name_58(void) {
     u16 temp_v0_2;
     u16 temp_v0_4;
 
-    temp_v0 = mp3_func_8000B838_C438(0x00110000);
-    temp_v0_2 = mp3_InitEspriteSlot(temp_v0, 0, 1);
-    mp3_func_8000BBD4_C7D4(temp_v0_2, 0xA0, 0x78);
-    mp3_func_8000BB54_C754(temp_v0_2);
-    mp3_func_8000BCC8_C8C8(temp_v0_2, 0xFFFF);
-    mp3_WipeCreateIn(0xB, 30);
+    // temp_v0 = mp3_func_8000B838_C438(0x00110000);
+    // temp_v0_2 = mp3_InitEspriteSlot(temp_v0, 0, 1);
+    // mp3_func_8000BBD4_C7D4(temp_v0_2, 0xA0, 0x78);
+    // mp3_func_8000BB54_C754(temp_v0_2);
+    // mp3_func_8000BCC8_C8C8(temp_v0_2, 0xFFFF);
+    // mp3_WipeCreateIn(0xB, 30);
 
-    while (mp3_WipeStatGet() != 0) {
-        mp3_HuPrcVSleep();
-    }
+    // while (mp3_WipeStatGet() != 0) {
+    //     mp3_HuPrcVSleep();
+    // }
     
-    mp3_HuPrcSleep(37);
-    mp3_WipeCreateOut(0xB, 9);
+    // mp3_HuPrcSleep(37);
+    // mp3_WipeCreateOut(0xB, 9);
     
-    while (mp3_WipeStatGet() != 0) {
-        mp3_HuPrcVSleep();
-    }
+    // while (mp3_WipeStatGet() != 0) {
+    //     mp3_HuPrcVSleep();
+    // }
     
-    mp3_func_8000C184_CD84(temp_v0_2);
-    mp3_func_80055670_56270(temp_v0);
+    // mp3_func_8000C184_CD84(temp_v0_2);
+    // mp3_func_80055670_56270(temp_v0);
+    // mp3_HuPrcSleep(9);
+    // temp_v0_3 = mp3_func_8000B838_C438(0x00110001);
+    // temp_v0_4 = mp3_InitEspriteSlot(temp_v0_3, 0, 1);
+    // mp3_func_8000BBD4_C7D4(temp_v0_4, 0xA0, 0x78);
+    // mp3_func_8000BB54_C754(temp_v0_4);
+    // mp3_func_8000BCC8_C8C8(temp_v0_4, 0xFFFF);
+    // mp3_WipeCreateIn(0xB, 9);
+    
+    // while (mp3_WipeStatGet() != 0) {
+    //     mp3_HuPrcVSleep();
+    // }
+    
+    // mp3_HuPrcSleep(37);
+    // mp3_WipeCreateOut(0xB, 9);
+    
+    // while (mp3_WipeStatGet() != 0) {
+    //     mp3_HuPrcVSleep();
+    // }
+    
+    // mp3_func_8000C184_CD84(temp_v0_4);
+    // mp3_func_80055670_56270(temp_v0_3);
+    // mp3_HuPrcSleep(9);
     mp3_HuPrcSleep(9);
-    temp_v0_3 = mp3_func_8000B838_C438(0x00110001);
-    temp_v0_4 = mp3_InitEspriteSlot(temp_v0_3, 0, 1);
-    mp3_func_8000BBD4_C7D4(temp_v0_4, 0xA0, 0x78);
-    mp3_func_8000BB54_C754(temp_v0_4);
-    mp3_func_8000BCC8_C8C8(temp_v0_4, 0xFFFF);
-    mp3_WipeCreateIn(0xB, 9);
-    
-    while (mp3_WipeStatGet() != 0) {
-        mp3_HuPrcVSleep();
-    }
-    
-    mp3_HuPrcSleep(37);
-    mp3_WipeCreateOut(0xB, 9);
-    
-    while (mp3_WipeStatGet() != 0) {
-        mp3_HuPrcVSleep();
-    }
-    
-    mp3_func_8000C184_CD84(temp_v0_4);
-    mp3_func_80055670_56270(temp_v0_3);
-    mp3_HuPrcSleep(9);
+    DoCustomLogos();
+    //TODO: make this show a combined n64 logo, nintendo logo text, hudson logo text
+    //just shows hudson logo text currently
     temp_s0_3 = mp3_InitEspriteSlot(mp3_func_8000B838_C438(0x110002), 0, 1);
     mp3_func_8000BBD4_C7D4(temp_s0_3, 0xA0, 0x78);
     mp3_func_8000BB54_C754(temp_s0_3);

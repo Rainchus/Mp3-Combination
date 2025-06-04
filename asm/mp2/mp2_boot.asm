@@ -52,11 +52,11 @@
     NOP
 
 
-//when swapping to a game (mp2 in this instance) stuff would draw for a frame when it shouldn't
-//this makes it so that the game is a black screen 1 frame longer on boot, fixing the problem
+//when swapping to a game (mp2 in this instance) stuff would draw for a few frames when it shouldn't
+//this makes it so that the game is a black screen 12 frames longer on boot, fixing the problem
 .org 0x8001CF74
     LW	V0, 0xFD14 (S4)
-    SLTI v1, v0, 0x0002
+    SLTI v1, v0, 0x000C
     BNEZ v1, 0x8001CFC8
 
 .org 0x80018AFC
@@ -76,3 +76,7 @@
     LUI at, 0x800E
     JAL mp2_Unk_Camera_Function
     LWC1 f12, 0x1F84 (at)
+
+//.org 0x80079128
+    //J mp2_func_80079128_79D28_Hook
+    //NOP

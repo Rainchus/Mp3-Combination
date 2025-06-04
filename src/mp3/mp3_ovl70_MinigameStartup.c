@@ -64,17 +64,18 @@ STATIC void Mp3SwapGameIfNeeded(void) {
     //determine if we are loading a mp2 or mp1 minigame
     if (ForeignMinigameIndexToLoad >= BOWSER_SLOTS && ForeignMinigameIndexToLoad <= DEEP_SEA_SALVAGE) { //mp2
         //save necessary data
-        SaveMp3PlayerStructs();
         PushMp3BoardState();
         PushMp3MinigamesPlayedList();
         mp3_StoreBattleMinigameCoins();
+        SaveMp3PlayerToMp3PlayerCopy();
         ComboSwitchGameToMp2();        
     } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp2
         //save necessary data
-        SaveMp3PlayerStructs();
+        //SaveMp3PlayerStructs();
         PushMp3BoardState();
         PushMp3MinigamesPlayedList();
         mp3_StoreBattleMinigameCoins();
+        SaveMp3PlayerToMp3PlayerCopy();
         ComboSwitchGameToMp1();
     }
     //is mp3 minigame

@@ -1,4 +1,4 @@
-//hook shared board overlay?
+//hook shared board overlay (ovl 0x80)
 .headersize 0x800DFFA4 - 0xF3BC4
 .org 0x800DFFA4
     NOP

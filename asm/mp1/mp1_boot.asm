@@ -28,3 +28,10 @@
 .org 0x8001758C
     J rand8_Shared
     NOP
+
+//when swapping to a game (mp1 in this instance) stuff would draw for a few frames when it shouldn't
+//this makes it so that the game is a black screen 12 frames longer on boot, fixing the problem
+.org 0x8001AA14
+    LW	V0, 0xFD2C (S5)
+    SLTI v1, v0, 0x000C
+    BNEZ v1, 0x8001AA38

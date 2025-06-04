@@ -7,10 +7,6 @@ void mp2_func_80102AD8_36DC78_DebugMenu(void);
 void mp2_func_80102A04_36DBA4_DebugMenu(void);
 void mp2_LoadMinigameList(void);
 
-extern s8 mp2_D_80102708_103308;
-extern u16 mp2_D_801011FC_101DFC;
-extern u16 mp2_D_8010163C_10223C;
-
 s32 mp2_D_80102D50_36DEF0_DebugMenu = 0;
 s32 mp2_D_80102D54_36DEF4_DebugMenu = 0;
 
@@ -25,12 +21,14 @@ void mp2_DebugMenuSetup(void) {
     switch (CurBaseGame) {
     case MP1_BASE:
         ForeignMinigameIndexToLoad = -1;
+        //CopyMp2PlayersToMp1Copy(); //copy mp1 player structs to mp3's gPlayer Copy
         ComboSwitchGameToMp1();
         break;
     case MP2_BASE: //this should never happen
         break;
     case MP3_BASE:
         ForeignMinigameIndexToLoad = -1;
+        SaveMp2PlayerToMp3PlayerCopy(); //copy mp2 player structs to mp3's gPlayer Copy
         ComboSwitchGameToMp3();
         break;
     }

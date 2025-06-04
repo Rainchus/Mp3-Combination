@@ -19,7 +19,9 @@ void mp2_func_80102830_3AB9D0_name_5F(void) {
     s32 i;
 
     Mp2SwapGameIfNeeded(); //doesn't return if game swap happens
-
+    if (CurBaseGame == MP3_BASE) {
+        LoadMp3PlayerCopyToMp2();
+    }
     mp2_func_80102A14_3ABBB4_name_5F();
     if (mp2_GwSystem.minigameExplanations == 1) {
         func_801085A0_3B1740_name_5F(0);
@@ -63,7 +65,9 @@ void func_801085A0_3B1740_name_5F(s32 arg0) {
     s16 minigameOverlayID;
 
     mp2_func_8008CE5C_8DA5C();
-    mp2_func_800727F0_733F0();
+    if (CurBaseGame == MP2_BASE) {
+        mp2_func_800727F0_733F0();
+    }
     mp2_func_80067EF8_68AF8(-1);
     
     if (arg0 != 0) {

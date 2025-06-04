@@ -15,14 +15,14 @@ void Mp2SwapGameIfNeeded(void) {
     //determine if we are loading a mp3 or mp1 minigame
     if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp2
         //save necessary data
-        SaveMp2PlayerStructs();
+        //SaveMp2PlayerStructs();
         PushMp2BoardState();
         PushMp2MinigamesPlayedList();
         mp2_StoreBattleMinigameCoins();
-        ComboSwitchGameToMp3();        
+        ComboSwitchGameToMp3();
     } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp3 { //mp2
         //save necessary data
-        SaveMp2PlayerStructs();
+        //SaveMp2PlayerStructs();
         PushMp2BoardState();
         PushMp2MinigamesPlayedList();
         mp2_StoreBattleMinigameCoins();
@@ -39,7 +39,9 @@ void mp2_func_80102830_3BDF90_name_60(void) {
     s32 i;
 
     Mp2SwapGameIfNeeded();
-
+    if (CurBaseGame == MP3_BASE) {
+        LoadMp3PlayerCopyToMp2();
+    }
     mp2_func_80102A14_3BE174_name_60();
     if ((mp2_GwSystem.minigameExplanations == 1)) {
         func_801085A0_3C3D00_name_60(0);
@@ -99,7 +101,9 @@ void mp2_omOvlHisChg(s16 arg0, s32 overlay, s16 event, s16 stat);
 
 void func_801085A0_3C3D00_name_60(s32 arg0) {
     mp2_func_8008CE5C_8DA5C();
-    mp2_func_800727F0_733F0();
+    if (CurBaseGame == MP2_BASE) {
+        mp2_func_800727F0_733F0(); //clears coins
+    }
     mp2_func_80067EF8_68AF8(-1);
     
     if (arg0 != 0) {

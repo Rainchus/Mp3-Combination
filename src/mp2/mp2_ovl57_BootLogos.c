@@ -7,10 +7,6 @@ void mp2_func_80102AD8_36DC78_BootLogos(void);
 void mp2_func_80102A04_36DBA4_BootLogos(void);
 void mp2_LoadMinigameList(void);
 
-extern s8 mp2_D_80102708_103308;
-extern u16 mp2_D_801011FC_101DFC;
-extern u16 mp2_D_8010163C_10223C;
-
 s32 mp2_D_80102D50_36DEF0_BootLogos = 0;
 s32 mp2_D_80102D54_36DEF4_BootLogos = 0;
 
@@ -78,7 +74,8 @@ void mp2_LoadMinigameFromBoot(void) {
     }
 
     mp2_omovlhisidx = 3;
-    CopyMp3_gPlayerCopy_To_Mp2();
+    // LoadMp3PlayerCopyToMp2();
+    mp2_D_800CD416_CE016 = 0x0192; //some flags for overlay loading?
     mp2_omOvlCallEx(minigameExplanationOverlayID, 0, 0x94); //load minigame explanation overlay
 }
 

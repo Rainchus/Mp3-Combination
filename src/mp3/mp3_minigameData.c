@@ -1,4 +1,5 @@
 #include "mp3.h"
+#include "mp2.h"
 
 #define MP3_4P_MINIGAME_MAX 66
 #define MP3_1V3_MINIGAME_MAX 32
@@ -281,3 +282,54 @@ s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
     }
     return -1; //minigame not found
 }
+
+//
+// void mp2_func_80079128_79D28_Hook(void) {
+//     s16 temp_v0;
+//     s16 var_v0;
+
+//     if (CurBaseGame == MP2_BASE) {
+//         //mp2_func_800727F0_733F0();
+//     }
+
+//     mp2_func_800727F0_733F0();
+    
+//     if (mp2_D_800CD416_CE016 & 0x10) {
+//         mp2_func_80077EF0_78AF0();
+//         if (mp2_D_800CD416_CE016 & 4) {
+//             mp2_D_80102708_103308 = 1;
+//         }
+//     }
+//     if (mp2_D_800CD416_CE016 & 0x20) {
+//         mp2_func_8007B9B8_7C5B8();
+//     }
+//     mp2_func_8007BA44_7C644();
+//     if (mp2__CheckFlag(0x15) != 0) {
+//         temp_v0 = mp2_func_8001A2F8_1AEF8(0x900FB);
+//         mp2_D_800E2132_E2D32 = temp_v0;
+//         mp2_D_800E2134_E2D34 = mp2_func_8001AAAC_1B6AC(temp_v0, 0, 1);
+//         mp2_func_8001A6BC_1B2BC(mp2_D_800E2134_E2D34, 0x100);
+//         mp2_func_8001A788_1B388(mp2_D_800E2134_E2D34, 1);
+//         if (mp2_D_800FA63C_FB23C != 0x18) {
+//             if (mp2_D_800FA63C_FB23C < 0x19) {
+//                 if (mp2_D_800FA63C_FB23C != 0x11) {
+//                     mp2_D_80101650_102250 = 0xD8;
+//                 } else {
+//                     mp2_D_80101650_102250 = 0x18;
+//                 }
+//             } else {
+//                 if (mp2_D_800FA63C_FB23C != 0x1A) {
+//                     mp2_D_80101650_102250 = 0xD8;
+//                 } else {
+//                     mp2_D_80101650_102250 = 0xC4;
+//                 }
+//             }
+//         } else {
+//             mp2_D_80101650_102250 = 0x18;
+//         }
+
+//         mp2_espPosSet(mp2_D_800E2134_E2D34, 0xA0, mp2_D_80101650_102250);
+//         mp2_D_800E2136_E2D36 = 0;
+//         mp2_omSetStatBit(mp2_omAddObj(0xA, 0U, 0U, -1, &mp2_func_80079294_79E94), 0xA0U);
+//     }
+// }
