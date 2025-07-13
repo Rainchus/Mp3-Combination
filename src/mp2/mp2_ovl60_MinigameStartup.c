@@ -30,11 +30,10 @@ void Mp2SwapGameIfNeeded(void) {
     }
     //is mp2 minigame, load it
     mp2_GwSystem.chosenMinigameIndex = localOverlayID;
-    ForeignMinigameIndexToLoad = -1;
+    ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
 }
 
 void mp2_func_80102830_3BDF90_name_60(void) {
-    s16 var_v0_2;
     s32 temp_s0;
     s32 i;
 
@@ -84,20 +83,6 @@ void mp2_func_80102830_3BDF90_name_60(void) {
     mp2_D_801148F4_3D0054_name_60 = mp2_D_80114AC2_3D0222_name_60 = i;
     mp2_InitFadeIn(0, 0x10);
 }
-
-extern s16 mp2_D_801148F0_3D0050_name_60;
-extern s16 mp2_D_801148F2_3D0052_name_60;
-extern s16 mp2_D_8011497A_3D00DA_name_60;
-extern s32 mp2_D_8011497C_3D00DC_name_60;
-extern s32 mp2_D_80114980_3D00E0_name_60;
-extern s32 mp2_D_80114984_3D00E4_name_60;
-
-void mp2_func_8008CE5C_8DA5C(void);
-void mp2_func_800727F0_733F0(void);
-void mp2_func_80067EF8_68AF8(s32);
-void mp2_func_80017800_18400(s32);
-void mp2_omOvlKill(void);
-void mp2_omOvlHisChg(s16 arg0, s32 overlay, s16 event, s16 stat);
 
 void func_801085A0_3C3D00_name_60(s32 arg0) {
     mp2_func_8008CE5C_8DA5C();

@@ -7,13 +7,13 @@ NegativeCheck:
     LBU v0, 0x0010 (s4)
     ORI v1, r0, 0x00FF
     BEQ v0, v1, isNegative
-    NOP
+     NOP
     //otherwise, not negative
     J 0x800FEF74
-    NOP
+     NOP
     isNegative:
     J 0x800FEFEC
-    NOP
+     NOP
 
 mp3_ClearBss:
     LUI t0, 0x800B
@@ -24,14 +24,14 @@ mp3_ClearBss:
     SD r0, 0x0000 (t0)
     ADDI t1, t1, 0xFFF8
     BNEZ t1, mp3_bss_clear_loop
-    ADDI t0, t0, 0x0008
+     ADDI t0, t0, 0x0008
 
     J checkosAppNmiBufferReset
-    NOP
+     NOP
 
 mp3_setForeignMinigameIndex:
     LUI at, 0x800D
     SB a0, 0xD068 (at) //set mp3_GwSystem.minigame_index
     LI t0, ForeignMinigameIndexToLoad
     JR RA
-    SW a0, 0x0000 (t0) //set ForeignMinigameIndexToLoad
+     SW a0, 0x0000 (t0) //set ForeignMinigameIndexToLoad

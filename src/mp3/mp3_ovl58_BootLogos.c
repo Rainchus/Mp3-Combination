@@ -3,30 +3,63 @@
 #include "marioparty.h"
 #include "mp3.h"
 
+#define OVL_RESULTS_SCENE 0x47
+#define OVL_GAME_END_SCENE 0x71
+
+void mp3_BootLogosEntryFunc(void);
+void mp3_BootLogosEntryFunc2(void);
 void func_80105AF0_3D72A0_name_58(mp3_omObjData*);
 void func_80105C80_3D7430_name_58(void);
 void func_80105BA4_3D7354_name_58(mp3_omObjData*);
 void mp3_BootLogosSetup(void);
 void func_80105C14_3D73C4_name_58(mp3_omObjData*);
 void InitializeInitialMinigameList(void);
-
-extern s8 mp3_D_800D6A58_D7658;
+void mp3_ovlEventCall(OvlEntrypoint*, s16);
 
 mp3_Process* mp3_D_80105F10_3D76C0_name_58 = 0;
-
-/* .data */
-s32 D_80105F00_3D76B0_name_58 = 0; //if no controller
+s32 D_80105F00_3D76B0_name_58 = 0; //if initial boot
 s32 D_80105F04_3D76B4_name_58 = 0;
+
+extern s8 mp3_D_800D6A58_D7658;
+extern s16 mp3_omovlevtno;
 
 static omOvlHisData LoadIntoResultsSceneHis[] = {
     0x0000007A, 0x0002, 0x0092,
     0x0000007A, 0x0002, 0x0092,
     0x00000077, 0x0000, 0x0091,
-    0x00000047, 0x0001, 0x0192, //the 0x47 here is the board overlay ID. it gets replaced 
+    OVL_RESULTS_SCENE, 0x0001, 0x0192, 
 };
 
+//overlay table for function to run (loads function index 0 on boot, 1 otherwise)
+OvlEntrypoint mp3BootLogosOvlEntry[] = {
+    {0, mp3_BootLogosEntryFunc},
+    {1, mp3_BootLogosEntryFunc2},
+    {-1, NULL},
+};
+
+//initial function ran on overlay load (loads another function from mp3BootLogosOvlEntry to run)
+void mp3BootLogoMain(void) {
+    mp3_ovlEventCall(mp3BootLogosOvlEntry, mp3_omovlevtno);
+}
+
 void mp3_LoadMinigameFromBoot(void) {
-    mp3_omOvlCallEx(0x70, 0, 0x192); //load minigame explanation overlay, which then loads the minigame
+    s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+
+    mp3_GwSystem.minigame_index = localOverlayID;
+
+    omOvlHisData ovlHisMinigameExplanation[] = {
+        {0x7A, 0x0002, 0x0092},
+        {0x7A, 0x0002, 0x0092},
+        {0x77, 0x0000, 0x0091},
+        {OVL_RESULTS_SCENE, 0x0001, 0x0192},
+    };
+
+    for (int i = 0; i < ARRAY_COUNT(ovlHisMinigameExplanation); i++) {
+        mp3_omovlhis[i] = ovlHisMinigameExplanation[i];
+    }
+
+    mp3_omovlhisidx = 3;
+    mp3_omOvlCallEx(0x70, 0, 0x0192); //load minigame explanation overlay
 }
 
 void mp3_LoadIntoResultsScene(void) {
@@ -34,16 +67,23 @@ void mp3_LoadIntoResultsScene(void) {
         mp3_omovlhis[i] = LoadIntoResultsSceneHis[i];
     }
 
-    mp3_omovlhis[3].overlayID = 0x47; //set overlay ID for board
-    mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
-    mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
-    mp3_omovlhisidx = 3;
     PopMp3BoardState();
     SaveMp3PlayerCopyToMp3Player();
-    
-    //TODO: verify this call to results scene
-    //TODO: set ovlhisidx as well
-    mp3_omOvlCallEx(0x71, 0x0000, 0x12); //load results scene overlay
+    mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
+
+    if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns) {
+        //set up credits scene
+        mp3_omovlhis[3].overlayID = OVL_RESULTS_SCENE;
+        mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
+        mp3_omovlhisidx = 3;
+    } else if (mp3_GwSystem.current_turn - 4 == mp3_GwSystem.total_turns) {
+        //set up last 5 turns
+    } else { //else normal board load
+        mp3_omovlhis[3].overlayID = OVL_RESULTS_SCENE;
+        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+        mp3_omovlhisidx = 3;
+    }
+    mp3_omOvlCallEx(OVL_GAME_END_SCENE, 0x0000, 0x12); //load results scene overlay
 }
 
 void mp3_LoadOriginalGame(void) {
@@ -80,16 +120,16 @@ void mp3_BootLogosEntryFunc(void) {
     //this handles if the player waits on the title screen then loads back into the boot overlays
     if (CurBaseGame == MP3_BASE && mp3_omovlhisidx == 1) {
         //normal boot into mp3 with boot sequences
-        ForeignMinigameIndexToLoad = -1;
-        D_80105F00_3D76B0_name_58 = 0;
+        ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
+        D_80105F00_3D76B0_name_58 = 0; //set is initial boot
         mp3_BootLogosSetup();
         return;
     }
 
     if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INDEX_BOOT_VAL) {
         //normal boot into mp3 with boot sequences
-        ForeignMinigameIndexToLoad = -1;
-        D_80105F00_3D76B0_name_58 = 0;
+        ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
+        D_80105F00_3D76B0_name_58 = 0; //set is initial boot
         mp3_BootLogosSetup();        
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == -1) {
         //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
@@ -106,22 +146,22 @@ void mp3_BootLogosEntryFunc(void) {
     }
 }
 
-void func_80105ACC_3D727C_name_58(void) {
+void mp3_BootLogosEntryFunc2(void) {
     mp3_LoadMinigameList();
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
     if (CurBaseGame == MP3_BASE && mp3_omovlhisidx == 1) {
         //normal boot into mp3 with boot sequences
-        ForeignMinigameIndexToLoad = -1;
-        D_80105F00_3D76B0_name_58 = 1; //set no controller?
+        ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
+        D_80105F00_3D76B0_name_58 = 1; //set not initial boot
         mp3_BootLogosSetup();
         return;
     }
 
     if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INDEX_BOOT_VAL) {
         //normal boot into mp3 with boot sequences
-        ForeignMinigameIndexToLoad = -1;
-        D_80105F00_3D76B0_name_58 = 1; //set no controller?
+        ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
+        D_80105F00_3D76B0_name_58 = 1; //set not initial boot
         mp3_BootLogosSetup();        
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == -1) {
         //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
@@ -180,11 +220,12 @@ void DoCustomLogos(void) {
 }
 
 void func_80105C80_3D7430_name_58(void) {
-    u16 temp_v0;
-    u16 temp_v0_3;
     u16 temp_s0_3;
-    u16 temp_v0_2;
-    u16 temp_v0_4;
+    // u16 temp_v0;
+    // u16 temp_v0_3;
+    // u16 temp_s0_3;
+    // u16 temp_v0_2;
+    // u16 temp_v0_4;
 
     // temp_v0 = mp3_func_8000B838_C438(0x00110000);
     // temp_v0_2 = mp3_InitEspriteSlot(temp_v0, 0, 1);

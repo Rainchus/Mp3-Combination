@@ -125,9 +125,34 @@ void SaveMp3PlayerToMp3PlayerCopy(void) {
     }
 }
 
+void SaveMp2PlayerToMp2PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp2_GwPlayerCopy[i] = mp2_GwPlayer[i];
+    }
+}
+
 void SaveMp3PlayerCopyToMp3Player(void) {
     for (int i = 0; i < 4; i++) {
         mp3_GwPlayer[i] = mp3_GwPlayerCopy[i];
+    }
+}
+
+void SaveMp2PlayerCopyToMp2Player(void) {
+    for (int i = 0; i < 4; i++) {
+        mp2_GwPlayer[i] = mp2_GwPlayerCopy[i];
+    }
+}
+
+void LoadMp2PlayerCopyToMp3(void) {
+    for (int i = 0; i < 4; i++) {
+        mp3_GwPlayer[i].group = mp2_GwPlayerCopy[i].group;
+        mp3_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
+        mp3_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
+        mp3_GwPlayer[i].controller_port = mp2_GwPlayerCopy[i].port;
+        mp3_GwPlayer[i].flags1 = mp2_GwPlayerCopy[i].flags;
+        mp3_GwPlayer[i].characterID = mp2_GwPlayerCopy[i].character;
+        mp3_GwPlayer[i].coins = mp2_GwPlayerCopy[i].coins;
+        mp3_GwPlayer[i].stars = mp2_GwPlayerCopy[i].stars;
     }
 }
 
@@ -139,14 +164,9 @@ void LoadMp3PlayerCopyToMp2(void) {
         mp2_GwPlayer[i].port = mp3_GwPlayerCopy[i].controller_port;
         mp2_GwPlayer[i].flags = mp3_GwPlayerCopy[i].flags1;
         mp2_GwPlayer[i].character = mp3_GwPlayerCopy[i].characterID;
-
         mp2_GwPlayer[i].coins = mp3_GwPlayerCopy[i].coins;
         mp2_GwPlayer[i].stars = mp3_GwPlayerCopy[i].stars;
     }
-
-    mp3_hidden_block_item_space_copy = mp3_hidden_block_item_space_index;
-    mp3_hidden_block_coins_space_copy = mp3_hidden_block_coins_space_index;
-    mp3_hidden_block_star_space_copy = mp3_hidden_block_star_space_index;
 }
 
 void SaveMp2PlayerToMp3PlayerCopy(void) {
@@ -157,17 +177,26 @@ void SaveMp2PlayerToMp3PlayerCopy(void) {
         mp3_GwPlayerCopy[i].controller_port = mp2_GwPlayer[i].port;
         mp3_GwPlayerCopy[i].flags1 = mp2_GwPlayer[i].flags;
         mp3_GwPlayerCopy[i].characterID = mp2_GwPlayer[i].character;
-
         mp3_GwPlayerCopy[i].coins_mg_bonus = mp2_GwPlayer[i].coins_mg_bonus;
         mp3_GwPlayerCopy[i].minigameCoins = mp2_GwPlayer[i].minigameCoins;
-
         mp3_GwPlayerCopy[i].coins = mp2_GwPlayer[i].coins;
         mp3_GwPlayerCopy[i].stars = mp2_GwPlayer[i].stars;
     }
+}
 
-    mp3_hidden_block_item_space_index = mp3_hidden_block_item_space_copy;
-    mp3_hidden_block_coins_space_index = mp3_hidden_block_coins_space_copy;
-    mp3_hidden_block_star_space_index = mp3_hidden_block_star_space_copy;    
+void SaveMp3PlayerToMp2PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp2_GwPlayerCopy[i].group = mp3_GwPlayer[i].group;
+        mp2_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
+        mp2_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
+        mp2_GwPlayerCopy[i].port = mp3_GwPlayer[i].controller_port;
+        mp2_GwPlayerCopy[i].flags = mp3_GwPlayer[i].flags1;
+        mp2_GwPlayerCopy[i].character = mp3_GwPlayer[i].characterID;
+        mp2_GwPlayerCopy[i].coins_mg_bonus = mp3_GwPlayer[i].coins_mg_bonus;
+        mp2_GwPlayerCopy[i].minigameCoins = mp3_GwPlayer[i].minigameCoins;
+        mp2_GwPlayerCopy[i].coins = mp3_GwPlayer[i].coins;
+        mp2_GwPlayerCopy[i].stars = mp3_GwPlayer[i].stars;
+    }
 }
 
 

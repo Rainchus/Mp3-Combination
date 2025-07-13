@@ -28,7 +28,7 @@
     LI t0, 0x8000030C //osResetType
     LW s0, 0x0000 (t0)
     BNEZ s0, alreadyDMAed
-    ORI t2, r0, 1
+     ORI t2, r0, 1
     
     //set to warm boot
     SW t2, 0x0000 (t0) //fake warm boot (does this actually work on console?)
@@ -40,16 +40,16 @@
     LI a2, PAYLOAD_START_RAM
     LI a3, PAYLOAD_END_RAM - PAYLOAD_START_RAM
     JAL mp3_osPiRawStartDma
-    NOP
+     NOP
     LI t0, 0xA4600010
     pi_loop:
     LW t1, 0x0000 (t0)
     ANDI t2, t1, 0x0001
     BNEZ t2, pi_loop
-    NOP
+     NOP
     alreadyDMAed:
     JAL mp3_ClearBss
-    ADDU a0, s0, r0
+     ADDU a0, s0, r0
 
 //when swapping to a game (mp3 in this instance) stuff would draw for a few frames when it shouldn't
 //this makes it so that the game is a black screen 12 frames longer on boot, fixing the problem
@@ -60,7 +60,7 @@
 
 .org 0x8000B16C
     J rand8_Shared
-    NOP
+     NOP
 
 .org 0x8004FFB8 //only check file 1's checksum
     SLTI v0, s0, 0x0001 //was SLTI v0, s0, 0x0003
@@ -70,4 +70,4 @@
 
 .org 0x80035AB0
     J mp3_setForeignMinigameIndex
-    NOP
+     NOP

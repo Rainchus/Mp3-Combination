@@ -18,6 +18,8 @@
 .definelabel mp3_osResetType, 0x8000030C
 .definelabel mp3_D_800A12C0, 0x800A12C0
 .definelabel mp3_D_800A12C4, 0x800A12C4
+.definelabel mp3_omovlevtno, 0x800A1764
+.definelabel mp3_ovlEventCall, 0x800359E0
 
 //functions
 .definelabel mp3_GetCurrentPlayerIndex, 0x800F2130

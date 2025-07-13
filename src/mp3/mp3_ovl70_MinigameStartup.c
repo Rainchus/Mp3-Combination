@@ -23,7 +23,7 @@ void mp3_func_801094B0_4E2670_name_70(void);                /* extern */
 void mp3_func_80109A90_4E2C50_name_70(void);                /* extern */
 void mp3_func_8010A1D0_4E3390_name_70(void);                /* extern */
 void mp3_func_8010B990_4E4B50_name_70(void);                /* extern */
-
+void LoadMp2PlayerCopyToMp3(void);
 s16 mp3_GWMgUnlockCheck(s16 arg0);
 void mp3__ClearFlag(s32 flag);
 void mp3_Hu3DAnimInit(s32);
@@ -63,14 +63,14 @@ STATIC void Mp3SwapGameIfNeeded(void) {
 
     //determine if we are loading a mp2 or mp1 minigame
     if (ForeignMinigameIndexToLoad >= BOWSER_SLOTS && ForeignMinigameIndexToLoad <= DEEP_SEA_SALVAGE) { //mp2
-        //save necessary data
+        //save necessary data, swap to mp2
         PushMp3BoardState();
         PushMp3MinigamesPlayedList();
         mp3_StoreBattleMinigameCoins();
         SaveMp3PlayerToMp3PlayerCopy();
         ComboSwitchGameToMp2();        
     } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp2
-        //save necessary data
+        //save necessary data, swap to mp1
         //SaveMp3PlayerStructs();
         PushMp3BoardState();
         PushMp3MinigamesPlayedList();
@@ -81,7 +81,7 @@ STATIC void Mp3SwapGameIfNeeded(void) {
     //is mp3 minigame
     mp3_GwSystem.minigame_index = localOverlayID;
     mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;
-    ForeignMinigameIndexToLoad = -1;
+    ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
 }
 
 //first function ran in ovl_70; the minigame overlay is loaded shortly after
@@ -109,9 +109,11 @@ void mp3_MinigameEntryFunc(void) {
     }
 
     Mp3SwapGameIfNeeded(); //doesn't return if game swap happens
+    if (CurBaseGame == MP2_BASE) {
+        LoadMp2PlayerCopyToMp3();
+    }
 
     //is mp3 minigame, load it
-
     mp3_D_8010D40A_4E65CA_name_70 = mp3_D_800A6D44_A7944[mp3_D_8010D40B_4E65CB_name_70].minigameType;
     
     if (mp3__CheckFlag(0xF) != 0) {

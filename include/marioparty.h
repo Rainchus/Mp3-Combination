@@ -10,6 +10,7 @@
 #define CUR_PLAYER -1
 #define MAX_PLAYERS 4
 #define FOREIGN_MINIGAME_INDEX_BOOT_VAL -2
+#define FOREIGN_MINIGAME_INVALID_ID -1
 
 #include "ultra64.h"
 #include "PR/mbi.h"
@@ -27,6 +28,10 @@ typedef struct Vec {
     f32 z;
 } Vec;
 
+typedef struct OvlEntrypoint {
+/* 0x00 */ s16 index;
+/* 0x04 */ void (*fn)(void);
+} OvlEntrypoint; //sizeof 0x08
 /* Buttons */
 
 #define CONT_A      0x8000
@@ -555,6 +560,9 @@ enum {
     MP2_BASE = 1,
     MP3_BASE = 2,
 };
+
+NORETURN void ComboSwitchGameToMp3(void);
+void LoadMp3PlayerCopyToMp2(void);
 
 //static symbols get stripped from the map file which is annoying
 #ifdef DEBUG

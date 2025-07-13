@@ -206,6 +206,9 @@ extern Gfx* mp3_gMainGfxPos;
 extern u16 mp3_D_800D530C_D5F0C;
 extern u16 mp3_D_800D5558_D6158[4];
 
+void SaveMp3PlayerToMp3PlayerCopy(void);
+void SaveMp3PlayerCopyToMp3Player(void);
+void PopMp3BoardState(void);
 void mp3_omDelPrcObj(s32); 
 f32 mp3_HuMathSin(f32);
 void mp3_PlaySound(s16);

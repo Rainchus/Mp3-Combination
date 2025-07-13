@@ -100,6 +100,8 @@
 .definelabel mp2_func_80105B94_3AED34_name_5F, 0x80105B94
 .definelabel mp2_func_80102A14_3ABBB4_name_5F, 0x80102A14
 .definelabel mp2_func_80102AF0_3ABC90_name_5F, 0x80102AF0
+.definelabel mp2_ovlEventCall, 0x80066F6C
+.definelabel mp2_omovlevtno, 0x800CD414
 //.definelabel mp2_func_801085A0_3B1740_name_5F, 0x801085A0
 
 .definelabel mp2_D_800E2132_E2D32, 0x800E2132

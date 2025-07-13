@@ -7,11 +7,11 @@
 
 .org 0x800DFFD8
     JAL GetNewMinigameString1
-    ADDIU a3, r0, 0x0004
+     ADDIU a3, r0, 0x0004
 
 .org 0x800DF480 //display minigame name index when chosen
     JAL GetNewMinigameString1
-    ADDIU a3, r0, 0x0004
+     ADDIU a3, r0, 0x0004
 
 .org 0x800DFFF0
     LUI a1, hi(minigameTextColor)
@@ -60,4 +60,4 @@
 //because there is a BLTZ check
 .org 0x800FEF60
     JAL NegativeCheck
-    NOP
+     NOP

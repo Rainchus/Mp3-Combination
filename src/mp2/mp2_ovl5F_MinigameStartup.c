@@ -19,6 +19,7 @@ void mp2_func_80102830_3AB9D0_name_5F(void) {
     s32 i;
 
     Mp2SwapGameIfNeeded(); //doesn't return if game swap happens
+    //if mp3 is base game, load mp3 player copy into mp2 player structs
     if (CurBaseGame == MP3_BASE) {
         LoadMp3PlayerCopyToMp2();
     }

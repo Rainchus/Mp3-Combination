@@ -11,22 +11,22 @@
 .headersize 0x7DFFF400 //ROM Addr of combination rom, 0x3EFDB00
 .org 0x8009D950
     J mp2_osEPiRawStartDmaHook
-    NOP
+     NOP
 
 //reimplement functions for mp2 eeprom
 //mp3 has 2 save files, and will use file slots 1 and 2.
 //slot 3 will be removed from mp3 to make room for mp2's save file
 .org 0x8001ACD0 //replace with decompiled version of function
     J mp2__InitEeprom
-    NOP
+     NOP
 
 .org 0x8001AF0C
     J mp2__WriteEeprom
-    NOP
+     NOP
 
 .org 0x8001B014
     J mp2__ReadEeprom
-    NOP
+     NOP
 
 //hook an mp2 looping thread to init a crash screen on its initialization
 .headersize 0x7DFFF400 //ROM Addr of combination rom
@@ -37,19 +37,19 @@
     //NOP
     mp2_threadInfiniteLoop:
     JAL 0x8007DA44
-    NOP
+     NOP
     JAL 0x8002FB6C
-    NOP
+     NOP
     JAL 0x80020E70
-    NOP
+     NOP
     LUI a0, 0x0200
     LUI a1, 0x003D
     JAL 0x800295D4
-    ORI a1, a1, 0x0800
+     ORI a1, a1, 0x0800
     JAL 0x8007C668
-    NOP
+     NOP
     J mp2_threadInfiniteLoop
-    NOP
+     NOP
 
 
 //when swapping to a game (mp2 in this instance) stuff would draw for a few frames when it shouldn't
@@ -61,7 +61,7 @@
 
 .org 0x80018AFC
     J rand8_Shared
-    NOP
+     NOP
 
 //this fixes a crash with the camera. normally, this gets initialized to 1.0f on -
 //board load, but since we skip some of that, it's 0.0f and divides by zero, causing a crash
@@ -69,13 +69,13 @@
 .org 0x800654C8
     LUI at, 0x800E
     JAL mp2_Unk_Camera_Function
-    LWC1 f12, 0x1F84 (at)
+     LWC1 f12, 0x1F84 (at)
 
 //same thing again here
 .org 0x80066DA8
     LUI at, 0x800E
     JAL mp2_Unk_Camera_Function
-    LWC1 f12, 0x1F84 (at)
+     LWC1 f12, 0x1F84 (at)
 
 //.org 0x80079128
     //J mp2_func_80079128_79D28_Hook
