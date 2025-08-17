@@ -80,8 +80,8 @@ typedef struct mp3_GW_PLAYER {
 /* 0x03 */ u8 characterID;
 /* 0x04 */ u8 flags1; //value & 1 == Player is CPU
 /* 0x05 */ char unk_05;
-/* 0x06 */ s16 coins_mg_bonus; //extra coins collected in minigames
-/* 0x08 */ s16 minigameCoins; //coins for winning current minigame
+/* 0x06 */ s16 coins_mg; //extra coins collected in minigames
+/* 0x08 */ s16 coins_mg_bonus; //coins for winning current minigame
 /* 0x0A */ s16 coins; //referenced as u16 and s16 (usually if u16 it's casted to s16)
 /* 0x0C */ char unk_0C[2];
 /* 0x0E */ s8 stars;
@@ -101,8 +101,8 @@ typedef struct mp3_GW_PLAYER {
 /* 0x1F */ u8 turn_status; //space type landed on (blue, red, etc.)
 /* 0x20 */ void* unk_20;
 /* 0x24	*/ Object* player_obj; //ptr to struct 0x48 in size (things like model position, rotation, etc.)
-/* 0x24 */ s16 mg_star_coins; //used for mg star
-/* 0x26 */ s16 coins_total; //used for coin star
+/* 0x28 */ s16 mg_star_coins; //used for mg star
+/* 0x2A */ s16 coin_star_total; //used for coin star
 /* 0x2C */ s8 happeningSpacesLandedOn;
 /* 0x2D */ s8 redSpacesLandedOn;
 /* 0x2E */ s8 blueSpacesLandedOn;

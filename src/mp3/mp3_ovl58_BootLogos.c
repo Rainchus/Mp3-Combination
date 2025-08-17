@@ -78,6 +78,24 @@ void mp3_LoadIntoResultsScene(void) {
         mp3_omovlhisidx = 3;
     } else if (mp3_GwSystem.current_turn - 4 == mp3_GwSystem.total_turns) {
         //set up last 5 turns
+        omOvlHisData last5Turns[] = {
+            {0x7A, 0x0002, 0x0092},
+            {0x7A, 0x0002, 0x0092},
+            {0x77, 0x0000, 0x0091},
+            {0x47, 0x0001, 0x0192},
+            {0x71, 0x0000, 0x0012},
+            {0x01, 0x0000, 0x0014},
+        };
+        //set last 5 turns event
+        s32 i;
+        for (i = 0; i < ARRAY_COUNT(last5Turns); i++) {
+            mp3_omovlhis[i] = last5Turns[i];
+        }
+        mp3_omovlhisidx = 3;
+        mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
+        // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
+        mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
+        return;        
     } else { //else normal board load
         mp3_omovlhis[3].overlayID = OVL_RESULTS_SCENE;
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
@@ -133,12 +151,12 @@ void mp3_BootLogosEntryFunc(void) {
         mp3_BootLogosSetup();        
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == -1) {
         //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
-        //therefore, we need to load into the results scene to then load back into the board
+        //therefore, we need to load into the results scene to then load back into the board.
         //set up the necessary overlay history to accomplish this
         mp3_LoadIntoResultsScene();
-    } else { //isn't mp2 base, load minigame or boot back into original game
-        if (ForeignMinigameIndexToLoad == -1) {
-            //load back into original game
+    } else { //isn't mp3 base, load minigame or boot back into original game
+        if (ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {
+            //just played mp3 minigame, load back into original game
             mp3_LoadOriginalGame();
         } else { //load into minigame from boot
             mp3_LoadMinigameFromBoot();

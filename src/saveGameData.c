@@ -169,6 +169,21 @@ void LoadMp3PlayerCopyToMp2(void) {
     }
 }
 
+void SaveMp2PlayerToMp1PlayerCopy (void) {
+    for (int i = 0; i < 4; i++) {
+        mp1_GwPlayerCopy[i].group = mp2_GwPlayerCopy[i].group;
+        mp1_GwPlayerCopy[i].cpu_difficulty  = mp2_GwPlayerCopy[i].cpu_difficulty;
+        mp1_GwPlayerCopy[i].port  = mp2_GwPlayerCopy[i].port;
+        mp1_GwPlayerCopy[i].flags  = mp2_GwPlayerCopy[i].flags;
+        mp1_GwPlayerCopy[i].character = mp2_GwPlayerCopy[i].character;
+
+        mp1_GwPlayerCopy[i].coins = mp2_GwPlayerCopy[i].coins;
+        mp1_GwPlayerCopy[i].stars = mp2_GwPlayerCopy[i].stars;
+
+    }
+    
+}
+
 void SaveMp2PlayerToMp3PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
         mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
@@ -178,7 +193,7 @@ void SaveMp2PlayerToMp3PlayerCopy(void) {
         mp3_GwPlayerCopy[i].flags1 = mp2_GwPlayer[i].flags;
         mp3_GwPlayerCopy[i].characterID = mp2_GwPlayer[i].character;
         mp3_GwPlayerCopy[i].coins_mg_bonus = mp2_GwPlayer[i].coins_mg_bonus;
-        mp3_GwPlayerCopy[i].minigameCoins = mp2_GwPlayer[i].minigameCoins;
+        mp3_GwPlayerCopy[i].coins_mg = mp2_GwPlayer[i].coins_mg;
         mp3_GwPlayerCopy[i].coins = mp2_GwPlayer[i].coins;
         mp3_GwPlayerCopy[i].stars = mp2_GwPlayer[i].stars;
     }
@@ -193,7 +208,7 @@ void SaveMp3PlayerToMp2PlayerCopy(void) {
         mp2_GwPlayerCopy[i].flags = mp3_GwPlayer[i].flags1;
         mp2_GwPlayerCopy[i].character = mp3_GwPlayer[i].characterID;
         mp2_GwPlayerCopy[i].coins_mg_bonus = mp3_GwPlayer[i].coins_mg_bonus;
-        mp2_GwPlayerCopy[i].minigameCoins = mp3_GwPlayer[i].minigameCoins;
+        mp2_GwPlayerCopy[i].coins_mg = mp3_GwPlayer[i].coins_mg;
         mp2_GwPlayerCopy[i].coins = mp3_GwPlayer[i].coins;
         mp2_GwPlayerCopy[i].stars = mp3_GwPlayer[i].stars;
     }
@@ -306,7 +321,7 @@ void CopyMp2PlayersToMp3Copy(void) {
         mp3_GwPlayerCopy[i].flags1 = mp2_GwPlayer[i].flags;
         mp3_GwPlayerCopy[i].stars = mp2_GwPlayer[i].stars;
         mp3_GwPlayerCopy[i].coins_mg_bonus = mp2_GwPlayer[i].coins_mg_bonus;
-        mp3_GwPlayerCopy[i].minigameCoins = mp2_GwPlayer[i].minigameCoins;
+        mp3_GwPlayerCopy[i].coins_mg = mp2_GwPlayer[i].coins_mg;
         mp3_GwPlayerCopy[i].coins = mp2_GwPlayer[i].coins;
     }
 }

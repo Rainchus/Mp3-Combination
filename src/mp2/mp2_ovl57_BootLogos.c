@@ -94,15 +94,6 @@ void mp2_LoadIntoResultsScene(void) {
 //     mp2_omOvlCallEx(OVL_GAME_END_SCENE, 0x0000, 0x12); //load results scene overlay
 // }
 
-void mp2_LoadOriginalGame(void) {
-    if (CurBaseGame == MP1_BASE) {
-        //load into mp1
-    } else if (CurBaseGame == MP3_BASE) {
-        //load into mp3
-    }
-    //code should never get here
-}
-
 void mp2_LoadMinigameFromBoot(void) {
     s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     s32 minigameExplanationOverlayID; //this is split into 2 overlays in this game
@@ -156,12 +147,11 @@ void mp2_BootLogosEntryFunc(void) {
         //set up the necessary overlay history to accomplish this
         mp2_LoadIntoResultsScene();
     } else { //isn't mp2 base, load minigame or boot back into original game
-        if (ForeignMinigameIndexToLoad == -1) {
-            //load back into original game
-            mp2_LoadOriginalGame();
-        } else { //load into minigame from boot
+        if (ForeignMinigameIndexToLoad != FOREIGN_MINIGAME_INVALID_ID) {
+            //load into minigame from boot
             mp2_LoadMinigameFromBoot();
-        }
+        } //else
+            //(swapping back to original game handled in mp2_DebugMenuSetup, ovl00)
     }
 }
 
@@ -188,12 +178,11 @@ void mp2_BootLogosEntryFunc2(void) {
         //set up the necessary overlay history to accomplish this
         mp2_LoadIntoResultsScene();
     } else { //isn't mp2 base, load minigame or boot back into original game
-        if (ForeignMinigameIndexToLoad == -1) {
-            //load back into original game
-            mp2_LoadOriginalGame();
-        } else { //load into minigame from boot
+        if (ForeignMinigameIndexToLoad != FOREIGN_MINIGAME_INVALID_ID) {
+            //load into minigame from boot
             mp2_LoadMinigameFromBoot();
-        }
+        } //else
+            //(swapping back to original game handled in mp2_DebugMenuSetup, ovl00)
     }
 }
 

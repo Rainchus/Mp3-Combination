@@ -14,7 +14,7 @@ void mp2_DebugMenuSetup(void) {
     switch (CurBaseGame) {
     case MP1_BASE:
         ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
-        //CopyMp2PlayersToMp1Copy(); //copy mp1 player structs to mp3's gPlayer Copy
+        SaveMp2PlayerToMp1PlayerCopy(); //copy mp2 player structs to mp1's gPlayer Copy
         ComboSwitchGameToMp1();
         break;
     case MP2_BASE: //this should never happen

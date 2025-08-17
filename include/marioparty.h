@@ -360,9 +360,9 @@ typedef struct mp2_GW_PLAYER {
 /* 0x04 */ u8 character;
 /* 0x05 */ char unk_05; //likely padding
 /* 0x06 */ s16 flags;
-/* 0x08 */ s16 coins; //extra coins collected in minigames
-/* 0x0A */ s16 coins_mg_bonus; //coins for winning current minigame
-/* 0x0C */ s16 minigameCoins;
+/* 0x08 */ s16 coins;
+/* 0x0A */ s16 coins_mg_bonus; //extra coins collected in minigame
+/* 0x0C */ s16 coins_mg; //coins for winning current minigame
 /* 0x0E */ s16 stars;
 /* 0x10 */ s16 cur_chain_index;
 /* 0x12 */ s16 cur_space_index;

@@ -39,4 +39,6 @@ typedef struct OvlEntrypoint {
 /* 0x04 */ void (*fn)(void);
 } OvlEntrypoint; //sizeof 0x08
 
-So from here, when this initial boot logos overlay is loaded, it calls the respective game's mpX_BootLogosEntryFunc.
+From here, after the initial boot logos overlay is loaded, it calls the respective game's mpX_BootLogosEntryFunc.
+This modified version of the function determines what action should be done on boot. First, we load the minigames that should appear in the list.
+Second, we check if we are loading the boot logos overlay from boot or from waiting on the title screen after the intro sequence.
