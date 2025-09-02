@@ -31,6 +31,12 @@
 .orga 0x3F //set save type of game to 16K eeprom
 .byte 0x20
 
+//overwrite ovl_7E (it's a blank overlay) rom start and end in ovltbl (for partyplanner purposes)
+.orga 0x980AC
+    .word ROM_START
+    .word ROM_START + (PAYLOAD_END_RAM - PAYLOAD_START_RAM) //ROM_END
+
+
 .headersize 0x7FFFF400 //ran once on boot
 .org 0x80000400
     //set up stack pointer

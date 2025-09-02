@@ -45,9 +45,9 @@ current_size = os.path.getsize(rom_path)
 
 # Write the current size in hex format to temp.asm
 with open('headersize.asm', 'w') as asm_file:
-    headersize = 0x80400000 - current_size
+    headersize = 0x80730000 - current_size
     asm_file.write(f'.headersize 0x{headersize:08X}\n')
-    asm_file.write(f'.org 0x80400000\n')
+    asm_file.write(f'.org 0x80730000\n')
     asm_file.write('PAYLOAD_START_RAM:\n')
     print(f'Current size written to headersize.asm: 0x{current_size:08X}')
 
