@@ -31,9 +31,20 @@
 .orga 0x3F //set save type of game to 16K eeprom
 .byte 0x20
 
+//store the starting rom addresses of mp2 and mp3 in the rom header's unused space
+//this is used by partyplanner64 to know where the roms start, and -
+//it's also used by the patcher to grab the dynamic rom address from the .bps file
+//We need to do this because to patch, the user just supplies the 3 roms with no way to know the start rom addr of each game
+//Therefore, by this being the first thing we patch in the bps since it's at 0x18 in the rom, it's easy to find in the .bps -
+//and then create the combined rom from that, before patching the combo code in
 .orga 0x18
-.word ROM_START + (PAYLOAD_END_RAM - PAYLOAD_START_RAM) //ROM_END (mp2 rom start)
-.word ROM_START + (PAYLOAD_END_RAM - PAYLOAD_START_RAM) + 0x2000000 //ROM_END (mp1 rom start)
+//dyanmic rom addresses
+//.word ROM_START + (PAYLOAD_END_RAM - PAYLOAD_START_RAM) //ROM_END (mp2 rom start)
+//.word ROM_START + (PAYLOAD_END_RAM - PAYLOAD_START_RAM) + 0x2000000 //ROM_END (mp1 rom start)
+
+//hardcoded from now, update to be dynamic later
+.word 0x2000000 //mp2 rom start
+.word 0x4000000 //mp1 rom start
 
 //overwrite ovl_7E (it's a blank overlay) rom start and end in ovltbl (for partyplanner purposes)
 .orga 0x980AC
