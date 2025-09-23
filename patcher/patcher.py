@@ -1,6 +1,7 @@
 import os
 import hashlib
 import subprocess
+import struct
 
 # Hardcoded MD5 checksums
 MD5_CHECKSUMS = {
@@ -44,123 +45,78 @@ def apply_patch(patch_file, target_file, output_file):
     result = subprocess.run(command, shell=True)  # Run the command and wait for it to complete
     return result.returncode
 
+def read_offset_from_bps(bps_file, start, end):
+    """Read a 4-byte little endian offset from a BPS file."""
+    with open(bps_file, "rb") as f:
+        f.seek(start)
+        data = f.read(end - start)
+        return struct.unpack("<I", data)[0]
+
+def insert_at_offset(base_data, insert_data, offset):
+    """Insert/overwrite data at a specific offset in a bytearray."""
+    if len(base_data) < offset + len(insert_data):
+        base_data.extend(b"\x00" * (offset + len(insert_data) - len(base_data)))
+    base_data[offset:offset+len(insert_data)] = insert_data
+    return base_data
+
 def main():
     files_found = {}
     roms_directory = 'roms/'
 
-    # Search for files in the roms directory and calculate checksums
     print(f"Searching for files in {roms_directory}...")
     for file in os.listdir(roms_directory):
-        #print(f"Checking file: {file}")
         if file.endswith(('.z64', '.n64')):
             file_path = os.path.join(roms_directory, file)
             checksum = calculate_md5(file_path)
             print(f"Checksum for {file}: {checksum}")
 
-            # Match checksums with provided ones
             for game_name, checksums in MD5_CHECKSUMS.items():
                 if checksum == checksums["big_endian"]:
                     files_found[game_name] = (file_path, 'big_endian')
-                    #print(f"Found {game_name} (Big Endian): {file_path}")
                 elif checksum == checksums["little_endian"]:
                     files_found[game_name] = (file_path, 'little_endian')
-                    #print(f"Found {game_name} (Little Endian): {file_path}")
 
-    # Verify if the required files were found
     if "Mario Party 3" in files_found and "Mario Party 2" in files_found:
-        output_data = bytearray()
+        # Start with MP3 data
+        file_path, endian = files_found["Mario Party 3"]
+        with open(file_path, "rb") as f:
+            mp3_data = f.read()
+            if endian == 'little_endian':
+                mp3_data = byte_swap(mp3_data)
+                print("Byte swapped data from Mario Party 3.")
 
-        # Append Mario Party 3 first, then Mario Party 2
-        for game_name in ["Mario Party 3", "Mario Party 2"]:
-            file_path, endian = files_found[game_name]
-            with open(file_path, "rb") as f:
-                data = f.read()
-                if endian == 'little_endian':
-                    output_data.extend(byte_swap(data))  # Byte swap for little endian
-                    print(f"Byte swapped data from {game_name}.")
-                else:
-                    output_data.extend(data)  # No need to swap for big endian
-                    print(f"Added data from {game_name} without byte swapping.")
+        output_data = bytearray(mp3_data)
 
-        # Write the combined output to a new file
+        # Insert MP2 at offset from mp3-mp2-combo.bps
+        mp2_offset = read_offset_from_bps("mp3-mp2-combo.bps", 0xF, 0x13)
+        file_path, endian = files_found["Mario Party 2"]
+        with open(file_path, "rb") as f:
+            mp2_data = f.read()
+            if endian == 'little_endian':
+                mp2_data = byte_swap(mp2_data)
+                print("Byte swapped data from Mario Party 2.")
+        insert_at_offset(output_data, mp2_data, mp2_offset)
         base_output_file = "mp3-mp2-base.z64"
-        with open(base_output_file, "wb") as output_file:
-            output_file.write(output_data)
-        
-        print("Files combined successfully into mp3-mp2-base.z64.")
+        with open(base_output_file, "wb") as out:
+            out.write(output_data)
+        print(f"Files combined successfully into {base_output_file} (MP3 + MP2 at 0x{mp2_offset:X}).")
 
-        # Check for Mario Party 1 and combine it if found
+        # If MP1 exists, insert it using mp3-mp2-mp1-combo.bps
         if "Mario Party 1" in files_found:
-            output_data_v2 = bytearray()
-            # First add data from Mario Party 3
-            file_path, endian = files_found["Mario Party 3"]
-            with open(file_path, "rb") as f:
-                data = f.read()
-                if endian == 'little_endian':
-                    output_data_v2.extend(byte_swap(data))  # Byte swap for little endian
-                    print(f"Byte swapped data from Mario Party 3.")
-                else:
-                    output_data_v2.extend(data)  # No need to swap for big endian
-                    print(f"Added data from Mario Party 3 without byte swapping.")
-
-            # Then add data from Mario Party 2
-            file_path, endian = files_found["Mario Party 2"]
-            with open(file_path, "rb") as f:
-                data = f.read()
-                if endian == 'little_endian':
-                    output_data_v2.extend(byte_swap(data))  # Byte swap for little endian
-                    print(f"Byte swapped data from Mario Party 2.")
-                else:
-                    output_data_v2.extend(data)  # No need to swap for big endian
-                    print(f"Added data from Mario Party 2 without byte swapping.")
-
-            # Finally add data from Mario Party 1
+            mp1_offset = read_offset_from_bps("mp3-mp2-mp1-combo.bps", 0x13, 0x17)
             file_path, endian = files_found["Mario Party 1"]
             with open(file_path, "rb") as f:
-                data = f.read()
+                mp1_data = f.read()
                 if endian == 'little_endian':
-                    output_data_v2.extend(byte_swap(data))  # Byte swap for little endian
-                    print(f"Byte swapped data from Mario Party 1.")
-                else:
-                    output_data_v2.extend(data)  # No need to swap for big endian
-                    print(f"Added data from Mario Party 1 without byte swapping.")
-
-            # Write the second output to a new file
+                    mp1_data = byte_swap(mp1_data)
+                    print("Byte swapped data from Mario Party 1.")
+            insert_at_offset(output_data, mp1_data, mp1_offset)
             base_output_file_v2 = "mp3-mp2-mp1-base.z64"
-            with open(base_output_file_v2, "wb") as output_file_v2:
-                output_file_v2.write(output_data_v2)
-
-            print("Files combined successfully into mp3-mp2-mp1-base.z64.")
+            with open(base_output_file_v2, "wb") as out:
+                out.write(output_data)
+            print(f"Files combined successfully into {base_output_file_v2} (MP3 + MP2 + MP1 at 0x{mp1_offset:X}).")
         else:
             print("Mario Party 1 not found, skipping.")
-
-        # Check for patches and apply them
-        patch_files = [
-            ("mp3-mp2-mp1-combo.bps", base_output_file_v2),
-            ("mp3-mp2-combo.bps", base_output_file),
-        ]
-
-        for patch_file, target_file in patch_files:
-            if os.path.exists(patch_file):
-                #print(f"Here's the thing: {target_file.split('.')[0]}")
-                output_patch_file = target_file.split('.')[0]
-                output_patch_file = output_patch_file[:-5]
-                output_patch_file = f"{output_patch_file}-combo.z64"
-                if apply_patch(patch_file, target_file, output_patch_file) == 0:
-                    print(f"Successfully applied patch: {patch_file} to {target_file}.")
-                else:
-                    print(f"Failed to apply patch: {patch_file} to {target_file}.")
-            else:
-                print(f"Patch file {patch_file} not found, skipping.")
-
-        # Cleanup: Delete temporary output files
-        if os.path.exists(base_output_file):
-            os.remove(base_output_file)
-            print(f"Deleted temporary file: {base_output_file}")
-
-        if os.path.exists(base_output_file_v2):
-            os.remove(base_output_file_v2)
-            print(f"Deleted temporary file: {base_output_file_v2}")
 
     else:
         if "Mario Party 3" not in files_found:

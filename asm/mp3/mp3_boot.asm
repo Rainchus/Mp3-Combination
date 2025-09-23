@@ -31,6 +31,10 @@
 .orga 0x3F //set save type of game to 16K eeprom
 .byte 0x20
 
+.orga 0x18
+.word ROM_START + (PAYLOAD_END_RAM - PAYLOAD_START_RAM) //ROM_END (mp2 rom start)
+.word ROM_START + (PAYLOAD_END_RAM - PAYLOAD_START_RAM) + 0x2000000 //ROM_END (mp1 rom start)
+
 //overwrite ovl_7E (it's a blank overlay) rom start and end in ovltbl (for partyplanner purposes)
 .orga 0x980AC
     .word ROM_START
