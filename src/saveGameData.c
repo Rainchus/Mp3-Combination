@@ -148,11 +148,11 @@ void LoadMp2PlayerCopyToMp3(void) {
         mp3_GwPlayer[i].group = mp2_GwPlayerCopy[i].group;
         mp3_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
         mp3_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
-        mp3_GwPlayer[i].controller_port = mp2_GwPlayerCopy[i].port;
-        mp3_GwPlayer[i].flags1 = mp2_GwPlayerCopy[i].flags;
-        mp3_GwPlayer[i].characterID = mp2_GwPlayerCopy[i].character;
-        mp3_GwPlayer[i].coins = mp2_GwPlayerCopy[i].coins;
-        mp3_GwPlayer[i].stars = mp2_GwPlayerCopy[i].stars;
+        mp3_GwPlayer[i].pad = mp2_GwPlayerCopy[i].port;
+        mp3_GwPlayer[i].stat = mp2_GwPlayerCopy[i].flags;
+        mp3_GwPlayer[i].chr = mp2_GwPlayerCopy[i].character;
+        mp3_GwPlayer[i].coin = mp2_GwPlayerCopy[i].coins;
+        mp3_GwPlayer[i].star = mp2_GwPlayerCopy[i].stars;
     }
 }
 
@@ -161,11 +161,11 @@ void LoadMp3PlayerCopyToMp2(void) {
         mp2_GwPlayer[i].group = mp3_GwPlayerCopy[i].group;
         mp2_GwPlayer[i].cpu_difficulty = mp3_GwPlayerCopy[i].cpu_difficulty;
         mp2_GwPlayer[i].cpu_difficulty2 = mp3_GwPlayerCopy[i].cpu_difficulty;
-        mp2_GwPlayer[i].port = mp3_GwPlayerCopy[i].controller_port;
-        mp2_GwPlayer[i].flags = mp3_GwPlayerCopy[i].flags1;
-        mp2_GwPlayer[i].character = mp3_GwPlayerCopy[i].characterID;
-        mp2_GwPlayer[i].coins = mp3_GwPlayerCopy[i].coins;
-        mp2_GwPlayer[i].stars = mp3_GwPlayerCopy[i].stars;
+        mp2_GwPlayer[i].port = mp3_GwPlayerCopy[i].pad;
+        mp2_GwPlayer[i].flags = mp3_GwPlayerCopy[i].stat;
+        mp2_GwPlayer[i].character = mp3_GwPlayerCopy[i].chr;
+        mp2_GwPlayer[i].coins = mp3_GwPlayerCopy[i].coin;
+        mp2_GwPlayer[i].stars = mp3_GwPlayerCopy[i].star;
     }
 }
 
@@ -189,13 +189,13 @@ void SaveMp2PlayerToMp3PlayerCopy(void) {
         mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
         mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;
         mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty2;
-        mp3_GwPlayerCopy[i].controller_port = mp2_GwPlayer[i].port;
-        mp3_GwPlayerCopy[i].flags1 = mp2_GwPlayer[i].flags;
-        mp3_GwPlayerCopy[i].characterID = mp2_GwPlayer[i].character;
-        mp3_GwPlayerCopy[i].coins_mg_bonus = mp2_GwPlayer[i].coins_mg_bonus;
-        mp3_GwPlayerCopy[i].coins_mg = mp2_GwPlayer[i].coins_mg;
-        mp3_GwPlayerCopy[i].coins = mp2_GwPlayer[i].coins;
-        mp3_GwPlayerCopy[i].stars = mp2_GwPlayer[i].stars;
+        mp3_GwPlayerCopy[i].pad = mp2_GwPlayer[i].port;
+        mp3_GwPlayerCopy[i].stat = mp2_GwPlayer[i].flags;
+        mp3_GwPlayerCopy[i].chr = mp2_GwPlayer[i].character;
+        mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].coins_mg_bonus;
+        mp3_GwPlayerCopy[i].checkCoin = mp2_GwPlayer[i].coins_mg;
+        mp3_GwPlayerCopy[i].coin = mp2_GwPlayer[i].coins;
+        mp3_GwPlayerCopy[i].star = mp2_GwPlayer[i].stars;
     }
 }
 
@@ -204,13 +204,13 @@ void SaveMp3PlayerToMp2PlayerCopy(void) {
         mp2_GwPlayerCopy[i].group = mp3_GwPlayer[i].group;
         mp2_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
         mp2_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
-        mp2_GwPlayerCopy[i].port = mp3_GwPlayer[i].controller_port;
-        mp2_GwPlayerCopy[i].flags = mp3_GwPlayer[i].flags1;
-        mp2_GwPlayerCopy[i].character = mp3_GwPlayer[i].characterID;
-        mp2_GwPlayerCopy[i].coins_mg_bonus = mp3_GwPlayer[i].coins_mg_bonus;
-        mp2_GwPlayerCopy[i].coins_mg = mp3_GwPlayer[i].coins_mg;
-        mp2_GwPlayerCopy[i].coins = mp3_GwPlayer[i].coins;
-        mp2_GwPlayerCopy[i].stars = mp3_GwPlayer[i].stars;
+        mp2_GwPlayerCopy[i].port = mp3_GwPlayer[i].pad;
+        mp2_GwPlayerCopy[i].flags = mp3_GwPlayer[i].chr;
+        mp2_GwPlayerCopy[i].character = mp3_GwPlayer[i].chr;
+        mp2_GwPlayerCopy[i].coins_mg_bonus = mp3_GwPlayer[i].bonusCoin;
+        mp2_GwPlayerCopy[i].coins_mg = mp3_GwPlayer[i].checkCoin;
+        mp2_GwPlayerCopy[i].coins = mp3_GwPlayer[i].coin;
+        mp2_GwPlayerCopy[i].stars = mp3_GwPlayer[i].star;
     }
 }
 
@@ -316,13 +316,13 @@ void CopyMp2PlayersToMp3Copy(void) {
         mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
         mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;
         mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty2;
-        mp3_GwPlayerCopy[i].controller_port = mp2_GwPlayer[i].port;
-        mp3_GwPlayerCopy[i].characterID = mp2_GwPlayer[i].character;
-        mp3_GwPlayerCopy[i].flags1 = mp2_GwPlayer[i].flags;
-        mp3_GwPlayerCopy[i].stars = mp2_GwPlayer[i].stars;
-        mp3_GwPlayerCopy[i].coins_mg_bonus = mp2_GwPlayer[i].coins_mg_bonus;
-        mp3_GwPlayerCopy[i].coins_mg = mp2_GwPlayer[i].coins_mg;
-        mp3_GwPlayerCopy[i].coins = mp2_GwPlayer[i].coins;
+        mp3_GwPlayerCopy[i].pad = mp2_GwPlayer[i].port;
+        mp3_GwPlayerCopy[i].chr = mp2_GwPlayer[i].character;
+        mp3_GwPlayerCopy[i].stat = mp2_GwPlayer[i].flags;
+        mp3_GwPlayerCopy[i].star = mp2_GwPlayer[i].stars;
+        mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].coins_mg_bonus;
+        mp3_GwPlayerCopy[i].checkCoin = mp2_GwPlayer[i].coins_mg;
+        mp3_GwPlayerCopy[i].coin = mp2_GwPlayer[i].coins;
     }
 }
 

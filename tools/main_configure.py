@@ -1,10 +1,15 @@
 import argparse
 import os
 import glob
-import ninja_syntax
+import platform
+import shutil
 import sys
+import ninja_syntax
 
 # Requires python 3.9 minimum
+
+# Configuration: Set to True to use wine, False to use wibo
+USE_WINE = True
 
 rom_folder_path = "rom/"
 mp3_path = f'{rom_folder_path}mp3-temp.z64'
@@ -14,6 +19,12 @@ mk64_path = f'{rom_folder_path}mk64.z64'
 
 c_flags = "-O2 -Wall -Wno-missing-braces -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 -fno-inline -DF3DEX_GBI_2 -DDebug"
 
+# Files to exclude from asm file lists (these are manually included in main.asm)
+EXCLUDED_ASM_FILES = [
+    'headersize.asm',  # Included explicitly after other asm files
+    'rom_start.asm',   # Included explicitly at the start
+]
+
 #Files compiled and automatically DMAed to expansion pak ram on boot
 c_files = glob.glob('src/**/*.c', recursive=True)
 
@@ -21,7 +32,34 @@ c_files = glob.glob('src/**/*.c', recursive=True)
 s_files = glob.glob('asm/**/*.s', recursive=True)
 
 # .asm files are assembly files that often change the headersize
-asm_files = glob.glob('asm/**/*.asm', recursive=True)
+# Exclude files from the exclusion list
+asm_files = [f for f in glob.glob('asm/**/*.asm', recursive=True) 
+             if not any(excluded in f for excluded in EXCLUDED_ASM_FILES)]
+
+def is_windows():
+    """Check if the current platform is Windows."""
+    return platform.system() == "Windows"
+
+def get_exe_command(exe_name):
+    """Returns the appropriate command to run an exe based on the platform."""
+    exe_path = f'tools/mp_build_scripts/{exe_name}'
+    
+    if is_windows():
+        return exe_path
+    else:
+        if USE_WINE:
+            # Use wine
+            if not shutil.which("wine"):
+                print("Error: wine not found. Install it with: sudo apt install wine", file=sys.stderr)
+                sys.exit(1)
+            return f"wine {exe_path}"
+        else:
+            # Use wibo
+            wibo_path = "tools/wibo"
+            if not os.path.exists(wibo_path):
+                print(f"Error: {wibo_path} not found", file=sys.stderr)
+                sys.exit(1)
+            return f"{wibo_path} {exe_path}"
 
 def append_binary_files(input1, input2):
     with open(input1, "ab") as f1, open(input2, "rb") as f2:
@@ -89,14 +127,14 @@ PAYLOAD_END_RAM:
 """
     with open("asm/main.asm", 'w') as file:
         file.write(header)
-        file.write(".include \"rom_start.asm\"\n")
+        file.write(".include \"asm/rom_start.asm\"\n")
 
         for asm_file in asm_files:
             if asm_file.endswith('main.asm'):
                 continue
             file.write(f".include \"{asm_file}\"\n")
 
-        file.write(".include \"headersize.asm\"\n")
+        file.write(".include \"asm/headersize.asm\"\n")
 
         for s_file in s_files:
             file.write(f".include \"{s_file}\"\n")
@@ -109,6 +147,10 @@ PAYLOAD_END_RAM:
 
 def create_ninja_file(combinedRomModName, combinedBaseromName):
     global c_flags
+    
+    # Get the cross-platform n64crc command
+    n64crc_command = get_exe_command('n64crc.exe')
+    
     with open('build.ninja', 'w') as buildfile:
         ninja = ninja_syntax.Writer(buildfile)
         ninja.variable('CC', 'mips64-elf-gcc')
@@ -156,7 +198,7 @@ def create_ninja_file(combinedRomModName, combinedBaseromName):
 
         ninja.rule(
             "n64crc",
-            command=f"n64crc.exe rom/{combinedRomModName}",
+            command=f"{n64crc_command} rom/{combinedRomModName}",
             description=f"Calculating CRC for {combinedRomModName}"
         )
 

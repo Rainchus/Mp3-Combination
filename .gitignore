@@ -13,3 +13,4 @@ mp3_extract/*
 headersize.asm
 rom_start.asm
 asm/main.asm
+venv/

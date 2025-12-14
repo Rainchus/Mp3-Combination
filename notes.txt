@@ -22,13 +22,13 @@ However for some things such as the results scene after a minigame, -
 it is called automatically by omOvlReturnEx.
 This function also makes use of the omovlhis and omovlhisidx variables, -
 which track the history of overlays and the current index into that list respectively.
-
+linker_errors_to_definelabel.py
 The base game used is mario party 3, so mario party 3 always boots initially.
 From here, we run some boot up code to dma all of our code and data from rom to ram, -
 as well as making this only happen on the initial boot up by faking a warm boot each time after.
 
 After some initial boot up, the boot logos overlay is loaded.
-These moidifed overlays handle the bulk of the game swapping code. The other piece of the game swapping code -
+These modified overlays handle the bulk of the game swapping code. The other piece of the game swapping code -
 is located in the respective game's minigame general functions overlay file (2 overlays in the case of mp2)
 For each game, I have entirely decompiled the boot overlay so it's easier to modify.
 For mp3, it loads the entry function of the boot overlay from D_80105EE0_3D7690_name_58, -
