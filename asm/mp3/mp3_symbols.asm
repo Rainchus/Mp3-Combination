@@ -335,3 +335,31 @@
 .definelabel mp3_func_800142A0_14EA0, 0x800142A0
 .definelabel mp3_HmfLightColorSet, 0x80019514
 .definelabel mp3_GWMgUnlockCheck, 0x80035BD8
+
+
+
+.definelabel AdjustPlayerCoins, 0x800F21C0
+.definelabel D_800CDA7C_CE67C, 0x800cda7c
+.definelabel D_8010AAF0_4EBF10_mgresultboard, 0x8010aaf0
+.definelabel D_8010AAF4_4EBF14_mgresultboard, 0x8010aaf4
+.definelabel D_8010AAF8_4EBF18_mgresultboard, 0x8010aaf8
+.definelabel D_8010AD90_4EC1B0_mgresultboard, 0x8010ad90
+.definelabel D_8010AD94_4EC1B4_mgresultboard, 0x8010ad94
+.definelabel D_8010B018_4EC438_mgresultboard, 0x8010b018
+.definelabel D_8010B048_4EC468_mgresultboard, 0x8010b048
+.definelabel func_80037258_37E58, 0x80037258
+.definelabel func_800E66E0_FA300_shared_board, 0x800e66e0
+.definelabel func_800E69D8_FA5F8_shared_board, 0x800e69d8
+.definelabel func_80106A80_4E7EA0_mgresultboard, 0x80106a80
+.definelabel func_80106C80_4E80A0_mgresultboard, 0x80106c80
+.definelabel func_80106D50_4E8170_mgresultboard, 0x80106d50
+.definelabel func_80106D88_4E81A8_mgresultboard, 0x80106d88
+.definelabel func_80106DB8_4E81D8_mgresultboard, 0x80106db8
+.definelabel func_80107234_4E8654_mgresultboard, 0x80107234
+.definelabel func_80107650_4E8A70_mgresultboard, 0x80107650
+.definelabel func_80107800_4E8C20_mgresultboard, 0x80107800
+.definelabel func_801079B0_4E8DD0_mgresultboard, 0x801079b0
+.definelabel func_80107A58_4E8E78_mgresultboard, 0x80107a58
+.definelabel mp3_HuAudSeqFadeOut, 0x8004A994
+.definelabel mp3_omOvlReturnEx, 0x8004819C
+.definelabel mp3_omVibrate, 0x8004B25C

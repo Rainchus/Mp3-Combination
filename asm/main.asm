@@ -17,6 +17,7 @@
 .include "asm\mp3\mp3_ovl58_hooks.asm"
 .include "asm\mp3\mp3_ovl70_hooks.asm"
 .include "asm\mp3\mp3_symbols.asm"
+.include "asm\mp3\ovl_71_Results.asm"
 .include "headersize.asm"
 .include "asm\combo.s"
 .include "asm\mp1\mp1_hooks.s"
@@ -39,6 +40,7 @@
 .importobj "obj\mp3\mp3_minigameData.o"
 .importobj "obj\mp3\mp3_ovl58_BootLogos.o"
 .importobj "obj\mp3\mp3_ovl70_MinigameStartup.o"
+.importobj "obj\mp3\mp3_ovl_71_Results.o"
 .importobj "obj\mp3\mp3_SaveApi.o"
 
 .align 8

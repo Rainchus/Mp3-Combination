@@ -9,6 +9,7 @@
 
 #define CUR_PLAYER -1
 #define MAX_PLAYERS 4
+#define MB_MAX_PLAYERS MAX_PLAYERS //for decomp compatibility reasons
 #define FOREIGN_MINIGAME_INDEX_BOOT_VAL -2
 #define FOREIGN_MINIGAME_INVALID_ID -1
 

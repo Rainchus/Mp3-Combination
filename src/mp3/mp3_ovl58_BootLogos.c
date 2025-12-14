@@ -151,7 +151,7 @@ void mp3_BootLogosEntryFunc(void) {
         mp3_BootLogosSetup();        
     } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == -1) {
         //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
-        //therefore, we need to load into the results scene to then load back into the board.
+        //therefore, this means we need to load the "results" scene after a minigame, to then load back into the board
         //set up the necessary overlay history to accomplish this
         mp3_LoadIntoResultsScene();
     } else { //isn't mp3 base, load minigame or boot back into original game

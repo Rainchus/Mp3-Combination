@@ -19,10 +19,10 @@ u8 newCategoryAmountsNormalMp3[MP3_TOTAL_CATEGORIES] = {0};
 
 //the blacklisted minigames below are blacklisted due to having issues loading them...
 //once this is fixed this can be removed
-u8 mp3_battleMinigameBlacklist[] = {
-    // MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
-    // MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST
-};
+// u8 mp3_battleMinigameBlacklist[] = {
+//     // MP2_GRAB_BAG, BUMPER_BALLOON_CARS, RAKIN_EM_IN, DAY_AT_THE_RACES, MP2_FACE_LIFT,
+//     // MP2_CRAZY_CUTTERS, MP2_HOT_BOB_OMB, BOWSERS_BIG_BLAST
+// };
 
 //blacklist mp2 duels while playing mario party 3
 u8 mp3_duelMinigameBlacklist[] = {
@@ -208,12 +208,12 @@ void mp3_LoadMinigameList(void) {
             break;
         case PLAYERS_BATTLE:
             minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(mp3_battleMinigameBlacklist); j++) {
-                if (curMinigameData->minigameIndex == mp3_battleMinigameBlacklist[j]) {
-                    minigameIsBlacklisted = 1;
-                    break;
-                }
-            }
+            // for (j = 0; j < ARRAY_COUNT(mp3_battleMinigameBlacklist); j++) {
+            //     if (curMinigameData->minigameIndex == mp3_battleMinigameBlacklist[j]) {
+            //         minigameIsBlacklisted = 1;
+            //         break;
+            //     }
+            // }
             if (minigameIsBlacklisted == 0) {
                 newBattleMinigameListNormalMp3[minigameBattleCount++] = curMinigameData->minigameIndex;
                 newCategoryAmountsNormalMp3[PLAYERS_BATTLE]++;
