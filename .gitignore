@@ -6,9 +6,12 @@ obj/
 .ninja_deps
 .ninja_log
 bin/
+venv/
 build.ninja
 flipscfg.bin
 syms.txt
 mp3_extract/*
+asm/main.asm
 headersize.asm
 rom_start.asm
+tools/wibo

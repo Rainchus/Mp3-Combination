@@ -1,9 +1,39 @@
 import glob
 import os
 import sys
+import platform
+import shutil
 import ninja_syntax
 
 pj64_rdb_path = "C:/Users/Rainchus/Desktop/Desktop/newest_pj64/Config/Project64.rdb"
+
+# Configuration: Set to True to use wine, False to use wibo
+USE_WINE = True
+
+def is_windows():
+    """Check if the current platform is Windows."""
+    return platform.system() == "Windows"
+
+def get_exe_command(exe_name):
+    """Returns the appropriate command to run an exe based on the platform."""
+    exe_path = f'tools/mp_build_scripts/{exe_name}'
+    
+    if is_windows():
+        return exe_path
+    else:
+        if USE_WINE:
+            # Use wine
+            if not shutil.which("wine"):
+                print("Error: wine not found. Install it with: sudo apt install wine", file=sys.stderr)
+                sys.exit(1)
+            return f"wine {exe_path}"
+        else:
+            # Use wibo
+            wibo_path = "tools/wibo"
+            if not os.path.exists(wibo_path):
+                print(f"Error: {wibo_path} not found", file=sys.stderr)
+                sys.exit(1)
+            return f"{wibo_path} {exe_path}"
 
 def check_and_create_rom(mp1=False):
     mp3_mp2_path = 'rom/mp3-mp2.z64'
@@ -70,16 +100,25 @@ c_files = glob.glob('src/**/*.c', recursive=True)
 # Call the function based on the flag
 check_and_create_rom(mp1=mp1_flag)
 
+# Files to exclude from asm file lists
+EXCLUDED_ASM_FILES = ['headersize.asm', 'rom_start.asm']
+
 if mp1_flag == True:
     # .s files are put into expansion pak ram and are *not* intended to have their headersize changed
     s_files = glob.glob('asm/**/*.s', recursive=True)
-
+    
     # .asm files are assembly files that often change the headersize
-    asm_files = glob.glob('asm/**/*.asm', recursive=True)
+    # Exclude files from the exclusion list
+    asm_files = [f for f in glob.glob('asm/**/*.asm', recursive=True) 
+                 if not any(excluded in f for excluded in EXCLUDED_ASM_FILES)]
 else:
     # Exclude any files from the 'asm/mp1' directory
-    s_files = [f for f in glob.glob('asm/**/*.s', recursive=True) if 'asm/mp1' not in f]
-    asm_files = [f for f in glob.glob('asm/**/*.asm', recursive=True) if 'asm/mp1' not in f]
+    s_files = [f for f in glob.glob('asm/**/*.s', recursive=True) 
+               if 'asm/mp1' not in f]
+    
+    # Exclude mp1 files AND files from the exclusion list
+    asm_files = [f for f in glob.glob('asm/**/*.asm', recursive=True) 
+                 if 'asm/mp1' not in f and not any(excluded in f for excluded in EXCLUDED_ASM_FILES)]
 
 # Set the ROM name based on the presence of the -mp1 flag
 rom_name = 'mp3-mp2-mp1' if mp1_flag else 'mp3-mp2'
@@ -101,6 +140,9 @@ footer = """
 PAYLOAD_END_RAM:
 .close //close file
 """
+
+# Get the cross-platform n64crc command
+n64crc_command = get_exe_command('n64crc.exe')
 
 with open('build.ninja', 'w') as buildfile:
     ninja = ninja_syntax.Writer(buildfile)
@@ -141,7 +183,7 @@ with open('build.ninja', 'w') as buildfile:
     # Add a rule to run n64crc.exe on mod.z64 after armips completes
     ninja.rule(
         "n64crc",
-        command=f"n64crc.exe rom/{rom_mod_name}",
+        command=f"{n64crc_command} rom/{rom_mod_name}",
         description=f"Running n64crc.exe on {rom_mod_name}"
     )
 
@@ -152,7 +194,7 @@ with open('build.ninja', 'w') as buildfile:
         # Define the trim_rom rule to truncate the ROM
         ninja.rule(
             "trim_rom",
-            command=f"python truncate_rom.py rom/{rom_mod_name}",
+            command=f"python tools/truncate_rom.py rom/{rom_mod_name}",
             description=f"Trimming ROM at {rom_mod_name}"
         )
 
@@ -165,14 +207,14 @@ with open('build.ninja', 'w') as buildfile:
 with open("asm/main.asm", 'w') as file:
     file.write(header)
 
-    file.write(".include \"rom_start.asm\"\n")
+    file.write(".include \"asm/rom_start.asm\"\n")
 
     for asm_file in asm_files:
         if asm_file.endswith('main.asm'):
             continue
         file.write(f".include \"{asm_file}\"\n")
 
-    file.write(".include \"headersize.asm\"\n")
+    file.write(".include \"asm/headersize.asm\"\n")
 
     for s_file in s_files:
         file.write(f".include \"{s_file}\"\n")
