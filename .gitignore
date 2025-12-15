@@ -14,3 +14,4 @@ headersize.asm
 rom_start.asm
 asm/main.asm
 venv/
+mp3-mp2-mp1.mod.eeprom

@@ -18,6 +18,9 @@
 .orga 0x20
 .ascii "MarioPartyN64Combo  "
 
+.orga 0x3F //set save type of game to 16K eeprom
+.byte 0x20
+
 .headersize 0x7FFFF400 //ran once on boot
 .org 0x80000400
     //set up stack pointer

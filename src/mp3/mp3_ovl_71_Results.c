@@ -50,24 +50,24 @@ void func_80105CE8_4E7108_mgresultboard(void) {
     u16 var_a1_3;
     s32 var_s3;
     s32 var_s5;
-    u32 var_s4;
+    u32 state;
     s32 var_v1_3;
     s8 i;
     s8 new_var;
     
     var_s5 = 0;
-    var_s4 = D_8010AAF0_4EBF10_mgresultboard;
+    state = D_8010AAF0_4EBF10_mgresultboard;
     var_s3 = 0;
-    switch (var_s4) {
+    switch (state) {
     case 0:
         mp3_HuAudSeqPlay(0x14);
         D_8010AD90_4EC1B0_mgresultboard = 0;
-        var_s4 += 1;
+        state++;
         break;
     case 1:
         if (D_8010AAF8_4EBF18_mgresultboard == 1) {
             mp3_WipeCreateIn(0xFF, 0x10);
-            var_s4 += 1;
+            state++;
         }
         break;
     case 2:
@@ -75,7 +75,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         if (D_8010AD90_4EC1B0_mgresultboard >= 0x14) {
             D_8010AD94_4EC1B4_mgresultboard = 0;
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 3:
@@ -83,7 +83,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         if (D_8010AD90_4EC1B0_mgresultboard >= ((s32) (40.0f / D_8010AAF4_4EBF14_mgresultboard) + (s32) (15.0f / D_8010AAF4_4EBF14_mgresultboard))) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
             D_8010AD94_4EC1B4_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 4:
@@ -99,11 +99,11 @@ void func_80105CE8_4E7108_mgresultboard(void) {
 
         if (D_8010AD94_4EC1B4_mgresultboard >= 4) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 = 0x10;
+            state = 16;
         } else {
             D_8010AD94_4EC1B4_mgresultboard = 0;
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 5:
@@ -123,7 +123,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         if (var_s3 == 1) {
             if (++D_8010AD90_4EC1B0_mgresultboard >= 2) {
                 D_8010AD90_4EC1B0_mgresultboard = 0;
-                var_s4 += 1;
+                state++;
             }
         }
         break;
@@ -150,7 +150,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         }
         if (var_s3 == 1) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
 
         break;
@@ -158,7 +158,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         D_8010AD90_4EC1B0_mgresultboard++;
         if (!(D_8010AD90_4EC1B0_mgresultboard < ((s32) (40.0f / D_8010AAF4_4EBF14_mgresultboard) + (s32) (15.0f / D_8010AAF4_4EBF14_mgresultboard)))) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 8:
@@ -180,7 +180,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         D_8010AD90_4EC1B0_mgresultboard++;
         if (D_8010AD90_4EC1B0_mgresultboard >= 2) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break; //TODO: fallthrough?
         }
@@ -201,7 +201,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
  
         if (var_s3 == 1) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 10:
@@ -210,7 +210,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
 
         } else {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 11:
@@ -231,7 +231,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
             mp3_GwPlayer[new_var].bonusCoin = 0;
         }
         
-        var_s4 += 1;
+        state++;
         func_80107234_4E8654_mgresultboard();
         break;
     case 12:
@@ -265,10 +265,10 @@ void func_80105CE8_4E7108_mgresultboard(void) {
 
         if (D_8010AD94_4EC1B4_mgresultboard == 0) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 = 0xF;
+            state = 0xF;
         } else {
             D_8010AD94_4EC1B4_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 13:
@@ -295,7 +295,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         }
         if (D_8010AD94_4EC1B4_mgresultboard >= 2) {
             D_8010AD94_4EC1B4_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 14:
@@ -316,7 +316,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
 
         if (var_s3 == 1) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 15:
@@ -326,14 +326,14 @@ void func_80105CE8_4E7108_mgresultboard(void) {
                 func_80107800_4E8C20_mgresultboard(i);
             }
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break;
     case 16:
         D_8010AD90_4EC1B0_mgresultboard++;
         if (D_8010AD90_4EC1B0_mgresultboard >= 0x28) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
-            var_s4 += 1;
+            state++;
         }
         break; //TODO: fallthrough?
     case 17:
@@ -342,7 +342,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         }
         mp3_WipeCreateOut(0, 0x14);
         mp3_HuAudSeqFadeOut(0x1E);
-        var_s4 += 1;
+        state++;
         break;
     case 18:
         if (mp3_WipeStatGet() == 0) {
@@ -360,7 +360,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         func_80107A58_4E8E78_mgresultboard();
     }
     
-    D_8010AAF0_4EBF10_mgresultboard = var_s4;
+    D_8010AAF0_4EBF10_mgresultboard = state;
     var_a0_3 = 0;
     var_a1_3 = 0;
     for (i = 0; i < MB_MAX_PLAYERS; i++) {
