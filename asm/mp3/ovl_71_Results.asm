@@ -28,3 +28,7 @@
 
 .org 0x80105B38
     LH v0, 0x1130 (v0) //was LHU (loads GwPlayer[i].gamePrize //minigame star)
+
+.org 0x80105CE8
+    J func_80105CE8_4E7108_mgresultboard
+    NOP

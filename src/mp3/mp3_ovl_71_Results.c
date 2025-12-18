@@ -92,7 +92,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
             //temp_v0_2 = D_8010B048_4EC468_mgresultboard[var_v1 >> 0x18].idx * 0x38;
             temp_a1 = mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].bonusCoin;
             temp_a1 += mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].gameCoin;
-            if (temp_a1 <= 0) {
+            if (temp_a1 != 0) {
                 D_8010AD94_4EC1B4_mgresultboard++;
             }
         }
@@ -111,7 +111,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         for (i = 0; i < MB_MAX_PLAYERS; i++) {
             temp_a1 = mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].gameCoin;
             temp_a1 += mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].bonusCoin;
-            if (temp_a1 > 0) {
+            if (temp_a1 != 0) {
                 var_s5++;
                 var_s3 = func_80106D88_4E81A8_mgresultboard(i, ((((rand8_Shared()) << 8) | (rand8_Shared())) % 1000));
                 func_80107800_4E8C20_mgresultboard(i);               
@@ -132,7 +132,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         for (i = 0; i < MB_MAX_PLAYERS; i++) {
             temp_a1 = mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].gameCoin;
             temp_a1 += mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].bonusCoin;
-            if (temp_a1 > 0) {
+            if (temp_a1 != 0) {
                 var_s3 = func_80106D88_4E81A8_mgresultboard(i, temp_a1);
                 func_80107800_4E8C20_mgresultboard(i);
                 var_s5++;
@@ -166,7 +166,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         for (i = 0; i < MB_MAX_PLAYERS; i++) {
             temp_a1 = mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].gameCoin;
             temp_a1 += mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].bonusCoin;
-            if (temp_a1 > 0) {
+            if (temp_a1 != 0) {
                 var_s5++;
                 var_s3 = func_80106DB8_4E81D8_mgresultboard(i, ((((rand8_Shared()) << 8) | (rand8_Shared())) % 1000));
                 func_80107800_4E8C20_mgresultboard(i);
@@ -177,12 +177,12 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         }
 
         if (var_s3 == 1) {
-        D_8010AD90_4EC1B0_mgresultboard++;
-        if (D_8010AD90_4EC1B0_mgresultboard >= 2) {
-            D_8010AD90_4EC1B0_mgresultboard = 0;
-            state++;
-        }
-        break; //TODO: fallthrough?
+            D_8010AD90_4EC1B0_mgresultboard++;
+            if (D_8010AD90_4EC1B0_mgresultboard >= 2) {
+                D_8010AD90_4EC1B0_mgresultboard = 0;
+                state++;
+            }
+            break; //TODO: fallthrough?
         }
         break;
     case 9:
@@ -190,7 +190,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
         for (i = 0; i < MB_MAX_PLAYERS; i++) {
             temp_a2 = mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].coin;
             temp_a1 = mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].gameCoin;
-            if ((temp_a1 += mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].bonusCoin) > 0) {  //TODO: this check is wrong i think
+            if ((temp_a1 += mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].bonusCoin) != 0) {
                 var_s3 = func_80106DB8_4E81D8_mgresultboard(i, temp_a2 + temp_a1);
                 func_80107800_4E8C20_mgresultboard(i);
                 var_s5++;
