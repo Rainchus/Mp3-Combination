@@ -13,11 +13,19 @@
 .include "asm\mp2\mp2_ovl60_hooks.asm"
 .include "asm\mp2\mp2_symbols.asm"
 .include "asm\mp3\mp3_boot.asm"
+.include "asm\mp3\mp3_GW_PLAYER_struct_patches.asm"
 .include "asm\mp3\mp3_minigameWheelHooks.asm"
 .include "asm\mp3\mp3_ovl58_hooks.asm"
 .include "asm\mp3\mp3_ovl70_hooks.asm"
+.include "asm\mp3\mp3_ovl_80_hooks.asm"
 .include "asm\mp3\mp3_symbols.asm"
 .include "asm\mp3\ovl_71_Results.asm"
+.include "asm\mp3\chilly_waters\mp3_ovl_48.asm"
+.include "asm\mp3\w02\mp3_w02.asm"
+.include "asm\mp3\w03\mp3_w03.asm"
+.include "asm\mp3\w04\mp3_w04.asm"
+.include "asm\mp3\w05\mp3_w05.asm"
+.include "asm\mp3\w06\mp3_w06.asm"
 .include "asm/headersize.asm"
 .include "asm\combo.s"
 .include "asm\mp1\mp1_hooks.s"
@@ -42,6 +50,7 @@
 .importobj "obj\mp3\mp3_ovl70_MinigameStartup.o"
 .importobj "obj\mp3\mp3_ovl_71_Results.o"
 .importobj "obj\mp3\mp3_SaveApi.o"
+.importobj "obj\mp3\shared_board\mp3_ovl_80_shared_board.o"
 
 .align 8
 PAYLOAD_END_RAM:

@@ -35,3 +35,11 @@ mp3_setForeignMinigameIndex:
     LI t0, ForeignMinigameIndexToLoad
     JR RA
      SW a0, 0x0000 (t0) //set ForeignMinigameIndexToLoad
+
+mp3_PushItemCountToGP:
+    JR RA
+    DADDU gp, a0, r0
+
+mp3_GetItemCount:
+    JR RA
+    DADDU v0, r0, gp

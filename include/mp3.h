@@ -119,10 +119,10 @@ typedef struct mp3_GW_PLAYER {
 /* 0x15 */ s8 blink; //b link
 /* 0x16 */ s8 bidx;
 /* 0x17 */ u8 rev; //related to reverse mushroom flags
-/* 0x18 */ s8 itemNo[5];
+/* 0x18 */ s8 itemNo[5]; //rewritten struct layout for 5 items
 /* 0x1D */ u8 turn;
-/* 0x1E */ s8 itemTurn;
-/* 0x1F */ u8 color;
+/* 0x1E */ s8 itemTurn; //this was moved
+/* 0x1F */ u8 color; //this also was moved
 /* 0x20 */ void* unk_20;
 /* 0x24 */ Object* player_obj;
 /* 0x28 */ s16 gamePrize; //minigame star

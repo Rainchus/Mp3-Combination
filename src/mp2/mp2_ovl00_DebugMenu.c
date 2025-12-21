@@ -4,6 +4,7 @@
 //this overlay should only ever be reached if mp2 is only being played for a minigame (and therefore isn't the CurBaseGame)
 
 void SaveMp2PlayerToMp3PlayerCopy(void);
+void SaveMp2PlayerToMp1PlayerCopy(void);
 
 void mp2_DebugMenuSetup(void) {
     mp2_func_80020070_20C70(1);

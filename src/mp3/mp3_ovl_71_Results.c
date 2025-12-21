@@ -47,7 +47,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
     s16 var_a1;
     s8 var_a0;
     u16 var_a0_3;
-    u16 var_a1_3;
+    u16 cpuPlayerCount;
     s32 var_s3;
     s32 var_s5;
     u32 state;
@@ -89,7 +89,6 @@ void func_80105CE8_4E7108_mgresultboard(void) {
     case 4:
         D_8010AD94_4EC1B4_mgresultboard = 0;
         for (i = 0; i < MB_MAX_PLAYERS; i++) {
-            //temp_v0_2 = D_8010B048_4EC468_mgresultboard[var_v1 >> 0x18].idx * 0x38;
             temp_a1 = mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].bonusCoin;
             temp_a1 += mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].gameCoin;
             if (temp_a1 != 0) {
@@ -97,7 +96,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
             }
         }
 
-        if (D_8010AD94_4EC1B4_mgresultboard >= 4) {
+        if (D_8010AD94_4EC1B4_mgresultboard >= MB_MAX_PLAYERS) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
             state = 16;
         } else {
@@ -182,7 +181,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
                 D_8010AD90_4EC1B0_mgresultboard = 0;
                 state++;
             }
-            break; //TODO: fallthrough?
+            break;
         }
         break;
     case 9:
@@ -222,10 +221,14 @@ void func_80105CE8_4E7108_mgresultboard(void) {
             temp_a1 += var_v1_3 + mp3_GwPlayer[D_8010B048_4EC468_mgresultboard[i].idx].bonusCoin;
             temp_a2 = temp_a1;
             
-            if (temp_a1 < 0x3E8){
-                mp3_GwPlayer[new_var].coin = temp_a2;
+            if (temp_a1 < 0x3E8) {
+                if (temp_a1 < 0) {
+                    mp3_GwPlayer[new_var].coin = 0;
+                } else {
+                    mp3_GwPlayer[new_var].coin = temp_a2;
+                }
             } else {
-                mp3_GwPlayer[new_var].coin = 0x3E7;
+                mp3_GwPlayer[new_var].coin = 999;
             }
             mp3_GwPlayer[new_var].gameCoin = 0;
             mp3_GwPlayer[new_var].bonusCoin = 0;
@@ -335,7 +338,7 @@ void func_80105CE8_4E7108_mgresultboard(void) {
             D_8010AD90_4EC1B0_mgresultboard = 0;
             state++;
         }
-        break; //TODO: fallthrough?
+        break;
     case 17:
         for (i = 0; i < MB_MAX_PLAYERS; i++) {
             mp3_AdjustPlayerCoins(i, 0);
@@ -362,14 +365,14 @@ void func_80105CE8_4E7108_mgresultboard(void) {
     
     D_8010AAF0_4EBF10_mgresultboard = state;
     var_a0_3 = 0;
-    var_a1_3 = 0;
+    cpuPlayerCount = 0;
     for (i = 0; i < MB_MAX_PLAYERS; i++) {
         if (!(mp3_GwPlayer[i].stat & 1)) {
             var_a0_3 |= D_800CDA7C_CE67C[mp3_GwPlayer[i].pad];
         } else {
-            var_a1_3++;
+            cpuPlayerCount++;
         }
     }
     
-    D_8010AAF4_4EBF14_mgresultboard = ((var_a0_3 & 0x8000) || (var_a1_3 >= 4)) ? 4.0f : 1.0f;
+    D_8010AAF4_4EBF14_mgresultboard = ((var_a0_3 & A_BUTTON) || (cpuPlayerCount >= MB_MAX_PLAYERS)) ? 4.0f : 1.0f;
 }

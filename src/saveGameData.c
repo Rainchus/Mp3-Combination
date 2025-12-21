@@ -169,7 +169,7 @@ void LoadMp3PlayerCopyToMp2(void) {
     }
 }
 
-void SaveMp2PlayerToMp1PlayerCopy (void) {
+void SaveMp2PlayerToMp1PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
         mp1_GwPlayerCopy[i].group = mp2_GwPlayerCopy[i].group;
         mp1_GwPlayerCopy[i].cpu_difficulty  = mp2_GwPlayerCopy[i].cpu_difficulty;

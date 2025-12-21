@@ -126,9 +126,6 @@
 .definelabel mp3_Hu3dModelCreateWrapper, 0x8000B108
 .definelabel mp3_ReadMainFS, 0x80009C10
 .definelabel mp3_HuFreeFilePerm, 0x80009E6C
-.definelabel mp3_D_80105588_1191A8_shared_board, 0x80105588
-.definelabel mp3_D_80101944_115564_shared_board, 0x80101944
-.definelabel mp3_D_801019D0_1155F0_shared_board, 0x801019D0
 .definelabel mp3_PlayerBoardStatusRootPosition, 0x80101794
 .definelabel mp3_D_80105592_1191B2_shared_board, 0x80105592
 .definelabel mp3_func_800552DC_55EDC, 0x800552DC
@@ -164,7 +161,6 @@
 .definelabel mp3_func_800F68E0_10A500_shared_board, 0x800F68E0
 .definelabel mp3_func_800EEF80_102BA0_shared_board, 0x800EEF80
 .definelabel mp3_func_80055140_55D40, 0x80055140
-.definelabel mp3_func_800550F4_55CF4, 0x800550F4
 .definelabel mp3_D_801055E8_119208_shared_board, 0x801055E8
 .definelabel mp3_func_800550B4_55CB4, 0x800550B4
 .definelabel mp3_BoardPlayerRankCalc, 0x800EE9C0
@@ -174,8 +170,6 @@
 .definelabel mp3_func_800F52C4_108EE4_shared_board, 0x800F52C4
 .definelabel mp3_func_8005279C_5339C, 0x8005279C
 .definelabel mp3_func_800F453C, 0x800F453C
-.definelabel mp3_func_800F6AD0_10A6F0_shared_board, 0x800F6AD0
-.definelabel mp3_func_800F6A88_10A6A8_shared_board, 0x800F6A88
 .definelabel mp3_HuMathCos, 0x8008E3F0
 .definelabel mp3_D_80105598_1191B8_shared_board, 0x80105598
 .definelabel mp3_D_8010559C_1191BC_shared_board, 0x8010559C
@@ -186,9 +180,7 @@
 .definelabel mp3_D_800D20B1_D2CB1, 0x800D20B1
 .definelabel mp3_D_80101780_1153A0_shared_board, 0x80101780
 .definelabel mp3_D_80101784_1153A4_shared_board, 0x80101784
-.definelabel mp3_func_80055024_55C24, 0x80055024
 .definelabel mp3_SprPriSet, 0x80055294
-.definelabel mp3_func_80054904_55504, 0x80054904
 .definelabel mp3_D_8010197C_11559C_shared_board, 0x8010197C
 .definelabel mp3_D_80101790_1153B0_shared_board, 0x80101790
 .definelabel mp3_D_801055C2_1191E2_shared_board, 0x801055C2
@@ -363,3 +355,29 @@
 .definelabel mp3_HuAudSeqFadeOut, 0x8004A994
 .definelabel mp3_omOvlReturnEx, 0x8004819C
 .definelabel mp3_omVibrate, 0x8004B25C
+
+//ovl_80 shared board overlay symbols
+.definelabel mp3_D_80105588_1191A8_shared_board, 0x80105588
+.definelabel mp3_D_80101944_115564_shared_board, 0x80101944
+.definelabel mp3_D_801019D0_1155F0_shared_board, 0x801019D0
+
+
+.definelabel D_801057E0_119400_shared_board, 0x801057e0
+.definelabel mp3_func_80054904_55504, 0x80054904
+.definelabel mp3_func_800F6A88_10A6A8_shared_board, 0x800f6a88
+.definelabel mp3_func_800F6AD0_10A6F0_shared_board, 0x800f6ad0
+
+.definelabel D_800D20B1_D2CB1, 0x800D20B1
+.definelabel D_80101780_1153A0_shared_Board, 0x80101780
+.definelabel D_80101784_1153A4_shared_Board, 0x80101784
+.definelabel D_80101790_1153B0_shared_Board, 0x80101790
+.definelabel D_801018E4_115504_shared_Board, 0x801018E4
+.definelabel D_8010559C_1191BC_shared_Board, 0x8010559C
+.definelabel D_801055C2_1191E2_shared_Board, 0x801055C2
+.definelabel D_801055C8_1191E8_shared_Board, 0x801055C8
+.definelabel D_801055CC_1191EC_shared_Board, 0x801055CC
+.definelabel D_801055D4_1191F4_shared_Board, 0x801055D4
+.definelabel D_801055DC_1191FC_shared_Board, 0x801055DC
+.definelabel D_801055E4_119204_shared_Board, 0x801055E4
+.definelabel mp3_func_80055024_55C24, 0x80055024
+.definelabel mp3_func_800550F4_55CF4, 0x800550F4
