@@ -70,6 +70,11 @@ void func_800F4190_107DB0_shared_board(void) {
 
 }
 
+#define BASE_X -30
+#define BASE_Y 27
+#define BASE_Y_INVERTED -27 //TODO: why are player 3 and 4 items not above the player icons?
+#define ITEM_SPACING 16
+
 s16 item0XY[] = {3, 5};
 s16 item1XY[] = {21, -5};
 s16 item2XY[] = {39, 5};
@@ -88,11 +93,6 @@ s16 PlayerIconPositions[][2] = {
 {0x003D, 0xFFFA},
 {0xFFEC, 0x000E},
 {0xFFD3, 0x0000},
-
-#define BASE_X -30
-#define BASE_Y 27
-#define BASE_Y_INVERTED -27 //TODO: why are player 3 and 4 items not above the player icons?
-#define ITEM_SPACING 16
 
 //items
 //player0 items xy positions
