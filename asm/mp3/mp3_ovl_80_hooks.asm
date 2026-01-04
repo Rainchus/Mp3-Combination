@@ -70,3 +70,7 @@
     J newfunc_800F6AD0_10A6F0_shared_board
     NOP
 
+//for pulsating effect on items
+.org 0x800E35F8
+    J newMBItemScaleEff
+    NOP

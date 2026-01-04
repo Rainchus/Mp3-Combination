@@ -186,7 +186,6 @@
 .definelabel mp3_D_801055C2_1191E2_shared_board, 0x801055C2
 .definelabel mp3_D_801055C8_1191E8_shared_board, 0x801055C8
 .definelabel mp3_D_801055E4_119204_shared_board, 0x801055E4
-.definelabel mp3_SprScale, 0x800551D8
 .definelabel mp3_UpdatePlayerBoardStatus, 0x800F2E30
 .definelabel mp3_func_800F6E4C_10AA6C_shared_board, 0x800F6E4C
 .definelabel mp3_D_801094F4_3C6314_name_50, 0x801094F4
@@ -286,8 +285,8 @@
 .definelabel mp3_WipeCreateIn, 0x80061FE8
 .definelabel mp3_D_800D530C_D5F0C, 0x800D530C
 .definelabel mp3_D_800D5558_D6158, 0x800D5558
-
-
+.definelabel mp3_HuSprAttrSet, 0x800553A8
+.definelabel mp3_HuSprScaleSet, 0x800551D8
 
 
 .definelabel mp3_func_80105D9C_4DEF5C_name_70, 0x80105D9C
@@ -365,7 +364,6 @@
 .definelabel D_801057E0_119400_shared_board, 0x801057e0
 .definelabel mp3_func_80054904_55504, 0x80054904
 .definelabel mp3_func_800F6A88_10A6A8_shared_board, 0x800f6a88
-.definelabel mp3_func_800F6AD0_10A6F0_shared_board, 0x800f6ad0
 
 .definelabel D_800D20B1_D2CB1, 0x800D20B1
 .definelabel D_80101780_1153A0_shared_Board, 0x80101780

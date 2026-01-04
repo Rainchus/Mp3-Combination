@@ -20,7 +20,7 @@ void Mp2SwapGameIfNeeded(void) {
         PushMp2MinigamesPlayedList();
         mp2_StoreBattleMinigameCoins();
         ComboSwitchGameToMp3();
-    } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp3 { //mp2
+    } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp2
         //save necessary data
         //SaveMp2PlayerStructs();
         PushMp2BoardState();

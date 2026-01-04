@@ -46,9 +46,9 @@ s32 mp2__InitEeprom(s8** arg0) {
             }
         }
 
-        if (i == 4) {
-            return EEPROM_TYPE_4K;
-        }
+        // if (i == 4) {
+        //     return EEPROM_TYPE_4K;
+        // }
     }
 
     //ASSERT(eepromProbeResult == EEPROM_TYPE_4K);

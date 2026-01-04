@@ -428,7 +428,6 @@ u8 minigameTextColor[] = {
 
 MinigameIndexTable minigameLUT[] = {
     {ACES_HIGH, AcesHighStr, 23, PLAYERS_4P, GAME_MP3},
-    //TODO: fill in game
     {AWFUL_TOWER, AwfulTowerStr, 37, PLAYERS_4P, GAME_MP3},
     {BOUNCE_N_TROUNCE, BounceNTrounceStr, 24, PLAYERS_4P, GAME_MP3},
     {CHEEP_CHEEP_CHASE, CheepCheepChaseStr, 38, PLAYERS_4P, GAME_MP3},

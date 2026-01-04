@@ -43,3 +43,10 @@ mp3_PushItemCountToGP:
 mp3_GetItemCount:
     JR RA
     DADDU v0, r0, gp
+
+alwaysSetBookOpen:
+    LUI at, 0x8011
+    ADDIU at, at, 0xD408 //8010D408
+    ORI v0, r0, 1 //also used to skip current 8010D408 read as we always make it 1
+    J 0x80105DF8
+    SB v0, 0x0000 (at) //set book always open
