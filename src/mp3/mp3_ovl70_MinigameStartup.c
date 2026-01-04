@@ -109,9 +109,10 @@ void mp3_MinigameEntryFunc(void) {
     }
 
     Mp3SwapGameIfNeeded(); //doesn't return if game swap happens
-    if (CurBaseGame == MP2_BASE) {
-        LoadMp2PlayerCopyToMp3();
-    }
+    //if the above doesn't return, why is this here?
+    // if (CurBaseGame == MP2_BASE) {
+    //     LoadMp2PlayerCopyToMp3();
+    // }
 
     //is mp3 minigame, load it
     mp3_D_8010D40A_4E65CA_name_70 = mp3_D_800A6D44_A7944[mp3_D_8010D40B_4E65CB_name_70].minigameType;

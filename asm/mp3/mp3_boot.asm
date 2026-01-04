@@ -74,3 +74,9 @@
 .org 0x80035AB0
     J mp3_setForeignMinigameIndex
      NOP
+
+/*
+.org 0x8005FBF8
+    J checkSetWindowRGBArgs
+    NOP
+*/

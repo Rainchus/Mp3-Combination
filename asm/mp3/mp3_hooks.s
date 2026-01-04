@@ -50,3 +50,33 @@ alwaysSetBookOpen:
     ORI v0, r0, 1 //also used to skip current 8010D408 read as we always make it 1
     J 0x80105DF8
     SB v0, 0x0000 (at) //set book always open
+
+/*
+example of replacing the default message window RGB value
+originalWindowRGB:
+.byte 0x40, 0x20, 0xB0 //original RGB values of messages boxes
+
+newWindowRGB:
+.byte 0x40, 0x80, 0x20 //new RGB values to set
+
+.align 4
+checkSetWindowRGBArgs: //hook to this inserted at 0x8005FBF8
+    ADDIU sp, sp, -0x30
+    SW ra, 0x002C (sp)
+
+    LI t0, originalWindowRGB
+    LBU t1, 0x0000 (t0)
+    BNE a1, t1, exitCheck
+     LBU t2, 0x0001 (t0)
+    BNE a2, t2, exitCheck
+     LBU t3, 0x0002 (t0)
+    BNE a3, t3, exitCheck
+     LI t0, newWindowRGB
+    //load new values
+    LBU a1, 0x0000 (t0)
+    LBU a2, 0x0001 (t0)
+    LBU a3, 0x0002 (t0)
+    exitCheck:
+    J 0x8005FC00
+    NOP
+*/

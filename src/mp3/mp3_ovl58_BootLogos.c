@@ -104,11 +104,18 @@ void mp3_LoadIntoResultsScene(void) {
     mp3_omOvlCallEx(OVL_GAME_END_SCENE, 0x0000, 0x12); //load results scene overlay
 }
 
+void SaveMp3PlayerToMp1PlayerCopy(void);
+void SaveMp3PlayerToMp2PlayerCopy(void);
+
 void mp3_LoadOriginalGame(void) {
     if (CurBaseGame == MP1_BASE) {
         //load into mp1
+        //SaveMp3PlayerToMp1PlayerCopy(); //copy mp2 player structs to mp1's gPlayer Copy
+        ComboSwitchGameToMp1();
     } else if (CurBaseGame == MP2_BASE) {
         //load into mp2
+        SaveMp3PlayerToMp2PlayerCopy(); //copy mp2 player structs to mp1's gPlayer Copy
+        ComboSwitchGameToMp2();
     }
     //code should never get here
 }
@@ -181,13 +188,13 @@ void mp3_BootLogosEntryFunc2(void) {
         ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
         D_80105F00_3D76B0_name_58 = 1; //set not initial boot
         mp3_BootLogosSetup();        
-    } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == -1) {
+    } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {
         //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
         //therefore, we need to load into the results scene to then load back into the board
         //set up the necessary overlay history to accomplish this
         mp3_LoadIntoResultsScene();
     } else { //isn't mp2 base, load minigame or boot back into original game
-        if (ForeignMinigameIndexToLoad == -1) {
+        if (ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {
             //load back into original game
             mp3_LoadOriginalGame();
         } else { //load into minigame from boot

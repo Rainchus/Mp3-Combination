@@ -128,7 +128,7 @@ void func_801085A0_3C3D00_name_60(s32 arg0) {
             if (CurBaseGame == MP2_BASE) {
                 mp2_omOvlHisChg(1, 0x6F, 0, 0x14); //original code; push results scene to history
             } else {
-                mp2_omOvlHisChg(1, 0, 0, 0x14); //push debug overlay (has logic for returning to original game)
+                mp2_omOvlHisChg(1, 0x57, 0, 0x14); //push boot logos overlay (has logic for returning to original game)
             }
             return;
     }
@@ -136,6 +136,6 @@ void func_801085A0_3C3D00_name_60(s32 arg0) {
     if (CurBaseGame == MP2_BASE) {
         mp2_omOvlHisChg(1, 0x70, 0, 0x14);
     } else {
-        mp2_omOvlHisChg(1, 0, 0, 0x14); //push debug overlay (has logic for returning to original game)
+        mp2_omOvlHisChg(1, 0x57, 0, 0x14);  //push boot logos overlay (has logic for returning to original game)
     }
 }

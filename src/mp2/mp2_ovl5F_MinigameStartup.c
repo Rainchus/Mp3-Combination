@@ -106,7 +106,11 @@ void func_801085A0_3B1740_name_5F(s32 arg0) {
             
         case 3:
             mp2_omOvlCallEx(mp2_D_800CAD90[mp2_D_80114DC0_3BDF60_name_5F].unk_00, 0, 0x14);
-            mp2_omOvlHisChg(1, 0x6F, 0, 0x14); //original code; push results scene to history
+            if (CurBaseGame == MP2_BASE) {
+                mp2_omOvlHisChg(1, 0x6F, 0, 0x14); //original code; push results scene to history
+            } else {
+                mp2_omOvlHisChg(1, 0x57, 0, 0x14); //push boot logos overlay (has logic for returning to original game)
+            }
             return;
     }
 
@@ -114,6 +118,6 @@ void func_801085A0_3B1740_name_5F(s32 arg0) {
     if (CurBaseGame == MP2_BASE) {
         mp2_omOvlHisChg(1, 0x70, 0, 0x14);
     } else {
-        mp2_omOvlHisChg(1, 0, 0, 0x14); //push debug overlay (has logic for returning to original game)
+        mp2_omOvlHisChg(1, 0x57, 0, 0x14); //push boot logos overlay (has logic for returning to original game)
     }
 }
