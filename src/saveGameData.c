@@ -199,6 +199,20 @@ void SaveMp2PlayerToMp3PlayerCopy(void) {
     }
 }
 
+void SaveMp3PlayerToMp1PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp1_GwPlayerCopy[i].group = mp3_GwPlayer[i].group;
+        mp1_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
+        mp1_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
+        mp1_GwPlayerCopy[i].port = mp3_GwPlayer[i].pad;
+        mp1_GwPlayerCopy[i].flags = mp3_GwPlayer[i].chr;
+        mp1_GwPlayerCopy[i].character = mp3_GwPlayer[i].chr;
+        mp1_GwPlayerCopy[i].coins_mg = mp3_GwPlayer[i].bonusCoin;
+        mp1_GwPlayerCopy[i].coins = mp3_GwPlayer[i].coin;
+        mp1_GwPlayerCopy[i].stars = mp3_GwPlayer[i].star;
+    }
+}
+
 void SaveMp3PlayerToMp2PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
         mp2_GwPlayerCopy[i].group = mp3_GwPlayer[i].group;

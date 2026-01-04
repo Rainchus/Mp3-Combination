@@ -15,6 +15,8 @@ void mp3_BootLogosSetup(void);
 void func_80105C14_3D73C4_name_58(mp3_omObjData*);
 void InitializeInitialMinigameList(void);
 void mp3_ovlEventCall(OvlEntrypoint*, s16);
+void SaveMp3PlayerToMp1PlayerCopy(void);
+void SaveMp3PlayerToMp2PlayerCopy(void);
 
 mp3_Process* mp3_D_80105F10_3D76C0_name_58 = 0;
 s32 D_80105F00_3D76B0_name_58 = 0; //if initial boot
@@ -104,13 +106,10 @@ void mp3_LoadIntoResultsScene(void) {
     mp3_omOvlCallEx(OVL_GAME_END_SCENE, 0x0000, 0x12); //load results scene overlay
 }
 
-void SaveMp3PlayerToMp1PlayerCopy(void);
-void SaveMp3PlayerToMp2PlayerCopy(void);
-
 void mp3_LoadOriginalGame(void) {
     if (CurBaseGame == MP1_BASE) {
         //load into mp1
-        //SaveMp3PlayerToMp1PlayerCopy(); //copy mp2 player structs to mp1's gPlayer Copy
+        SaveMp3PlayerToMp1PlayerCopy(); //copy mp2 player structs to mp1's gPlayer Copy
         ComboSwitchGameToMp1();
     } else if (CurBaseGame == MP2_BASE) {
         //load into mp2

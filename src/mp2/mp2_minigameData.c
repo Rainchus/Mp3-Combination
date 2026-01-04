@@ -95,7 +95,7 @@ void mp2_LoadMinigameList(void) {
         }
 
         //minigame was not found in list (??), continue loop
-        if (curMinigameData == 0) {
+        if (curMinigameData == NULL) {
             continue;
         }
 
