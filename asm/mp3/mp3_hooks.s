@@ -51,6 +51,19 @@ alwaysSetBookOpen:
     J 0x80105DF8
     SB v0, 0x0000 (at) //set book always open
 
+//TODO: this is very, very questionable
+newVoteSystemSetBool:
+    ORI a0, r0, 5
+    BNE a0, s2, skipSetImageBool
+    NOP
+    LI a0, drawImages
+    ORI a1, r0, 1
+    SW a1, 0x0000 (a0)
+    skipSetImageBool:
+    ADDIU v0, r0, 0x0013 //restore from hook
+    J 0x800F4C94
+    SH v0, 0x000E (s1)  //restore from hook
+
 /*
 example of replacing the default message window RGB value
 originalWindowRGB:

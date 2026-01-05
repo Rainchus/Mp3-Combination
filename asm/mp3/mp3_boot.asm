@@ -80,3 +80,8 @@
     J checkSetWindowRGBArgs
     NOP
 */
+
+//used for experimenting with drawing 2d objects to the screen behind the "Wipe" overlay that happens
+.org 0x8001BC74
+    JAL drawFonts3
+    SW s0, 0x0004 (v0)

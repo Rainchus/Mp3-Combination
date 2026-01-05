@@ -19,10 +19,10 @@ u8 newItemMinigameListNormalMp2[MP2_ITEM_MINIGAME_MAX] = {0};
 u8 newDuelMinigameListNormalMp2[MP2_DUEL_MINIGAME_MAX] = {0};
 u8 newCategoryAmountsNormalMp2[MP2_TOTAL_CATEGORIES] = {0};
 
-u8 mp2_battleMinigameBlacklist[] = {
-    // STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP, SLAP_DOWN, LOCKED_OUT,
-    // ALL_FIRED_UP, STORM_CHASERS, EYE_SORE
-};
+// u8 mp2_battleMinigameBlacklist[] = {
+//     // STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP, SLAP_DOWN, LOCKED_OUT,
+//     // ALL_FIRED_UP, STORM_CHASERS, EYE_SORE
+// };
 
 u8 mp2_duelMinigameBlacklist[] = {
     VINE_WITH_ME, POPGUN_PICK_OFF, END_OF_THE_LINE, BABY_BOWSER_BONKERS, SILLY_SCREWS,
@@ -154,12 +154,12 @@ void mp2_LoadMinigameList(void) {
             break;
         case PLAYERS_BATTLE:
             minigameIsBlacklisted = 0;
-            for (j = 0; j < ARRAY_COUNT(mp2_battleMinigameBlacklist); j++) {
-                if (curMinigameData->minigameIndex == mp2_battleMinigameBlacklist[j]) {
-                    minigameIsBlacklisted = 1;
-                    break;
-                }
-            }
+            // for (j = 0; j < ARRAY_COUNT(mp2_battleMinigameBlacklist); j++) {
+            //     if (curMinigameData->minigameIndex == mp2_battleMinigameBlacklist[j]) {
+            //         minigameIsBlacklisted = 1;
+            //         break;
+            //     }
+            // }
             if (minigameIsBlacklisted == 0) {
                 newBattleMinigameListNormalMp2[minigameBattleCount++] = curMinigameData->minigameIndex;
                 newCategoryAmountsNormalMp2[PLAYERS_BATTLE]++;

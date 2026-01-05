@@ -14,12 +14,6 @@ s16 mp2_hidden_block_star_space_index_copy = 0;
 extern s16 mp3_hidden_block_item_space_index; //hidden_block_item_space
 extern s16 mp3_hidden_block_coins_space_index; //hidden_block_coins_space
 extern s16 mp3_hidden_block_star_space_index; //hidden_block_star_space
-extern u32 rnd_seed_shared;
-
-u8 rand8_Shared(void) {
-    rnd_seed_shared = rnd_seed_shared * 0x41C64E6D + 0x3039;
-    return ((rnd_seed_shared + 1) >> 16);
-}
 
 // void SaveMp3PlayerStructs(void) {
 //     for (int i = 0; i < 4; i++) {

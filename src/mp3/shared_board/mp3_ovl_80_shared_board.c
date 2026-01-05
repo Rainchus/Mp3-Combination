@@ -80,37 +80,37 @@ void func_800F4190_107DB0_shared_board(void) {
 
     spriteIDs = mp3_D_80105588_1191A8_shared_board;
     //unk sprite id
-    temp_v0 = mp3_ReadMainFS(0x13010F);
+    temp_v0 = mp3_DataRead(0x13010F);
     spriteIDs[0] = mp3_func_80055810_56410(temp_v0);
     mp3_HuFreeFilePerm(temp_v0);
     
     //create player sprite ids
     for (i = 0; i < MAX_PLAYERS; i++) {
-        temp_v0 = mp3_ReadMainFS(mp3_D_80101944_115564_shared_board[mp3_GwPlayer[i].chr]);
+        temp_v0 = mp3_DataRead(mp3_D_80101944_115564_shared_board[mp3_GwPlayer[i].chr]);
         spriteIDs[i + 1] = mp3_func_80055810_56410(temp_v0);
         mp3_HuFreeFilePerm(temp_v0);
     }
 
     //create coin and star sprite ids
     for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-        temp_v0 = mp3_ReadMainFS(sp10[i]);
+        temp_v0 = mp3_DataRead(sp10[i]);
         spriteIDs[i + 5] = mp3_func_80055810_56410(temp_v0);
         mp3_HuFreeFilePerm(temp_v0);
     }
 
     //create placement sprite id
-    temp_v0 = mp3_ReadMainFS(0x130110);
+    temp_v0 = mp3_DataRead(0x130110);
     spriteIDs[8] = mp3_func_80055810_56410(temp_v0);
     mp3_HuFreeFilePerm(temp_v0);
 
     //create COM text sprite id
-    temp_v0 = mp3_ReadMainFS(0x1300D1);
+    temp_v0 = mp3_DataRead(0x1300D1);
     spriteIDs[9] = mp3_func_80055810_56410(temp_v0);
     mp3_HuFreeFilePerm(temp_v0);
 
     //create item sprite ids
     for (i = 0; i < ITEMS_END; i++) {
-        temp_v0 = mp3_ReadMainFS(mp3_D_801019D0_1155F0_shared_board[i]);
+        temp_v0 = mp3_DataRead(mp3_D_801019D0_1155F0_shared_board[i]);
         spriteIDs[i + 10] = mp3_func_80055810_56410(temp_v0);
         mp3_HuFreeFilePerm(temp_v0);
     }
@@ -559,8 +559,6 @@ void newfunc_800F6AD0_10A6F0_shared_board(s32 arg0, f32 xScale, f32 yScale) {
 
 //sets item positions when pressing B and you have control of hand cursor
 void newfunc_800F6E4C_10AA6C_shared_board(s32 playerIndex, s32 itemIndex, s32* xPos, s32* yPos) {
-    s32 xPosTemp;
-    
     if (playerIndex == CUR_PLAYER) {
         playerIndex = mp3_GwSystem.current_player_index;
     }
@@ -594,10 +592,10 @@ void newfunc_800F5F98_109BB8_shared_board(s32 arg0, s32 arg1) {
     for (i = 0; i < itemCount; i++) {
         var_s2 = NULL;
         if (mp3_GwPlayer[arg0].itemNo[i] != -1) {
-            var_s2 = mp3_ReadMainFS(mp3_D_8010197C_11559C_shared_board[mp3_GwPlayer[arg0].itemNo[i]]);
+            var_s2 = mp3_DataRead(mp3_D_8010197C_11559C_shared_board[mp3_GwPlayer[arg0].itemNo[i]]);
         } else {
             if (i == 0) {
-                var_s2 = mp3_ReadMainFS(0x13025E);
+                var_s2 = mp3_DataRead(0x13025E);
             }
         }
 

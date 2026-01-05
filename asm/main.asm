@@ -45,11 +45,12 @@
 .importobj "obj\mp2\mp2_ovl57_BootLogos.o"
 .importobj "obj\mp2\mp2_ovl5F_MinigameStartup.o"
 .importobj "obj\mp2\mp2_ovl60_MinigameStartup.o"
+.importobj "obj\mp3\mp3_graphicsHooks.o"
 .importobj "obj\mp3\mp3_minigameData.o"
+.importobj "obj\mp3\mp3_misc.o"
 .importobj "obj\mp3\mp3_ovl58_BootLogos.o"
 .importobj "obj\mp3\mp3_ovl70_MinigameStartup.o"
 .importobj "obj\mp3\mp3_ovl_71_Results.o"
-.importobj "obj\mp3\mp3_SaveApi.o"
 .importobj "obj\mp3\shared_board\mp3_ovl_80_shared_board.o"
 
 .align 8

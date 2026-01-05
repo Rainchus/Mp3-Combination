@@ -124,7 +124,6 @@
 .definelabel mp3_osEepromProbe, 0x80072420
 .definelabel mp3_D_800D1350, 0x800D1350
 .definelabel mp3_Hu3dModelCreateWrapper, 0x8000B108
-.definelabel mp3_ReadMainFS, 0x80009C10
 .definelabel mp3_HuFreeFilePerm, 0x80009E6C
 .definelabel mp3_PlayerBoardStatusRootPosition, 0x80101794
 .definelabel mp3_D_80105592_1191B2_shared_board, 0x80105592
@@ -354,6 +353,19 @@
 .definelabel mp3_HuAudSeqFadeOut, 0x8004A994
 .definelabel mp3_omOvlReturnEx, 0x8004819C
 .definelabel mp3_omVibrate, 0x8004B25C
+.definelabel mp3_DataRead, 0x80009C10
+.definelabel mp3_HuMemMemoryFreePerm, 0x80035888
+.definelabel mp3_func_8000B0D4_BCD4, 0x8000B0D4
+.definelabel mp3_HmfModelData, 0x800D03F8
+.definelabel mp3_HuMemMemoryAllocPerm, 0x80035864
+.definelabel mp3_func_8006A370_6AF70, 0x8006A370
+.definelabel mp3_func_80069E68_6AA68, 0x80069E68
+.definelabel mp3_func_800698E8_6A4E8, 0x800698E8
+.definelabel mp3_func_8002C834_2D434, 0x8002C834
+.definelabel mp3_HuMemAllocTag, 0x80019A14
+.definelabel mp3_Hu3DModelPosSet, 0x8001C0C4
+.definelabel mp3_Hu3DModelScaleSet, 0x8001C1A0
+.definelabel mp3_func_8001C814_1D414, 0x8001C814
 
 //ovl_80 shared board overlay symbols
 .definelabel mp3_D_80105588_1191A8_shared_board, 0x80105588

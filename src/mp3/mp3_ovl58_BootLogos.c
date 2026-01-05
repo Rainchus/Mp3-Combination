@@ -2,6 +2,7 @@
 
 #include "marioparty.h"
 #include "mp3.h"
+#include "mp3/game/hmfman.h"
 
 #define OVL_RESULTS_SCENE 0x47
 #define OVL_GAME_END_SCENE 0x71
@@ -192,7 +193,7 @@ void mp3_BootLogosEntryFunc2(void) {
         //therefore, we need to load into the results scene to then load back into the board
         //set up the necessary overlay history to accomplish this
         mp3_LoadIntoResultsScene();
-    } else { //isn't mp2 base, load minigame or boot back into original game
+    } else { //isn't mp3 base, load minigame or boot back into original game
         if (ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {
             //load back into original game
             mp3_LoadOriginalGame();
@@ -239,8 +240,33 @@ void func_80105C14_3D73C4_name_58(mp3_omObjData* arg0) {
     }
 }
 
+void mp3_DrawDebugText(s32 xPos, s32 yPos, char* str);
+
+s32 D_8010D4A4_4E6664_inst = 0x48;
+s16 spriteIDs[1] = {-1};
+
+void mp3_Hu3DModelPosSet(s16, f32, f32, f32);
+void mp3_Hu3DModelScaleSet(s16, f32, f32, f32);
+
 void DoCustomLogos(void) {
-    //TODO: fill in logic for custom logos
+    // void* image0;
+    // void* image1;
+    // void* image2;
+    // void* converted;
+    // s32 i;
+    // s32 mainFS_ID = 0x00170048;
+
+    // image2 = mp3_DataRead(0x170007);
+    // for (i = 0; i < 4; i++, mainFS_ID+= 2) {
+    //     image0 = mp3_DataRead(mainFS_ID);
+    //     image1 = mp3_DataRead(mainFS_ID+1);
+    //     converted = ConvertHVQSToRGBA(image1, image0, image2);
+    //     AddToDisplayQueue(converted);
+    // }
+
+    // for (s32 i = 0; i < 20; i++) {
+    //     mp3_HuPrcSleep(1);
+    // }
 }
 
 void func_80105C80_3D7430_name_58(void) {

@@ -154,7 +154,7 @@ void mp2_BootLogosEntryFunc(void) {
         mp2_LoadIntoResultsScene();
     } else { //isn't mp2 base, load minigame or boot back into original game
         if (ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {
-            //just played mp3 minigame, load back into original game
+            //just played mp2 minigame, load back into original game
             mp2_LoadOriginalGame();
         } else { //load into minigame from boot
             mp2_LoadMinigameFromBoot();

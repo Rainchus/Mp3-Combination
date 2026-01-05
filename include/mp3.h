@@ -4,6 +4,7 @@
 #include "ultra64.h"
 #include "marioparty.h"
 #include "mp3/game/object.h"
+#include "mp3/malloc.h"
 
 enum ITEMS {
     ITEM_NONE = -1,
@@ -230,7 +231,7 @@ void mp3_PlaySound(s16);
 f32 mp3_HuMathCos(f32);
 void mp3_HuFreeFilePerm(void*);
 s16 mp3_func_80055810_56410(void*);
-void* mp3_ReadMainFS(s32);
+void* mp3_DataRead(s32);
 void mp3_LoadMinigameList(void);
 void LoadBackIntoMp3Board(void);
 void mp3_HuPrcEnd(void);

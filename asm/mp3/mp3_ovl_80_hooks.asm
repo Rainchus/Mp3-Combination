@@ -74,3 +74,13 @@
 .org 0x800E35F8
     J newMBItemScaleEff
     NOP
+
+
+//WIP, displays 4 images during when minigame wheel would normally appear, that's all
+//.org 0x800E0028
+    //LI v0, newVoteSystem
+
+//TODO: this is very, very questionable
+.org 0x800F4C8C
+    J newVoteSystemSetBool
+    NOP
