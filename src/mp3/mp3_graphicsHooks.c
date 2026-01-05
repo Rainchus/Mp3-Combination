@@ -3,6 +3,87 @@
 
 Gfx* mp3_WipeExecAlways(Gfx**);
 
+Gfx* drawCi8Image(Gfx* gfx, int x, int y, int width, int height, u8* texture, u16* palette) {
+    gDPPipeSync(gfx++);
+    
+    gDPSetTextureLUT(gfx++, G_TT_RGBA16);
+    gDPSetCombineMode(gfx++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+    gDPSetRenderMode(gfx++, G_RM_AA_TEX_EDGE, G_RM_AA_TEX_EDGE2);
+    
+    // Load the 256-color palette
+    gDPLoadTLUT_pal256(gfx++, palette);
+    
+    // Use LoadTextureTile instead of LoadTextureBlock for odd-sized textures
+    gDPLoadTextureTile(gfx++, texture, G_IM_FMT_CI, G_IM_SIZ_8b, 
+                       width, height,
+                       0, 0, width - 1, height - 1,
+                       0,
+                       G_TX_NOMIRROR, G_TX_NOMIRROR, 
+                       G_TX_NOMASK, G_TX_NOMASK, 
+                       G_TX_NOLOD, G_TX_NOLOD);
+    
+    // Draw the textured rectangle
+    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + width) << 2, (y + height) << 2,
+                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+
+    gDPPipeSync(gfx++);
+    gDPSetTextureLUT(gfx++, G_TT_NONE);
+    
+    return gfx;
+}
+
+//has fix by claude, fixes black outline on images?
+Gfx* drawCi4Image(Gfx* gfx, int x, int y, int width, int height, u8* texture, u16* palette) {
+    gDPPipeSync(gfx++);
+    
+    gDPSetTextureLUT(gfx++, G_TT_RGBA16);
+    gDPSetTextureFilter(gfx++, G_TF_POINT);
+    gDPSetAlphaCompare(gfx++, G_AC_THRESHOLD);
+    gDPSetBlendColor(gfx++, 0, 0, 0, 1);
+    
+    gDPSetCombineMode(gfx++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+    gDPSetRenderMode(gfx++, G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
+    
+    gDPLoadTLUT_pal16(gfx++, 0, palette);
+    gDPLoadTextureBlock_4b(gfx++, texture, G_IM_FMT_CI, width, height, 0,
+                           G_TX_NOMIRROR, G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    
+    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + width) << 2, (y + height) << 2,
+                        G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+
+    gDPPipeSync(gfx++);
+    return gfx;
+}
+
+Gfx* drawCi4ImageScaled(Gfx* gfx, int x, int y, int width, int height, 
+                        u8* texture, u16* palette, float scaleX, float scaleY) {
+    gDPPipeSync(gfx++);
+    
+    gDPSetTextureLUT(gfx++, G_TT_RGBA16);
+    gDPSetTextureFilter(gfx++, G_TF_POINT);  // or G_TF_BILERP for smoother scaling
+    gDPSetAlphaCompare(gfx++, G_AC_THRESHOLD);
+    gDPSetBlendColor(gfx++, 0, 0, 0, 1);
+    
+    gDPSetCombineMode(gfx++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+    gDPSetRenderMode(gfx++, G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
+    
+    gDPLoadTLUT_pal16(gfx++, 0, palette);
+    gDPLoadTextureBlock_4b(gfx++, texture, G_IM_FMT_CI, width, height, 0,
+                           G_TX_NOMIRROR, G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    
+    int dsdx = (int)((1 << 10) / scaleX);
+    int dtdy = (int)((1 << 10) / scaleY);
+    int scaledWidth = (int)(width * scaleX);
+    int scaledHeight = (int)(height * scaleY);
+    
+    gSPTextureRectangle(gfx++, x << 2, y << 2, 
+                        (x + scaledWidth) << 2, (y + scaledHeight) << 2,
+                        G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
+
+    gDPPipeSync(gfx++);
+    return gfx;
+}
+
 Gfx* gfx_draw_textured_rectangle_rgba32(Gfx* gfx, int x, int y, int width, int height, u8* texture) {
     gDPPipeSync(gfx++);
 
@@ -139,9 +220,6 @@ extern void* tempDisplayTest1;
 extern void* tempDisplayTest2;
 extern void* tempDisplayTest3;
 
-#define IMG_BASE_X 28
-#define IMG_BASE_Y 128
-
 // Gfx* drawFonts3(void) {
 //     f32 xScale = 0.5f;
 //     f32 yScale = 0.5f;
@@ -154,8 +232,11 @@ extern void* tempDisplayTest3;
 // }
 
 // Define the structure to hold display information
+
 typedef struct {
     void* imageData;
+    void* paletteData;
+    s32 imageType; //RGBA32 = 0, RGBA16 = 1, etc.
     s32 xPos;
     s32 yPos;
     s32 width;
@@ -165,14 +246,50 @@ typedef struct {
     s32 active;
 } DisplayQueueItem;
 
-#define MAX_DISPLAY_QUEUE 4
-static DisplayQueueItem displayQueue[MAX_DISPLAY_QUEUE];
+#define MAX_DISPLAY_QUEUE 8
+DisplayQueueItem displayQueue[MAX_DISPLAY_QUEUE] = {0};
 static s32 queueInitialized = FALSE;
+
+// Update position of a specific queue item
+void UpdateDisplayQueuePosition(s32 index, s32 xPos, s32 yPos) {
+    if (index >= 0 && index < MAX_DISPLAY_QUEUE && displayQueue[index].active) {
+        displayQueue[index].xPos = xPos;
+        displayQueue[index].yPos = yPos;
+    }
+}
+
+// Update scale of a specific queue item
+void UpdateDisplayQueueScale(s32 index, f32 scaleX, f32 scaleY) {
+    if (index >= 0 && index < MAX_DISPLAY_QUEUE && displayQueue[index].active) {
+        displayQueue[index].xScale = scaleX;
+        displayQueue[index].yScale = scaleY;
+    }
+}
+
+// Get a reference to a queue item for direct manipulation
+DisplayQueueItem* GetDisplayQueueItem(s32 index) {
+    if (index >= 0 && index < MAX_DISPLAY_QUEUE && displayQueue[index].active) {
+        return &displayQueue[index];
+    }
+    return NULL;
+}
+
+// Find index of an item by its imageData pointer (useful if you saved the pointer)
+s32 FindDisplayQueueIndex(void* imageData) {
+    for (s32 i = 0; i < MAX_DISPLAY_QUEUE; i++) {
+        if (displayQueue[i].active && displayQueue[i].imageData == imageData) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 // Initialize the queue (call this once at startup)
 void InitDisplayQueue(void) {
     for (s32 i = 0; i < MAX_DISPLAY_QUEUE; i++) {
         displayQueue[i].imageData = NULL;
+        displayQueue[i].paletteData = NULL;
+        displayQueue[i].imageType = -1;
         displayQueue[i].active = FALSE;
         displayQueue[i].xPos = 0;
         displayQueue[i].yPos = 0;
@@ -185,7 +302,7 @@ void InitDisplayQueue(void) {
 }
 
 // Add an item to the display queue
-s32 AddToDisplayQueue(void* imageData) {
+s32 AddToDisplayQueue(void* imageData, s32 imageType, s32 xPos, s32 yPos, s32 width, s32 height, f32 scaleX, f32 scaleY) {
     if (!queueInitialized) {
         InitDisplayQueue();
     }
@@ -193,25 +310,30 @@ s32 AddToDisplayQueue(void* imageData) {
     // Find first available slot
     for (s32 i = 0; i < MAX_DISPLAY_QUEUE; i++) {
         if (!displayQueue[i].active) {
-            displayQueue[i].imageData = imageData;
+            if (imageType == RGBA32 || imageType == RGBA16) {
+                displayQueue[i].imageData = imageData;
+                displayQueue[i].imageType = imageType;
+            } else if (imageType == CI8 || imageType == CI4) {
+                u32 paletteOffset = *(u32*)((u8*)imageData + 0xC); //gets offset 0xC (palette offset) from file
+                u32 imgOffset = *(u32*)((u8*)imageData + 0x8); //gets offset 0x8 (image start) from file
+
+                displayQueue[i].imageData = (u32)imageData + (u32)imgOffset;
+                displayQueue[i].imageType = imageType;
+                displayQueue[i].paletteData = (u32)imageData + (u32)paletteOffset;
+            }
+
             displayQueue[i].active = TRUE;
-            
-            // Calculate position based on slot index
-            s32 column = i % 4;  // 0-3, wraps every 4
-            s32 row = i / 4;     // 0 for first 4, 1 for next 4, etc.
-            
-            displayQueue[i].xPos = IMG_BASE_X + (128/2 * column);
-            displayQueue[i].yPos = IMG_BASE_Y + (48 * row);
-            
-            displayQueue[i].width = 128;
-            displayQueue[i].height = 96;
-            displayQueue[i].xScale = 0.5f;
-            displayQueue[i].yScale = 0.5f;
-            return TRUE;
+            displayQueue[i].xPos = xPos;
+            displayQueue[i].yPos = yPos;
+            displayQueue[i].width = width;
+            displayQueue[i].height = height;
+            displayQueue[i].xScale = scaleX;
+            displayQueue[i].yScale = scaleY;
+            return i;
         }
     }
     
-    return FALSE; // Queue full
+    return -1; // Queue full
 }
 
 // Remove an item from the display queue
@@ -236,6 +358,9 @@ void ClearDisplayQueue(void) {
     }
 }
 
+Gfx* drawCi4ImageScaled(Gfx* gfx, int x, int y, int width, int height, 
+                        u8* texture, u16* palette, float scaleX, float scaleY);
+
 // Updated draw function
 Gfx* drawFonts3(void) {
     if (!queueInitialized) {
@@ -245,16 +370,42 @@ Gfx* drawFonts3(void) {
     // Draw all active items in the queue
     for (s32 i = 0; i < MAX_DISPLAY_QUEUE; i++) {
         if (displayQueue[i].active && displayQueue[i].imageData != NULL) {
-            mp3_gMainGfxPos = gfx_draw_textured_rectangle_rgba32_tiled_scaled(
-                mp3_gMainGfxPos, 
-                displayQueue[i].xPos, 
-                displayQueue[i].yPos, 
-                displayQueue[i].width, 
-                displayQueue[i].height, 
-                displayQueue[i].imageData, 
-                displayQueue[i].xScale, 
-                displayQueue[i].yScale
-            );
+            if (displayQueue[i].imageType == RGBA32) {
+                mp3_gMainGfxPos = gfx_draw_textured_rectangle_rgba32_tiled_scaled(
+                    mp3_gMainGfxPos, 
+                    displayQueue[i].xPos, 
+                    displayQueue[i].yPos, 
+                    displayQueue[i].width, 
+                    displayQueue[i].height, 
+                    displayQueue[i].imageData, 
+                    displayQueue[i].xScale, 
+                    displayQueue[i].yScale
+                );
+            } else if (displayQueue[i].imageType == CI8) {
+                mp3_gMainGfxPos = drawCi8Image(
+                    mp3_gMainGfxPos, 
+                    displayQueue[i].xPos, 
+                    displayQueue[i].yPos, 
+                    displayQueue[i].width, 
+                    displayQueue[i].height, 
+                    displayQueue[i].imageData,
+                    displayQueue[i].paletteData 
+                    //displayQueue[i].xScale, 
+                    //displayQueue[i].yScale
+                );
+            } else if (displayQueue[i].imageType == CI4) {
+                mp3_gMainGfxPos = drawCi4ImageScaled(
+                    mp3_gMainGfxPos, 
+                    displayQueue[i].xPos, 
+                    displayQueue[i].yPos, 
+                    displayQueue[i].width, 
+                    displayQueue[i].height, 
+                    displayQueue[i].imageData,
+                    displayQueue[i].paletteData, 
+                    displayQueue[i].xScale, 
+                    displayQueue[i].yScale
+                );
+            }
         }
     }
     

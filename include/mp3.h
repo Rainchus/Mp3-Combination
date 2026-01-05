@@ -6,6 +6,13 @@
 #include "mp3/game/object.h"
 #include "mp3/malloc.h"
 
+enum {
+    RGBA32 = 0,
+    RGBA16 = 1,
+    CI8 = 2,
+    CI4 = 3
+};
+
 enum ITEMS {
     ITEM_NONE = -1,
     ITEM_MUSHROOM = 0,
