@@ -317,9 +317,9 @@ s32 AddToDisplayQueue(void* imageData, s32 imageType, s32 xPos, s32 yPos, s32 wi
                 u32 paletteOffset = *(u32*)((u8*)imageData + 0xC); //gets offset 0xC (palette offset) from file
                 u32 imgOffset = *(u32*)((u8*)imageData + 0x8); //gets offset 0x8 (image start) from file
 
-                displayQueue[i].imageData = (u32)imageData + (u32)imgOffset;
+                displayQueue[i].imageData = (void*) ((u32)imageData + (u32)imgOffset);
                 displayQueue[i].imageType = imageType;
-                displayQueue[i].paletteData = (u32)imageData + (u32)paletteOffset;
+                displayQueue[i].paletteData = (void*) ((u32)imageData + (u32)paletteOffset);
             }
 
             displayQueue[i].active = TRUE;

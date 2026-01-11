@@ -15,113 +15,10 @@ extern s16 mp3_hidden_block_item_space_index; //hidden_block_item_space
 extern s16 mp3_hidden_block_coins_space_index; //hidden_block_coins_space
 extern s16 mp3_hidden_block_star_space_index; //hidden_block_star_space
 
-// void SaveMp3PlayerStructs(void) {
-//     for (int i = 0; i < 4; i++) {
-//         mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
-//         mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;
-//         mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty2;
-//         mp3_GwPlayerCopy[i].controller_port = mp2_GwPlayer[i].port;
-//         mp3_GwPlayerCopy[i].characterID = mp2_GwPlayer[i].character;
-//         mp3_GwPlayerCopy[i].flags1 = mp2_GwPlayer[i].flags;
-
-//         mp3_GwPlayerCopy[i].coins_mg_bonus = mp2_GwPlayer[i].coins_mg_bonus;
-//         mp3_GwPlayerCopy[i].minigameCoins = mp2_GwPlayer[i].minigameCoins;
-//         mp3_GwPlayerCopy[i].coins = mp2_GwPlayer[i].coins;
-//         mp3_GwPlayerCopy[i].stars = mp2_GwPlayer[i].stars;
-
-
-//         mp3_GwPlayerCopy[i].mg_star_coins = mp2_GwPlayer[i].mg_star_coins; //mg star
-//         mp3_GwPlayerCopy[i].coins_total = mp2_GwPlayer[i].coins_total; //coin star
-//         mp3_GwPlayerCopy[i].blueSpacesLandedOn = mp2_GwPlayer[i].blue_spaces_landed_on; //happening star
-//         mp3_GwPlayerCopy[i].redSpacesLandedOn = mp2_GwPlayer[i].red_spaces_landed_on;
-//         mp3_GwPlayerCopy[i].happeningSpacesLandedOn = mp2_GwPlayer[i].red_spaces_landed_on;
-
-//         //mp3_GwPlayerCopy[i] = mp3_GwPlayer[i];
-//     }
-
-//     mp3_hidden_block_item_space_copy = mp3_hidden_block_item_space_index;
-//     mp3_hidden_block_coins_space_copy = mp3_hidden_block_coins_space_index;
-//     mp3_hidden_block_star_space_copy = mp3_hidden_block_star_space_index;
-// }
-
-// void LoadMp3PlayerStructs(void) {
-//     for (int i = 0; i < 4; i++) {
-//         mp2_GwPlayer[i].group = mp3_GwPlayerCopy[i].group;
-//         mp2_GwPlayer[i].cpu_difficulty = mp3_GwPlayerCopy[i].cpu_difficulty;
-//         mp2_GwPlayer[i].cpu_difficulty2 = mp3_GwPlayerCopy[i].cpu_difficulty;
-//         mp2_GwPlayer[i].port = mp3_GwPlayerCopy[i].controller_port;
-//         mp2_GwPlayer[i].character = mp3_GwPlayerCopy[i].characterID;
-//         mp2_GwPlayer[i].flags = mp3_GwPlayerCopy[i].flags1;
-
-//         mp3_GwPlayerCopy[i].coins_mg_bonus = mp2_GwPlayer[i].coins_mg_bonus;
-//         mp3_GwPlayerCopy[i].minigameCoins = mp2_GwPlayer[i].minigameCoins;
-//         mp3_GwPlayerCopy[i].coins = mp2_GwPlayer[i].coins;
-//         mp3_GwPlayerCopy[i].stars = mp2_GwPlayer[i].stars;
-
-
-//         mp3_GwPlayerCopy[i].mg_star_coins = mp2_GwPlayer[i].mg_star_coins; //mg star
-//         mp3_GwPlayerCopy[i].coins_total = mp2_GwPlayer[i].coins_total; //coin star
-//         mp3_GwPlayerCopy[i].blueSpacesLandedOn = mp2_GwPlayer[i].blue_spaces_landed_on; //happening star
-//         mp3_GwPlayerCopy[i].redSpacesLandedOn = mp2_GwPlayer[i].red_spaces_landed_on;
-//         mp3_GwPlayerCopy[i].happeningSpacesLandedOn = mp2_GwPlayer[i].red_spaces_landed_on;
-//     }
-
-//     mp3_hidden_block_item_space_index = mp3_hidden_block_item_space_copy;
-//     mp3_hidden_block_coins_space_index = mp3_hidden_block_coins_space_copy;
-//     mp3_hidden_block_star_space_index = mp3_hidden_block_star_space_copy;
-// }
-
-// void SaveMp2PlayerStructs(void) {
-//     for (int i = 0; i < 4; i++) {
-//         mp2_GwPlayerCopy[i] = mp2_GwPlayer[i];
-//     }
-
-//     mp2_hidden_block_coins_space_index_copy = mp2_hidden_block_coins_space_index;
-//     mp2_hidden_block_star_space_index_copy = mp2_hidden_block_star_space_index;
-// }
-
-// void SaveMp1PlayerStructs(void) {
-//     for (int i = 0; i < 4; i++) {
-//         mp1_GwPlayerCopy[i] = mp1_GwPlayer[i];
-//     }
-//     //TODO: doesn't this game also have "hidden blocks?"
-// }
-
-// // void LoadMp3PlayerStructs(void) {
-// //     for (int i = 0; i < 4; i++) {
-// //         mp3_GwPlayer[i] = mp3_GwPlayerCopy[i];
-// //     }
-
-// //     mp3_hidden_block_item_space_index = mp3_hidden_block_item_space_copy;
-// //     mp3_hidden_block_coins_space_index = mp3_hidden_block_coins_space_copy;
-// //     mp3_hidden_block_star_space_index = mp3_hidden_block_star_space_copy;
-// // }
-
-// // void LoadMp2PlayerStructs(void) {
-// //     for (int i = 0; i < 4; i++) {
-// //         mp2_GwPlayer[i] = mp2_GwPlayerCopy[i];
-// //     }
-
-// //     mp2_hidden_block_coins_space_index = mp2_hidden_block_coins_space_index_copy;
-// //     mp2_hidden_block_star_space_index = mp2_hidden_block_star_space_index_copy;
-// // }
-
-// // void LoadMp1PlayerStructs(void) {
-// //     for (int i = 0; i < 4; i++) {
-// //         mp1_GwPlayer[i] = mp1_GwPlayerCopy[i];
-// //     }
-// //     //TODO: doesn't this game also have "hidden blocks?"
-// // }
 
 void SaveMp3PlayerToMp3PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
         mp3_GwPlayerCopy[i] = mp3_GwPlayer[i];
-    }
-}
-
-void SaveMp2PlayerToMp2PlayerCopy(void) {
-    for (int i = 0; i < 4; i++) {
-        mp2_GwPlayerCopy[i] = mp2_GwPlayer[i];
     }
 }
 
@@ -131,97 +28,187 @@ void SaveMp3PlayerCopyToMp3Player(void) {
     }
 }
 
+
+void SaveMp2PlayerToMp2PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp2_GwPlayerCopy[i] = mp2_GwPlayer[i];
+    }
+}
+
 void SaveMp2PlayerCopyToMp2Player(void) {
     for (int i = 0; i < 4; i++) {
         mp2_GwPlayer[i] = mp2_GwPlayerCopy[i];
     }
 }
 
+
+void SaveMp1PlayerToMp1PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp1_GwPlayerCopy[i] = mp1_GwPlayer[i];
+    }
+}
+
+void SaveMp1PlayerCopyToMp1Player(void) {
+    for (int i = 0; i < 4; i++) {
+        mp1_GwPlayer[i] = mp1_GwPlayerCopy[i];
+    }
+}
+
+//loading in from mp2 minigame back to mp3 board
 void LoadMp2PlayerCopyToMp3(void) {
     for (int i = 0; i < 4; i++) {
         mp3_GwPlayer[i].group = mp2_GwPlayerCopy[i].group;
         mp3_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
         mp3_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
-        mp3_GwPlayer[i].pad = mp2_GwPlayerCopy[i].port;
-        mp3_GwPlayer[i].stat = mp2_GwPlayerCopy[i].flags;
-        mp3_GwPlayer[i].chr = mp2_GwPlayerCopy[i].character;
-        mp3_GwPlayer[i].coin = mp2_GwPlayerCopy[i].coins;
-        mp3_GwPlayer[i].star = mp2_GwPlayerCopy[i].stars;
+        mp3_GwPlayer[i].pad = mp2_GwPlayerCopy[i].pad;
+        mp3_GwPlayer[i].stat = mp2_GwPlayerCopy[i].stat;
+        mp3_GwPlayer[i].chr = mp2_GwPlayerCopy[i].chr;
+        mp3_GwPlayer[i].coin = mp2_GwPlayerCopy[i].coin;
+        mp3_GwPlayer[i].star = mp2_GwPlayerCopy[i].star;
     }
 }
 
+//loading in from mp1 minigame back to mp3 board
+void LoadMp1PlayerCopyToMp3(void) {
+    for (int i = 0; i < 4; i++) {
+        mp3_GwPlayer[i].group = mp1_GwPlayerCopy[i].group;
+        mp3_GwPlayer[i].cpu_difficulty = mp1_GwPlayerCopy[i].cpu_difficulty;
+        mp3_GwPlayer[i].cpu_difficulty = mp1_GwPlayerCopy[i].cpu_difficulty;
+        mp3_GwPlayer[i].pad = mp1_GwPlayerCopy[i].pad;
+        mp3_GwPlayer[i].stat = mp1_GwPlayerCopy[i].stat;
+        mp3_GwPlayer[i].chr = mp1_GwPlayerCopy[i].chr;
+        mp3_GwPlayer[i].coin = mp1_GwPlayerCopy[i].coin;
+        mp3_GwPlayer[i].star = mp1_GwPlayerCopy[i].star;
+    }
+}
+
+//already loaded back into mp2, get data from mp3GwPlayerCopy
 void LoadMp3PlayerCopyToMp2(void) {
     for (int i = 0; i < 4; i++) {
         mp2_GwPlayer[i].group = mp3_GwPlayerCopy[i].group;
         mp2_GwPlayer[i].cpu_difficulty = mp3_GwPlayerCopy[i].cpu_difficulty;
         mp2_GwPlayer[i].cpu_difficulty2 = mp3_GwPlayerCopy[i].cpu_difficulty;
-        mp2_GwPlayer[i].port = mp3_GwPlayerCopy[i].pad;
-        mp2_GwPlayer[i].flags = mp3_GwPlayerCopy[i].stat;
-        mp2_GwPlayer[i].character = mp3_GwPlayerCopy[i].chr;
-        mp2_GwPlayer[i].coins = mp3_GwPlayerCopy[i].coin;
-        mp2_GwPlayer[i].stars = mp3_GwPlayerCopy[i].star;
+        mp2_GwPlayer[i].pad = mp3_GwPlayerCopy[i].pad;
+        mp2_GwPlayer[i].stat = mp3_GwPlayerCopy[i].stat;
+        mp2_GwPlayer[i].chr = mp3_GwPlayerCopy[i].chr;
+        mp2_GwPlayer[i].coin = mp3_GwPlayerCopy[i].coin;
+        mp2_GwPlayer[i].star = mp3_GwPlayerCopy[i].star;
     }
 }
-
-void SaveMp2PlayerToMp1PlayerCopy(void) {
+//already loaded back into mp1, get data from mp3GwPlayerCopy
+void LoadMp3PlayerCopyToMp1(void) {
     for (int i = 0; i < 4; i++) {
-        mp1_GwPlayerCopy[i].group = mp2_GwPlayerCopy[i].group;
-        mp1_GwPlayerCopy[i].cpu_difficulty  = mp2_GwPlayerCopy[i].cpu_difficulty;
-        mp1_GwPlayerCopy[i].port  = mp2_GwPlayerCopy[i].port;
-        mp1_GwPlayerCopy[i].flags  = mp2_GwPlayerCopy[i].flags;
-        mp1_GwPlayerCopy[i].character = mp2_GwPlayerCopy[i].character;
-
-        mp1_GwPlayerCopy[i].coins = mp2_GwPlayerCopy[i].coins;
-        mp1_GwPlayerCopy[i].stars = mp2_GwPlayerCopy[i].stars;
-
+        mp1_GwPlayer[i].group = mp3_GwPlayerCopy[i].group;
+        mp1_GwPlayer[i].cpu_difficulty = mp3_GwPlayerCopy[i].cpu_difficulty;
+        mp1_GwPlayer[i].pad = mp3_GwPlayerCopy[i].pad;
+        mp1_GwPlayer[i].stat = mp3_GwPlayerCopy[i].stat;
+        mp1_GwPlayer[i].chr = mp3_GwPlayerCopy[i].chr;
+        mp1_GwPlayer[i].coin = mp3_GwPlayerCopy[i].coin;
+        mp1_GwPlayer[i].star = mp3_GwPlayerCopy[i].star;
     }
-    
 }
 
-void SaveMp2PlayerToMp3PlayerCopy(void) {
+//already loaded back into mp2, get data from mp3GwPlayerCopy
+void LoadMp1PlayerCopyToMp2(void) {
     for (int i = 0; i < 4; i++) {
-        mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
-        mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;
-        mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty2;
-        mp3_GwPlayerCopy[i].pad = mp2_GwPlayer[i].port;
-        mp3_GwPlayerCopy[i].stat = mp2_GwPlayer[i].flags;
-        mp3_GwPlayerCopy[i].chr = mp2_GwPlayer[i].character;
-        mp3_GwPlayerCopy[i].checkCoin = mp2_GwPlayer[i].coins_mg_bonus;
-        mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].coins_mg;
-        mp3_GwPlayerCopy[i].coin = mp2_GwPlayer[i].coins;
-        mp3_GwPlayerCopy[i].star = mp2_GwPlayer[i].stars;
+        mp2_GwPlayer[i].group = mp1_GwPlayerCopy[i].group;
+        mp2_GwPlayer[i].cpu_difficulty = mp1_GwPlayerCopy[i].cpu_difficulty;
+        mp2_GwPlayer[i].cpu_difficulty2 = mp1_GwPlayerCopy[i].cpu_difficulty;
+        mp2_GwPlayer[i].pad = mp1_GwPlayerCopy[i].pad;
+        mp2_GwPlayer[i].stat = mp1_GwPlayerCopy[i].stat;
+        mp2_GwPlayer[i].chr = mp1_GwPlayerCopy[i].chr;
+        mp2_GwPlayer[i].coin = mp1_GwPlayerCopy[i].coin;
+        mp2_GwPlayer[i].star = mp1_GwPlayerCopy[i].star;
     }
 }
 
+//already loaded back into mp1, get data from mp2GwPlayerCopy
+void LoadMp2PlayerCopyToMp1(void) {
+    for (int i = 0; i < 4; i++) {
+        mp1_GwPlayer[i].group = mp2_GwPlayerCopy[i].group;
+        mp1_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
+        mp1_GwPlayer[i].pad = mp2_GwPlayerCopy[i].pad;
+        mp1_GwPlayer[i].stat = mp2_GwPlayerCopy[i].stat;
+        mp1_GwPlayer[i].chr = mp2_GwPlayerCopy[i].chr;
+        mp1_GwPlayer[i].coin = mp2_GwPlayerCopy[i].coin;
+        mp1_GwPlayer[i].star = mp2_GwPlayerCopy[i].star;
+    }
+}
+
+//save mp3Player to mp1PlayerCopy before swapping to mp1
 void SaveMp3PlayerToMp1PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
         mp1_GwPlayerCopy[i].group = mp3_GwPlayer[i].group;
         mp1_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
         mp1_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
-        mp1_GwPlayerCopy[i].port = mp3_GwPlayer[i].pad;
-        mp1_GwPlayerCopy[i].flags = mp3_GwPlayer[i].chr;
-        mp1_GwPlayerCopy[i].character = mp3_GwPlayer[i].chr;
-        mp1_GwPlayerCopy[i].coins_mg = mp3_GwPlayer[i].bonusCoin;
-        mp1_GwPlayerCopy[i].coins = mp3_GwPlayer[i].coin;
-        mp1_GwPlayerCopy[i].stars = mp3_GwPlayer[i].star;
+        mp1_GwPlayerCopy[i].pad = mp3_GwPlayer[i].pad;
+        mp1_GwPlayerCopy[i].stat = mp3_GwPlayer[i].stat;
+        mp1_GwPlayerCopy[i].chr = mp3_GwPlayer[i].chr;
+        mp1_GwPlayerCopy[i].bonusCoin = mp3_GwPlayer[i].bonusCoin;
     }
 }
 
+//save mp3Player to mp2PlayerCopy before swapping to mp2
 void SaveMp3PlayerToMp2PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
         mp2_GwPlayerCopy[i].group = mp3_GwPlayer[i].group;
         mp2_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
         mp2_GwPlayerCopy[i].cpu_difficulty = mp3_GwPlayer[i].cpu_difficulty;
-        mp2_GwPlayerCopy[i].port = mp3_GwPlayer[i].pad;
-        mp2_GwPlayerCopy[i].flags = mp3_GwPlayer[i].chr;
-        mp2_GwPlayerCopy[i].character = mp3_GwPlayer[i].chr;
-        mp2_GwPlayerCopy[i].coins_mg_bonus = mp3_GwPlayer[i].checkCoin;
-        mp2_GwPlayerCopy[i].coins_mg = mp3_GwPlayer[i].bonusCoin;
-        mp2_GwPlayerCopy[i].coins = mp3_GwPlayer[i].coin;
-        mp2_GwPlayerCopy[i].stars = mp3_GwPlayer[i].star;
+        mp2_GwPlayerCopy[i].pad = mp3_GwPlayer[i].pad;
+        mp2_GwPlayerCopy[i].stat = mp3_GwPlayer[i].stat;
+        mp2_GwPlayerCopy[i].chr = mp3_GwPlayer[i].chr;
+        mp2_GwPlayerCopy[i].checkCoin = mp3_GwPlayer[i].checkCoin;
+        mp2_GwPlayerCopy[i].bonusCoin = mp3_GwPlayer[i].bonusCoin;
     }
 }
 
+//save mp2 to mp1PlayerCopy before swapping to mp1
+void SaveMp2PlayerToMp1PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp1_GwPlayerCopy[i].group = mp2_GwPlayerCopy[i].group;
+        mp1_GwPlayerCopy[i].cpu_difficulty  = mp2_GwPlayerCopy[i].cpu_difficulty;
+        mp1_GwPlayerCopy[i].pad  = mp2_GwPlayerCopy[i].pad;
+        mp1_GwPlayerCopy[i].stat  = mp2_GwPlayerCopy[i].stat;
+        mp1_GwPlayerCopy[i].chr = mp2_GwPlayerCopy[i].chr;
+    } 
+}
+
+//save mp2 to mp3PlayerCopy before swapping to mp3
+void SaveMp2PlayerToMp3PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
+        mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;
+        mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty2;
+        mp3_GwPlayerCopy[i].pad = mp2_GwPlayer[i].pad;
+        mp3_GwPlayerCopy[i].stat = mp2_GwPlayer[i].stat;
+        mp3_GwPlayerCopy[i].chr = mp2_GwPlayer[i].chr;
+        mp3_GwPlayerCopy[i].checkCoin = mp2_GwPlayer[i].checkCoin;
+        mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].bonusCoin;
+    }
+}
+
+//save mp1 to mp2PlayerCopy before swapping to mp2
+void SaveMp1PlayerToMp2PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp2_GwPlayerCopy[i].group = mp1_GwPlayer[i].group;
+        mp2_GwPlayerCopy[i].cpu_difficulty = mp1_GwPlayer[i].cpu_difficulty;
+        mp2_GwPlayerCopy[i].pad = mp1_GwPlayer[i].pad;
+        mp2_GwPlayerCopy[i].stat = mp1_GwPlayer[i].stat;
+        mp2_GwPlayerCopy[i].chr = mp1_GwPlayer[i].chr;
+
+    } 
+}
+
+//save mp1 to mp3PlayerCopy before swapping to mp3
+void SaveMp1PlayerToMp3PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp3_GwPlayerCopy[i].group = mp1_GwPlayer[i].group;
+        mp3_GwPlayerCopy[i].cpu_difficulty = mp1_GwPlayer[i].cpu_difficulty;
+        mp3_GwPlayerCopy[i].pad = mp1_GwPlayer[i].pad;
+        mp3_GwPlayerCopy[i].stat = mp1_GwPlayer[i].stat;
+        mp3_GwPlayerCopy[i].chr = mp1_GwPlayer[i].chr;
+    } 
+}
 
 /* -- functions related to pushing/popping the game state -- */
 extern u8 mp3_D_800B23B0;
@@ -230,13 +217,12 @@ extern u8 mp3_D_800D030A;
 extern u8 mp3_D_800D0308; //mp3 story progress byte
 extern u8 mp3_D_800D0309;
 
-//mp3 board state and copy (BOARD_STATE_STRUCT_SIZE isn't known what exact size we need)
 mp3_GW_SYSTEM mp3_GwSystemCopy = {0};
 u8 mp3_ModeCopy = 0;
 u8 mp3_ModeCopy2 = 0;
 u8 mp3_StoryDifficultyCopy = 0;
 u8 mp3_StoryProgressCopy = 0;
-u8 mp3_StoryCharacterID = 0;
+u8 mp3_StorychrID = 0;
 u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
 s16 mp3_BattleMinigameCoins_Copy = 0;
 
@@ -246,7 +232,7 @@ void PushMp3BoardState(void) {
     mp3_ModeCopy2 = mp3_D_800B23B1;
     mp3_StoryDifficultyCopy = mp3_D_800D030A;
     mp3_StoryProgressCopy = mp3_D_800D0308;
-    mp3_StoryCharacterID = mp3_D_800D0309;
+    mp3_StorychrID = mp3_D_800D0309;
 }
 
 void PopMp3BoardState(void) {
@@ -255,7 +241,7 @@ void PopMp3BoardState(void) {
     mp3_D_800B23B1 = mp3_ModeCopy2;
     mp3_D_800D030A = mp3_StoryDifficultyCopy;
     mp3_D_800D0308 = mp3_StoryProgressCopy;
-    mp3_D_800D0309 = mp3_StoryCharacterID;
+    mp3_D_800D0309 = mp3_StorychrID;
 }
 
 extern u16 mp2_BankCoins;
@@ -316,124 +302,3 @@ void PushMp3MinigamesPlayedList(void) {
         mp3_prevMinigamesPlayedCopy[i] = mp3_prevMinigamesPlayed[i];
     }
 }
-
-void CopyMp2PlayersToMp3Copy(void) {
-    s32 i;
-
-    for (i = 0; i < 4; i++) {
-        mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
-        mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;
-        mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty2;
-        mp3_GwPlayerCopy[i].pad = mp2_GwPlayer[i].port;
-        mp3_GwPlayerCopy[i].chr = mp2_GwPlayer[i].character;
-        mp3_GwPlayerCopy[i].stat = mp2_GwPlayer[i].flags;
-        mp3_GwPlayerCopy[i].star = mp2_GwPlayer[i].stars;
-        mp3_GwPlayerCopy[i].checkCoin = mp2_GwPlayer[i].coins_mg_bonus;
-        mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].coins_mg;
-        mp3_GwPlayerCopy[i].coin = mp2_GwPlayer[i].coins;
-    }
-}
-
-void CopyMp3PlayersCopyToMp3(void) {
-    s32 i;
-
-    for (i = 0; i < 4; i++) {
-        mp3_GwPlayer[i] = mp3_GwPlayerCopy[i];
-    }
-}
-
-//we only want to copy the necessary data so that the mp2 results screen is correct,
-//and the human/cpu flags and characters are copied over
-// void CopyMp3_gPlayerCopy_To_Mp2(void) {
-//     s32 i;
-
-//     for (i = 0; i < 4; i++) {
-//         mp2_GwPlayer[i].group = mp3_GwPlayerCopy[i].group;
-//         mp2_GwPlayer[i].cpu_difficulty = mp3_GwPlayerCopy[i].cpu_difficulty;
-//         mp2_GwPlayer[i].cpu_difficulty2 = mp3_GwPlayerCopy[i].cpu_difficulty;
-//         mp2_GwPlayer[i].port = mp3_GwPlayerCopy[i].controller_port;
-//         mp2_GwPlayer[i].character = mp3_GwPlayerCopy[i].characterID;
-//         mp2_GwPlayer[i].flags = mp3_GwPlayerCopy[i].flags1;
-//         mp2_GwPlayer[i].stars = mp3_GwPlayerCopy[i].stars;
-//         mp2_GwPlayer[i].coins_mg_bonus = mp3_GwPlayerCopy[i].coins_mg_bonus;
-//         mp2_GwPlayer[i].minigameCoins = mp3_GwPlayerCopy[i].minigameCoins;
-//         mp2_GwPlayer[i].coins = mp3_GwPlayerCopy[i].coins;
-//     }
-// }
-
-// void CopyMp1_gPlayerCopy_To_Mp2(void) {
-//     s32 i;
-
-//     for (i = 0; i < 4; i++) {
-//         mp2_GwPlayer[i].group = mp1_GwPlayerCopy[i].group;
-//         mp2_GwPlayer[i].cpu_difficulty = mp1_GwPlayerCopy[i].cpu_difficulty;
-//         mp2_GwPlayer[i].cpu_difficulty = mp1_GwPlayerCopy[i].cpu_difficulty_copy;
-//         mp2_GwPlayer[i].port = mp1_GwPlayerCopy[i].port;
-//         mp2_GwPlayer[i].character = mp1_GwPlayerCopy[i].character;
-//         mp2_GwPlayer[i].flags = mp1_GwPlayerCopy[i].flags;
-//         mp2_GwPlayer[i].coins = mp1_GwPlayerCopy[i].coins;
-//         mp2_GwPlayer[i].stars = mp1_GwPlayerCopy[i].stars;
-//     }
-// }
-
-// extern mp2_GW_PLAYER mp2_GwPlayerCopy[4];
-
-// void CopyMp2_gPlayerCopy_To_Mp1(void) {
-//     s32 i;
-
-//     for (i = 0; i < 4; i++) {
-//         mp1_GwPlayer[i].group = mp2_GwPlayerCopy[i].group;
-//         mp1_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
-//         mp1_GwPlayer[i].cpu_difficulty_copy = mp2_GwPlayerCopy[i].cpu_difficulty;
-//         mp1_GwPlayer[i].port = mp2_GwPlayerCopy[i].port;
-//         mp1_GwPlayer[i].character = mp2_GwPlayerCopy[i].character;
-//         mp1_GwPlayer[i].flags = mp2_GwPlayerCopy[i].flags;
-//         mp1_GwPlayer[i].coins = mp2_GwPlayerCopy[i].coins;
-//         mp1_GwPlayer[i].stars = mp2_GwPlayerCopy[i].stars;
-//     }
-// }
-
-// void CopyMp3_gPlayerCopy_To_Mp1(void) {
-//     s32 i;
-
-//     for (i = 0; i < 4; i++) {
-//         mp1_GwPlayer[i].group = mp3_GwPlayerCopy[i].group;
-//         mp1_GwPlayer[i].cpu_difficulty = mp3_GwPlayerCopy[i].cpu_difficulty;
-//         mp1_GwPlayer[i].cpu_difficulty_copy = mp3_GwPlayerCopy[i].cpu_difficulty;
-//         mp1_GwPlayer[i].port = mp3_GwPlayerCopy[i].controller_port;
-//         mp1_GwPlayer[i].character = mp3_GwPlayerCopy[i].characterID;
-//         mp1_GwPlayer[i].flags = mp3_GwPlayerCopy[i].flags1;
-//         mp1_GwPlayer[i].coins = mp3_GwPlayerCopy[i].coins;
-//         mp1_GwPlayer[i].stars = mp3_GwPlayerCopy[i].stars;
-//     }
-// }
-
-// void CopyMp1_gPlayerCopy_To_Mp3(void) {
-//     s32 i;
-
-//     for (i = 0; i < 4; i++) {
-//         mp3_GwPlayer[i].group = mp1_GwPlayerCopy[i].group;
-//         mp3_GwPlayer[i].cpu_difficulty = mp1_GwPlayerCopy[i].cpu_difficulty;
-//         mp3_GwPlayer[i].controller_port = mp1_GwPlayerCopy[i].port;
-//         mp3_GwPlayer[i].characterID = mp1_GwPlayerCopy[i].character;
-//         mp3_GwPlayer[i].flags1 = mp1_GwPlayerCopy[i].flags;
-//         mp3_GwPlayer[i].coins = mp1_GwPlayerCopy[i].coins;
-//         mp3_GwPlayer[i].stars = mp1_GwPlayerCopy[i].stars;
-//         // mp3_GwPlayer[i].turn_status = mp1_GwPlayerCopy[i].turn_status;
-//     }
-// }
-
-// void CopyMp2_gPlayerCopy_To_Mp3(void) {
-//     s32 i;
-
-//     for (i = 0; i < 4; i++) {
-//         mp3_GwPlayer[i].group = mp2_GwPlayerCopy[i].group;
-//         mp3_GwPlayer[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
-//         mp3_GwPlayer[i].controller_port = mp2_GwPlayerCopy[i].port;
-//         mp3_GwPlayer[i].characterID = mp2_GwPlayerCopy[i].character;
-//         mp3_GwPlayer[i].flags1 = mp2_GwPlayerCopy[i].flags;
-//         mp3_GwPlayer[i].coins = mp2_GwPlayerCopy[i].coins;
-//         mp3_GwPlayer[i].stars = mp2_GwPlayerCopy[i].stars;
-//         // mp3_GwPlayer[i].turn_status = mp2_GwPlayerCopy[i].turn_status;
-//     }
-// }

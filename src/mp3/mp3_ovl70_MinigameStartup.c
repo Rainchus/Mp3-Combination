@@ -49,15 +49,6 @@ extern s8 mp3_D_8010D411_4E65D1_name_70;
 extern Vec mp3_D_8010D45C_4E661C_name_70;
 extern Vec mp3_D_8010D48C_4E664C_name_70;
 
-//TODO: current issue
-/*
-ForeignMinigameIndexToLoad is being converted when it shouldn't
-When loading an mp2 minigame from mp3 base, it goes to boot logos in mp2
-Which then goes to minigame explanation
-Which then goes to mp2_func_80102830_3BDF90_name_60
-Where Mp2SwapGameIfNeeded performs the wrong actions (due to ForeignMinigameIndexToLoad issues)
-*/
-
 STATIC void Mp3SwapGameIfNeeded(void) {
     s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
 
@@ -68,7 +59,7 @@ STATIC void Mp3SwapGameIfNeeded(void) {
         PushMp3MinigamesPlayedList();
         mp3_StoreBattleMinigameCoins();
         SaveMp3PlayerToMp3PlayerCopy();
-        ComboSwitchGameToMp2();        
+        ComboSwitchGameToMp2();
     } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp2
         //save necessary data, swap to mp1
         //SaveMp3PlayerStructs();

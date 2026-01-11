@@ -123,95 +123,95 @@ void UpdateDisplayQueuePosition(s32 index, s32 xPos, s32 yPos);
 s8 characterCursorIdx[4] = {0, 1, 2, 3};
 
 void newVoteSystem(void) {
-    void* image0;
-    void* image1;
-    void* image2;
-    void* minigameImages[4];
-    void* playerImages[4];
-    s32 playerIdxInQueue[4];
-    s32 i;
-    s32 mainFS_ID = 0x00170048;
+    // void* image0;
+    // void* image1;
+    // void* image2;
+    // void* minigameImages[4];
+    // void* playerImages[4];
+    // //s32 playerIdxInQueue[4];
+    // s32 i;
+    // s32 mainFS_ID = 0x00170048;
     
-    u16* playerPressedInputs = &mp3_player1pressedbuttons;
+    // u16* playerPressedInputs = &mp3_player1pressedbuttons;
     
-    drawImages = 0;
+    // drawImages = 0;
 
-    image2 = mp3_DataRead(0x170007);
-    for (i = 0; i < 4; i++, mainFS_ID+= 2) {
-        image0 = mp3_DataRead(mainFS_ID);
-        image1 = mp3_DataRead(mainFS_ID+1);
-        minigameImages[i] = ConvertHVQSToRGBA(image1, image0, image2);
-    }
+    // image2 = mp3_DataRead(0x170007);
+    // for (i = 0; i < 4; i++, mainFS_ID+= 2) {
+    //     image0 = mp3_DataRead(mainFS_ID);
+    //     image1 = mp3_DataRead(mainFS_ID+1);
+    //     minigameImages[i] = ConvertHVQSToRGBA(image1, image0, image2);
+    // }
 
-    while (drawImages == 0) {
-        mp3_HuPrcVSleep();
-    }
+    // while (drawImages == 0) {
+    //     mp3_HuPrcVSleep();
+    // }
 
-    for (i = 0; i < frameCountWait; i++) {
-        mp3_HuPrcVSleep();
-    }
+    // for (i = 0; i < frameCountWait; i++) {
+    //     mp3_HuPrcVSleep();
+    // }
 
-    for (i = 0; i < 4; i++) {
-        // Calculate position based on slot index
-        s32 column = i % 4;  // 0-3, wraps every 4
-        s32 row = i / 4;     // 0 for first 4, 1 for next 4, etc.
+    // for (i = 0; i < 4; i++) {
+    //     // Calculate position based on slot index
+    //     s32 column = i % 4;  // 0-3, wraps every 4
+    //     s32 row = i / 4;     // 0 for first 4, 1 for next 4, etc.
 
-        s32 xPos = IMG_BASE_X + (128/2 * column);
-        s32 yPos = IMG_BASE_Y + (48 * row);
-        s32 width = 128;
-        s32 height = 96;
-        f32 scale = 0.5f;
+    //     s32 xPos = IMG_BASE_X + (128/2 * column);
+    //     s32 yPos = IMG_BASE_Y + (48 * row);
+    //     s32 width = 128;
+    //     s32 height = 96;
+    //     f32 scale = 0.5f;
 
 
-        AddToDisplayQueue(minigameImages[i], RGBA32, xPos, yPos, width, height, scale, scale);
-    }
+    //     AddToDisplayQueue(minigameImages[i], RGBA32, xPos, yPos, width, height, scale, scale);
+    // }
 
-    //now add player icons
-    mainFS_ID = 0x0012002D; //mario icon, 20x22
+    // //now add player icons
+    // mainFS_ID = 0x0012002D; //mario icon, 20x22
 
-    //basic thing for creating and moving character icons (maybe just swap to hand graphic that's used for items)
-    //also, this isn't perfect and has issues (such as not checking the player's port)
-    for (i = 0; i < 4; i++) {
-        // Calculate position based on slot index
-        s32 column = i % 4;  // 0-3, wraps every 4
-        s32 row = i / 4;     // 0 for first 4, 1 for next 4, etc.
+    // //basic thing for creating and moving character icons (maybe just swap to hand graphic that's used for items)
+    // //also, this isn't perfect and has issues (such as not checking the player's port)
+    // for (i = 0; i < 4; i++) {
+    //     // Calculate position based on slot index
+    //     s32 column = i % 4;  // 0-3, wraps every 4
+    //     s32 row = i / 4;     // 0 for first 4, 1 for next 4, etc.
 
-        s32 xPos = IMG_BASE_X + (128/2 * column);
-        s32 yPos = IMG_BASE_Y + (48 * row);
-        s32 width = 20;
-        s32 height = 22;
-        f32 scale = 1.0f;
+    //     s32 xPos = IMG_BASE_X + (128/2 * column);
+    //     s32 yPos = IMG_BASE_Y + (48 * row);
+    //     s32 width = 20;
+    //     s32 height = 22;
+    //     f32 scale = 1.0f;
 
-        playerImages[i] = mp3_DataRead(mainFS_ID + mp3_GwPlayer[i].chr);
-        playerIdxInQueue[i] = AddToDisplayQueue(playerImages[i], CI8, xPos, yPos, width, height, scale, scale);
-    }
+    //     playerImages[i] = mp3_DataRead(mainFS_ID + mp3_GwPlayer[i].chr);
+    //     //playerIdxInQueue[i] = AddToDisplayQueue(playerImages[i], CI8, xPos, yPos, width, height, scale, scale);
+    // }
 
-    while (1) {
-        playerPressedInputs = &mp3_player1pressedbuttons;
-        for (i = 0; i < 4; i++, playerPressedInputs++) {
-            if (*playerPressedInputs & 0x0100) { //right
-                characterCursorIdx[i]++;
-                if (characterCursorIdx[i] >= ARRAY_COUNT(characterCursorIdx)) {
-                    characterCursorIdx[i] = 0;
-                }
+    // while (1) {
+    //     // playerPressedInputs = &mp3_player1pressedbuttons;
+    //     // for (i = 0; i < 4; i++, playerPressedInputs++) {
+    //     //     if (*playerPressedInputs & 0x0100) { //right
+    //     //         characterCursorIdx[i]++;
+    //     //         if (characterCursorIdx[i] >= ARRAY_COUNT(characterCursorIdx)) {
+    //     //             characterCursorIdx[i] = 0;
+    //     //         }
 
-            } else if (*playerPressedInputs & 0x0200) { //left
-                characterCursorIdx[i]--;
-                if (characterCursorIdx[i] < 0) {
-                    characterCursorIdx[i] = ARRAY_COUNT(characterCursorIdx) - 1;
-                }
-            }
+    //     //     } else if (*playerPressedInputs & 0x0200) { //left
+    //     //         characterCursorIdx[i]--;
+    //     //         if (characterCursorIdx[i] < 0) {
+    //     //             characterCursorIdx[i] = ARRAY_COUNT(characterCursorIdx) - 1;
+    //     //         }
+    //     //     }
 
-            s32 column = i % 4;  // 0-3, wraps every 4
-            s32 row = i / 4;     // 0 for first 4, 1 for next 4, etc.
-            s32 xPos = characterCursorPos[characterCursorIdx[i]];
-            s32 yPos = IMG_BASE_Y + (48 * row);
+    //     //     s32 column = i % 4;  // 0-3, wraps every 4
+    //     //     s32 row = i / 4;     // 0 for first 4, 1 for next 4, etc.
+    //     //     s32 xPos = characterCursorPos[characterCursorIdx[i]];
+    //     //     s32 yPos = IMG_BASE_Y + (48 * row);
 
-            UpdateDisplayQueuePosition(playerIdxInQueue[i], xPos, yPos);
-        }
+    //     //     UpdateDisplayQueuePosition(playerIdxInQueue[i], xPos, yPos);
+    //     // }
         
-        mp3_HuPrcVSleep();
-    }
+    //     mp3_HuPrcVSleep();
+    // }
 }
 
 //how mp4 let's player 1 choose a battle minigame

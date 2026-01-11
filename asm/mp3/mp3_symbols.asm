@@ -209,6 +209,7 @@
 .definelabel mp3_func_800EC8EC_10050C_shared_board, 0x800EC8EC
 .definelabel mp3_func_800EC6C8_1002E8_shared_board, 0x800EC6C8
 .definelabel mp3_func_800EC6EC_10030C_shared_board, 0x800EC6EC
+.definelabel mp3_func_800EC9DC_1005FC_shared_board, 0x800EC9DC
 .definelabel mp3_func_8004ACE0_4B8E0, 0x8004ACE0
 .definelabel mp3_func_800E1F28_F5B48_shared_board, 0x800E1F28
 .definelabel mp3_func_800F5D44_109964_shared_board, 0x800F5D44
@@ -286,7 +287,7 @@
 .definelabel mp3_D_800D5558_D6158, 0x800D5558
 .definelabel mp3_HuSprAttrSet, 0x800553A8
 .definelabel mp3_HuSprScaleSet, 0x800551D8
-
+.definelabel MBDlgWinInsertCreate, 0x800EC8EC
 
 .definelabel mp3_func_80105D9C_4DEF5C_name_70, 0x80105D9C
 .definelabel mp3_func_801061EC_4DF3AC_name_70, 0x801061EC

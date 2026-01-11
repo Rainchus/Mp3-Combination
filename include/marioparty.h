@@ -2,7 +2,6 @@
 #define _MP_H_
 
 #define PREV_MINIGAMES_PLAYED_SIZE 0x3C
-#define BOARD_STATE_STRUCT_SIZE 0x80
 #define EEPROM_ABS_POS 0x2C0
 #define EEPROM_BLOCK_POS EEPROM_ABS_POS / EEPROM_BLOCK_SIZE
 #define EEPROM_BLOCK_VI_POS 0x300 / EEPROM_BLOCK_SIZE
@@ -323,13 +322,13 @@ typedef struct mp1_GW_PLAYER {
 /* 0x00 */ u8 group;
 /* 0x01 */ u8 cpu_difficulty;
 /* 0x02 */ u8 cpu_difficulty_copy;
-/* 0x03 */ u8 port; //controller port
-/* 0x04 */ u8 character;
+/* 0x03 */ u8 pad; //controller port
+/* 0x04 */ u8 chr;
 /* 0x05 */ char unk_05; //likely padding
-/* 0x06 */ u16 flags; // (flags) including CPU flag
-/* 0x08 */ s16 coins; //player's current coins
-/* 0x0A */ s16 coins_mg; //coins to give to player after minigame
-/* 0x0C */ s16 stars;
+/* 0x06 */ u16 stat; // (flags) including CPU flag
+/* 0x08 */ s16 coin; //player's current coins
+/* 0x0A */ s16 bonusCoin; //coins to give to player after minigame
+/* 0x0C */ s16 star;
 /* 0x0E */ s16 cur_chain;
 /* 0x10 */ u16 cur_space;
 /* 0x12 */ u16 next_chain;
@@ -357,14 +356,14 @@ typedef struct mp2_GW_PLAYER {
 /* 0x00 */ u8 group; //for which group you belong to in a minigame
 /* 0x01 */ u8 cpu_difficulty;
 /* 0x02 */ u8 cpu_difficulty2; //copied from 0x01 for some reason..?
-/* 0x03 */ u8 port;
-/* 0x04 */ u8 character;
+/* 0x03 */ u8 pad;
+/* 0x04 */ u8 chr;
 /* 0x05 */ char unk_05; //likely padding
-/* 0x06 */ s16 flags;
-/* 0x08 */ s16 coins;
-/* 0x0A */ s16 coins_mg_bonus; //extra coins collected in minigame
-/* 0x0C */ s16 coins_mg; //coins for winning current minigame
-/* 0x0E */ s16 stars;
+/* 0x06 */ s16 stat;
+/* 0x08 */ s16 coin;
+/* 0x0A */ s16 checkCoin; //extra coins collected in minigame
+/* 0x0C */ s16 bonusCoin; //coins for winning current minigame
+/* 0x0E */ s16 star;
 /* 0x10 */ s16 cur_chain_index;
 /* 0x12 */ s16 cur_space_index;
 /* 0x14 */ s16 next_chain_index;
@@ -392,6 +391,67 @@ typedef struct mp2_GW_PLAYER {
 //P3 - 800FD328
 //P4 - 800FD35C
 
+// typedef struct PartnerStats {
+// /* 0x2C */ s8 frontPoweredUp;
+// /* 0x2D */ s8 backPoweredUp;
+// /* 0x2E */ s8 frontHp;
+// /* 0x2F */ s8 backHp;
+// /* 0x30 */ s8 frontCost;
+// /* 0x31 */ s8 backCost;
+// /* 0x32 */ s8 frontPower;
+// /* 0x33 */ s8 backPower;
+// /* 0x34 */ s8 frontID;
+// /* 0x35 */ s8 backID;
+// } PartnerStats;
+
+// typedef struct {
+// /* 0x2C */ s8 hatenaPrize;  // happening-space star
+// /* 0x2D */ s8 redPrize;
+// /* 0x2E */ s8 bluePrize;
+// /* 0x2F */ s8 eventPrize;
+// /* 0x30 */ s8 kupaPrize;
+// /* 0x31 */ s8 battlePrize;
+// /* 0x32 */ s8 itemPrize;
+// /* 0x33 */ s8 bankPrize;
+// /* 0x34 */ s8 gamblePrize;
+// /* 0x35 */ s8 duelNo;
+// } PrizeStats;
+
+// typedef struct mp3_GW_PLAYER {
+// /* 0x00 */ u8 group;
+// /* 0x01 */ u8 cpu_difficulty;
+// /* 0x02 */ u8 pad;
+// /* 0x03 */ u8 chr;
+// /* 0x04 */ u8 stat;
+// /* 0x05 */ char unk_05;
+// /* 0x06 */ s16 gameCoin;
+// /* 0x08 */ s16 bonusCoin;
+// /* 0x0A */ s16 coin;
+// /* 0x0C */ s16 checkCoin;
+// /* 0x0E */ s8 star;
+// /* 0x0F */ s8 clink;
+// /* 0x10 */ s8 cidx;
+// /* 0x11 */ s8 nlink;
+// /* 0x12 */ s8 nidx;
+// /* 0x13 */ s8 nnlink;
+// /* 0x14 */ s8 nnidx;
+// /* 0x15 */ s8 blink; //b link
+// /* 0x16 */ s8 bidx;
+// /* 0x17 */ u8 rev; //related to reverse mushroom flags
+// /* 0x18 */ s8 itemNo[5]; //rewritten struct layout for 5 items
+// /* 0x1D */ u8 turn;
+// /* 0x1E */ s8 itemTurn; //this was moved
+// /* 0x1F */ u8 color; //this also was moved
+// /* 0x20 */ void* unk_20;
+// /* 0x24 */ mp3_Object* player_obj;
+// /* 0x28 */ s16 gamePrize; //minigame star
+// /* 0x2A */ s16 coinPrize; //coin star
+// /* 0x2C */ union {
+//     PrizeStats      prize;
+//     PartnerStats    partners;
+// } stats;
+// /* 0x36 */ char unk_36[2];
+// } mp3_GW_PLAYER; //sizeof 0x38;
 
 // enum MinigameNameStringIDs {
 //     STR_HAND_LINE_AND_SINKER = 0x4700,

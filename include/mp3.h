@@ -132,7 +132,7 @@ typedef struct mp3_GW_PLAYER {
 /* 0x1E */ s8 itemTurn; //this was moved
 /* 0x1F */ u8 color; //this also was moved
 /* 0x20 */ void* unk_20;
-/* 0x24 */ Object* player_obj;
+/* 0x24 */ mp3_Object* player_obj;
 /* 0x28 */ s16 gamePrize; //minigame star
 /* 0x2A */ s16 coinPrize; //coin star
 /* 0x2C */ union {

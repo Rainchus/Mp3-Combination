@@ -110,11 +110,11 @@ void mp3_LoadIntoResultsScene(void) {
 void mp3_LoadOriginalGame(void) {
     if (CurBaseGame == MP1_BASE) {
         //load into mp1
-        SaveMp3PlayerToMp1PlayerCopy(); //copy mp2 player structs to mp1's gPlayer Copy
+        SaveMp3PlayerToMp1PlayerCopy(); //copy mp3 player structs to mp1's gPlayer Copy
         ComboSwitchGameToMp1();
     } else if (CurBaseGame == MP2_BASE) {
         //load into mp2
-        SaveMp3PlayerToMp2PlayerCopy(); //copy mp2 player structs to mp1's gPlayer Copy
+        SaveMp3PlayerToMp2PlayerCopy(); //copy mp3 player structs to mp2's gPlayer Copy
         ComboSwitchGameToMp2();
     }
     //code should never get here

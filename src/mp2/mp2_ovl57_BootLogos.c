@@ -37,7 +37,7 @@ static omOvlHisData LoadIntoResultsSceneHis[] = {
 
 static OvlEntrypoint D_80102D30_36DED0_BootLogos[] = {
     {0, &mp2_BootLogosEntryFunc},
-    {1, &mp2_BootLogosEntryFunc},
+    {1, &mp2_BootLogosEntryFunc2},
     {-1, 0},
 };
 

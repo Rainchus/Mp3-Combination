@@ -91,6 +91,49 @@ typedef struct mp1_SpaceData {
     EventListEntry *eventList;
 } mp1_SpaceData;
 
+typedef struct jump_buf
+{
+    void *sp;
+    void *func;
+    u32 regs[21];
+} jmp_buf;
+
+typedef void (*mp1_process_func)();
+typedef struct mp1_Process {
+/* 0x00 */ struct mp1_Process *next;
+/* 0x04 */ struct mp1_Process *youngest_child;
+/* 0x08 */ struct mp1_Process *oldest_child;
+/* 0x0C */ struct mp1_Process *relative;
+/* 0x10 */ struct mp1_Process *parent_oldest_child;
+/* 0x14 */ struct mp1_Process *new_process;
+/* 0x18 */ void *heap;
+/* 0x1C */ u16 exec_mode;
+/* 0x1E */ u16 stat;
+/* 0x20 */ u16 priority;
+/* 0x22 */ s16 dtor_idx;
+/* 0x24 */ s32 sleep_time;
+/* 0x28 */ void *base_sp;
+/* 0x2C */ jmp_buf prc_jump;
+/* 0x88 */ mp1_process_func destructor;
+/* 0x8C */ void *user_data;
+} mp1_Process; //sizeof 0x90
+
+typedef struct ProcessHeader { //?
+/* 0x00 */ struct mp1_Object* prev;
+/* 0x04 */ mp1_Process* process;
+/* 0x08 */ s16 unk_08;
+/* 0x0A */ s16 unk_0A;
+} ProcessHeader;
+
+typedef struct unkProcessStruct {
+           s16 unk0;
+           s16 unk2;
+           mp1_Process* processInstance;
+           void (*unk8)();
+} unkProcessStruct;
+mp1_Process* mp1_omAddPrcObj(mp1_process_func func, u16 priority, s32 stack_size, s32 extra_data_size);
+mp1_omObjData* mp1_omAddObj(s16, u16, u16, s16, void*);
+
 u32 mp1_osGetCount(void);
 void PushMp1MinigamesPlayedList(void);
 void mp1_func_8006D7D8(s32 arg0, char* arg1, s32 arg2, s32 arg3);
@@ -104,6 +147,15 @@ void mp1_HuPrcEnd(void);
 void mp1_HuPrcVSleep(void);
 void mp1_HuPrcSleep(s32);
 void mp1_omInitObjMan(s32, s32);
+mp1_omObjData* mp1_omAddObj(s16, u16, u16, s16, void*);
+void mp1_omSetStatBit(mp1_omObjData*, s32);
+void mp1_func_800593AC(s16 arg0);
+void mp1_func_8007FAC0(void);
+void mp1_func_8007B168(u8* arg0, u8 arg1);
+void mp1_InitCameras(s16 count);
+s32 mp1_omOvlCallEx(s32 arg0, s16 arg1, u16 arg2);
+void mp1_omOvlGotoEx(s32, s16, u16);
+void mp1_omOvlHisChg(s16 arg0, s32 overlay, s16 event, s16 stat);
 
 extern s16 mp1_D_800D86B0;
 extern omOvlHisData mp1_omovlhis[12];
@@ -115,5 +167,5 @@ extern mp1_GameStatus mp1_GwSystemCopy;
 extern mp1_GWCOMMON mp1_GwCommon;
 extern mp1_GWCOMMON mp1_GwCommonCopy;
 extern u8 mp1_D_800F64F2;
-
+extern s16 mp1_D_800C597A;
 #endif

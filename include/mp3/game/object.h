@@ -49,7 +49,7 @@ typedef struct Object_s {
 /* 0x40 */ mp3_omObjData* unk40;
 /* 0x44 */ s16 unk44;
 /* 0x46 */ s16 unk46;
-} Object;
+} mp3_Object;
 
 mp3_Process* mp3_omInitObjMan(s16 max_objs, s32 prio);
 void mp3_omSetStatBit(mp3_omObjData* obj, u16 stat);

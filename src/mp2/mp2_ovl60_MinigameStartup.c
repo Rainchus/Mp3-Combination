@@ -4,28 +4,31 @@ void mp2_func_80102A14_3BE174_name_60(void);
 void mp2_func_80102AF0_3BE250_name_60(void);
 void func_801085A0_3C3D00_name_60(s32); //exist within the file, dont call mp2 variant
 void mp2_func_80105B94_3C12F4_name_60(void);
+void SaveMp2PlayerToMp2PlayerCopy(void);
+void LoadMp1PlayerCopyToMp2(void);
 
 extern s16 mp2_D_801148F2_3D0052_name_60;
 extern s16 mp2_D_801148F4_3D0054_name_60;
 extern s16 mp2_D_80114AC2_3D0222_name_60;
 
+
 void Mp2SwapGameIfNeeded(void) {
     s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
 
     //determine if we are loading a mp3 or mp1 minigame
-    if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp2
-        //save necessary data
-        //SaveMp2PlayerStructs();
+    if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp3
+        //save necessary data, swap to mp3
         PushMp2BoardState();
         PushMp2MinigamesPlayedList();
         mp2_StoreBattleMinigameCoins();
+        SaveMp2PlayerToMp2PlayerCopy();
         ComboSwitchGameToMp3();
-    } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp2
-        //save necessary data
-        //SaveMp2PlayerStructs();
+    } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
+        //save necessary data, swap to mp1
         PushMp2BoardState();
         PushMp2MinigamesPlayedList();
         mp2_StoreBattleMinigameCoins();
+        SaveMp2PlayerToMp2PlayerCopy();
         ComboSwitchGameToMp1();
     }
     //is mp2 minigame, load it
@@ -40,7 +43,10 @@ void mp2_func_80102830_3BDF90_name_60(void) {
     Mp2SwapGameIfNeeded();
     if (CurBaseGame == MP3_BASE) {
         LoadMp3PlayerCopyToMp2();
+    } else { //MP1_BASE
+        LoadMp1PlayerCopyToMp2();
     }
+
     mp2_func_80102A14_3BE174_name_60();
     if ((mp2_GwSystem.minigameExplanations == 1)) {
         func_801085A0_3C3D00_name_60(0);

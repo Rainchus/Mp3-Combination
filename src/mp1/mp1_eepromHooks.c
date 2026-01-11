@@ -123,9 +123,8 @@ typedef struct Unk_D_8010E4F4_MinigameInstructions {
 
 extern Unk_D_8010E4F4_MinigameInstructions mp1_D_8010E4F4_MinigameInstructions[];
 
-extern s16 mp1_D_8010F4E0_MinigameInstructions;
 void func_800F92D4_MinigameInstructions(mp1_omObjData*);
-s32 mp1_CheckFlag(s32);
+s32 mp1__CheckFlag(s32);
 
 void func_800F692C_MinigameInstructions(mp1_omObjData*);
 void func_800F6B14_MinigameInstructions(void);
@@ -139,52 +138,9 @@ extern s16 mp1_D_8010F772_MinigameInstructions;
 void func_800F9110_MinigameInstructions(void);
 extern u8 mp1_D_8010F050_MinigameInstructions;
 extern void* mp1_D_8010F4E4_MinigameInstructions;
-void mp1_func_8007FAC0(void);
-void mp1_func_8007B168(u8* arg0, u8 arg1);
-void mp1_InitCameras(s16 count);
-void func_80029090(s32);
-void func_8001DE70(s16);
-void func_80060088(void);
-void func_8006CEA0(void);
 void func_8010E090_MinigameInstructions(s16);
 void func_800F9E64_MinigameInstructions(s16);
-void func_800593AC(s16 arg0);
 void func_800F6990_MinigameInstructions(void);
-mp1_omObjData* mp1_omAddObj(s16, u16, u16, s16, void*);
-void mp1_omSetStatBit(mp1_omObjData*, s32);
-void func_8001D494(s16, f32, f32, f32);
-void func_80023448(s32);
-void func_800234B8(u8, u8, u8, u8);
-void func_80023504(s32, f32, f32, f32);
-
-typedef struct mp1_jmp_buf
-{
-    void *sp;
-    void *func;
-    u32 regs[21];
-} mp1_jmp_buf;
-typedef void (*mp1_process_func)();
-typedef struct mp1_Process {
-           struct mp1_Process *next;
-           struct mp1_Process *youngest_child;
-           struct mp1_Process *oldest_child;
-           struct mp1_Process *relative;
-           struct mp1_Process *parent_oldest_child;
-           struct mp1_Process *new_process;
-           void *heap;
-           u16 exec_mode;
-           u16 stat;
-           u16 priority;
-           s16 dtor_idx;
-           s32 sleep_time;
-           void *base_sp;
-           mp1_jmp_buf prc_jump;
-           mp1_process_func destructor;
-           void *user_data;
-} mp1_Process;
-
-mp1_Process* mp1_omAddPrcObj(mp1_process_func func, u16 priority, s32 stack_size, s32 extra_data_size);
-void* func_80023684(s32, s16);
 
 
 // //check if we need to swap games from currentl being in mp1
