@@ -40,11 +40,12 @@ void mp2_func_80102830_3BDF90_name_60(void) {
     s32 temp_s0;
     s32 i;
 
-    Mp2SwapGameIfNeeded();
-    if (CurBaseGame == MP3_BASE) {
-        LoadMp3PlayerCopyToMp2();
-    } else { //MP1_BASE
+    Mp2SwapGameIfNeeded(); //doesn't return if game swap happens
+    
+    if (CurBaseGame == MP1_BASE) {
         LoadMp1PlayerCopyToMp2();
+    } else if (CurBaseGame == MP3_BASE) {
+        LoadMp3PlayerCopyToMp2();
     }
 
     mp2_func_80102A14_3BE174_name_60();

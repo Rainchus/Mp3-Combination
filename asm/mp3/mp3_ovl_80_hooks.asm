@@ -6,7 +6,7 @@
 .org 0x800E3B00
     SLT v0, v0, gp //slti       $v0, $v0, 0x3
 
-//extend "all items you can carry" random item generation from 3 -> 5 on team mode
+//extend "all items you can carry" random item generation from 3 -> 5
 .org 0x800F754C
     SLT v0, s0, gp
 
@@ -81,6 +81,6 @@
     //LI v0, newVoteSystem
 
 //TODO: this is very, very questionable
-.org 0x800F4C8C
-    J newVoteSystemSetBool
-    NOP
+//.org 0x800F4C8C
+    //J newVoteSystemSetBool
+    //NOP

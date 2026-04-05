@@ -13,21 +13,28 @@ extern s32 mp2_D_80114E4C_3BDFEC_name_5F;
 extern s32 mp2_D_80114E50_3BDFF0_name_5F;
 extern s32 mp2_D_80114E54_3BDFF4_name_5F;
 void Mp2SwapGameIfNeeded(void);
+void LoadMp1PlayerCopyToMp2(void);
 
 void mp2_func_80102830_3AB9D0_name_5F(void) {
     s32 temp_s0;
     s32 i;
 
     Mp2SwapGameIfNeeded(); //doesn't return if game swap happens
-    //if mp3 is base game, load mp3 player copy into mp2 player structs
-    if (CurBaseGame == MP3_BASE) {
+
+    //we are entering the minigame setup from another game. load player struct data from said game
+    if (CurBaseGame == MP1_BASE) {
+        LoadMp1PlayerCopyToMp2();
+    } else if (CurBaseGame == MP3_BASE) {
         LoadMp3PlayerCopyToMp2();
     }
+
     mp2_func_80102A14_3ABBB4_name_5F();
+
     if (mp2_GwSystem.minigameExplanations == 1) {
         func_801085A0_3B1740_name_5F(0);
         return;
     }
+    
     switch (mp2_D_80114DC2_3BDF62_name_5F) {
     case 6:
     case 7:

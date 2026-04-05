@@ -215,6 +215,27 @@ Gfx* gfx_draw_textured_rectangle_rgba32_tiled_scaled(Gfx* gfx, int x, int y, int
     #undef MAX_TILE_HEIGHT
 }
 
+Gfx* gfx_draw_filled_rectangle(Gfx* gfx, int x, int y, int width, int height, u32 rgba32) {
+    gDPPipeSync(gfx++);
+    
+    // Set combine mode to use primitive color (the fill color)
+    gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+    gDPSetRenderMode(gfx++, G_RM_ZB_XLU_SURF, G_RM_ZB_XLU_SURF2);
+    
+    // Set the fill color from the rgba32 value
+    gDPSetPrimColor(gfx++, 0, 0, 
+                    (rgba32 >> 24) & 0xFF,  // R
+                    (rgba32 >> 16) & 0xFF,  // G
+                    (rgba32 >> 8) & 0xFF,   // B
+                    rgba32 & 0xFF);         // A
+    
+    // Draw filled rectangle (no texture needed)
+    gDPFillRectangle(gfx++, x, y, x + width - 1, y + height - 1);
+    
+    gDPPipeSync(gfx++);
+    return gfx;
+}
+
 extern void* tempDisplayTest;
 extern void* tempDisplayTest1;
 extern void* tempDisplayTest2;
@@ -361,11 +382,15 @@ void ClearDisplayQueue(void) {
 Gfx* drawCi4ImageScaled(Gfx* gfx, int x, int y, int width, int height, 
                         u8* texture, u16* palette, float scaleX, float scaleY);
 
+Gfx* gfx_draw_filled_rectangle(Gfx* gfx, int x, int y, int width, int height, u32 rgba32);
+
 // Updated draw function
 Gfx* drawFonts3(void) {
     if (!queueInitialized) {
         InitDisplayQueue();
     }
+
+    mp3_gMainGfxPos = gfx_draw_filled_rectangle(mp3_gMainGfxPos, 20, 20, 32, 32, 0xFF0000FF);
     
     // Draw all active items in the queue
     for (s32 i = 0; i < MAX_DISPLAY_QUEUE; i++) {

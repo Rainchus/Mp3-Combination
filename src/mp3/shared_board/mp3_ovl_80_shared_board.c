@@ -1,5 +1,6 @@
 #include "mp3.h"
 #include "ovl_80.h"
+#include "mp3/mp3_mod.h"
 
 #define HUNDREDS 0
 #define TENS 1
@@ -115,7 +116,7 @@ void func_800F4190_107DB0_shared_board(void) {
         mp3_HuFreeFilePerm(temp_v0);
     }
 
-    mp3_PushItemCountToGP(3); //set 3 items for players
+    mp3_PushItemCountToGP(TOTAL_ITEM_SLOTS); //set 3 items for players
     s32 itemCount = mp3_GetItemCount();
 
     //use original icon positions if 3 items, otherwise use extended list

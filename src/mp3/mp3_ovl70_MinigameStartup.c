@@ -7,6 +7,7 @@ typedef struct MinigameTable {
 
 extern MinigameTable mp3_D_800A6D44_A7944[];
 
+void LoadMp1PlayerCopyToMp3(void);
 void mp3_func_80105D9C_4DEF5C_name_70(mp3_omObjData*);      /* extern */
 void mp3_func_801061EC_4DF3AC_name_70(void);                   /* extern */
 void mp3_func_80106310_4DF4D0_name_70(mp3_omObjData*);      /* extern */
@@ -39,6 +40,7 @@ void PushMp3BoardState(void);
 void PushMp3MinigamesPlayedList(void);
 void mp3_StoreBattleMinigameCoins(void);
 void PushMp3OvlHis(void);
+void SaveMp3PlayerToMp1PlayerCopy(void);
 
 extern s8 mp3_D_8010D400_4E65C0_name_70[7];
 extern s8 mp3_D_8010D407_4E65C7_name_70;
@@ -60,9 +62,8 @@ STATIC void Mp3SwapGameIfNeeded(void) {
         mp3_StoreBattleMinigameCoins();
         SaveMp3PlayerToMp3PlayerCopy();
         ComboSwitchGameToMp2();
-    } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp2
+    } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
         //save necessary data, swap to mp1
-        //SaveMp3PlayerStructs();
         PushMp3BoardState();
         PushMp3MinigamesPlayedList();
         mp3_StoreBattleMinigameCoins();
@@ -100,10 +101,13 @@ void mp3_MinigameEntryFunc(void) {
     }
 
     Mp3SwapGameIfNeeded(); //doesn't return if game swap happens
-    //if the above doesn't return, why is this here?
-    // if (CurBaseGame == MP2_BASE) {
-    //     LoadMp2PlayerCopyToMp3();
-    // }
+
+    //we are entering a minigame from another base game. Load playercopy from that game to mp3's GwPlayers
+    if (CurBaseGame == MP1_BASE) {
+        LoadMp1PlayerCopyToMp3();
+    } else if (CurBaseGame == MP2_BASE) {
+        LoadMp2PlayerCopyToMp3();
+    }
 
     //is mp3 minigame, load it
     mp3_D_8010D40A_4E65CA_name_70 = mp3_D_800A6D44_A7944[mp3_D_8010D40B_4E65CB_name_70].minigameType;
@@ -122,7 +126,7 @@ void mp3_MinigameEntryFunc(void) {
     mp3__ClearFlag(0xF);
     mp3_func_80106EB4_4E0074_name_70();
     mp3_func_80106898_4DFA58_name_70();
-    mp3_func_80107308_4E04C8_name_70(); //calling this crashes?
+    mp3_func_80107308_4E04C8_name_70();
     
     if ((mp3_GwSystem.show_minigame_explanations == 1) || (mp3_D_8010D40A_4E65CA_name_70 == 6)) {
         mp3_func_801061EC_4DF3AC_name_70();

@@ -103,12 +103,10 @@ void mp2_LoadIntoResultsScene(void) {
 void mp2_LoadOriginalGame(void) {
     if (CurBaseGame == MP1_BASE) {
         //load into mp1
-        // ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
         SaveMp2PlayerToMp1PlayerCopy(); //copy mp2 player structs to mp1's gPlayer Copy
         ComboSwitchGameToMp1();
     } else if (CurBaseGame == MP3_BASE) {
         //load into mp3
-        // ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
         SaveMp2PlayerToMp3PlayerCopy(); //copy mp2 player structs to mp3's gPlayer Copy
         ComboSwitchGameToMp3();
     }

@@ -78,11 +78,12 @@ void func_800F6610_MinigameInstructions(void) {
     mp1_omObjData* obj;
     s32 i;
 
-    Mp1SwapGameIfNeeded();
-    if (CurBaseGame == MP3_BASE) {
-        LoadMp3PlayerCopyToMp1();
-    } else { //MP2_BASE
+    Mp1SwapGameIfNeeded(); //doesn't return if game swap occurs
+
+    if (CurBaseGame == MP2_BASE) {
         LoadMp2PlayerCopyToMp1();
+    } else if (CurBaseGame == MP3_BASE) {
+        LoadMp3PlayerCopyToMp1();
     }
 
     mp1_InitCameras(1);
