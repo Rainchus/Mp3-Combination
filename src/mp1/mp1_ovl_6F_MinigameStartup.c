@@ -74,7 +74,8 @@ void Mp1SwapGameIfNeeded(void) {
     ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
 }
 
-void func_800F6610_MinigameInstructions(void) {
+//first function ran in ovl_6F;
+void mp1_MinigameEntryFunc(void) {
     mp1_omObjData* obj;
     s32 i;
 

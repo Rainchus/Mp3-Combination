@@ -76,7 +76,7 @@ STATIC void Mp3SwapGameIfNeeded(void) {
     ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
 }
 
-//first function ran in ovl_70; the minigame overlay is loaded shortly after
+//first function ran in ovl_70;
 void mp3_MinigameEntryFunc(void) {
     void (*procFunc)(void) = NULL;
     s16 var_a1 = 0;

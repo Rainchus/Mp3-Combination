@@ -36,12 +36,13 @@ void Mp2SwapGameIfNeeded(void) {
     ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
 }
 
-void mp2_func_80102830_3BDF90_name_60(void) {
+//first function ran in ovl_60;
+void mp2_MinigameEntryFunc_2(void) {
     s32 temp_s0;
     s32 i;
 
     Mp2SwapGameIfNeeded(); //doesn't return if game swap happens
-    
+
     if (CurBaseGame == MP1_BASE) {
         LoadMp1PlayerCopyToMp2();
     } else if (CurBaseGame == MP3_BASE) {

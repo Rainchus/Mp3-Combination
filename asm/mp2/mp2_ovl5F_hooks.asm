@@ -1,6 +1,6 @@
 .headersize 0x80102830 - 0x3AB9D0 - 0x02000000
 .org 0x80102830
-    J mp2_func_80102830_3AB9D0_name_5F
+    J mp2_MinigameEntryFunc_1
      NOP
 
 .org 0x80107280
