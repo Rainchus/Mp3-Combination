@@ -158,7 +158,7 @@
 .definelabel mp3_D_80105630_119250_shared_board, 0x80105630
 .definelabel mp3_func_800F76A4_10B2C4_shared_board, 0x800F76A4
 .definelabel mp3_func_800F68E0_10A500_shared_board, 0x800F68E0
-.definelabel mp3_func_800EEF80_102BA0_shared_board, 0x800EEF80
+.definelabel mp3_MBRand, 0x800EEF80
 .definelabel mp3_func_80055140_55D40, 0x80055140
 .definelabel mp3_D_801055E8_119208_shared_board, 0x801055E8
 .definelabel mp3_func_800550B4_55CB4, 0x800550B4
@@ -392,3 +392,28 @@
 .definelabel D_801055E4_119204_shared_Board, 0x801055E4
 .definelabel mp3_func_80055024_55C24, 0x80055024
 .definelabel mp3_func_800550F4_55CF4, 0x800550F4
+
+.definelabel D_80102BD0_1167F0_shared_board, 0x80102BD0
+.definelabel D_80102C08_116828_shared_board, 0x80102C08
+.definelabel D_80102C0D_11682D_shared_board, 0x80102C0D
+.definelabel D_80100E18_114A38_shared_board, 0x80100E18
+.definelabel D_80100E20_114A40_shared_board, 0x80100E20 /* normal mode: recent minigame avoid count per category */
+.definelabel D_80100E28_114A48_shared_board, 0x80100E28 /* hard mode: recent minigame avoid count per category */
+.definelabel D_80100E9B_114ABB_shared_board, 0x80100E9B
+.definelabel D_80100E30_114A50_shared_board, 0x80100E30
+.definelabel D_800CC4A0_CD0A0, 0x800CC4A0
+.definelabel mp3_func_8005A968_5B568, 0x8005A968
+.definelabel mp3_func_8005BE30_5CA30, 0x8005BE30
+.definelabel mp3_func_80060144_60D44, 0x80060144
+.definelabel mp3_func_8005BCA4_5C8A4, 0x8005BCA4
+.definelabel mp3_func_8005BEE0_5CAE0, 0x8005BEE0
+.definelabel mp3_BoardGetTurnTier, 0x800FB578
+.definelabel mp3_func_8005D2D4_5DED4, 0x8005D2D4
+.definelabel mp3_func_8005C02C_5CC2C, 0x8005C02C
+.definelabel mp3_func_8005BDFC_5C9FC, 0x8005BDFC
+.definelabel mp3_func_800DED3C_F295C_shared_board, 0x800DED3C
+.definelabel mp3_func_800DF9EC_F360C_shared_board, 0x800DF9EC
+.definelabel D_80102C04_116824_shared_board, 0x80102C04
+.definelabel D_80102C0E_11682E_shared_board, 0x80102C0E
+.definelabel D_801020C8_115CE8_shared_board, 0x801020C8
+.definelabel D_801020E0_115D00_shared_board, 0x801020E0

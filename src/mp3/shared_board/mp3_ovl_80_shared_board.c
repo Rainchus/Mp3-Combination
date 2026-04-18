@@ -673,7 +673,7 @@ void newfunc_800F7610_10B230_shared_board(void) {
     for (; i < itemCount; i++) {
         boardItemIds = &mp3_D_80105630_119250_shared_board[i];
         while (1) {
-            *boardItemIds = mp3_D_80101A50_115670_shared_board[mp3_func_800EEF80_102BA0_shared_board(9.0f)];
+            *boardItemIds = mp3_D_80101A50_115670_shared_board[mp3_MBRand(9.0f)];
             if (*boardItemIds != prevItem) {
                 prevItem = *boardItemIds;
                 break;

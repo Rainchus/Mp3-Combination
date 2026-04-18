@@ -84,3 +84,7 @@
 //.org 0x800F4C8C
     //J newVoteSystemSetBool
     //NOP
+
+.org 0x800DFBA8
+    J newfunc_800DFBA8_F37C8_shared_board
+    NOP

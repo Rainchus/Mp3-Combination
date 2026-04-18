@@ -1,4 +1,5 @@
 #include "mp3.h"
+#include "shared_board/ovl_80.h"
 
 typedef struct MinigameTable {
     u8 minigameType;
@@ -184,4 +185,369 @@ void mp3_MinigameEntryFunc(void) {
     mp3_func_80106850_4DFA10_name_70(&mp3_D_8010D45C_4E661C_name_70, &mp3_D_8010D48C_4E664C_name_70);
     mp3_func_801067CC_4DF98C_name_70();
     mp3_WipeCreateIn(0xFF, 0x10);
+}
+
+
+
+////////////
+typedef struct ItemRect {
+    s16 x;
+    s16 y;
+    s16 w;
+    s16 h;
+} ItemRect;
+
+typedef struct DefinitelyNotItemRect {
+    s8 x[100500];
+} DefinitelyNotItemRect;
+
+typedef struct ItemRectTable {
+    ItemRect *rects[6];
+} ItemRectTable; //sizeof 0x18
+
+typedef struct DefinitelyNotItemRectTable {
+    DefinitelyNotItemRect *notRects[6];
+} DefinitelyNotItemRectTable; //sizeof 0x18
+
+typedef struct Sp18Struct {
+    ItemRectTable rectTable;
+    DefinitelyNotItemRectTable notRectTable1;
+    DefinitelyNotItemRectTable notRectTable2;
+} Sp18Struct;
+
+typedef struct ItemSlotEntry {
+/* 0x00 */ s16 obj;
+/* 0x02 */ s16 x;
+/* 0x04 */ s16 y;
+/* 0x06 */ s16 w;
+/* 0x08 */ s16 h;
+} ItemSlotEntry; //sizeof 0xA
+
+ItemRect D_80100E44_shared_board = {
+/* x */ 60,
+/* y */ 348,
+/* w */ 200,
+/* h */ 20
+};
+
+ItemRect D_80100E4C_shared_board = {
+/* x */ 60,
+/* y */ 368,
+/* w */ 200,
+/* h */ 20
+};
+
+ItemRect D_80100E54_shared_board = {
+/* x */ 60,
+/* y */ 388,
+/* w */ 200,
+/* h */ 20
+};
+
+ItemRect D_80100E5C_shared_board = {
+/* x */ 60,
+/* y */ 328,
+/* w */ 200,
+/* h */ 20
+};
+
+ItemRect D_80100E64_shared_board = {
+/* x */ 60,
+/* y */ 348,
+/* w */ 200,
+/* h */ 20
+};
+
+ItemRect D_80100E6C_shared_board = {
+/* x */ 60,
+/* y */ 368,
+/* w */ 200,
+/* h */ 20
+};
+
+ItemRect D_80100E74_shared_board = {
+/* x */ 60,
+/* y */ 388,
+/* w */ 200,
+/* h */ 20
+};
+
+ItemRect D_80100E7C_shared_board = {
+/* x */ 60,
+/* y */ 408,
+/* w */ 200,
+/* h */ 20
+};
+
+ItemRectTable D_801020B0_115CD0_shared_board = {
+    &D_80100E5C_shared_board,
+    &D_80100E44_shared_board,
+    &D_80100E44_shared_board,
+    &D_80100E44_shared_board,
+    &D_80100E44_shared_board,
+    &D_80100E5C_shared_board
+};
+
+//normal minigames, 4p?
+u8 D_80100DA0_shared_board[] = {
+    0x15, 0x16, 0x17, 0x18,
+    0x19, 0x1B, 0x1C, 0x1D,
+    0x1E, 0x1F, 0x20, 0x21,
+    0x22, 0x23, 0x24, 0x25,
+    0x26, 0x27, 0x28, 0x2C    
+};
+
+//hard minigames, 4p?
+u8 D_80100DB4_shared_board[] = {
+    0x15, 0x19, 0x1C, 0x1D,
+    0x1E, 0x21, 0x22, 0x26,
+    0x28, 0
+};
+
+u8 D_80100DC0_shared_board[] = {
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0
+};
+
+u8 D_80100DCC_shared_board[] = {
+    2, 3, 4, 5, 6, 9, 10, 0
+};
+
+u8 D_80100DD4_shared_board[] = {
+    0xB, 0xC, 0xD, 0xE, 0xF, 0x10, 0x11, 0x12, 0x13, 0x14
+};
+
+u8 D_80100DF4_shared_board[] = {
+    0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40
+};
+
+u8 D_80100DE8_shared_board[] = {
+    0x1A, 0x29, 0x2A, 0x2B, 0x2D, 0x2E, 0x2F, 0x30
+};
+
+u8 D_80100DF0_shared_board[] = {
+    0x2A, 0x2B, 0x2D, 0x2E
+};
+
+u8 D_80100E04_shared_board[] = {
+    0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A
+};
+
+u8 D_80100DE0_shared_board[] = {
+    0x0B, 0xC, 0x10, 0x11, 0x13
+};
+
+u8 D_80100DFC_shared_board[] = {
+    0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x40
+};
+
+u8 D_80100E10_shared_board[] = {
+    0x31, 0x32, 0x33, 0x35, 0x37, 0x38, 0x39
+};
+
+// DefinitelyNotItemRectTable D_801020C8_115CE8_shared_board = {
+//     D_80100DA0_shared_board,
+//     D_80100DC0_shared_board,
+//     D_80100DD4_shared_board,
+//     D_80100DF4_shared_board,
+//     D_80100DE8_shared_board,
+//     D_80100E04_shared_board
+// };
+
+// DefinitelyNotItemRectTable D_801020E0_115D00_shared_board = {
+//     D_80100DB4_shared_board,
+//     D_80100DCC_shared_board,
+//     D_80100DE0_shared_board,
+//     D_80100DFC_shared_board,
+//     D_80100DF0_shared_board,
+//     D_80100E10_shared_board
+// };
+
+extern DefinitelyNotItemRectTable D_801020C8_115CE8_shared_board;
+extern DefinitelyNotItemRectTable D_801020E0_115D00_shared_board;
+
+u8 D_80100EEC_114B0C_shared_board[] = {
+    0x14,
+    0xA,
+    0xA,
+    0x6,
+    0x08,
+    0xA,
+    0,
+    0
+};
+
+u8 D_80100EF4_114B14_shared_board[] = {
+    9,
+    7,
+    5,
+    6,
+    4,
+    7,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+extern u8 D_80100E20_114A40_shared_board[]; /* normal mode: recent minigame avoid count per category */
+extern u8 D_80100E28_114A48_shared_board[]; /* hard mode: recent minigame avoid count per category */
+extern u8 D_80100E9B_114ABB_shared_board[];
+extern u8 D_80100E30_114A50_shared_board[][3];
+
+extern ItemSlotEntry D_80102BD0_1167F0_shared_board[];
+extern s8 D_80102C08_116828_shared_board[];
+extern s8 D_80102C0D_11682D_shared_board;
+extern u8 D_80100E18_114A38_shared_board[];
+extern u8 D_80100EEC_114B0C_shared_board[];
+extern u8 D_80100EF4_114B14_shared_board[];
+extern u8 D_80100E20_114A40_shared_board[]; /* normal mode: recent minigame avoid count per category */
+extern u8 D_80100E28_114A48_shared_board[]; /* hard mode: recent minigame avoid count per category */
+extern u8 D_80100E9B_114ABB_shared_board[];
+extern u8 D_80100E30_114A50_shared_board[][3];
+
+typedef struct {
+    u8 unk0[8];
+    s8 recentMinigames[6][10];
+} UnkData_CD0A0;
+
+extern UnkData_CD0A0 D_800CC4A0_CD0A0;
+
+s16 mp3_func_8005A968_5B568(s16, s16, s16, s16, s32, s16);
+void mp3_func_8005BE30_5CA30(s16, s32);
+void mp3_func_8005BE30_5CA30(s16, s32);
+void mp3_func_8005BE30_5CA30(s16, s32);
+void mp3_func_80060144_60D44(s16);
+void mp3_func_8005BCA4_5C8A4(s16, s16, s16);
+void mp3_func_8005BEE0_5CAE0(s16, s32);
+s32 mp3_BoardGetTurnTier(s32);
+void mp3_func_8005D2D4_5DED4(s16);
+void func_800DED3C_F295C_shared_board(mp3_omObjData*);
+void mp3_func_800DED3C_F295C_shared_board(mp3_omObjData*);
+extern mp3_omObjData* D_80102C04_116824_shared_board;
+void mp3_func_8005C02C_5CC2C(s16, s32);
+void mp3_func_8005BDFC_5C9FC(s16, s32);
+void mp3_func_800DF9EC_F360C_shared_board(void);
+extern s16 D_80102C0E_11682E_shared_board;
+
+void newfunc_800DFBA8_F37C8_shared_board(s32 arg0) {
+    ItemSlotEntry* entry;
+    mp3_omObjData* obj;
+    s32 category;
+    s32 item;
+    s32 forbidCount;
+    s32 count;
+    s32 i;
+    s32 j;
+    s32 k;
+    u8* minigameList;
+    u8* avoidCounts;
+
+    switch (arg0) {
+        case -1:
+            category = mp3_func_800F52C4_108EE4_shared_board();
+            if (category == -1) {
+                category = 3;
+            }
+            break;
+        case 1:
+            category = 4;
+            break;
+        case 2:
+            category = 5;
+            break;
+        case 0:
+        default:
+            category = 3;
+            break;
+    }
+
+    D_80102C0D_11682D_shared_board = category;
+
+    if (mp3__CheckFlag(0x20)) {
+        minigameList = (u8*)D_801020E0_115D00_shared_board.notRects[category];
+        avoidCounts  = D_80100EF4_114B14_shared_board;
+        forbidCount  = D_80100E28_114A48_shared_board[category];
+    } else {
+        minigameList = (u8*)D_801020C8_115CE8_shared_board.notRects[category];
+        avoidCounts  = D_80100EEC_114B0C_shared_board;
+        forbidCount  = D_80100E20_114A40_shared_board[category];
+    }
+
+    for (i = 0; i < D_80100E18_114A38_shared_board[category]; i++) {
+        entry = &D_80102BD0_1167F0_shared_board[i];
+
+        //new way to get xy and width/height. Original code crashes for some reason but this logic works out the same
+        entry->x = D_801020B0_115CD0_shared_board.rects[category]->x;
+        entry->y = D_801020B0_115CD0_shared_board.rects[category]->y + (i * 20);
+        entry->w = D_801020B0_115CD0_shared_board.rects[category]->w;
+        entry->h = D_801020B0_115CD0_shared_board.rects[category]->h;
+
+        entry->obj = mp3_func_8005A968_5B568(
+            (entry->x + (entry->w / 2)),
+            (entry->y + (entry->h / 2)),
+            entry->w,
+            entry->h,
+            0, 4);
+        mp3_func_8005BE30_5CA30(entry->obj, 0x2328);
+        mp3_func_80060144_60D44(entry->obj);
+        mp3_func_8005BCA4_5C8A4(entry->obj, entry->w / 2, entry->h / 2);
+        mp3_func_8005BEE0_5CAE0(entry->obj, 0);
+
+        while (1) {
+            D_80102C08_116828_shared_board[i] = minigameList[mp3_MBRand(avoidCounts[category])];
+
+            /* reject duplicates */
+            for (j = 0; j < i; j++) {
+                if (D_80102C08_116828_shared_board[j] == D_80102C08_116828_shared_board[i]) {
+                    break;
+                }
+            }
+            if (j != i) continue;
+
+            /* reject recently played */
+            for (k = 0; k < forbidCount; k++) {
+                if (D_80102C08_116828_shared_board[i] == D_800CC4A0_CD0A0.recentMinigames[category][k]) {
+                    break;
+                }
+            }
+            if (k != forbidCount) continue;
+
+            /* reject certain games on early turns */
+            if (mp3_BoardGetTurnTier(-1) == 0) {
+                item = D_80102C08_116828_shared_board[i];
+                if (item == 0x11) continue;
+                if (item == ((item >= 0x12) ? 0x1C : 9)) continue;
+            }
+
+            break;
+        }
+
+        mp3_func_8005D2D4_5DED4(entry->obj);
+
+        if (mp3_GWMgUnlockCheck(D_80102C08_116828_shared_board[i] - 1) != 0) {
+            mp3_func_8005B43C_5C03C(entry->obj, (char*)(D_80102C08_116828_shared_board[i] + 0x46FF), -2, 4);
+        } else {
+            mp3_func_8005B43C_5C03C(entry->obj, (char*)0x4748, -2, 4);
+        }
+
+        mp3_func_8005C02C_5CC2C(entry->obj, D_80100E9B_114ABB_shared_board[D_80102C08_116828_shared_board[i]]);
+        mp3_func_8005BDFC_5C9FC(entry->obj, 0);
+    }
+
+    obj = mp3_omAddObj(-0x8000, 0U, 0U, -1, mp3_func_800DED3C_F295C_shared_board);
+    D_80102C04_116824_shared_board = obj;
+    obj->work[0] = 3;
+    obj->work[1] = 5;
+    obj->trans.y = 0.0f;
+    obj->scale.x = 10.0f;
+    obj->scale.y = 0.0f;
+    obj->rot.z = 0.0f;
+    mp3_func_800DF9EC_F360C_shared_board();
+
+    mp3_func_80055420_56020(D_80102C0E_11682E_shared_board, 0,
+        D_80100E30_114A50_shared_board[D_80102C0D_11682D_shared_board][0],
+        D_80100E30_114A50_shared_board[D_80102C0D_11682D_shared_board][1],
+        D_80100E30_114A50_shared_board[D_80102C0D_11682D_shared_board][2]);
 }

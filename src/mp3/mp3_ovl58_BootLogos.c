@@ -12,7 +12,7 @@ void mp3_BootLogosEntryFunc2(void);
 void func_80105AF0_3D72A0_name_58(mp3_omObjData*);
 void func_80105C80_3D7430_name_58(void);
 void func_80105BA4_3D7354_name_58(mp3_omObjData*);
-void mp3_BootLogosSetup(void);
+STATIC void mp3_BootLogosSetup(void);
 void func_80105C14_3D73C4_name_58(mp3_omObjData*);
 void InitializeInitialMinigameList(void);
 void mp3_ovlEventCall(OvlEntrypoint*, s16);
@@ -65,7 +65,7 @@ void mp3_LoadMinigameFromBoot(void) {
     mp3_omOvlCallEx(0x70, 0, 0x0192); //load minigame explanation overlay
 }
 
-void mp3_LoadIntoResultsScene(void) {
+STATIC void mp3_LoadIntoResultsScene(void) {
     for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
         mp3_omovlhis[i] = LoadIntoResultsSceneHis[i];
     }
@@ -107,7 +107,7 @@ void mp3_LoadIntoResultsScene(void) {
     mp3_omOvlCallEx(OVL_GAME_END_SCENE, 0x0000, 0x12); //load results scene overlay
 }
 
-void mp3_LoadOriginalGame(void) {
+STATIC void mp3_LoadOriginalGame(void) {
     if (CurBaseGame == MP1_BASE) {
         //load into mp1
         SaveMp3PlayerToMp1PlayerCopy(); //copy mp3 player structs to mp1's gPlayer Copy
@@ -120,7 +120,7 @@ void mp3_LoadOriginalGame(void) {
     //code should never get here
 }
 
-void mp3_BootLogosSetup(void) {
+STATIC void mp3_BootLogosSetup(void) {
     mp3_Hu3DCamInit(1);
     mp3_omInitObjMan(0x10, 4);
     mp3_D_800D6A58_D7658 = 1;
