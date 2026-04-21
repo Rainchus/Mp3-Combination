@@ -158,7 +158,7 @@
 .definelabel mp3_D_80105630_119250_shared_board, 0x80105630
 .definelabel mp3_func_800F76A4_10B2C4_shared_board, 0x800F76A4
 .definelabel mp3_func_800F68E0_10A500_shared_board, 0x800F68E0
-.definelabel mp3_MBRand, 0x800EEF80
+\
 .definelabel mp3_func_80055140_55D40, 0x80055140
 .definelabel mp3_D_801055E8_119208_shared_board, 0x801055E8
 .definelabel mp3_func_800550B4_55CB4, 0x800550B4
@@ -392,7 +392,7 @@
 .definelabel D_801055E4_119204_shared_Board, 0x801055E4
 .definelabel mp3_func_80055024_55C24, 0x80055024
 .definelabel mp3_func_800550F4_55CF4, 0x800550F4
-
+.definelabel mp3_MBRand, 0x800EEF80
 .definelabel D_80102BD0_1167F0_shared_board, 0x80102BD0
 .definelabel D_80102C08_116828_shared_board, 0x80102C08
 .definelabel D_80102C0D_11682D_shared_board, 0x80102C0D
@@ -415,5 +415,23 @@
 .definelabel mp3_func_800DF9EC_F360C_shared_board, 0x800DF9EC
 .definelabel D_80102C04_116824_shared_board, 0x80102C04
 .definelabel D_80102C0E_11682E_shared_board, 0x80102C0E
-.definelabel D_801020C8_115CE8_shared_board, 0x801020C8
-.definelabel D_801020E0_115D00_shared_board, 0x801020E0
+// .definelabel D_801020C8_115CE8_shared_board, 0x801020C8
+// .definelabel D_801020E0_115D00_shared_board, 0x801020E0
+.definelabel D_80102BD4_1167F4_shared_board, 0x80102BD4
+.definelabel D_80102C12_116832_shared_board, 0x80102C12
+.definelabel D_80100E94_114AB4_shared_board, 0x80100E94
+.definelabel D_80100E8C_114AAC_shared_board, 0x80100E8C
+.definelabel mp3_func_800DECF0_F2910_shared_board, 0x800DECF0
+.definelabel mp3_func_800DF8B4_F34D4_shared_board, 0x800DF8B4
+.definelabel mp3_func_800DFAD4_F36F4_shared_board, 0x800DFAD4
+.definelabel mp3_func_800E5B90_F97B0_shared_board, 0x800E5B90
+
+.definelabel mp3_func_8005BA90_5C690, 0x8005BA90
+.definelabel mp3_func_8005BB18_5C718, 0x8005BB18
+.definelabel mp3_func_8005C154_5CD54, 0x8005C154
+
+.definelabel D_80100E84_114AA4_shared_board, 0x80100E84
+.definelabel mp3_func_8005FBF8_607F8, 0x8005FBF8
+.definelabel D_800CC3DC_CCFDC, 0x800CC3DC
+.definelabel mp3_GWMgNoSet, 0x80035AA8
+

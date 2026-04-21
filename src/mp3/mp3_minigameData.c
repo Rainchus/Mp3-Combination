@@ -260,7 +260,7 @@ u8 newCategoryAmountsEasy[] = {
 };
 
 void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 minigameCombinedIndex = arg1 - 0x46FF;
+    s32 minigameCombinedIndex = arg1;
 
     s32 i;
     for (i = 0; i < MINIGAME_END; i++) {
@@ -269,7 +269,8 @@ void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             return;
         }
     }
-    mp3_func_8005B43C_5C03C(arg0, (char*)arg1, arg2, arg3);
+    //yes, the game does just do OVL_47 - 1 and add to arg1 for the file ID
+    mp3_func_8005B43C_5C03C(arg0, (char*)(arg1 + 0x46FF), arg2, arg3);
 }
 
 s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {

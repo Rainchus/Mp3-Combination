@@ -223,33 +223,51 @@ extern u8 mp3_D_800D030A;
 extern u8 mp3_D_800D0308; //mp3 story progress byte
 extern u8 mp3_D_800D0309;
 
-mp3_GW_SYSTEM mp3_GwSystemCopy = {0};
-u8 mp3_ModeCopy = 0;
-u8 mp3_ModeCopy2 = 0;
-u8 mp3_StoryDifficultyCopy = 0;
-u8 mp3_StoryProgressCopy = 0;
-u8 mp3_StorychrID = 0;
-u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
-s16 mp3_BattleMinigameCoins_Copy = 0;
+// mp3_GW_SYSTEM mp3_GwSystemCopy = {0};
+// u8 mp3_ModeCopy = 0;
+// u8 mp3_ModeCopy2 = 0;
+// u8 mp3_StoryDifficultyCopy = 0;
+// u8 mp3_StoryProgressCopy = 0;
+// u8 mp3_StorychrID = 0;
+// u8 mp3_prevMinigamesPlayedCopy[PREV_MINIGAMES_PLAYED_SIZE] = {0};
+// s16 mp3_BattleMinigameCoins_Copy = 0;
+
+typedef struct MP3_BoardBackupData {
+    UnkData_CD0A0 D_800CC4A0_CD0A0_backup;
+    mp3_GW_SYSTEM mp3_GwSystemCopy;
+    u8 mp3_ModeCopy;
+    u8 mp3_ModeCopy2;
+    u8 mp3_StoryDifficultyCopy;
+    u8 mp3_StoryProgressCopy;
+    u8 mp3_StorychrID;
+    s16 mp3_battleMinigameCoinsCopy;
+} MP3_BoardBackupData;
+
+MP3_BoardBackupData mp3_storedData = {0};
 
 void PushMp3BoardState(void) {
-    mp3_GwSystemCopy = mp3_GwSystem;
-    mp3_ModeCopy = mp3_D_800B23B0;
-    mp3_ModeCopy2 = mp3_D_800B23B1;
-    mp3_StoryDifficultyCopy = mp3_D_800D030A;
-    mp3_StoryProgressCopy = mp3_D_800D0308;
-    mp3_StorychrID = mp3_D_800D0309;
+    mp3_storedData.D_800CC4A0_CD0A0_backup = D_800CC4A0_CD0A0;
+    mp3_storedData.mp3_GwSystemCopy = mp3_GwSystem;
+    mp3_storedData.mp3_ModeCopy = mp3_D_800B23B0;
+    mp3_storedData.mp3_ModeCopy2 = mp3_D_800B23B1;
+    mp3_storedData.mp3_StoryDifficultyCopy = mp3_D_800D030A;
+    mp3_storedData.mp3_StoryProgressCopy = mp3_D_800D0308;
+    mp3_storedData.mp3_StorychrID = mp3_D_800D0309;
+    mp3_storedData.mp3_battleMinigameCoinsCopy = mp3_BattleMinigameCoins;
 }
 
 void PopMp3BoardState(void) {
-    mp3_GwSystem = mp3_GwSystemCopy;
-    mp3_D_800B23B0 = mp3_ModeCopy;
-    mp3_D_800B23B1 = mp3_ModeCopy2;
-    mp3_D_800D030A = mp3_StoryDifficultyCopy;
-    mp3_D_800D0308 = mp3_StoryProgressCopy;
-    mp3_D_800D0309 = mp3_StorychrID;
+    D_800CC4A0_CD0A0 = mp3_storedData.D_800CC4A0_CD0A0_backup;
+    mp3_GwSystem = mp3_storedData.mp3_GwSystemCopy;
+    mp3_D_800B23B0 = mp3_storedData.mp3_ModeCopy;
+    mp3_D_800B23B1 = mp3_storedData.mp3_ModeCopy2;
+    mp3_D_800D030A = mp3_storedData.mp3_StoryDifficultyCopy;
+    mp3_D_800D0308 = mp3_storedData.mp3_StoryProgressCopy;
+    mp3_D_800D0309 = mp3_storedData.mp3_StorychrID;
+    mp3_BattleMinigameCoins = mp3_storedData.mp3_battleMinigameCoinsCopy;
 }
 
+//TODO: make proper struct to store all of the mp2 needed data
 extern u16 mp2_BankCoins;
 u16 mp2_BankCoinsCopy = 0;
 s16 mp2_BattleMinigameCoins_Copy = 0;
@@ -289,10 +307,11 @@ void mp2_StoreBattleMinigameCoins(void) {
     mp2_BattleMinigameCoins_Copy = mp2_BattleMinigameCoins;
 }
 
-void mp3_StoreBattleMinigameCoins(void) {
-    mp3_BattleMinigameCoins_Copy = mp3_BattleMinigameCoins;
-}
+// void mp3_StoreBattleMinigameCoins(void) {
+//     mp3_BattleMinigameCoins_Copy = mp3_BattleMinigameCoins;
+// }
 
+//TODO: this should be removed just like how the mp3 one was
 void PushMp2MinigamesPlayedList(void) {
     s32 i;
 
@@ -301,10 +320,10 @@ void PushMp2MinigamesPlayedList(void) {
     }
 }
 
-void PushMp3MinigamesPlayedList(void) {
-    s32 i;
+// void PushMp3MinigamesPlayedList(void) {
+//     s32 i;
 
-    for (i = 0; i < PREV_MINIGAMES_PLAYED_SIZE; i++) {
-        mp3_prevMinigamesPlayedCopy[i] = mp3_prevMinigamesPlayed[i];
-    }
-}
+//     for (i = 0; i < PREV_MINIGAMES_PLAYED_SIZE; i++) {
+//         mp3_prevMinigamesPlayedCopy[i] = mp3_prevMinigamesPlayed[i];
+//     }
+// }

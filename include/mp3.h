@@ -204,6 +204,12 @@ typedef struct mp3_GW_SYSTEM {
     /* 0x60 - 800CD0B8 */ u8 unk_60[0x44];
 } mp3_GW_SYSTEM; //sizeof 0xA4
 
+typedef struct {
+    u8 unk0[8];
+    s8 recentMinigames[6][10];
+} UnkData_CD0A0;
+
+extern UnkData_CD0A0 D_800CC4A0_CD0A0;
 extern mp3_GW_PLAYER mp3_GwPlayer[4];
 extern mp3_GW_PLAYER mp3_GwPlayerCopy[4];
 extern omOvlHisData mp3_omovlhis_copy[12];
