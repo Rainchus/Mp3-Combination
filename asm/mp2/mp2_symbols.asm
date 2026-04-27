@@ -163,3 +163,54 @@
 .definelabel mp2_D_8011497C_3D00DC_name_60, 0x8011497C
 .definelabel mp2_D_80114980_3D00E0_name_60, 0x80114980
 .definelabel mp2_D_80114984_3D00E4_name_60, 0x80114984
+
+
+
+.definelabel D_800D26E8_D32E8, 0x800D26E8
+.definelabel D_800D2700_D3300, 0x800D2700
+.definelabel D_800DF6C5_E02C5, 0x800DF6C5
+.definelabel D_800CBD10_CC910, 0x800CBD10
+.definelabel D_800DF660_E0260, 0x800DF660
+.definelabel D_800DF6C0_E02C0, 0x800DF6C0
+.definelabel D_800CBD18_CC918, 0x800CBD18
+.definelabel D_800DF690_E0290, 0x800DF690
+.definelabel D_800CBDC8_CC9C8, 0x800CBDC8
+.definelabel D_800CBD77_CC977, 0x800CBD77
+.definelabel D_800DF6BC_E02BC, 0x800DF6BC
+.definelabel func_80089A7C_8A67C, 0x80089A7C
+.definelabel func_8008D88C_8E48C, 0x8008D88C
+.definelabel func_800898F0_8A4F0, 0x800898F0
+.definelabel func_80089B2C_8A72C, 0x80089B2C
+.definelabel func_80068040_68C40, 0x80068040
+.definelabel func_8008AD84_8B984, 0x8008AD84
+.definelabel func_800890CC_89CCC, 0x800890CC
+.definelabel func_80089C78_8A878, 0x80089C78
+.definelabel func_80089A48_8A648, 0x80089A48
+.definelabel func_800888A8_894A8, 0x800888A8
+.definelabel func_8004AB24_4B724, 0x8004AB24
+.definelabel func_80060A1C_6161C, 0x80060A1C
+.definelabel mp2_MBRand, 0x8005A358
+.definelabel mp2_crash_screen_init, 0x800C13F0
+
+
+.definelabel D_800DF6CA_E02CA, 0x800DF6CA
+.definelabel D_800CBD70_CC970, 0x800CBD70
+.definelabel D_800CBD68_CC968, 0x800CBD68
+.definelabel D_800DF664_E0264, 0x800DF664
+.definelabel D_800DF6C6_E02C6, 0x800DF6C6
+.definelabel D_800CBD60_CC960, 0x800CBD60
+
+.definelabel func_80049FB0_4ABB0, 0x80049FB0
+.definelabel func_8005A358_5AF58, 0x8005A358
+.definelabel func_800896DC_8A2DC, 0x800896DC
+.definelabel func_8004AC60_4B860, 0x8004AC60
+.definelabel func_8008D530_8E130, 0x8008D530
+.definelabel D_800DF6B6_E02B6, 0x800DF6B6
+
+.definelabel func_80067E6C_68A6C, 0x80067E6C
+.definelabel func_8004FDE0_509E0, 0x8004FDE0
+.definelabel func_8004A9EC_4B5EC, 0x8004A9EC
+.definelabel func_8007959C_7A19C, 0x8007959C
+.definelabel func_8008AD44_8B944, 0x8008AD44
+.definelabel func_80089DA0_8A9A0, 0x80089DA0
+.definelabel mp2_SprPosSet, 0x80081AD0

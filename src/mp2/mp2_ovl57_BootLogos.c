@@ -129,6 +129,7 @@ void mp2_BootLogosSetup(void) {
 }
 
 void mp2_BootLogosEntryFunc(void) {
+    mp2_crash_screen_init();
     mp2_LoadMinigameList();
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
@@ -161,6 +162,8 @@ void mp2_BootLogosEntryFunc(void) {
 }
 
 void mp2_BootLogosEntryFunc2(void) {
+    mp2_crash_screen_init();
+
     mp2_LoadMinigameList();
 
     //this handles if the player waits on the title screen then loads back into the boot overlays

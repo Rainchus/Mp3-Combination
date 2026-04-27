@@ -450,14 +450,12 @@ void mp3_func_8005BCA4_5C8A4(s16, s16, s16);
 void mp3_func_8005BEE0_5CAE0(s16, s32);
 s32 mp3_BoardGetTurnTier(s32);
 void mp3_func_8005D2D4_5DED4(s16);
-void func_800DED3C_F295C_shared_board(mp3_omObjData*);
-void mp3_func_800DED3C_F295C_shared_board(mp3_omObjData*);
 extern mp3_omObjData* D_80102C04_116824_shared_board;
 void mp3_func_8005C02C_5CC2C(s16, s32);
 void mp3_func_8005BDFC_5C9FC(s16, s32);
 void mp3_func_800DF9EC_F360C_shared_board(void);
 extern s16 D_80102C0E_11682E_shared_board;
-void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void SetMp3MultigameMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern u8 D_80100E84_114AA4_shared_board[];
 
 void mp3_func_8005BA90_5C690(s16, s16, s16);
@@ -473,7 +471,7 @@ u8 rand8_Shared(void);
 void mp3_HuAudFXPlay(s16);
 void mp3_func_8005D294_5DE94(s16);
 
-void func_800DED3C_F295C_shared_board(mp3_omObjData* arg0) {
+void newfunc_800DED3C_F295C_shared_board(mp3_omObjData* arg0) {
     ItemSlotEntry* entry = NULL;
     s32 i;
     s16 new_var;
@@ -595,7 +593,7 @@ void func_800DED3C_F295C_shared_board(mp3_omObjData* arg0) {
                     arg0->work[3] = 0x3C;
                     mp3_func_8005D2D4_5DED4(entry->obj);
                     mp3_func_8005D294_5DE94(D_80102BD0_1167F0_shared_board[arg0->work[1]].obj);
-                    GetNewMinigameString1(D_80102BD0_1167F0_shared_board[arg0->work[1]].obj,
+                    SetMp3MultigameMinigameString(D_80102BD0_1167F0_shared_board[arg0->work[1]].obj,
                         (D_80102C08_116828_shared_board[arg0->work[1]]), -2, 4);
                     // mp3_func_8005B43C_5C03C(D_80102BD0_1167F0_shared_board[arg0->work[1]].obj,
                     //     (char*)(D_80102C08_116828_shared_board[arg0->work[1]] + 0x46FF), -2, 4); 
@@ -748,7 +746,7 @@ void newfunc_800DFBA8_F37C8_shared_board(s32 arg0) {
         mp3_func_8005D2D4_5DED4(entry->obj);
 
         //@patch: show all minigame names for all 3 games, even locked ones
-        GetNewMinigameString1(entry->obj, (D_80102C08_116828_shared_board[i]), -2, 4);
+        SetMp3MultigameMinigameString(entry->obj, (D_80102C08_116828_shared_board[i]), -2, 4);
 
         // if (mp3_GWMgUnlockCheck(D_80102C08_116828_shared_board[i] - 1) != 0) {
         //     mp3_func_8005B43C_5C03C(entry->obj, (char*)(D_80102C08_116828_shared_board[i] + 0x46FF), -2, 4);
@@ -760,7 +758,7 @@ void newfunc_800DFBA8_F37C8_shared_board(s32 arg0) {
         mp3_func_8005BDFC_5C9FC(entry->obj, 0);
     }
 
-    obj = mp3_omAddObj(-0x8000, 0U, 0U, -1, func_800DED3C_F295C_shared_board);
+    obj = mp3_omAddObj(-0x8000, 0U, 0U, -1, newfunc_800DED3C_F295C_shared_board);
     D_80102C04_116824_shared_board = obj;
     obj->work[0] = 3;
     obj->work[1] = 5;

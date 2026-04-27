@@ -124,7 +124,7 @@ s16 func_800EB184_FEDA4_shared_board(u16 arg0, u16 arg1);
 
 extern s32 D_801094F4_3C6314_name_50;
 extern s32 D_801055F8_119218_shared_board;
-extern s32 mp3_D_80101A50_115670_shared_board[]; //randomly generated items
+extern s32 mp3_D_80101A50_115670_shared_board[9]; //randomly generated items
 extern s32 mp3_D_80105630_119250_shared_board[];
 extern s32 D_80100F90_114BB0_shared_board;
 extern s32 mp3_D_8010197C_11559C_shared_board[]; //item mainFS ID array

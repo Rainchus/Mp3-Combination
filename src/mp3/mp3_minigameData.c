@@ -259,7 +259,7 @@ u8 newCategoryAmountsEasy[] = {
     ARRAY_COUNT(newDuelMinigameListEasyMp3),
 };
 
-void GetNewMinigameString1(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void SetMp3MultigameMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 minigameCombinedIndex = arg1;
 
     s32 i;

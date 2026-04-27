@@ -80,3 +80,11 @@
 //.org 0x80079128
     //J mp2_func_80079128_79D28_Hook
     //NOP
+
+.org 0x8004AD34
+    J newfunc_8004AD34_4B934
+    NOP
+
+.org 0x80067E6C
+    J newfunc_80067E6C_68A6C
+    NOP

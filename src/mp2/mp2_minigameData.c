@@ -19,6 +19,16 @@ u8 newItemMinigameListNormalMp2[MP2_ITEM_MINIGAME_MAX] = {0};
 u8 newDuelMinigameListNormalMp2[MP2_DUEL_MINIGAME_MAX] = {0};
 u8 newCategoryAmountsNormalMp2[MP2_TOTAL_CATEGORIES] = {0};
 
+u8* mp2_minigameLists[] = {
+    new4PMinigameListNormalMp2,
+    new1v3MinigameListNormalMp2,
+    new2v2MinigameListNormalMp2,
+    newBattleMinigameListNormalMp2,
+    newItemMinigameListNormalMp2,
+    newDuelMinigameListNormalMp2,
+    newCategoryAmountsNormalMp2,
+};
+
 // u8 mp2_battleMinigameBlacklist[] = {
 //     // STACKED_DECK, THREE_DOOR_MONTY, MERRY_GO_CHOMP, SLAP_DOWN, LOCKED_OUT,
 //     // ALL_FIRED_UP, STORM_CHASERS, EYE_SORE
