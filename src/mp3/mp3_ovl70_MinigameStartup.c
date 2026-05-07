@@ -48,6 +48,8 @@ void PushMp3BoardState(void);
 void mp3_StoreBattleMinigameCoins(void);
 void PushMp3OvlHis(void);
 void SaveMp3PlayerToMp1PlayerCopy(void);
+void func_801061EC_4DF3AC_inst(void);
+void mp3__SetFlag(s32);
 
 extern s8 mp3_D_8010D400_4E65C0_name_70[7];
 extern s8 mp3_D_8010D407_4E65C7_name_70;
@@ -140,7 +142,7 @@ void mp3_MinigameEntryFunc(void) {
     mp3_func_80107308_4E04C8_name_70();
     
     if ((mp3_GwSystem.show_minigame_explanations == 1) || (mp3_D_8010D40A_4E65CA_name_70 == 6)) {
-        mp3_func_801061EC_4DF3AC_name_70();
+        func_801061EC_4DF3AC_inst();
         return;
     }
     
@@ -197,7 +199,68 @@ void mp3_MinigameEntryFunc(void) {
     mp3_WipeCreateIn(0xFF, 0x10);
 }
 
+typedef struct unkStruct {
+    char unk_00[16];
+    s32 unk_10;
+} unkStruct;
 
+extern unkStruct mp3_D_800A6D30[];
+extern s8 mp3_D_8010D40A_4E65CA_inst;
+extern s8 mp3_D_8010D40B_4E65CB_inst;
+extern s8 mp3_D_8010D5B1_4E6771_inst;
+
+#define mgresultboard 0x71
+#define mgresultdealer 0x72
+#define mgresultduel 0x73
+#define mgresultbattle 0x74
+#define boot 0x58
+
+void func_801061EC_4DF3AC_inst(void) {
+    mp3_omOvlCallEx(mp3_D_800A6D30[mp3_D_8010D40B_4E65CB_inst].unk_10, 0, 0x14);
+
+    if (mp3_D_8010D5B1_4E6771_inst == 1) {
+        mp3__SetFlag(0xF);
+        return;
+    }
+
+    if (mp3__CheckFlag(0xD) != 0) {
+        if (mp3_omovlhisidx > 0) {
+            mp3_omovlhisidx -= 1;
+        }
+    } else {
+        switch (mp3_D_8010D40A_4E65CA_inst) {
+        case 6:
+            mp3_omOvlHisChg(1, mgresultdealer, 0, 0x14);
+            break;
+        case 4:
+            if (mp3_GwSystem.playMode & 2) {
+                mp3_omOvlHisChg(1, mgresultduel, 0, 0x4010);
+                break;
+            }
+            if (mp3_omovlhisidx > 0) {
+                mp3_omovlhisidx -= 1;
+            }
+            break;
+        case 3:
+            mp3_omOvlHisChg(1, mgresultbattle, 0, 0x12);
+            break;
+        case 5:
+        case 7:
+        case 8:
+            if (mp3_omovlhisidx > 0) {
+                mp3_omovlhisidx -= 1;
+            }
+            break;
+        default:
+            if (CurBaseGame == MP3_BASE) {
+                mp3_omOvlHisChg(1, mgresultboard, 0, 0x12); //original code; push battle results scene to history
+            } else {
+                mp3_omOvlHisChg(1, boot, 0, 0x12); //push boot logos overlay (has logic for returning to original game)
+            }
+            break;
+        }
+    }
+}
 
 ////////////
 typedef struct ItemRect {

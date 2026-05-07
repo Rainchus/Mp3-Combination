@@ -6,3 +6,7 @@
 .org 0x80105DF0
     J alwaysSetBookOpen
      NOP
+
+.org 0x801061EC
+    J func_801061EC_4DF3AC_inst
+    NOP

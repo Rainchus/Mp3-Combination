@@ -64,7 +64,7 @@ void mp2_func_80077EF0_78AF0(void);
 void mp2_func_8007B9B8_7C5B8(void);
 void mp2_func_8007BA44_7C644(void);
 void mp2_func_8008CE5C_8DA5C(void);
-void mp2_func_800727F0_733F0(void);
+void mp2_ClearPlayerCoinsMgAndMgBonus(void);
 void mp2_func_80067EF8_68AF8(s32);
 void mp2_func_80017800_18400(s32);
 void mp2_omOvlKill(void);

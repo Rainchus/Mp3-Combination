@@ -435,3 +435,10 @@
 .definelabel D_800CC3DC_CCFDC, 0x800CC3DC
 .definelabel mp3_GWMgNoSet, 0x80035AA8
 
+
+.definelabel mp3_D_800A6D30, 0x800A6D30
+.definelabel mp3_D_8010D40A_4E65CA_inst, 0x8010D40A
+.definelabel mp3_D_8010D40B_4E65CB_inst, 0x8010D40B
+.definelabel mp3_D_8010D5B1_4E6771_inst, 0x8010D5B1
+.definelabel mp3__SetFlag, 0x80035EF4
+

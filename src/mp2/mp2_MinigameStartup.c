@@ -127,7 +127,7 @@ void newfunc_80049FFC_4ABFC(mp2_omObjData* arg0) {
         mp2_SprPosSet(D_800DF6C6_E02C6, 0, 0xA0, (D_800CBD60_CC960[D_800DF6C5_E02C5] + new_var));
         if (arg0->trans.y > 218.0f) {
             func_80049FB0_4ABB0();
-            arg0->work[0] = 1U;
+            arg0->work[0] = 1;
             arg0->scale.x = 1.0f;
             arg0->scale.z = -1.0f;
             arg0->scale.y = 0.0f;

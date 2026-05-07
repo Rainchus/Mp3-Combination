@@ -100,7 +100,7 @@ void mp2_MinigameEntryFunc_2(void) {
 void func_801085A0_3C3D00_name_60(s32 arg0) {
     mp2_func_8008CE5C_8DA5C();
     if (CurBaseGame == MP2_BASE) {
-        mp2_func_800727F0_733F0(); //clears coins
+        mp2_ClearPlayerCoinsMgAndMgBonus(); //clears coins
     }
     mp2_func_80067EF8_68AF8(-1);
     

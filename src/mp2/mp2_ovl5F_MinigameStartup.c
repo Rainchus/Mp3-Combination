@@ -75,7 +75,7 @@ void func_801085A0_3B1740_name_5F(s32 arg0) {
 
     mp2_func_8008CE5C_8DA5C();
     if (CurBaseGame == MP2_BASE) {
-        mp2_func_800727F0_733F0();
+        mp2_ClearPlayerCoinsMgAndMgBonus();
     }
     mp2_func_80067EF8_68AF8(-1);
     

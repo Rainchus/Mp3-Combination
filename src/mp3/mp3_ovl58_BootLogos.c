@@ -65,7 +65,7 @@ void mp3_LoadMinigameFromBoot(void) {
     mp3_omOvlCallEx(0x70, 0, 0x0192); //load minigame explanation overlay
 }
 
-STATIC void mp3_LoadIntoResultsScene(void) {
+void mp3_LoadIntoResultsScene(void) {
     for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
         mp3_omovlhis[i] = LoadIntoResultsSceneHis[i];
     }

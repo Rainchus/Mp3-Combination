@@ -290,10 +290,10 @@ s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
 //     s16 var_v0;
 
 //     if (CurBaseGame == MP2_BASE) {
-//         //mp2_func_800727F0_733F0();
+//         //mp2_ClearPlayerCoinsMgAndMgBonus();
 //     }
 
-//     mp2_func_800727F0_733F0();
+//     mp2_ClearPlayerCoinsMgAndMgBonus();
     
 //     if (mp2_D_800CD416_CE016 & 0x10) {
 //         mp2_func_80077EF0_78AF0();

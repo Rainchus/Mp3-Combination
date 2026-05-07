@@ -149,7 +149,7 @@
 .definelabel mp2_func_8006135C_61F5C, 0x8006135C
 .definelabel mp2_D_800CAD90, 0x800CAD90
 .definelabel mp2_func_8008CE5C_8DA5C, 0x8008CE5C
-.definelabel mp2_func_800727F0_733F0, 0x800727F0
+.definelabel mp2_ClearPlayerCoinsMgAndMgBonus, 0x800727F0
 .definelabel mp2_func_80067EF8_68AF8, 0x80067EF8
 .definelabel mp2_func_80017800_18400, 0x80017800
 .definelabel mp2_omOvlKill, 0x80077574

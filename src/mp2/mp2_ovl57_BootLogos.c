@@ -45,6 +45,8 @@ void mp2BootLogoMain(void) {
     mp2_ovlEventCall(D_80102D30_36DED0_BootLogos, mp2_omovlevtno);
 }
 
+#define BOOT_OVL_ID 0x62
+
 void mp2_LoadMinigameFromBoot(void) {
     s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     s32 minigameExplanationOverlayID; //this is split into 2 overlays in this game
