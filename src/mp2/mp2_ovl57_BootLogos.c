@@ -84,21 +84,22 @@ void mp2_LoadIntoResultsScene(void) {
     SaveMp2PlayerCopyToMp2Player();
 
     
-    mp2_D_800E1F50_E2B50 = 1; //required for board events to load back into the board correctly
-    mp2_omovlhisidx = 3;    
+    // mp2_D_800E1F50_E2B50 = 1; //required for board events to load back into the board correctly
+    // mp2_omovlhisidx = 3;
 
     //if game should end, make overlay results scene returns to the ending game scene
     //otherwise, go to board
     if (mp2_GwSystem.current_turn > mp2_GwSystem.total_turns) {
         //mp2_omovlhis[3].overlayID
+        mp2_D_800E1F50_E2B50 = 0; //required for credits to correctly go back to game select
+        mp2_omovlhisidx = 3;
+        //TODO: make sure this works correctly. It didn't in the last version
+        mp2_omOvlCallEx(0x3D, 0x0001, 0x192); //load into game ending scene
     } else { //set overlay ID for board
-        mp2_omovlhis[3].overlayID = mp2_boardOverlays[mp2_GwSystem.current_board_index];
+        mp2_D_800E1F50_E2B50 = 1; //required for credits to correctly go back to game select
+        mp2_omovlhisidx = 3;
+        //mp2_omovlhis[3].overlayID = mp2_boardOverlays[mp2_GwSystem.current_board_index];
     }
-
-    //mp2_omOvlCallEx(0x3D, 0x0001, 0x192); //load into game ending scene
-    
-    //TODO: verify this call to results scene
-    //TODO: set ovlhisidx as well
     mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
 }
 

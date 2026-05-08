@@ -95,6 +95,15 @@ extern u8 D_800CBD68_CC968[];
 extern u8 newCategoryAmountsNormalMp2[];
 extern u8* mp2_minigameLists[];
 
+u8 D_800CCCFC_CD8FC[] = {
+	GIVE_ME_A_BRAKE, //5
+	ROLL_OUT_THE_BARRELS, //2
+	COFFIN_CONGESTION, //3
+	HAMMER_SLAMMER, //4
+	MALLET_GO_ROUND, //6
+	BOWSER_SLOTS, //1
+};
+
 s32 mp2_func_8003F6F0_402F0(s16 overlayID) {
     s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
     s32 explanationOverlayID;
@@ -200,8 +209,11 @@ void newfunc_80049FFC_4ABFC(mp2_omObjData* arg0) {
                     arg0->work[3] = 0x3C;
                     func_8008AD84_8B984();
                     func_8008AD44_8B944(D_800DF660_E0260[arg0->work[1]].obj);
+
+                    //@patch to use global table
                     SetMp2MultigameMinigameString(D_800DF660_E0260[arg0->work[1]].obj, D_800DF6C0_E02C0[arg0->work[1]], -2, 4);
                     //func_800890CC_89CCC(D_800DF660_E0260[arg0->work[1]].obj, (char*)((D_800DF6C0_E02C0[arg0->work[1]] + 0x3D8)), -2, 4);
+
                     switch (D_800DF6C0_E02C0[arg0->work[1]]) {
                     case 0x19:                         /* switch 2 */
                     case 0x24:                        /* switch 2 */
@@ -373,8 +385,11 @@ void newfunc_8004AD34_4B934(s32 arg0) {
         }
         
         func_8008AD84_8B984();
+
+        //@patch to use global table
         SetMp2MultigameMinigameString(entry->obj, D_800DF6C0_E02C0[i], -2, 4);
         //func_800890CC_89CCC(entry->obj, D_800DF6C0_E02C0[i] + 0x3D8, -2, 4);
+
         func_80089C78_8A878(entry->obj, D_800CBD77_CC977[D_800DF6C0_E02C0[i]]);
         func_80089A48_8A648(entry->obj, 0);
     }

@@ -92,3 +92,8 @@
 .org 0x8003F6F0
     J mp2_func_8003F6F0_402F0
     NOP
+
+
+.org 0x8006642C
+    J newItemMinigameLoadCode
+    NOP
