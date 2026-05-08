@@ -12,8 +12,9 @@ extern s16 mp2_D_801148F4_3D0054_name_60;
 extern s16 mp2_D_80114AC2_3D0222_name_60;
 
 void newfunc_80067E6C_68A6C(s16 minigameIndex) {
-    mp2_GwSystem.chosenMinigameIndex = minigameIndex;
-    ForeignMinigameIndexToLoad = minigameIndex;
+    u8 newMinigameIndex = (minigameIndex & 0xFF); //strip signed bits from s16; we want a u8
+    mp2_GwSystem.chosenMinigameIndex = newMinigameIndex;
+    ForeignMinigameIndexToLoad = newMinigameIndex;
 }
 
 

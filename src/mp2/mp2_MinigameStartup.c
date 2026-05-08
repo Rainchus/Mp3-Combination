@@ -95,6 +95,18 @@ extern u8 D_800CBD68_CC968[];
 extern u8 newCategoryAmountsNormalMp2[];
 extern u8* mp2_minigameLists[];
 
+s32 mp2_func_8003F6F0_402F0(s16 overlayID) {
+    s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    s32 explanationOverlayID;
+
+    if (localOverlayID < 30) {
+        explanationOverlayID = 0x5F;
+    } else {
+        explanationOverlayID = 0x60;
+    }
+    return explanationOverlayID;
+}
+
 void SetMp2MultigameMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 minigameCombinedIndex = (s32)arg1;
 

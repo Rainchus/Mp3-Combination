@@ -88,3 +88,7 @@
 .org 0x80067E6C
     J newfunc_80067E6C_68A6C
     NOP
+
+.org 0x8003F6F0
+    J mp2_func_8003F6F0_402F0
+    NOP
