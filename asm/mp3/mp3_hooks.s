@@ -34,7 +34,7 @@ mp3_setForeignMinigameIndex:
     SB a0, 0xD068 (at) //set mp3_GwSystem.minigame_index
     LI t0, ForeignMinigameIndexToLoad
     JR RA
-     SW a0, 0x0000 (t0) //set ForeignMinigameIndexToLoad
+     SB a0, 0x0000 (t0) //set ForeignMinigameIndexToLoad
 
 mp3_PushItemCountToGP:
     JR RA

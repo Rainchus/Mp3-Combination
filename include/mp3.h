@@ -6,6 +6,10 @@
 #include "mp3/game/object.h"
 #include "mp3/malloc.h"
 
+#define OVL_RESULTS_SCENE 0x47
+#define OVL_GAME_END_SCENE 0x71
+#define OVL_LAST_5_TURNS 0x51
+
 enum {
     RGBA32 = 0,
     RGBA16 = 1,
@@ -225,7 +229,7 @@ extern u32 mp3_debug_font_color;
 extern mp3_GW_SYSTEM mp3_GwSystem;
 extern mp3_GW_SYSTEM mp3_GwSystemCopy;
 extern OSMesgQueue mp3_D_800CE1A0;
-extern s32 ForeignMinigameIndexToLoad;
+extern u8 ForeignMinigameIndexToLoad;
 extern s16 mp3_BattleMinigameCoins;
 extern s16 mp3_D_800D530C;
 extern u8 mp3_prevMinigamesPlayed[PREV_MINIGAMES_PLAYED_SIZE];

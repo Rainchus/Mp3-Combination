@@ -2,6 +2,15 @@
 .orga 0x20
 .ascii "MarioPartyN64Combo  "
 
+.orga 0x38
+.word 0
+
+.orga 0x3C
+.ascii "ED"
+
+.orga 0x3E
+.byte 0
+
 .orga 0x3F //set save type of game to 16K eeprom
 .byte 0x20
 
@@ -55,9 +64,13 @@
 .org 0x8000C3F0 //only check file 1's checksum
     SLTI v0, v0, 0x0001 //SLTI v0, v0, 0x0003
 
-.org 0x80035AB0
+.org 0x80035AA8
     J mp3_setForeignMinigameIndex
      NOP
+
+.org 0x8000EBEC
+    J func_8000EBEC_F7EC
+    NOP
 
 /*
 .org 0x8005FBF8

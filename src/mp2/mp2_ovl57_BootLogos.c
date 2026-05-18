@@ -183,7 +183,7 @@ void mp2_BootLogosEntryFunc2(void) {
         ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
         mp2_D_80102D50_36DEF0_BootLogos = 1;
         mp2_BootLogosSetup();        
-    } else if (CurBaseGame == MP2_BASE && ForeignMinigameIndexToLoad == -1) {
+    } else if (CurBaseGame == MP2_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {
         //mp2 is the base game and we have loaded into the boot overlay with no minigame to load
         //therefore, we need to load into the results scene to then load back into the board
         //set up the necessary overlay history to accomplish this

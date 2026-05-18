@@ -442,3 +442,36 @@
 .definelabel mp3_D_8010D5B1_4E6771_inst, 0x8010D5B1
 .definelabel mp3__SetFlag, 0x80035EF4
 
+.definelabel D_800A6D46, 0x800A6D46
+.definelabel D_800CE20A, 0x800CE20A
+.definelabel D_8010D407_4E65C7_inst, 0x8010D407
+.definelabel D_8010D40B_4E65CB_inst, 0x8010D40B
+
+
+.definelabel currFrameBuffer, 0x800CB89C
+.definelabel D_800B19A0_B25A0, 0x800B19A0
+.definelabel D_800CC0A4_CCCA4, 0x800CC0A4
+.definelabel D_800CC3C0_CCFC0, 0x800CC3C0
+.definelabel D_800D2094_D2C94, 0x800D2094
+.definelabel frameBufferSegmentID, 0x800B199E
+.definelabel func_8000EB60_F760, 0x8000EB60
+.definelabel func_8004D85C_4E45C, 0x8004D85C
+.definelabel func_8004D878_4E478, 0x8004D878
+.definelabel gMesgQueue, 0x800B1960
+.definelabel gSwapChainMesgQueue, 0x800B1848
+.definelabel gSwapChainMesgTotal, 0x800CC3BC
+.definelabel gTaskDataPointers, 0x800CC390
+.definelabel gThread3Stack, 0x800D0300
+.definelabel gThreadOutStack, 0x800D0548
+.definelabel gThreadOutStackSize, 0x800CB8B8
+.definelabel gThreadYieldStack, 0x800CE1FC
+.definelabel gUCodeAddresses, 0x800D0A34
+.definelabel mp3_AddSchedulerClient, 0x800511C4
+.definelabel mp3_osSendMesg, 0x8007C1A0
+.definelabel mp3_osSetIntMask, 0x80072600
+.definelabel mp3_osViSetYScale, 0x8007D8B0
+.definelabel nextFrameBuffer, 0x800D2090
+.definelabel swapChainTask, 0x800B1800
+
+.definelabel mp3_crash_screen_init, 0x800992B0
+

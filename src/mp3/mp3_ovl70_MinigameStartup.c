@@ -68,7 +68,7 @@ extern u8 newBattleMinigameListNormalMp3[];
 extern u8 newItemMinigameListNormalMp3[];
 extern u8 newDuelMinigameListNormalMp3[];
 
-STATIC void Mp3SwapGameIfNeeded(void) {
+void Mp3SwapGameIfNeeded(void) {
     s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
 
     //determine if we are loading a mp2 or mp1 minigame
@@ -82,11 +82,12 @@ STATIC void Mp3SwapGameIfNeeded(void) {
         PushMp3BoardState();
         SaveMp3PlayerToMp3PlayerCopy();
         ComboSwitchGameToMp1();
+    } else {
+        //is mp3 minigame
+        mp3_GwSystem.minigame_index = localOverlayID;
+        mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;
+        ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
     }
-    //is mp3 minigame
-    mp3_GwSystem.minigame_index = localOverlayID;
-    mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;
-    ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
 }
 
 //first function ran in ovl_70;
@@ -206,7 +207,7 @@ typedef struct unkStruct {
 
 extern unkStruct mp3_D_800A6D30[];
 extern s8 mp3_D_8010D40A_4E65CA_inst;
-extern s8 mp3_D_8010D40B_4E65CB_inst;
+extern u8 mp3_D_8010D40B_4E65CB_inst;
 extern s8 mp3_D_8010D5B1_4E6771_inst;
 
 #define mgresultboard 0x71
@@ -261,6 +262,59 @@ void func_801061EC_4DF3AC_inst(void) {
         }
     }
 }
+
+typedef struct {
+    /* 0x00 */ u16 data;
+    /* 0x02 */ char pad[0x12];
+} InstrPageEntry; //sizeof 0x14
+
+extern InstrPageEntry D_800A6D46[];
+extern u8 D_800CE20A;
+extern s8 D_8010D407_4E65C7_inst;
+extern u8 mp3_D_8010D40B_4E65CB_inst;
+extern s32 D_8010D4A4_4E6664_inst;
+u8 rand8_Shared(void);
+
+// void func_80107308_4E04C8_inst(void) {
+//     s32 useDefault;
+//     s32 instrIndex;
+//     u32 entry;
+
+//     useDefault = 1;
+//     instrIndex = 0;
+
+//     if (D_8010D407_4E65C7_inst == (COCONUT_CONK -1) &&
+//        (mp3_D_8010D40B_4E65CB_inst == (PICTURE_IMPERFECT -1) || mp3_D_8010D40B_4E65CB_inst == (CROWD_COVER -1))) {
+//         instrIndex = (D_800A6D46[mp3_D_8010D40B_4E65CB_inst].data & 0x7FF) + (D_800CE20A * 2);
+//         useDefault = 0;
+//     }
+
+//     if (useDefault == 1) {
+//         entry = D_800A6D46[mp3_D_8010D40B_4E65CB_inst].data;
+//         instrIndex = entry & 0x7FF;
+
+//         if (entry & 0x4000) {
+//             /* This page has character-specific variants (e.g. different text per character) */
+//             if (mp3_D_8010D40B_4E65CB_inst == 0x46) {
+//                 instrIndex += D_800CE20A * 2;
+//             } else {
+//                  /* Pick a random variant within the allowed count */
+//                 entry &= 0x3800; //? tf
+//                 entry >>= 11; //? tf
+//                 D_800CE20A = (rand8_Shared()) % entry;
+//                 instrIndex += D_800CE20A * 2;               
+//             }
+//         } else if (mp3_D_8010D40B_4E65CB_inst == 0x47) {
+//             D_800CE20A = 2;
+//         } else if (mp3_D_8010D40B_4E65CB_inst == 0x1E && mp3__CheckFlag(0x1C)) {
+//             D_800CE20A = 1;
+//         } else {
+//             D_800CE20A = 0;
+//         }
+//     }
+
+//     D_8010D4A4_4E6664_inst = instrIndex;
+// }
 
 ////////////
 typedef struct ItemRect {

@@ -245,6 +245,10 @@ typedef struct MP3_BoardBackupData {
 
 MP3_BoardBackupData mp3_storedData = {0};
 
+u8 GetMp3StoredMessageSpeed(void) {
+    return mp3_storedData.mp3_GwSystemCopy.message_speed;
+}
+
 void PushMp3BoardState(void) {
     mp3_storedData.D_800CC4A0_CD0A0_backup = D_800CC4A0_CD0A0;
     mp3_storedData.mp3_GwSystemCopy = mp3_GwSystem;

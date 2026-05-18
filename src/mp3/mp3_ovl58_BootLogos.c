@@ -4,15 +4,13 @@
 #include "mp3.h"
 #include "mp3/game/hmfman.h"
 
-#define OVL_RESULTS_SCENE 0x47
-#define OVL_GAME_END_SCENE 0x71
-
+void mp3_crash_screen_init(void);
 void mp3_BootLogosEntryFunc(void);
 void mp3_BootLogosEntryFunc2(void);
 void func_80105AF0_3D72A0_name_58(mp3_omObjData*);
 void func_80105C80_3D7430_name_58(void);
 void func_80105BA4_3D7354_name_58(mp3_omObjData*);
-STATIC void mp3_BootLogosSetup(void);
+void mp3_BootLogosSetup(void);
 void func_80105C14_3D73C4_name_58(mp3_omObjData*);
 void InitializeInitialMinigameList(void);
 void mp3_ovlEventCall(OvlEntrypoint*, s16);
@@ -79,7 +77,7 @@ void mp3_LoadIntoResultsScene(void) {
         mp3_omovlhis[3].overlayID = OVL_RESULTS_SCENE;
         mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
         mp3_omovlhisidx = 3;
-    } else if (mp3_GwSystem.current_turn - 4 == mp3_GwSystem.total_turns) {
+    } else if (mp3_GwSystem.current_turn + 4 == mp3_GwSystem.total_turns) {
         //set up last 5 turns
         omOvlHisData last5Turns[] = {
             {0x7A, 0x0002, 0x0092},
@@ -97,7 +95,7 @@ void mp3_LoadIntoResultsScene(void) {
         mp3_omovlhisidx = 3;
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
         // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
-        mp3_omOvlCallEx(0x51, 2, 0x192); //last 5 turns
+        mp3_omOvlCallEx(OVL_LAST_5_TURNS, 2, 0x192); //last 5 turns
         return;        
     } else { //else normal board load
         mp3_omovlhis[3].overlayID = OVL_RESULTS_SCENE;
@@ -107,7 +105,7 @@ void mp3_LoadIntoResultsScene(void) {
     mp3_omOvlCallEx(OVL_GAME_END_SCENE, 0x0000, 0x12); //load results scene overlay
 }
 
-STATIC void mp3_LoadOriginalGame(void) {
+void mp3_LoadOriginalGame(void) {
     if (CurBaseGame == MP1_BASE) {
         //load into mp1
         SaveMp3PlayerToMp1PlayerCopy(); //copy mp3 player structs to mp1's gPlayer Copy
@@ -120,7 +118,7 @@ STATIC void mp3_LoadOriginalGame(void) {
     //code should never get here
 }
 
-STATIC void mp3_BootLogosSetup(void) {
+void mp3_BootLogosSetup(void) {
     mp3_Hu3DCamInit(1);
     mp3_omInitObjMan(0x10, 4);
     mp3_D_800D6A58_D7658 = 1;
@@ -140,6 +138,7 @@ STATIC void mp3_BootLogosSetup(void) {
 }
 
 void mp3_BootLogosEntryFunc(void) {
+    mp3_crash_screen_init();
     mp3_LoadMinigameList();
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
@@ -156,7 +155,7 @@ void mp3_BootLogosEntryFunc(void) {
         ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
         D_80105F00_3D76B0_name_58 = 0; //set is initial boot
         mp3_BootLogosSetup();        
-    } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == -1) {
+    } else if (CurBaseGame == MP3_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {
         //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
         //therefore, this means we need to load the "results" scene after a minigame, to then load back into the board
         //set up the necessary overlay history to accomplish this
@@ -171,7 +170,10 @@ void mp3_BootLogosEntryFunc(void) {
     }
 }
 
+u8 GetMp3StoredMessageSpeed(void);
+
 void mp3_BootLogosEntryFunc2(void) {
+    mp3_crash_screen_init();
     mp3_LoadMinigameList();
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
@@ -192,6 +194,12 @@ void mp3_BootLogosEntryFunc2(void) {
         //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
         //therefore, we need to load into the results scene to then load back into the board
         //set up the necessary overlay history to accomplish this
+
+        //TODO: is this text speed thing actually working?
+        u8 TextSpeeds[] = {5, 25, 60};
+        u8 textSpeed = TextSpeeds[GetMp3StoredMessageSpeed()];
+        mp3_D_800A12C0 = textSpeed;
+        mp3_D_800A12C4 = textSpeed;
         mp3_LoadIntoResultsScene();
     } else { //isn't mp3 base, load minigame or boot back into original game
         if (ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {

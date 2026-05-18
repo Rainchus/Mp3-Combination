@@ -56,6 +56,7 @@
 .definelabel mp1_GwSystem, 0x800ED5C0
 .definelabel mp1_GwCommon, 0x800ED100
 .definelabel mp1_D_800D86B0, 0x800D86B0
+.definelabel mp1_crash_screen_init, 0x800BB530
 
 //
 .definelabel mp1_GetPlayerStruct, 0x80052A8C

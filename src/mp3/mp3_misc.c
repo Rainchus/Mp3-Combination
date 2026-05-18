@@ -4,6 +4,7 @@
 #define COLD_BOOT 0
 #define WARM_BOOT 1
 #define osAppNmiBufferSize 64
+#define EXTRA_FRAMES_BLACK_ON_BOOT 10
 
 extern u8 mp3_osAppNmiBuffer[osAppNmiBufferSize];
 extern u32 rnd_seed_shared;
@@ -223,6 +224,7 @@ void newVoteSystem(void) {
 // mgChoice = BoardPickerChoiceGet();
 
 s32 mp3_func_80106B38_4F9028(s32);
+void mp3_func_8005D294_5DE94(s16);
 
 void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     //i wanted to make this a choice textbox, but that's tricky
@@ -258,4 +260,202 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     }
 
     mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, (char*)temp_v0, -1, -1);
+}
+
+
+typedef struct {
+    s32 unk00;
+    u16 unk04;
+    s32 unk08;
+    OSMesgQueue *unk0C;
+    s32 unk10; // OSMesg to send to unk0C
+} graphicsMessage; // OSMesg
+
+typedef struct combinedStruct {
+    OSTask task;
+    OSMesgQueue mesgQueue;
+} swapChainTaskQueue;
+
+void func_8000F024_FC24(void**, u16, u16); // Init graphics frame buffer pool                        
+void func_8000F04C_FC4C(u64**); // Set gThreadStacks
+void func_8000F088_FC88(s32*); // Set graphics state
+void func_8000F094_FC94(u32); // Set unk swap chain state
+void func_8000EBEC_F7EC(void*); // Swap Chain Loop
+
+/* TODO: Where is the libultra header for this? */
+extern void		*osViGetCurrentFramebuffer(void);
+extern void		*osViGetNextFramebuffer(void);
+extern void		osViSwapBuffer(void *);
+extern void		osViBlack(u8);
+extern void		osViSetYScale(f32);
+
+// TODO: Move to respective header files
+typedef struct {
+    s32 unk00;
+    OSMesgQueue *unk04;
+    s32 unk08;
+} unkSchedStruct;
+
+typedef struct {
+    u8 unk00[0x20];
+} unkGraphicsMessage2; // OSMesg
+
+
+void mp3_AddSchedulerClient(unkSchedStruct*, OSMesgQueue*, s32);
+void func_8004D85C_4E45C();
+void func_8004D878_4E478();
+
+
+extern swapChainTaskQueue swapChainTask;
+extern OSThread swapChainThread;
+extern u8 swapChainStack[];
+
+extern graphicsMessage gMesgRingBuffer[0x40];
+extern s16 ringBufferIndex;
+
+extern void **frameBufferPool;
+extern u16 frameBufferCount;
+extern u16 frameBufferSegmentID;
+
+extern u64 *gThreadOutStackSize;
+extern u64 *gThreadYieldStack;
+extern u64 *gThreadOutStack;
+extern u64 *gThread3Stack;
+
+extern Gfx gTaskDataPointers[];
+
+extern s32 D_800CC0A4_CCCA4;
+extern void *nextFrameBuffer;
+extern void *currFrameBuffer;
+
+extern s32 *gUCodeAddresses;
+extern u32 D_800B19A0_B25A0; // message count?
+
+
+extern OSMesgQueue gSwapChainMesgQueue;
+extern void* gSwapChainInitMesg;
+extern s16 gSwapChainMesgTotal;
+
+extern OSMesgQueue gMesgQueue;
+extern void* gMesgQueueInitMesg;
+
+extern u32 D_800D2094_D2C94; // Unk
+extern OSMesgQueue D_800CC3C0_CCFC0; // Another system's message queue
+
+extern void		mp3_osViSetYScale(f32);
+extern void		mp3_osCreateMesgQueue(OSMesgQueue *, OSMesg *, s32);
+extern s32		mp3_osRecvMesg(OSMesgQueue *, OSMesg *, s32);
+void* func_8000EB60_F760(void);
+extern s32		mp3_osSendMesg(OSMesgQueue *, OSMesg, s32);
+extern OSIntMask	mp3_osGetIntMask(void);
+extern OSIntMask	mp3_osSetIntMask(OSIntMask);
+void mp3_osViSwapBuffer(void*);
+extern void		mp3_osViBlack(u8);
+
+/* Swap Chain Loop */
+void func_8000EBEC_F7EC(void* arg0) {
+    unkSchedStruct sp10;
+    OSMesgQueue mesgQueue;
+    unkGraphicsMessage2 sp38;
+    unkSchedStruct sp58;
+    OSMesgQueue mesgQueue2;
+    unkGraphicsMessage2 sp68;
+    graphicsMessage* recvdMesg;
+    void* pAvailableFrameBuffer;
+    s32 var_s4;
+    u32 i;
+
+    swapChainTaskQueue *pSwapChain;
+    OSTask *pTask;
+
+    recvdMesg = NULL;
+    pSwapChain = &swapChainTask;
+    pTask = &swapChainTask.task;
+    var_s4 = 0;
+
+    mp3_osCreateMesgQueue(&mesgQueue, (OSMesg*) &sp38, 8);
+    mp3_AddSchedulerClient(&sp10, &mesgQueue, 1);
+    mp3_osCreateMesgQueue(&mesgQueue2, (OSMesg*) &sp68, 8);
+    mp3_AddSchedulerClient(&sp58, &mesgQueue2, 2);
+    
+    while (TRUE) {
+        do {
+            recvmesg:
+            mp3_osRecvMesg(&mesgQueue, NULL, 1);
+            if (mp3_osRecvMesg(&mesgQueue2, NULL, 0) == 0) { while (TRUE); } // Infinite loop?
+            if ((D_800D2094_D2C94 - var_s4) < D_800B19A0_B25A0) {
+                goto recvmesg;
+            }
+    
+            var_s4 = D_800D2094_D2C94;
+            func_8004D85C_4E45C();
+            pAvailableFrameBuffer = (void *) func_8000EB60_F760();
+        } while (pAvailableFrameBuffer == NULL);
+
+        currFrameBuffer = nextFrameBuffer;
+        nextFrameBuffer = pAvailableFrameBuffer;
+
+        /* Need redundant do for regalloc? */
+        do { do {
+
+            mp3_osRecvMesg(&gSwapChainMesgQueue, (OSMesg) &recvdMesg, 1);
+            if (mp3_osRecvMesg(&mesgQueue2, NULL, 0) == 0) {
+                while (TRUE);
+            } else {
+                u32 intMask;
+                Gfx *dl = gTaskDataPointers;
+                gSPSegment(dl++, frameBufferSegmentID, pAvailableFrameBuffer);
+                gSPBranchList(dl++, recvdMesg->unk00);
+                pSwapChain->mesgQueue.fullqueue = (void *) recvdMesg->unk08;
+                pTask->t.dram_stack = gThread3Stack;
+                pTask->t.output_buff = gThreadOutStack;
+                pTask->t.output_buff_size = gThreadOutStackSize;
+                pTask->t.yield_data_ptr = gThreadYieldStack;
+                pTask->t.ucode =      (u64 *) *(   (recvdMesg->unk04* 2)      + gUCodeAddresses); // offset     (data pairs?)
+                pTask->t.ucode_data = (u64 *) *( ( (recvdMesg->unk04* 2) | 1) + gUCodeAddresses); // offset + 1
+    
+                mp3_osSendMesg(&D_800CC3C0_CCFC0, (OSMesg) pSwapChain, 1);
+                mp3_osRecvMesg(&gMesgQueue, NULL, 1);
+    
+                intMask = mp3_osSetIntMask(1);
+                gSwapChainMesgTotal -= 1;
+                mp3_osSetIntMask(intMask);
+    
+                if (recvdMesg->unk0C != NULL) {
+                    mp3_osSendMesg(recvdMesg->unk0C, (OSMesg) recvdMesg->unk10, 1);
+                }            
+            }
+
+        } while (!((s32) recvdMesg->unk08 & 1)); } while (FALSE);
+    
+        for (i = 1; i < D_800B19A0_B25A0; i++) {
+            mp3_osRecvMesg(&mesgQueue, NULL, 1);
+        }
+    
+        mp3_osViSwapBuffer(pAvailableFrameBuffer);
+        //@patch: black the screen for a few extra frames on boot when specific overlays (prevents visual glitches)
+        if (mp3_omovlhis[mp3_omovlhisidx].overlayID == OVL_GAME_END_SCENE ||
+            mp3_omovlhis[mp3_omovlhisidx].overlayID == OVL_RESULTS_SCENE ||
+            mp3_omovlhis[mp3_omovlhisidx].overlayID == OVL_LAST_5_TURNS) {
+            if (D_800CC0A4_CCCA4 < EXTRA_FRAMES_BLACK_ON_BOOT) {
+                if (D_800CC0A4_CCCA4 == 0) {
+                    if (mp3_osRecvMesg(&mesgQueue2, NULL, 0) == 0) { while (TRUE); }
+                    mp3_osViSetYScale(1.0f);
+                } else {
+                    mp3_osViBlack(1);
+                }
+            } else if ( D_800CC0A4_CCCA4 == EXTRA_FRAMES_BLACK_ON_BOOT) {
+                if (mp3_osRecvMesg(&mesgQueue2, NULL, 0) == 0) { while (TRUE); }
+                mp3_osViSetYScale(1.0f);
+                mp3_osViBlack(0);
+            }
+        } else if (D_800CC0A4_CCCA4 == 0) {
+            if (mp3_osRecvMesg(&mesgQueue2, NULL, 0) == 0) { while (TRUE); }
+            mp3_osViSetYScale(1.0f);
+            mp3_osViBlack(0);
+        }
+        
+        D_800CC0A4_CCCA4++;
+        func_8004D878_4E478(); // empty function
+    }
 }

@@ -273,11 +273,28 @@ void SetMp3MultigameMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     mp3_func_8005B43C_5C03C(arg0, (char*)(arg1 + 0x46FF), arg2, arg3);
 }
 
-s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
+s32 ForeignMinigameIDToGameMp3(s32 minigameCombinedIndex) {
     s32 i;
+    u8 combinedIndex = minigameCombinedIndex;
+
     //find the minigame and get the overlay id for the specific game
     for (i = 0; i < MINIGAME_END; i++) {
-        if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
+        if (combinedIndex == minigameLUT[i].minigameIndex) {
+            if (minigameLUT[i].gameIndex == MP3_BASE) {
+                return minigameLUT[i].gameOverlayID;
+            }
+        }
+    }
+    return -1; //minigame not found
+}
+
+s32 ForeignMinigameIDToGame(s32 minigameCombinedIndex) {
+    s32 i;
+    s32 combinedIndex = minigameCombinedIndex & 0xFF;
+
+    //find the minigame and get the overlay id for the specific game
+    for (i = 0; i < MINIGAME_END; i++) {
+        if (combinedIndex == minigameLUT[i].minigameIndex) {
             return minigameLUT[i].gameOverlayID;
         }
     }

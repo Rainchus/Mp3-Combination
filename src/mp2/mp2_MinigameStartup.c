@@ -95,13 +95,14 @@ extern u8 D_800CBD68_CC968[];
 extern u8 newCategoryAmountsNormalMp2[];
 extern u8* mp2_minigameLists[];
 
-u8 D_800CCCFC_CD8FC[] = {
-	GIVE_ME_A_BRAKE, //5
-	ROLL_OUT_THE_BARRELS, //2
-	COFFIN_CONGESTION, //3
-	HAMMER_SLAMMER, //4
-	MALLET_GO_ROUND, //6
-	BOWSER_SLOTS, //1
+//used by newItemMinigameLoadCode hook
+u8 mp2ItemMinigameCombinedIDs[] = {
+	GIVE_ME_A_BRAKE,
+	ROLL_OUT_THE_BARRELS,
+	COFFIN_CONGESTION,
+	HAMMER_SLAMMER,
+	MALLET_GO_ROUND,
+	BOWSER_SLOTS,
 };
 
 s32 mp2_func_8003F6F0_402F0(s16 overlayID) {
@@ -171,7 +172,7 @@ void newfunc_80049FFC_4ABFC(mp2_omObjData* arg0) {
                 arg0->work[1] = arg0->work[1] % (u8) D_800CBD10_CC910[D_800DF6C5_E02C5];
             } else {
                 arg0->work[1] = arg0->work[1] - 1;
-                if (arg0->work[1] >= 0x80U) {
+                if (arg0->work[1] >= 0x80) {
                     arg0->work[1] = D_800CBD10_CC910[D_800DF6C5_E02C5] - 1;
                 }
             }

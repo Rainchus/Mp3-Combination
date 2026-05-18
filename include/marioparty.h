@@ -9,8 +9,8 @@
 #define CUR_PLAYER -1
 #define MAX_PLAYERS 4
 #define MB_MAX_PLAYERS MAX_PLAYERS //for decomp compatibility reasons
-#define FOREIGN_MINIGAME_INDEX_BOOT_VAL -2
-#define FOREIGN_MINIGAME_INVALID_ID -1
+#define FOREIGN_MINIGAME_INDEX_BOOT_VAL 0xFE
+#define FOREIGN_MINIGAME_INVALID_ID 0xFF
 
 #include "ultra64.h"
 #include "PR/mbi.h"
@@ -601,7 +601,7 @@ extern EepData customEepromData;
 extern u8 mp2_debugMode;
 extern s32 eepromLoadFailed;
 extern s32 isMidTurnMinigame;
-extern s32 ForeignMinigameIndexToLoad;
+extern u8 ForeignMinigameIndexToLoad;
 
 s32 ForeignMinigameIsMidTurnMinigame(s32);
 u16 func_8000B838_C438(s32);
