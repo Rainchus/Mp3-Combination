@@ -26,6 +26,10 @@ void mp1_LoadMinigameList(void);
 s32 mp1_func_80072718(void);
 void mp1_func_80072724(u8, u8, u8);
 void mp1_func_800726AC(s16 a, s16 b);
+void mp1_crash_screen_init(void);
+
+//TODO: should be in a header file
+u8 GetMp3ExplanationSetting(void);
 
 extern u8 mp1_D_800C572F;
 mp1_Process* mp1_D_800F6B00_LogosSequence= NULL;
@@ -99,6 +103,13 @@ void mp1_BootLogosEntryFunc(void) {
     mp1_crash_screen_init();
     mp1_LoadMinigameList();
 
+    if (CurBaseGame == MP3_BASE) {
+        mp1_GwSystem.minigameExplanation = GetMp3ExplanationSetting();
+    } else if (CurBaseGame == MP2_BASE) {
+        //TODO: implement
+        //mp2_GwSystem.minigameExplanations = GetMp2ExplanationSetting();
+    }
+
     //this handles if the player waits on the title screen then loads back into the boot overlays
     if (CurBaseGame == MP1_BASE && mp1_omovlhisidx == 1) {
         //normal boot into mp3 with boot sequences
@@ -134,6 +145,13 @@ void mp1_BootLogosEntryFunc(void) {
 void mp1_BootLogosEntryFunc2(void) {
     mp1_crash_screen_init();
     mp1_LoadMinigameList();
+
+    if (CurBaseGame == MP3_BASE) {
+        mp1_GwSystem.minigameExplanation = GetMp3ExplanationSetting();
+    } else if (CurBaseGame == MP2_BASE) {
+        //TODO: implement
+        //mp2_GwSystem.minigameExplanations = GetMp2ExplanationSetting();
+    }
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
     if (CurBaseGame == MP1_BASE && mp1_omovlhisidx == 1) {

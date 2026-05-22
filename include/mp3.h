@@ -6,9 +6,17 @@
 #include "mp3/game/object.h"
 #include "mp3/malloc.h"
 
+//TODO: these need same naming scheme as block below
 #define OVL_RESULTS_SCENE 0x47
-#define OVL_GAME_END_SCENE 0x71
+#define OVL_GAME_END_SCENE 0x4F
 #define OVL_LAST_5_TURNS 0x51
+
+//TODO: these need same naming scheme as above (these ones come from how the decomp handles it)
+#define mgresultboard 0x71
+#define mgresultdealer 0x72
+#define mgresultduel 0x73
+#define mgresultbattle 0x74
+#define boot 0x58
 
 enum {
     RGBA32 = 0,

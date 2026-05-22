@@ -6,6 +6,7 @@ void func_801085A0_3C3D00_name_60(s32); //exist within the file, dont call mp2 v
 void mp2_func_80105B94_3C12F4_name_60(void);
 void SaveMp2PlayerToMp2PlayerCopy(void);
 void LoadMp1PlayerCopyToMp2(void);
+s32 mp2_func_8003F6F0_402F0(s16 overlayID);
 
 extern s16 mp2_D_801148F2_3D0052_name_60;
 extern s16 mp2_D_801148F4_3D0054_name_60;

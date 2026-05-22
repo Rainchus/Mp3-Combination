@@ -14,6 +14,7 @@ extern s32 mp2_D_80114E50_3BDFF0_name_5F;
 extern s32 mp2_D_80114E54_3BDFF4_name_5F;
 void Mp2SwapGameIfNeeded(void);
 void LoadMp1PlayerCopyToMp2(void);
+s32 mp2_func_8003F6F0_402F0(s16 overlayID);
 
 //first function ran in ovl_60;
 void mp2_MinigameEntryFunc_1(void) {

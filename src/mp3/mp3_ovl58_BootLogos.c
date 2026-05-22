@@ -16,6 +16,7 @@ void InitializeInitialMinigameList(void);
 void mp3_ovlEventCall(OvlEntrypoint*, s16);
 void SaveMp3PlayerToMp1PlayerCopy(void);
 void SaveMp3PlayerToMp2PlayerCopy(void);
+u8 GetMp3StoredMessageSpeed(void);
 
 mp3_Process* mp3_D_80105F10_3D76C0_name_58 = 0;
 s32 D_80105F00_3D76B0_name_58 = 0; //if initial boot
@@ -74,9 +75,21 @@ void mp3_LoadIntoResultsScene(void) {
 
     if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns) {
         //set up credits scene
-        mp3_omovlhis[3].overlayID = OVL_RESULTS_SCENE;
-        mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
+
+        omOvlHisData CreditsSceneOvlHis[] = {
+            {0x7A, 0x0002, 0x0092},
+            {0x7A, 0x0002, 0x0092},
+            {0x77, 0x0000, 0x0091},
+            {0x47, 0x0001, 0x0192},
+        };
+
+        for (int i = 0; i < ARRAY_COUNT(CreditsSceneOvlHis); i++) {
+            mp3_omovlhis[i] = CreditsSceneOvlHis[i];
+        }
         mp3_omovlhisidx = 3;
+        mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
+        mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
+        return;
     } else if (mp3_GwSystem.current_turn + 4 == mp3_GwSystem.total_turns) {
         //set up last 5 turns
         omOvlHisData last5Turns[] = {
@@ -102,7 +115,7 @@ void mp3_LoadIntoResultsScene(void) {
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
         mp3_omovlhisidx = 3;
     }
-    mp3_omOvlCallEx(OVL_GAME_END_SCENE, 0x0000, 0x12); //load results scene overlay
+    mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
 }
 
 void mp3_LoadOriginalGame(void) {
@@ -129,11 +142,11 @@ void mp3_BootLogosSetup(void) {
     if (D_80105F00_3D76B0_name_58 == 0) {
         mp3_GWContErrorSet();
         mp3_D_80105F10_3D76C0_name_58 = mp3_omAddPrcObj(func_80105C80_3D7430_name_58, 0xA, 0, 0);
-        mp3_omAddObj(0x3E8, 0U, 0U, -1, func_80105AF0_3D72A0_name_58);
+        mp3_omAddObj(0x3E8, 0, 0, -1, func_80105AF0_3D72A0_name_58);
     } else {
         mp3_D_80105F10_3D76C0_name_58 = mp3_omAddPrcObj(func_80105C80_3D7430_name_58, 0xA, 0, 0);
-        mp3_omAddObj(0x3E8, 0U, 0U, -1, func_80105AF0_3D72A0_name_58);
-        mp3_omAddObj(0xA, 0U, 0U, -1, func_80105C14_3D73C4_name_58);
+        mp3_omAddObj(0x3E8, 0, 0, -1, func_80105AF0_3D72A0_name_58);
+        mp3_omAddObj(0xA, 0, 0, -1, func_80105C14_3D73C4_name_58);
     }
 }
 
@@ -169,8 +182,6 @@ void mp3_BootLogosEntryFunc(void) {
         }
     }
 }
-
-u8 GetMp3StoredMessageSpeed(void);
 
 void mp3_BootLogosEntryFunc2(void) {
     mp3_crash_screen_init();
@@ -213,12 +224,12 @@ void mp3_BootLogosEntryFunc2(void) {
 
 void func_80105AF0_3D72A0_name_58(mp3_omObjData* arg0) {
     if (((mp3_D_800D530C_D5F0C != 0) || (D_80105F04_3D76B4_name_58 != 0)) && (mp3_WipeStatGet() == 0)) {
-        mp3_WipeColorSet(0U, 0U, 0U);
+        mp3_WipeColorSet(0, 0, 0);
         mp3_WipeCreateOut(0xB, 9);
         arg0->func = &func_80105BA4_3D7354_name_58;
         
         if ((mp3_D_800D530C_D5F0C != 0) && (mp3_WipeStatGet() == 0)) {
-            mp3_WipeColorSet(0U, 0U, 0U);
+            mp3_WipeColorSet(0, 0, 0);
             mp3_WipeCreateOut(0xB, 9);
             arg0->func = &func_80105BA4_3D7354_name_58;
         }
