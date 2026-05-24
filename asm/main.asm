@@ -27,6 +27,7 @@
 .include "asm\mp3\mp3_ovl_castleGrounds_hooks.asm"
 .include "asm\mp3\mp3_symbols.asm"
 .include "asm\mp3\ovl_71_Results.asm"
+.include "asm\mp3\ovl_starlift.asm"
 .include "asm\mp3\chilly_waters\mp3_ovl_48.asm"
 .include "asm\mp3\w02\mp3_w02.asm"
 .include "asm\mp3\w03\mp3_w03.asm"

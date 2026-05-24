@@ -66,12 +66,11 @@ resetBattleCoinsAndSetState12:
     SW t1, 0x0000 (t0) //set MBMain state variable to 0x12 which is normally what happens after a battle minigame
 
     LI t0, mp3_D_800C9938_CA538
-    LI t1, 0x3F800000 //1.0f
+    LI t1, 0x3faaaaa6 //1.33f
     JR RA
     SW t1, 0x0000 (t0) //set camera value to 1.0f
     
     
-
 //TODO: this is very, very questionable
 // newVoteSystemSetBool:
 //     ORI a0, r0, 5
