@@ -64,7 +64,13 @@ void mp3_LoadMinigameFromBoot(void) {
     mp3_omOvlCallEx(0x70, 0, 0x0192); //load minigame explanation overlay
 }
 
+s16 GetMp3BattleMinigameCoins(void);
+
 void mp3_LoadIntoResultsScene(void) {
+    if (GetMp3BattleMinigameCoins()) {
+        mp3_BattleMinigameCoins = GetMp3BattleMinigameCoins();
+    }
+
     for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
         mp3_omovlhis[i] = LoadIntoResultsSceneHis[i];
     }
@@ -73,7 +79,7 @@ void mp3_LoadIntoResultsScene(void) {
     SaveMp3PlayerCopyToMp3Player();
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
 
-    if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns) {
+    if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns && mp3_BattleMinigameCoins == 0) {
         //set up credits scene
 
         omOvlHisData CreditsSceneOvlHis[] = {
@@ -115,7 +121,12 @@ void mp3_LoadIntoResultsScene(void) {
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
         mp3_omovlhisidx = 3;
     }
-    mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
+
+    if (mp3_BattleMinigameCoins != 0) {
+        mp3_omOvlCallEx(0x74, 0x0000, 0x12); //load battle game results overlay
+    } else {
+        mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
+    }
 }
 
 void mp3_LoadOriginalGame(void) {
@@ -205,12 +216,6 @@ void mp3_BootLogosEntryFunc2(void) {
         //mp3 is the base game and we have loaded into the boot overlay with no minigame to load
         //therefore, we need to load into the results scene to then load back into the board
         //set up the necessary overlay history to accomplish this
-
-        //TODO: is this text speed thing actually working?
-        u8 TextSpeeds[] = {5, 25, 60};
-        u8 textSpeed = TextSpeeds[GetMp3StoredMessageSpeed()];
-        mp3_D_800A12C0 = textSpeed;
-        mp3_D_800A12C4 = textSpeed;
         mp3_LoadIntoResultsScene();
     } else { //isn't mp3 base, load minigame or boot back into original game
         if (ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {

@@ -72,6 +72,10 @@
     J func_8000EBEC_F7EC
     NOP
 
+.org 0x80048710
+    J drawDebugASM
+    NOP
+
 /*
 .org 0x8005FBF8
     J checkSetWindowRGBArgs

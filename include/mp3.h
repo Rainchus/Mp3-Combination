@@ -161,6 +161,13 @@ typedef struct UnkCastleGroundMessage {
     char unk_06[4];
 } UnkCastleGroundMessage;
 
+typedef struct Unk800CC3DC {
+    char unk_00[4];
+    s8 unk_04[8]; //unknown size
+} Unk800CC3DC;
+
+extern Unk800CC3DC mp3_D_800CC3DC_CCFDC;
+
 enum TEXT_COLORS {
     TEXT_BLACK,
     TEXT_DEFAULT,
@@ -204,10 +211,14 @@ typedef struct mp3_GW_SYSTEM {
     /* 0x15 - 800CD06D */ s8 walk_speed; //00 - Fast, 01 - Normal, 02 - Slow
     /* 0x16 - 800CD06E */ s8 show_com_minigames; //00 - Show COM minigame, 01 - Hide COM minigame
     /* 0x17 - 800CD06F */ char unk_17[0x26]; //unknown
-    /* 0x3E - 800CD096 */ s8 board_bytes[0x13]; //bytes related to storing information for each board
-    /* 0x51 - 800CD0A9 */ u8 cur_player_used_item; //1 if player already used an item this turn
-    /* 0x52 - 800CD0AA */ char unk_52[5];
-    /* 0x57 - 800CD0AF */ s8 slow_dice_flags;
+    union {
+        /* 0x3E - 800CD096 */ s16 halfWordBytes[9]; //bytes related to storing information for each board
+        /* 0x3E - 800CD096 */ s8 bytes[18]; //bytes related to storing information for each board
+    } boardData;
+    /* 0x50 - 800CD0A8 */ u16 cur_player_used_item; //1 if player already used an item this turn
+    /* 0x52 - 800CD0AA */ s16 unk_52;
+    /* 0x54 - 800CD0AC */ s16 forceShopHost; //0 is toad, baby bowser is 1
+    /* 0x56 - 800CD0AE */ s16 slow_dice_flags;
     /* 0x58 - 800CD0B0 */ s16 unk_58;                           /* inferred */
     /* 0x5A - 800CD0B2 */ s16 playerIndexVisitingBowser;
     /* 0x5C - 800CD0B4 */ u16 bank_coins;
@@ -218,8 +229,17 @@ typedef struct mp3_GW_SYSTEM {
 
 typedef struct {
     u8 unk0[8];
-    s8 recentMinigames[6][10];
+    u8 recentMinigames[6][10];
 } UnkData_CD0A0;
+
+enum BoardIndices {
+    CHILLY_WATERS = 0,
+    DEEP_BLOOBER_SEA = 1,
+    SPINY_DESERT = 2,
+    WOODY_WOODS = 3,
+    CREEPY_CAVERN = 4,
+    WALUIGIS_ISLAND = 5
+};
 
 extern UnkData_CD0A0 D_800CC4A0_CD0A0;
 extern mp3_GW_PLAYER mp3_GwPlayer[4];
@@ -250,7 +270,8 @@ extern u16 mp3_D_800D5558_D6158[4];
 void SaveMp3PlayerToMp3PlayerCopy(void);
 void SaveMp3PlayerCopyToMp3Player(void);
 void PopMp3BoardState(void);
-void mp3_omDelPrcObj(s32); 
+void mp3_omDelPrcObj(mp3_Process*);
+void mp3__SetFlag(s32);
 f32 mp3_HuMathSin(f32);
 void mp3_PlaySound(s16);
 f32 mp3_HuMathCos(f32);

@@ -4,6 +4,10 @@
 //there is an LB here that needs to be patched, but patching it might cause issues -
 //because there is a BLTZ check
 //MBMain patch
-.org 0x800FEF60
-    JAL NegativeCheck
-     NOP
+//.org 0x800FEF60
+    //JAL NegativeCheck
+     //NOP
+
+.org 0x800FCA7C
+    J newMBMain
+    NOP

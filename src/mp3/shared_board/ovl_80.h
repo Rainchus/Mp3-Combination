@@ -112,7 +112,7 @@ s32 mp3_func_800DEB2C_F274C_shared_board(s32);
 void mp3_func_800EC590_1001B0_shared_board(s32, s32);
 s32 mp3_MBRand(f32);
 void mp3_func_800F76A4_10B2C4_shared_board(s32 arg0);
-void mp3_func_800F68E0_10A500_shared_board(s32 arg0, s32 arg1, s32 arg2);
+void mp3_func_800F68E0_10A500_shared_board(s32 arg0, s32 arg1, s16 arg2);
 void mp3_func_800EC3C0_FFFE0_shared_board(s32);
 void FixUpPlayerItemSlots(s32 arg0);
 s32 PlayerHasEmptyItemSlot(s32 playerIndex);

@@ -460,3 +460,93 @@ void func_8000EBEC_F7EC(void* arg0) {
         func_8004D878_4E478(); // empty function
     }
 }
+
+void func_8004B1AC(void);
+extern s32 mp3_DrawPrevMinigameList;
+extern s8 D_80102C0D_11682D_shared_board;
+
+// #define PLAYERS_4P 0
+// #define PLAYERS_1V3 1
+// #define PLAYERS_2V2 2
+// #define PLAYERS_ITEM 3
+// #define PLAYERS_BATTLE 4
+// #define PLAYERS_DUEL 5
+
+char* Mp3MinigameCategoryStrings[] = {
+    "PLAYERS_4P",
+    "PLAYERS_1V3",
+    "PLAYERS_2V2",
+    "PLAYERS_ITEM",
+    "PLAYERS_BATTLE",
+    "PLAYERS_DUEL"
+};
+
+void StringToUpper(char *str) {
+    while (*str) {
+        if (*str >= 'a' && *str <= 'z') {
+            *str -= 32;
+        }
+        str++;
+    }
+}
+
+void drawRecentMinigameListCategory(void) {
+    s32 i, j;
+    char buf[16];
+    s32 y = 20;
+    s8 category = D_80102C0D_11682D_shared_board;
+    char buffer[64];
+
+    mp3_sprintf(buf, "%s", Mp3MinigameCategoryStrings[category]);
+    mp3_DrawDebugText(20, y, buf);
+    y += 15;
+
+    for (i = 0; i < 10; i++) {
+        if (D_800CC4A0_CD0A0.recentMinigames[category][i] == -1 || D_800CC4A0_CD0A0.recentMinigames[category][i] == 0xFF) {
+            mp3_DrawDebugText(20, y, "NONE");
+            y += 10;
+        } else {
+            u8 minigame = D_800CC4A0_CD0A0.recentMinigames[category][i];
+            MinigameIndexTable* minigameRef = NULL;
+            for (j = 0; j < MINIGAME_END; j++) {
+                if (minigame == minigameLUT[j].minigameIndex) {
+                    minigameRef = &minigameLUT[j];
+                    break;
+                }
+            }
+
+            if (minigameRef != NULL) {
+                //j+1 to skip \x0B byte. copy string to buffer
+                for (j = 0; minigameRef->minigameStr[j+1] != '\0'; j++) {
+                    buffer[j] = minigameRef->minigameStr[j+1];
+                }
+                buffer[j] = '\0';
+                StringToUpper(buffer);
+                //mp3_sprintf(buf, "%s", &minigameLUT[minigame].minigameStr[1]); //skip \0xB byte at beginning of string (only needed for minigame wheel)
+                mp3_DrawDebugText(20, y, buffer);
+                y += 10;
+            }
+        }
+
+    }
+}
+
+// void drawRecentMinigameList(void) {
+//     s32 i;
+//     char buf[16];
+//     s32 y = 20;
+
+//     for (i = 0; i < 6; i++) {
+//         mp3_sprintf(buf, "%D", D_800CC4A0_CD0A0.recentMinigames[i]);
+//         mp3_DrawDebugText(20, y, buf);
+//         y += 10;
+//     }
+// }
+
+
+void drawDebug(void) {
+    func_8004B1AC(); //restore from hook
+    if (mp3_DrawPrevMinigameList == TRUE) {
+        drawRecentMinigameListCategory();
+    }
+}

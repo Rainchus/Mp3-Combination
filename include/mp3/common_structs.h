@@ -82,7 +82,7 @@ typedef struct UnkDiceRelated {
 // /* 0x35 */ char unk_35[3]; //likely padding
 // } GW_PLAYER __attribute__((aligned(4))); //sizeof 0x38;
 
-typedef struct SpaceData {
+typedef struct mp3_SpaceData {
 /* 0x00 */ s8 unk_00;
 /* 0x01 */ u8 space_type; // enum board_space_type
 /* 0x02 */ s16 unk_02;
@@ -90,7 +90,7 @@ typedef struct SpaceData {
 /* 0x08 */ Vec coords;
 /* 0x14 */ Vec rot;
 /* 0x20 */ void* event_list;
-} SpaceData; //sizeof 0x24
+} mp3_SpaceData; //sizeof 0x24
 
 // typedef struct omOvlHisData { //Object Manager History Data
 // /* 0x00 */ s32 overlayID;
@@ -98,35 +98,35 @@ typedef struct SpaceData {
 // /* 0x06 */ u16 stat;
 // } omOvlHisData; //sizeof 0x08
 
-typedef struct GW_SYSTEM {
-    /* 0x00 - 800CD058 */ s8 playMode; //0x01 - Lite Play pause screen, 0x04 - Story Play pause screen
-    /* 0x01 - 800CD059 */ s8 current_board_index;
-    /* 0x02 - 800CD05A */ s8 total_turns;
-    /* 0x03 - 800CD05B */ s8 current_turn;
-    /* 0x04 - 800CD05C */ s8 current_game_length; // 00=Lite Play,01=Standard Play,02=Full Play,03=Custom Play
-    /* 0x05 - 800CD05D */ s8 current_star_spawn; // Index of star space (index into star_spawn_indices)
-    /* 0x06 - 800CD05E */ s8 star_spawn_indices[7];
-    /* 0x0D - 800CD065 */ s8 unk_0D;
-    /* 0x0E - 800CD066 */ s8 unk_0E;
-    /* 0x0F - 800CD067 */ s8 current_player_index;
-    /* 0x10 - 800CD068 */ s8 minigame_index;
-    /* 0x11 - 800CD069 */ s8 current_space_index;
-    /* 0x12 - 800CD06A */ s8 save_mode; //00 - Save every turn, 01 - Save this turn, 02 - Don't save
-    /* 0x13 - 800CD06B */ s8 show_minigame_explanations; //00 - show, 01 - hide
-    /* 0x14 - 800CD06C */ s8 message_speed; //00 - Fast, 01 - Normal, 02 - Slow
-    /* 0x15 - 800CD06D */ s8 walk_speed; //00 - Fast, 01 - Normal, 02 - Slow
-    /* 0x16 - 800CD06E */ s8 show_com_minigames; //00 - Show COM minigame, 01 - Hide COM minigame
-    /* 0x17 - 800CD06F */ char unk_17[0x26]; //unknown
-    /* 0x3E - 800CD096 */ s8 board_bytes[0x13]; //bytes related to storing information for each board
-    /* 0x51 - 800CD0A9 */ u8 cur_player_used_item; //1 if player already used an item this turn
-    /* 0x52 - 800CD0AA */ char unk_52[5];
-    /* 0x57 - 800CD0AF */ s8 slow_dice_flags;
-    /* 0x58 - 800CD0B0 */ char unk_58[2];
-    /* 0x5A - 800CD0B2 */ s16 unk_5A;
-    /* 0x5C - 800CD0B4 */ u16 bank_coins;
-    /* 0x5E - 800CD0B6 */ u8 data_flags[8]; //unknown what this is, unknown size
-    /* 0x66 - 800CD0B8 */ u8 unk_66[0x3E];
-} GW_SYSTEM; //sizeof 0xA4
+// typedef struct GW_SYSTEM {
+//     /* 0x00 - 800CD058 */ s8 playMode; //0x01 - Lite Play pause screen, 0x04 - Story Play pause screen
+//     /* 0x01 - 800CD059 */ s8 current_board_index;
+//     /* 0x02 - 800CD05A */ s8 total_turns;
+//     /* 0x03 - 800CD05B */ s8 current_turn;
+//     /* 0x04 - 800CD05C */ s8 current_game_length; // 00=Lite Play,01=Standard Play,02=Full Play,03=Custom Play
+//     /* 0x05 - 800CD05D */ s8 current_star_spawn; // Index of star space (index into star_spawn_indices)
+//     /* 0x06 - 800CD05E */ s8 star_spawn_indices[7];
+//     /* 0x0D - 800CD065 */ s8 unk_0D;
+//     /* 0x0E - 800CD066 */ s8 unk_0E;
+//     /* 0x0F - 800CD067 */ s8 current_player_index;
+//     /* 0x10 - 800CD068 */ s8 minigame_index;
+//     /* 0x11 - 800CD069 */ s8 current_space_index;
+//     /* 0x12 - 800CD06A */ s8 save_mode; //00 - Save every turn, 01 - Save this turn, 02 - Don't save
+//     /* 0x13 - 800CD06B */ s8 show_minigame_explanations; //00 - show, 01 - hide
+//     /* 0x14 - 800CD06C */ s8 message_speed; //00 - Fast, 01 - Normal, 02 - Slow
+//     /* 0x15 - 800CD06D */ s8 walk_speed; //00 - Fast, 01 - Normal, 02 - Slow
+//     /* 0x16 - 800CD06E */ s8 show_com_minigames; //00 - Show COM minigame, 01 - Hide COM minigame
+//     /* 0x17 - 800CD06F */ char unk_17[0x26]; //unknown
+//     /* 0x3E - 800CD096 */ s8 board_bytes[0x13]; //bytes related to storing information for each board
+//     /* 0x51 - 800CD0A9 */ u8 cur_player_used_item; //1 if player already used an item this turn
+//     /* 0x52 - 800CD0AA */ char unk_52[5];
+//     /* 0x57 - 800CD0AF */ s8 slow_dice_flags;
+//     /* 0x58 - 800CD0B0 */ char unk_58[2];
+//     /* 0x5A - 800CD0B2 */ s16 unk_5A;
+//     /* 0x5C - 800CD0B4 */ u16 bank_coins;
+//     /* 0x5E - 800CD0B6 */ u8 data_flags[8]; //unknown what this is, unknown size
+//     /* 0x66 - 800CD0B8 */ u8 unk_66[0x3E];
+// } GW_SYSTEM; //sizeof 0xA4
 
 typedef struct GwCommon_s {
 /* 0x00 */ u8 unk_00;

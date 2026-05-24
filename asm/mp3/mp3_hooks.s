@@ -51,6 +51,27 @@ alwaysSetBookOpen:
     J 0x80105DF8
     SB v0, 0x0000 (at) //set book always open
 
+drawDebugASM:
+    JAL drawDebug
+    NOP
+    J 0x80048718
+    NOP
+
+resetBattleCoinsAndSetState12:
+    LI t0, mp3_BattleMinigameCoins
+    SH r0, 0x0000 (t0) //reset coins back to zero after they have been read and are no longer needed (helps with combo logic)
+    
+    LI t0, mp3_D_800D1240_D1E40 //this would already be 0x12 after a mp3 battle minigame
+    LI t1, 0x12 
+    SW t1, 0x0000 (t0) //set MBMain state variable to 0x12 which is normally what happens after a battle minigame
+
+    LI t0, mp3_D_800C9938_CA538
+    LI t1, 0x3F800000 //1.0f
+    JR RA
+    SW t1, 0x0000 (t0) //set camera value to 1.0f
+    
+    
+
 //TODO: this is very, very questionable
 // newVoteSystemSetBool:
 //     ORI a0, r0, 5

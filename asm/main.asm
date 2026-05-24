@@ -22,6 +22,7 @@
 .include "asm\mp3\mp3_minigameWheelHooks.asm"
 .include "asm\mp3\mp3_ovl58_hooks.asm"
 .include "asm\mp3\mp3_ovl70_hooks.asm"
+.include "asm\mp3\mp3_ovl74_hooks.asm"
 .include "asm\mp3\mp3_ovl_80_hooks.asm"
 .include "asm\mp3\mp3_ovl_castleGrounds_hooks.asm"
 .include "asm\mp3\mp3_symbols.asm"

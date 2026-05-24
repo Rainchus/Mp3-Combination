@@ -16,6 +16,7 @@ void mp2_crash_screen_init(void);
 
 //TODO: should be in a header file
 u8 GetMp3ExplanationSetting(void);
+s16 GetMp3BattleMinigameCoins(void);
 
 mp2_Process* mp2_D_80102D60_36DF00_BootLogos = 0;
 s32 mp2_D_80102D50_36DEF0_BootLogos = 0;
@@ -141,6 +142,7 @@ void mp2_BootLogosEntryFunc(void) {
 
     if (CurBaseGame == MP3_BASE) {
         mp2_GwSystem.minigameExplanations = GetMp3ExplanationSetting();
+        mp2_BattleMinigameCoins = GetMp3BattleMinigameCoins();
     } else if (CurBaseGame == MP1_BASE) {
         //TODO: implement
         //mp1_GwSystem.minigameExplanations = GetMp1ExplanationSetting();
@@ -181,6 +183,7 @@ void mp2_BootLogosEntryFunc2(void) {
 
     if (CurBaseGame == MP3_BASE) {
         mp2_GwSystem.minigameExplanations = GetMp3ExplanationSetting();
+        mp2_BattleMinigameCoins = GetMp3BattleMinigameCoins();
     } else if (CurBaseGame == MP1_BASE) {
         //TODO: implement
         //mp1_GwSystem.minigameExplanations = GetMp2ExplanationSetting();

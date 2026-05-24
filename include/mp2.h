@@ -71,6 +71,7 @@ void mp2_omOvlHisChg(s16 arg0, s32 overlay, s16 event, s16 stat);
 void PushMp2BoardState(void);
 void PushMp2MinigamesPlayedList(void);
 
+extern u16 mp2_BattleMinigameCoins;
 extern s16 mp2_D_800E1F50_E2B50;
 extern s16 mp2_D_801148F0_3D0050_name_60;
 extern s16 mp2_D_801148F2_3D0052_name_60;

@@ -183,8 +183,8 @@ void SaveMp2PlayerToMp3PlayerCopy(void) {
         mp3_GwPlayerCopy[i].pad = mp2_GwPlayer[i].pad;
         mp3_GwPlayerCopy[i].stat = mp2_GwPlayer[i].stat;
         mp3_GwPlayerCopy[i].chr = mp2_GwPlayer[i].chr;
-        mp3_GwPlayerCopy[i].checkCoin = mp2_GwPlayer[i].checkCoin;
-        mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].bonusCoin;
+        mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].checkCoin; //checkCoin isn't read by mp3? bonusCoin is, throw the extra coins into it
+        mp3_GwPlayerCopy[i].bonusCoin += mp2_GwPlayer[i].bonusCoin;
     }
 }
 
@@ -235,11 +235,12 @@ extern u8 mp3_D_800D0309;
 typedef struct MP3_BoardBackupData {
     UnkData_CD0A0 D_800CC4A0_CD0A0_backup;
     mp3_GW_SYSTEM mp3_GwSystemCopy;
+    Unk800CC3DC D_800CC3DC_CCFDC_backup;
     u8 mp3_ModeCopy;
     u8 mp3_ModeCopy2;
     u8 mp3_StoryDifficultyCopy;
     u8 mp3_StoryProgressCopy;
-    u8 mp3_StorychrID;
+    u8 mp3_StorychrIDCopy;
     s16 mp3_battleMinigameCoinsCopy;
 } MP3_BoardBackupData;
 
@@ -253,25 +254,35 @@ u8 GetMp3ExplanationSetting(void) {
     return mp3_storedData.mp3_GwSystemCopy.show_minigame_explanations;
 }
 
+s16 GetMp3BattleMinigameCoins(void) {
+    return mp3_storedData.mp3_battleMinigameCoinsCopy;
+}
+
+void SetMp3BattleMinigameCoins(s32 newAmount) {
+    mp3_storedData.mp3_battleMinigameCoinsCopy = newAmount;
+}
+
 void PushMp3BoardState(void) {
     mp3_storedData.D_800CC4A0_CD0A0_backup = D_800CC4A0_CD0A0;
     mp3_storedData.mp3_GwSystemCopy = mp3_GwSystem;
+    mp3_storedData.D_800CC3DC_CCFDC_backup = mp3_D_800CC3DC_CCFDC;
     mp3_storedData.mp3_ModeCopy = mp3_D_800B23B0;
     mp3_storedData.mp3_ModeCopy2 = mp3_D_800B23B1;
     mp3_storedData.mp3_StoryDifficultyCopy = mp3_D_800D030A;
     mp3_storedData.mp3_StoryProgressCopy = mp3_D_800D0308;
-    mp3_storedData.mp3_StorychrID = mp3_D_800D0309;
+    mp3_storedData.mp3_StorychrIDCopy = mp3_D_800D0309;
     mp3_storedData.mp3_battleMinigameCoinsCopy = mp3_BattleMinigameCoins;
 }
 
 void PopMp3BoardState(void) {
     D_800CC4A0_CD0A0 = mp3_storedData.D_800CC4A0_CD0A0_backup;
     mp3_GwSystem = mp3_storedData.mp3_GwSystemCopy;
+    mp3_D_800CC3DC_CCFDC = mp3_storedData.D_800CC3DC_CCFDC_backup;
     mp3_D_800B23B0 = mp3_storedData.mp3_ModeCopy;
     mp3_D_800B23B1 = mp3_storedData.mp3_ModeCopy2;
     mp3_D_800D030A = mp3_storedData.mp3_StoryDifficultyCopy;
     mp3_D_800D0308 = mp3_storedData.mp3_StoryProgressCopy;
-    mp3_D_800D0309 = mp3_storedData.mp3_StorychrID;
+    mp3_D_800D0309 = mp3_storedData.mp3_StorychrIDCopy;
     mp3_BattleMinigameCoins = mp3_storedData.mp3_battleMinigameCoinsCopy;
 }
 
@@ -289,7 +300,6 @@ u8 mp2_OtherBoardStateCopy[MP2_BOARD_DATA_SIZE] = {0};
 u8 mp2_prevMinigamesPlayedCopy[MP2_PREV_MINIGAMES_PLAYED_SIZE] = {0};
 extern u8 mp2_OtherBoardState[MP2_BOARD_DATA_SIZE];
 extern u8 mp2_prevMinigamesPlayed[MP2_PREV_MINIGAMES_PLAYED_SIZE];
-extern u16 mp2_BattleMinigameCoins;
 
 void PushMp2BoardState(void) {
     s32 i;

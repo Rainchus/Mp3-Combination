@@ -3,45 +3,27 @@ import os
 from pathlib import Path
 
 def extract_symbols_from_source(src_dir='src', include_dir='include'):
-    """
-    Extract all function and variable declarations from .c and .h files.
-    
-    Args:
-        src_dir: Directory containing .c files
-        include_dir: Directory containing .h files
-        
-    Returns:
-        Set of symbol names with correct capitalization
-    """
     symbols = set()
     
-    # Patterns to match function declarations and definitions
     func_pattern = re.compile(r'\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(')
-    # Pattern to match variable declarations (extern or static)
     var_pattern = re.compile(r'\b(?:extern|static)?\s+(?:const\s+)?(?:struct\s+)?[a-zA-Z_][a-zA-Z0-9_]*\s+\*?\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:;|=|\[)')
     
-    # Process .c files
     if os.path.exists(src_dir):
         for c_file in Path(src_dir).rglob('*.c'):
             try:
                 with open(c_file, 'r', encoding='utf-8', errors='ignore') as f:
                     content = f.read()
-                    # Find function names
                     symbols.update(func_pattern.findall(content))
-                    # Find variable names
                     symbols.update(var_pattern.findall(content))
             except Exception as e:
                 print(f"Warning: Could not read {c_file}: {e}")
     
-    # Process .h files
     if os.path.exists(include_dir):
         for h_file in Path(include_dir).rglob('*.h'):
             try:
                 with open(h_file, 'r', encoding='utf-8', errors='ignore') as f:
                     content = f.read()
-                    # Find function names
                     symbols.update(func_pattern.findall(content))
-                    # Find variable names
                     symbols.update(var_pattern.findall(content))
             except Exception as e:
                 print(f"Warning: Could not read {h_file}: {e}")
@@ -49,99 +31,88 @@ def extract_symbols_from_source(src_dir='src', include_dir='include'):
     return symbols
 
 def capitalize_hex_in_symbol(symbol):
-    """
-    Capitalize hex digits in symbol names like func_800d20b1_d2cb1 -> func_800D20B1_D2CB1
-    
-    Args:
-        symbol: Symbol name that may contain hex digits
-        
-    Returns:
-        Symbol with capitalized hex digits
-    """
-    def replace_hex(match):
-        return match.group(0).upper()
-    
-    # Pattern to match sequences of hex digits (0-9, a-f, A-F)
-    # Only capitalize if it looks like a hex number (after underscore)
-    pattern = r'_([0-9a-fA-F]+)'
-    return re.sub(pattern, lambda m: '_' + m.group(1).upper(), symbol)
+    return re.sub(r'_([0-9a-fA-F]+)', lambda m: '_' + m.group(1).upper(), symbol)
 
 def find_correct_case(symbol_lower, known_symbols):
-    """
-    Find the correct capitalization for a symbol.
-    
-    Args:
-        symbol_lower: Lowercase symbol name
-        known_symbols: Set of correctly-cased symbols from source files
-        
-    Returns:
-        Correctly-cased symbol name or original if not found
-    """
-    # Create a lowercase mapping
     lower_to_correct = {s.lower(): s for s in known_symbols}
-    
     return lower_to_correct.get(symbol_lower, symbol_lower)
 
+def load_symbol_addrs(path='symbol_addrs.txt'):
+    addrs = {}
+    try:
+        with open(path, 'r', errors='replace') as f:
+            for line in f:
+                line = line.split('//')[0].strip()
+                m = re.match(r'^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(0x[0-9A-Fa-f]+)\s*;', line)
+                if m:
+                    addrs[m.group(1)] = m.group(2).upper().replace('0X', '0x')
+    except FileNotFoundError:
+        print("Note: symbol_addrs.txt not found, addresses will remain as 0x?")
+    return addrs
+
+
 def parse_linker_symbols(linker_output, src_dir='src', include_dir='include'):
-    """
-    Parse linker error output and generate .definelabel statements.
-    
-    Args:
-        linker_output: String containing the linker error output
-        src_dir: Directory containing .c files
-        include_dir: Directory containing .h files
-        
-    Returns:
-        String containing .definelabel statements
-    """
-    # Extract symbols from source files
+    symbol_addrs = load_symbol_addrs()
+    print(f"Loaded {len(symbol_addrs)} addresses from symbol_addrs.txt")
+
     print("Scanning source files for symbol names...")
     known_symbols = extract_symbols_from_source(src_dir, include_dir)
     print(f"Found {len(known_symbols)} symbols in source files")
     
-    # Pattern to match undefined symbol errors
     pattern = r'Undefined external symbol (\S+)'
-    
-    # Find all unique symbols
     symbols = set(re.findall(pattern, linker_output))
     print(f"Found {len(symbols)} undefined symbols in linker output")
     
-    # Pattern to match func_XXXXXXXX_YYYY or d_XXXXXXXX_YYYY format
+    # Matches func_XXXXXXXX_YYYY or D_XXXXXXXX_YYYY — used as address fallback only
     hex_pattern = re.compile(r'^(func|d)_([0-9a-f]{8})_[0-9a-f]+', re.IGNORECASE)
     
     definelabels = []
     corrected_count = 0
-    
+    # Case-insensitive map: lowercase name -> (correct_case_name, address)
+    addrs_lower = {k.lower(): (k, v) for k, v in symbol_addrs.items()}
+
     for symbol in sorted(symbols):
-        match = hex_pattern.match(symbol)
-        
+        # Strip mp3_ prefix before processing, restore it in output
+        prefix = ''
+        bare = symbol
+        if symbol.startswith('mp3_'):
+            prefix = 'mp3_'
+            bare = symbol[len('mp3_'):]
+
+        bare_lower = bare.lower()
+
+        # 1. Always check symbol_addrs first — gets correct casing AND address
+        if bare_lower in addrs_lower:
+            correct_bare, addr = addrs_lower[bare_lower]
+            if correct_bare != bare:
+                corrected_count += 1
+            definelabels.append(f".definelabel {prefix}{correct_bare}, {addr}")
+            continue
+
+        # 2. Not in symbol_addrs — try to extract address from the symbol name itself
+        match = hex_pattern.match(bare)
         if match:
-            # Symbol follows the func_XXXXXXXX_YYYY or d_XXXXXXXX_YYYY pattern
-            ram_address = match.group(2).upper()  # Capitalize the hex address
-            # Capitalize hex digits in the symbol name itself
-            correct_symbol = capitalize_hex_in_symbol(symbol)
-            # Also try to find in source files (though unlikely for autogenerated names)
-            source_symbol = find_correct_case(symbol, known_symbols)
-            if source_symbol != symbol:
-                correct_symbol = source_symbol
+            ram_address = match.group(2).upper()
+            correct_bare = capitalize_hex_in_symbol(bare)
+            source_symbol = find_correct_case(bare, known_symbols)
+            if source_symbol != bare:
+                correct_bare = source_symbol
                 corrected_count += 1
-            definelabels.append(f".definelabel {correct_symbol}, 0x{ram_address}")
-        else:
-            # Named symbol - use 0x? as placeholder
-            # Try to find correct case
-            correct_symbol = find_correct_case(symbol, known_symbols)
-            if correct_symbol != symbol:
-                corrected_count += 1
-            definelabels.append(f".definelabel {correct_symbol}, 0x?")
+            definelabels.append(f".definelabel {prefix}{correct_bare}, 0x{ram_address}")
+            continue
+
+        # 3. Named symbol not found anywhere — correct casing if possible, address unknown
+        correct_bare = find_correct_case(bare, known_symbols)
+        if correct_bare != bare:
+            corrected_count += 1
+        definelabels.append(f".definelabel {prefix}{correct_bare}, 0x?")
     
     print(f"Corrected capitalization for {corrected_count} symbols")
     
     return '\n'.join(definelabels)
 
 
-# Example usage
 if __name__ == "__main__":
-    # Read from file or use the provided text
     try:
         with open("linker_errors.txt", "r") as f:
             linker_output = f.read()
@@ -150,16 +121,13 @@ if __name__ == "__main__":
         print("Please create a file with your linker error output")
         exit(1)
     
-    # Parse with case correction
     result = parse_linker_symbols(linker_output, src_dir='src', include_dir='include')
     
-    # Print to console
     print("\n" + "="*60)
     print("Generated .definelabel statements:")
     print("="*60)
     print(result)
     
-    # Write to file
     with open("definelabels.asm", "w") as f:
         f.write(result)
     
