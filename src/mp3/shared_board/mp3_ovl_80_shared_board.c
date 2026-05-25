@@ -2734,8 +2734,8 @@ void newMBMain(void) {
                 mp3_HuPrcChildLink(temp_s6, mp3_MBMgCallCreate());
                 mp3_HuPrcChildWait();
                 
-                //@patch `&& system->minigame_index != 0xFF`, is this actually needed? not sure but it existed previously as a patch so...
-                if (system->minigame_index >= 0 && system->minigame_index != 0xFF) {
+                //@patch check 0xFF, not less than 0 (it's a u8 instead of s8 now)
+                if (system->minigame_index != 0xFF) {
                     mp3_D_800D1240_D1E40 = 0;
                     
                     // Determine minigame type

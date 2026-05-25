@@ -17,6 +17,14 @@ extern s16 mp3_hidden_block_star_space_index; //hidden_block_star_space
 
 
 void SaveMp3PlayerToMp3PlayerCopy(void) {
+    //this is a bit odd, but im unsure how else to handle it;
+    //the bonus coins in the player struct linger until you start the next minigame, in which case it's cleared
+    //however if you play a mp3 battle minigame, get bonus coins, then play a mp2 minigame, it will reaward you the bonus coins
+    //so when we swap games (basically when "loading the minigame", we clear the bonus coins)
+    for (int i = 0; i < 4; i++) {
+        mp3_GwPlayer[i].bonusCoin = 0;
+    }
+
     for (int i = 0; i < 4; i++) {
         mp3_GwPlayerCopy[i] = mp3_GwPlayer[i];
     }
@@ -31,6 +39,10 @@ void SaveMp3PlayerCopyToMp3Player(void) {
 
 void SaveMp2PlayerToMp2PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
+        mp2_GwPlayer[i].bonusCoin = 0;
+    }
+
+    for (int i = 0; i < 4; i++) {
         mp2_GwPlayerCopy[i] = mp2_GwPlayer[i];
     }
 }
@@ -43,6 +55,10 @@ void SaveMp2PlayerCopyToMp2Player(void) {
 
 
 void SaveMp1PlayerToMp1PlayerCopy(void) {
+    for (int i = 0; i < 4; i++) {
+        mp1_GwPlayer[i].bonusCoin = 0;
+    }
+    
     for (int i = 0; i < 4; i++) {
         mp1_GwPlayerCopy[i] = mp1_GwPlayer[i];
     }

@@ -465,13 +465,6 @@ void func_8004B1AC(void);
 extern s32 mp3_DrawPrevMinigameList;
 extern s8 D_80102C0D_11682D_shared_board;
 
-// #define PLAYERS_4P 0
-// #define PLAYERS_1V3 1
-// #define PLAYERS_2V2 2
-// #define PLAYERS_ITEM 3
-// #define PLAYERS_BATTLE 4
-// #define PLAYERS_DUEL 5
-
 char* Mp3MinigameCategoryStrings[] = {
     "PLAYERS_4P",
     "PLAYERS_1V3",
@@ -490,13 +483,34 @@ void StringToUpper(char *str) {
     }
 }
 
+enum FONT_COLORS {
+    FONT_BLACK = 0,
+    FONT_DARK_BLUE,
+    FONT_DARK_RED,
+    FONT_DARK_PURPLE,
+    FONT_DARK_GREEN,
+    FONT_DARK_CYAN,
+    FONT_DARK_YELLOW,
+    FONT_DARK_GRAY,
+    FONT_LIGHT_GRAY,
+    FONT_BLUE,
+    FONT_RED,
+    FONT_PURPLE,
+    FONT_LIGHT_GREEN,
+    FONT_CYAN,
+    FONT_YELLOW,
+    FONT_WHITE
+};
+
+extern s32 mp3_fontcolor;
+
 void drawRecentMinigameListCategory(void) {
     s32 i, j;
     char buf[16];
     s32 y = 20;
     s8 category = D_80102C0D_11682D_shared_board;
     char buffer[64];
-
+    mp3_fontcolor = FONT_PURPLE;
     mp3_sprintf(buf, "%s", Mp3MinigameCategoryStrings[category]);
     mp3_DrawDebugText(20, y, buf);
     y += 15;
@@ -522,7 +536,6 @@ void drawRecentMinigameListCategory(void) {
                 }
                 buffer[j] = '\0';
                 StringToUpper(buffer);
-                //mp3_sprintf(buf, "%s", &minigameLUT[minigame].minigameStr[1]); //skip \0xB byte at beginning of string (only needed for minigame wheel)
                 mp3_DrawDebugText(20, y, buffer);
                 y += 10;
             }
@@ -530,19 +543,6 @@ void drawRecentMinigameListCategory(void) {
 
     }
 }
-
-// void drawRecentMinigameList(void) {
-//     s32 i;
-//     char buf[16];
-//     s32 y = 20;
-
-//     for (i = 0; i < 6; i++) {
-//         mp3_sprintf(buf, "%D", D_800CC4A0_CD0A0.recentMinigames[i]);
-//         mp3_DrawDebugText(20, y, buf);
-//         y += 10;
-//     }
-// }
-
 
 void drawDebug(void) {
     func_8004B1AC(); //restore from hook
