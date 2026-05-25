@@ -436,7 +436,7 @@ void func_8000EBEC_F7EC(void* arg0) {
         //@patch: black the screen for a few extra frames on boot when specific overlays (prevents visual glitches)
         if (mp3_omovlhis[mp3_omovlhisidx].overlayID == OVL_GAME_END_SCENE ||
             mp3_omovlhis[mp3_omovlhisidx].overlayID == OVL_RESULTS_SCENE ||
-            mp3_omovlhis[mp3_omovlhisidx].overlayID == mgresultboard ||
+            //mp3_omovlhis[mp3_omovlhisidx].overlayID == mgresultboard ||
             mp3_omovlhis[mp3_omovlhisidx].overlayID == OVL_LAST_5_TURNS) {
             if (D_800CC0A4_CCCA4 < EXTRA_FRAMES_BLACK_ON_BOOT) {
                 if (D_800CC0A4_CCCA4 == 0) {

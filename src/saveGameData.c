@@ -22,6 +22,7 @@ void SaveMp3PlayerToMp3PlayerCopy(void) {
     //however if you play a mp3 battle minigame, get bonus coins, then play a mp2 minigame, it will reaward you the bonus coins
     //so when we swap games (basically when "loading the minigame", we clear the bonus coins)
     for (int i = 0; i < 4; i++) {
+        mp3_GwPlayer[i].gameCoin = 0;
         mp3_GwPlayer[i].bonusCoin = 0;
     }
 
