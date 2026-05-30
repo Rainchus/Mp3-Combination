@@ -13,6 +13,7 @@ void SaveMp3PlayerToMp3PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
         mp3_GwPlayer[i].gameCoin = 0;
         mp3_GwPlayer[i].bonusCoin = 0;
+        mp3_GwPlayer[i].checkCoin = 0;
     }
 
     for (int i = 0; i < 4; i++) {
@@ -30,6 +31,7 @@ void SaveMp3PlayerCopyToMp3Player(void) {
 void SaveMp2PlayerToMp2PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
         mp2_GwPlayer[i].bonusCoin = 0;
+        mp2_GwPlayer[i].checkCoin = 0;
     }
 
     for (int i = 0; i < 4; i++) {
@@ -161,8 +163,9 @@ void SaveMp3PlayerToMp2PlayerCopy(void) {
         mp2_GwPlayerCopy[i].pad = mp3_GwPlayer[i].pad;
         mp2_GwPlayerCopy[i].stat = mp3_GwPlayer[i].stat;
         mp2_GwPlayerCopy[i].chr = mp3_GwPlayer[i].chr;
-        mp2_GwPlayerCopy[i].bonusCoin = mp3_GwPlayer[i].checkCoin; //TODO: are we sure about these 2 lines
-        mp2_GwPlayerCopy[i].bonusCoin += mp3_GwPlayer[i].bonusCoin;
+        mp2_GwPlayerCopy[i].checkCoin = mp3_GwPlayer[i].checkCoin; //TODO: are we sure about these 3 lines
+        mp2_GwPlayerCopy[i].checkCoin += mp3_GwPlayer[i].bonusCoin;
+        mp2_GwPlayerCopy[i].checkCoin += mp3_GwPlayer[i].gameCoin;
     }
 }
 

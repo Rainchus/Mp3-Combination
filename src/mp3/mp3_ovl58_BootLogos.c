@@ -158,9 +158,20 @@ void mp3_BootLogosSetup(void) {
     }
 }
 
+u8 GetMp1ExplanationSetting(void);
+u8 GetMp2ExplanationSetting(void);
+s16 GetMp2BattleMinigameCoins(void);
+
 void mp3_BootLogosEntryFunc(void) {
     mp3_crash_screen_init();
     mp3_LoadMinigameList();
+
+    if (CurBaseGame == MP1_BASE) {
+        mp3_GwSystem.show_minigame_explanations = GetMp1ExplanationSetting();
+    } else if (CurBaseGame == MP2_BASE) {
+        mp3_GwSystem.show_minigame_explanations = GetMp2ExplanationSetting();
+        mp3_BattleMinigameCoins = GetMp2BattleMinigameCoins();
+    }
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
     if (CurBaseGame == MP3_BASE && mp3_omovlhisidx == 1) {

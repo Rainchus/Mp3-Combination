@@ -125,7 +125,7 @@ typedef struct mp3_GW_PLAYER {
 /* 0x03 */ u8 chr;
 /* 0x04 */ u8 stat;
 /* 0x05 */ char unk_05;
-/* 0x06 */ s16 gameCoin;
+/* 0x06 */ s16 gameCoin; //coins from bonus minigame
 /* 0x08 */ s16 bonusCoin;
 /* 0x0A */ s16 coin;
 /* 0x0C */ s16 checkCoin;
