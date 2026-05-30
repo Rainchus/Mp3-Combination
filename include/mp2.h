@@ -4,23 +4,52 @@
 #include "ultra64.h"
 #include "marioparty.h"
 
-typedef struct mp2_GW_SYSTEM {
-    /* 0x00 - 800F93A8 */ s16 unk_00;
-    /* 0x02 - 800F93AA */ s16 current_board_index;
-    /* 0x04 - 800F93AC */ s16 current_game_length; // 00=Lite Play,01=Standard Play,02=Full Play,03=Custom Play
-    /* 0x06 - 800F93AE */ s16 total_turns;
-    /* 0x08 - 800F93B0 */ s16 current_turn;
-    /* 0x0A - 800F93B2 */ s16 unk_0A;
-    /* 0x0C - 800F93B4 */ s16 star_spawn_indices[7];
-    /* 0x1A - 800F93C2 */ s16 unk_1A;
-    /* 0x1C - 800F93C4 */ s16 unk_1C;
-    /* 0x1E - 800F93C6 */ s16 current_player_index;
-    /* 0x20 - 800F93C8 */ s16 chosenMinigameIndex;
-    /* 0x22 - 800F93CA */ s16 curPlayerAbsSpaceIndex;
-    /* 0x24 - 800F93CC */ char unk_24[1];
-    /* 0x25 - 800F93CD */ s8 minigameExplanations; //0x25
-    /* 0x26 - 800F93CE */ char unk_26[2];
-} mp2_GW_SYSTEM; //sizeof 0x28?
+typedef struct {
+    /* 0x00 */ s16 unk_2E;
+    /* 0x02 */ u8  unk_30[6];
+} GwCommonEntry; // size = 0x8
+
+//probably a lot wrong here; mostly copied from mp3 then edited (however the size is correct)
+typedef struct mp2_GW_COMMON {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ u8 languageIndex;
+    /* 0x02 */ u16 mgRecord[8];
+    /* 0x12 */ char pad12[4];
+    /* 0x16 */ u8 mgUnlock[7];
+    /* 0x30 */ u8 unk_1D[0x10];
+    /* 0x2E */ GwCommonEntry entries[6];
+    /* 0x60 */ char unk_60[0x10];
+    /* 0x70 */ s32 unk70;
+    /* 0x74 */ s16 unk74;                             /* inferred */
+    /* 0x76 */ u8 unk76;                             /* inferred */
+    /* 0x77 */ u8 unk77;                             /* inferred */
+    /* 0x78 */ u8 pad78;
+    /* 0x79 */ u8 pad79;
+    /* 0x7A */ u8 unk7A;
+    /* 0x7B */ char pad7B[0x14];                    /* maybe part of unk77[0x15]? */
+    /* 0x8F */ u8 flag[0xC];
+    /* 0x9B */ char pad9B[7];
+    /* 0xA2 */ s8 unk9E;
+    /* 0xA3 */ s8 unk9F;
+    /* 0xA4 */ s8 unkA0;
+    /* 0xA5 */ s8 unkA1;
+    /* 0xA6 */ s8 unkA2;
+    /* 0xA7 */ char padA7[0x1D];
+} mp2_GW_COMMON;                                        /* size = 0xC4 */    
+
+extern mp2_GW_COMMON mp2_GwCommon;
+
+typedef struct {
+    u8 unk0[8];
+    s8 recentMinigames[6][5]; /* recent minigames per player, up to 2 */
+} UnkData_E0290;
+
+typedef struct Unk800DF6B6 {
+    s8 unk_00[6];
+} Unk800DF6B6;
+
+extern UnkData_E0290 D_800DF690_E0290;
+extern Unk800DF6B6 D_800DF6B6_E02B6;
 
 void mp2_func_8004CA14_4D614(s32, s32);
 void mp2_func_8006135C_61F5C(s32, s32, s32);
@@ -99,7 +128,8 @@ extern s16 mp2_hidden_block_coins_space_index;
 extern s16 mp2_hidden_block_star_space_index;
 extern mp2_GW_SYSTEM mp2_GwSystemCopy;
 extern s16 mp2_BattleMinigameCoins_Copy;
-extern mp2_GW_SYSTEM mp2_GwSystem; //was mp2_BoardState
+extern s32 mp2_DrawPrevMinigameList;
+extern mp2_GW_SYSTEM mp2_GwSystem;
 
 typedef struct UnkomOvl {
     s32 unk_00;

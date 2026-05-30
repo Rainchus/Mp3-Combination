@@ -73,7 +73,7 @@
     NOP
 
 .org 0x80048710
-    J drawDebugASM
+    J mp3_drawDebugASM
     NOP
 
 /*

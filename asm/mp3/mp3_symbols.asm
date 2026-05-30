@@ -21,6 +21,10 @@
 .definelabel mp3_omovlevtno, 0x800A1764
 .definelabel mp3_ovlEventCall, 0x800359E0
 
+.definelabel mp3_hidden_block_coin_space_index_old, 0x800CE1E8; //type:s16 size:0x14
+.definelabel mp3_hidden_block_star_space_index_old, 0x800D59E0; //type:s16 size:0x14
+.definelabel mp3_hidden_block_item_space_index_old, 0x800CC378; //type:s16 size:0x14
+
 //functions
 .definelabel mp3_GetCurrentPlayerIndex, 0x800F2130
 .definelabel mp3_unknownDMAFunc, 0x8004DB14

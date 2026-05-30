@@ -34,6 +34,59 @@ typedef struct OvlEntrypoint {
 } OvlEntrypoint; //sizeof 0x08
 /* Buttons */
 
+typedef struct mp2_GW_SYSTEM {
+    /* 0x00 - 800F93A8 */ s16 unk_00;
+    /* 0x02 - 800F93AA */ s16 current_board_index;
+    /* 0x04 - 800F93AC */ s16 current_game_length; // 00=Lite Play,01=Standard Play,02=Full Play,03=Custom Play
+    /* 0x06 - 800F93AE */ s16 total_turns;
+    /* 0x08 - 800F93B0 */ s16 current_turn;
+    /* 0x0A - 800F93B2 */ s16 unk_0A;
+    /* 0x0C - 800F93B4 */ s16 star_spawn_indices[7];
+    /* 0x1A - 800F93C2 */ s16 unk_1A;
+    /* 0x1C - 800F93C4 */ s16 unk_1C;
+    /* 0x1E - 800F93C6 */ s16 current_player_index;
+    /* 0x20 - 800F93C8 */ s16 chosenMinigameIndex;
+    /* 0x22 - 800F93CA */ s16 curPlayerAbsSpaceIndex;
+    /* 0x24 - 800F93CC */ char unk_24[1];
+    /* 0x25 - 800F93CD */ s8 minigameExplanations; //0x25
+    /* 0x26 - 800F93CE */ char unk_26[2];
+} mp2_GW_SYSTEM; //sizeof 0x28?
+
+typedef struct mp3_GW_SYSTEM {
+    /* 0x00 - 800CD058 */ s8 playMode; //0x01 - Lite Play pause screen, 0x04 - Story Play pause screen
+    /* 0x01 - 800CD059 */ s8 current_board_index;
+    /* 0x02 - 800CD05A */ s8 total_turns;
+    /* 0x03 - 800CD05B */ s8 current_turn;
+    /* 0x04 - 800CD05C */ s8 current_game_length; // 00=Lite Play,01=Standard Play,02=Full Play,03=Custom Play
+    /* 0x05 - 800CD05D */ s8 current_star_spawn; // Index of star space (index into star_spawn_indices)
+    /* 0x06 - 800CD05E */ s8 star_spawn_indices[7];
+    /* 0x0D - 800CD065 */ s8 unk_0D;
+    /* 0x0E - 800CD066 */ s8 unk_0E;
+    /* 0x0F - 800CD067 */ s8 current_player_index;
+    /* 0x10 - 800CD068 */ u8 minigame_index; //changed to u8
+    /* 0x11 - 800CD069 */ s8 current_space_index;
+    /* 0x12 - 800CD06A */ s8 save_mode; //00 - Save every turn, 01 - Save this turn, 02 - Don't save
+    /* 0x13 - 800CD06B */ s8 show_minigame_explanations; //00 - show, 01 - hide
+    /* 0x14 - 800CD06C */ s8 message_speed; //00 - Fast, 01 - Normal, 02 - Slow
+    /* 0x15 - 800CD06D */ s8 walk_speed; //00 - Fast, 01 - Normal, 02 - Slow
+    /* 0x16 - 800CD06E */ s8 show_com_minigames; //00 - Show COM minigame, 01 - Hide COM minigame
+    /* 0x17 - 800CD06F */ char unk_17[0x26]; //unknown
+    union {
+        /* 0x3E - 800CD096 */ s16 halfWordBytes[9]; //bytes related to storing information for each board
+        /* 0x3E - 800CD096 */ s8 bytes[18]; //bytes related to storing information for each board
+    } boardData;
+    /* 0x50 - 800CD0A8 */ u16 cur_player_used_item; //1 if player already used an item this turn
+    /* 0x52 - 800CD0AA */ s16 unk_52;
+    /* 0x54 - 800CD0AC */ s16 forceShopHost; //0 is toad, baby bowser is 1
+    /* 0x56 - 800CD0AE */ s16 slow_dice_flags;
+    /* 0x58 - 800CD0B0 */ s16 unk_58;                           /* inferred */
+    /* 0x5A - 800CD0B2 */ s16 playerIndexVisitingBowser;
+    /* 0x5C - 800CD0B4 */ u16 bank_coins;
+    /* 0x5E - 800CD0B6 */ u8 data_flags; //unknown what this is, but star spawns are included in this
+    /* 0x5F - 800CD0B7 */ u8 unk_flags;
+    /* 0x60 - 800CD0B8 */ u8 unk_60[0x44];
+} mp3_GW_SYSTEM; //sizeof 0xA4
+
 #define CONT_A      0x8000
 #define CONT_B      0x4000
 #define CONT_G	    0x2000

@@ -110,7 +110,9 @@ void mp2_LoadMinigameList(void) {
         }
 
         //else, minigame is active
-        u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
+        //TODO: reimplement the save file storing the minigames you chose
+        //u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
+        u8 minigameActiveFlag = 1;
         if (minigameActiveFlag == 0) {
             continue;
         }
@@ -195,11 +197,4 @@ void mp2_LoadMinigameList(void) {
             break;
         }
     }
-}
-
-void mp2_Unk_Camera_Function(f32 arg0) {
-    if (arg0 == 0.0f) {
-        arg0 = 1.0f;
-    }
-    mp2_UnkCamThing(arg0);
 }

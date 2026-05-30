@@ -81,12 +81,11 @@ void mp3_LoadIntoResultsScene(void) {
 
     if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns && mp3_BattleMinigameCoins == 0) {
         //set up credits scene
-
         omOvlHisData CreditsSceneOvlHis[] = {
             {0x7A, 0x0002, 0x0092},
             {0x7A, 0x0002, 0x0092},
             {0x77, 0x0000, 0x0091},
-            {0x47, 0x0001, 0x0192},
+            {OVL_RESULTS_SCENE, 0x0001, 0x0192}, //board call; loads into board correctly?
         };
 
         for (int i = 0; i < ARRAY_COUNT(CreditsSceneOvlHis); i++) {
@@ -94,7 +93,8 @@ void mp3_LoadIntoResultsScene(void) {
         }
         mp3_omovlhisidx = 3;
         mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
-        mp3_omOvlCallEx(0x4F, 0, 0x4190); //go to end of game scene
+        mp3_omOvlHisChg(1, 0x4F, 0, 0x4190); //put credits in history
+        mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
         return;
     } else if (mp3_GwSystem.current_turn + 4 == mp3_GwSystem.total_turns) {
         //set up last 5 turns
@@ -102,19 +102,16 @@ void mp3_LoadIntoResultsScene(void) {
             {0x7A, 0x0002, 0x0092},
             {0x7A, 0x0002, 0x0092},
             {0x77, 0x0000, 0x0091},
-            {0x47, 0x0001, 0x0192},
-            {0x71, 0x0000, 0x0012},
-            {0x01, 0x0000, 0x0014},
+            {OVL_RESULTS_SCENE, 0x0001, 0x0192}, //board call; loads into board correctly?
         };
         //set last 5 turns event
-        s32 i;
-        for (i = 0; i < ARRAY_COUNT(last5Turns); i++) {
+        for (int i = 0; i < ARRAY_COUNT(last5Turns); i++) {
             mp3_omovlhis[i] = last5Turns[i];
         }
         mp3_omovlhisidx = 3;
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
-        // func_800F8610_10C230_Copy(0x48, 2, 0x192, curBoardIndex);
-        mp3_omOvlCallEx(OVL_LAST_5_TURNS, 2, 0x192); //last 5 turns
+        mp3_omOvlHisChg(1, OVL_LAST_5_TURNS, 2, 0x192); //put last 5 turns in history
+        mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
         return;        
     } else { //else normal board load
         mp3_omovlhis[3].overlayID = OVL_RESULTS_SCENE;

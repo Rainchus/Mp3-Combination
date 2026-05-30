@@ -17,6 +17,8 @@ void mp2_crash_screen_init(void);
 //TODO: should be in a header file
 u8 GetMp3ExplanationSetting(void);
 s16 GetMp3BattleMinigameCoins(void);
+u8 GetMp1ExplanationSetting(void);
+s16 GetMp2BattleMinigameCoins(void);
 
 mp2_Process* mp2_D_80102D60_36DF00_BootLogos = 0;
 s32 mp2_D_80102D50_36DEF0_BootLogos = 0;
@@ -81,6 +83,10 @@ void mp2_LoadMinigameFromBoot(void) {
 }
 
 void mp2_LoadIntoResultsScene(void) {
+    if (GetMp2BattleMinigameCoins()) {
+        mp2_BattleMinigameCoins = GetMp2BattleMinigameCoins();
+    }
+
     for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
         mp2_omovlhis[i] = LoadIntoResultsSceneHis[i];
     }
@@ -88,24 +94,24 @@ void mp2_LoadIntoResultsScene(void) {
     PopMp2BoardState();
     SaveMp2PlayerCopyToMp2Player();
 
-    
-    // mp2_D_800E1F50_E2B50 = 1; //required for board events to load back into the board correctly
-    // mp2_omovlhisidx = 3;
-
     //if game should end, make overlay results scene returns to the ending game scene
     //otherwise, go to board
     if (mp2_GwSystem.current_turn > mp2_GwSystem.total_turns) {
         //mp2_omovlhis[3].overlayID
         mp2_D_800E1F50_E2B50 = 0; //required for credits to correctly go back to game select
         mp2_omovlhisidx = 3;
-        //TODO: make sure this works correctly. It didn't in the last version
-        mp2_omOvlCallEx(0x3D, 0x0001, 0x192); //load into game ending scene
+        mp2_omOvlHisChg(1, 0x3D, 0x0001, 0x192);
     } else { //set overlay ID for board
         mp2_D_800E1F50_E2B50 = 1; //required for credits to correctly go back to game select
         mp2_omovlhisidx = 3;
-        //mp2_omovlhis[3].overlayID = mp2_boardOverlays[mp2_GwSystem.current_board_index];
+        mp2_omOvlHisChg(1, mp2_boardOverlays[mp2_GwSystem.current_board_index], 0x0001, 0x192);
     }
-    mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
+
+    if (mp2_BattleMinigameCoins != 0) {
+        mp2_omOvlCallEx(0x6F, 0x0000, 0x14); //load battle results scene
+    } else {
+        mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
+    }
 }
 
 void mp2_LoadOriginalGame(void) {
@@ -144,8 +150,7 @@ void mp2_BootLogosEntryFunc(void) {
         mp2_GwSystem.minigameExplanations = GetMp3ExplanationSetting();
         mp2_BattleMinigameCoins = GetMp3BattleMinigameCoins();
     } else if (CurBaseGame == MP1_BASE) {
-        //TODO: implement
-        //mp1_GwSystem.minigameExplanations = GetMp1ExplanationSetting();
+        mp2_GwSystem.minigameExplanations = GetMp1ExplanationSetting();
     }
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
@@ -185,15 +190,14 @@ void mp2_BootLogosEntryFunc2(void) {
         mp2_GwSystem.minigameExplanations = GetMp3ExplanationSetting();
         mp2_BattleMinigameCoins = GetMp3BattleMinigameCoins();
     } else if (CurBaseGame == MP1_BASE) {
-        //TODO: implement
-        //mp1_GwSystem.minigameExplanations = GetMp2ExplanationSetting();
+        mp2_GwSystem.minigameExplanations = GetMp1ExplanationSetting();
     }
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
     if (CurBaseGame == MP2_BASE && mp2_omovlhisidx == 1) {
         //normal boot into mp3 with boot sequences
         ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
-        mp2_D_80102D50_36DEF0_BootLogos = 1;
+        mp2_D_80102D50_36DEF0_BootLogos = 1; //set is not initial boot
         mp2_BootLogosSetup();
         return;
     }
@@ -201,7 +205,7 @@ void mp2_BootLogosEntryFunc2(void) {
     if (CurBaseGame == MP2_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INDEX_BOOT_VAL) {
         //normal boot into mp2 with boot sequences
         ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
-        mp2_D_80102D50_36DEF0_BootLogos = 1;
+        mp2_D_80102D50_36DEF0_BootLogos = 1; //set is not initial boot
         mp2_BootLogosSetup();        
     } else if (CurBaseGame == MP2_BASE && ForeignMinigameIndexToLoad == FOREIGN_MINIGAME_INVALID_ID) {
         //mp2 is the base game and we have loaded into the boot overlay with no minigame to load

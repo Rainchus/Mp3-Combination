@@ -4,7 +4,7 @@
 #include "ultra64.h"
 #include "marioparty.h"
 
-typedef struct mp1_GameStatus {
+typedef struct MP1_GW_SYSTEM {
 /* 0x00 */ s16 unk_00;
 /* 0x02 */ s16 curBoardIndex;
 /* 0x04 */ s16 playType; //lite play, standard play, full play (20, 35, 50 turns)
@@ -20,7 +20,7 @@ typedef struct mp1_GameStatus {
 /* 0x23 */ s8 minigameExplanation;
 /* 0x24 */ u8 messageSpeed;
 /* 0x25 */ char unk_25;
-} mp1_GameStatus; //sizeof 0x26
+} MP1_GW_SYSTEM; //sizeof 0x26
 
 typedef struct mp1_GwCommon_s {
 /* 0x00 */ u8 unk0;
@@ -162,8 +162,8 @@ extern omOvlHisData mp1_omovlhis[12];
 extern omOvlHisData mp1_omovlhis_copy[12];
 extern s16 mp1_omovlhisidx;
 extern mp1_GW_PLAYER mp1_GwPlayerCopy[4];
-extern mp1_GameStatus mp1_GwSystem;
-extern mp1_GameStatus mp1_GwSystemCopy;
+extern MP1_GW_SYSTEM mp1_GwSystem;
+extern MP1_GW_SYSTEM mp1_GwSystemCopy;
 extern mp1_GWCOMMON mp1_GwCommon;
 extern mp1_GWCOMMON mp1_GwCommonCopy;
 extern u8 mp1_D_800F64F2;

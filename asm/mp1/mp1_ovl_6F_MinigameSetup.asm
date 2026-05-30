@@ -1,4 +1,4 @@
-.headersize 0x800F65E0 - 0x2DB2A0 - 0x04000000
+.headersize 0x800F65E0 - 0x2DB2A0 - MP1_ROM_OFFSET
 .org 0x800F6610
     J mp1_MinigameEntryFunc
     NOP

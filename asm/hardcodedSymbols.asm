@@ -12,3 +12,6 @@
 .definelabel mp3_omovlhisidx_copy, 0x807FFD00
 .definelabel mp3_GwPlayerCopy, 0x807FFE00
 .definelabel rnd_seed_shared, 0x807FFFFC
+
+.definelabel MP2_ROM_OFFSET, 0x02000000
+.definelabel MP1_ROM_OFFSET, 0x04000000

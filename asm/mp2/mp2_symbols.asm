@@ -27,6 +27,8 @@
 .definelabel mp2_D_800F93C6, 0x800F93C6;
 .definelabel mp2_D_800F93C8, 0x800F93C8;
 .definelabel mp2_D_800CD416_CE016, 0x800CD416
+.definelabel mp2_sprintf, 0x800A5660
+.definelabel mp2_DrawDebugText, 0x8007C74C
 
 .definelabel mp2_D_80107830_413C90_Results, 0x80107830;
 .definelabel mp2_D_80107838_413C98_Results, 0x80107838;
@@ -134,6 +136,9 @@
 .definelabel mp2_rnd_seed, 0x800C99B4
 .definelabel mp2_osGetCount, 0x800ADD50
 .definelabel mp2_BattleMinigameCoins, 0x800F9208
+
+.definelabel mp2_D_800E1F8C_E2B8C, 0x800E1F8C
+.definelabel mp2_D_800CC210_CCE10, 0x800CC210
 .definelabel mp2_prevMinigamesPlayed, 0x800DF698
 .definelabel mp2_func_800890CC, 0x800890CC
 .definelabel mp2_HuPrcKill, 0x8007D8A8
@@ -155,6 +160,7 @@
 .definelabel mp2__CheckFlag, 0x80068328
 .definelabel mp2_omOvlGotoEx, 0x800771EC
 .definelabel mp2_D_800F8D18, 0x800f8d18
+.definelabel mp2_GwCommon, 0x800F8C60
 
 .definelabel mp2_D_801148F0_3D0050_name_60, 0x801148F0
 .definelabel mp2_D_801148F2_3D0052_name_60, 0x801148F2

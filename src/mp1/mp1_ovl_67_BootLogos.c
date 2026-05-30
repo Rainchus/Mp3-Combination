@@ -31,6 +31,7 @@ void mp1_crash_screen_init(void);
 //TODO: should be in a header file
 u8 GetMp3ExplanationSetting(void);
 s16 GetMp3BattleMinigameCoins(void);
+u8 GetMp2ExplanationSetting(void);
 
 extern u8 mp1_D_800C572F;
 mp1_Process* mp1_D_800F6B00_LogosSequence= NULL;
@@ -38,6 +39,7 @@ extern s8 mp1_omSysPauseEnableFlag;
 
 void mp1_BootLogosEntryFunc(void);
 void mp1_BootLogosEntryFunc2(void);
+extern mp2_GW_SYSTEM mp2_GwSystem;
 
 OvlEntrypoint D_800F6AD0_LogosSequence[] = {
     {0, mp1_BootLogosEntryFunc},
@@ -109,8 +111,7 @@ void mp1_BootLogosEntryFunc(void) {
         //mp1_BattleMinigameCoins = GetMp3BattleMinigameCoins();
         
     } else if (CurBaseGame == MP2_BASE) {
-        //TODO: implement
-        //mp2_GwSystem.minigameExplanations = GetMp2ExplanationSetting();
+        mp1_GwSystem.minigameExplanation = GetMp2ExplanationSetting();
     }
 
     //this handles if the player waits on the title screen then loads back into the boot overlays
@@ -153,8 +154,7 @@ void mp1_BootLogosEntryFunc2(void) {
         mp1_GwSystem.minigameExplanation = GetMp3ExplanationSetting();
         //mp1_BattleMinigameCoins = GetMp3BattleMinigameCoins();
     } else if (CurBaseGame == MP2_BASE) {
-        //TODO: implement
-        //mp2_GwSystem.minigameExplanations = GetMp2ExplanationSetting();
+        mp1_GwSystem.minigameExplanation = GetMp2ExplanationSetting();
     }
 
     //this handles if the player waits on the title screen then loads back into the boot overlays

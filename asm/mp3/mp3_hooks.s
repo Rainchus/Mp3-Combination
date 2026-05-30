@@ -51,8 +51,8 @@ alwaysSetBookOpen:
     J 0x80105DF8
     SB v0, 0x0000 (at) //set book always open
 
-drawDebugASM:
-    JAL drawDebug
+mp3_drawDebugASM:
+    JAL mp3_drawDebug
     NOP
     J 0x80048718
     NOP
@@ -68,7 +68,7 @@ resetBattleCoinsAndSetState12:
     LI t0, mp3_D_800C9938_CA538
     LI t1, 0x3faaaaa6 //1.33f
     JR RA
-    SW t1, 0x0000 (t0) //set camera value to 1.0f
+    SW t1, 0x0000 (t0) //set camera value to 1.33f
     
     
 //TODO: this is very, very questionable

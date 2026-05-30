@@ -2,6 +2,7 @@
 #define _MATH_H_
 
 #include "PR/ultratypes.h"
+#include "PR/gu.h"
 
 #define M_PI 3.14159265358979323846
 
@@ -10,12 +11,6 @@ typedef struct {
     s32 y;
     s32 z;
 } HuVec3I;
-
-// TODO: Where are these in libultra, if anywhere?
-float sinf(float);
-//double sin(double);
-float cosf(float);
-//double cos(double);
 
 float sqrtf(float);
 float HuSqrtf(float x);

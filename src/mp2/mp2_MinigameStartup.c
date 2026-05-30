@@ -32,11 +32,6 @@ typedef struct mp2_Sp18Struct {
     DefinitelyNotItemRectTable notRectTable1;
 } mp2_Sp18Struct;
 
-typedef struct {
-    u8 unk0[8];
-    s8 recentMinigames[6][5]; /* recent minigames per player, up to 2 */
-} UnkData_E0290;
-
 extern ItemRectTable D_800D26E8_D32E8;
 extern DefinitelyNotItemRectTable D_800D2700_D3300;
 extern s8 D_800DF6C5_E02C5;
@@ -44,7 +39,6 @@ extern u8 D_800CBD10_CC910[];
 extern ItemSlotEntry D_800DF660_E0260[];
 extern u8 D_800DF6C0_E02C0[];
 extern u8 D_800CBD18_CC918[];
-extern UnkData_E0290 D_800DF690_E0290;
 extern u8 D_800CBDC8_CC9C8[];
 extern u8 D_800CBD77_CC977[];
 extern mp2_omObjData* D_800DF6BC_E02BC;
@@ -62,12 +56,6 @@ void func_80089C78_8A878(s16, s32);
 void func_80089A48_8A648(s16, s32);
 void func_8004AB24_4B724(void);
 
-
-typedef struct Unk800CC3DC {
-    s8 unk_00[4];
-} Unk800CC3DC;
-
-extern Unk800CC3DC D_800DF6B6_E02B6;
 extern u16 D_800DF664_E0264;
 extern s16 D_800DF6C6_E02C6;
 extern u8 D_800CBD60_CC960[];
@@ -118,7 +106,7 @@ s32 mp2_func_8003F6F0_402F0(s16 overlayID) {
 }
 
 void SetMp2MultigameMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 minigameCombinedIndex = (s32)arg1;
+    s32 minigameCombinedIndex = arg1;
 
     s32 i;
     for (i = 0; i < MINIGAME_END; i++) {
@@ -244,6 +232,7 @@ void newfunc_80049FFC_4ABFC(mp2_omObjData* arg0) {
         if (arg0->work[3] != 0) {
             arg0->work[3]--;
         } else {
+            mp2_DrawPrevMinigameList = FALSE;
             D_800DF690_E0290.recentMinigames[D_800DF6C5_E02C5][D_800DF6B6_E02B6.unk_00[D_800DF6C5_E02C5]] = D_800DF6C0_E02C0[arg0->work[2]];
             D_800DF6B6_E02B6.unk_00[D_800DF6C5_E02C5]++;
             
@@ -269,6 +258,9 @@ void newfunc_80049FFC_4ABFC(mp2_omObjData* arg0) {
     }
 }
 
+extern u8 minigameTextColor[];
+s32 mp2_DrawPrevMinigameList = 0;
+
 //matches mp3's func_800DFBA8_F37C8_shared_board
 void newfunc_8004AD34_4B934(s32 arg0) {
     ItemSlotEntry* entry;
@@ -280,6 +272,8 @@ void newfunc_8004AD34_4B934(s32 arg0) {
 
     // sp18.rectTable = D_800D26E8_D32E8;
     // sp18.notRectTable1 = D_800D2700_D3300;
+
+    mp2_DrawPrevMinigameList = TRUE;
     
     category = 3;
     switch (arg0) {
@@ -364,9 +358,9 @@ void newfunc_8004AD34_4B934(s32 arg0) {
                 }
 
                 switch (D_800DF6C0_E02C0[i]) {
-                case 0x19:
-                case 0x24:
-                case 0x38:
+                case MP2_BOBSLED_RUN:
+                case TOAD_IN_THE_BOX:
+                case QUICKSAND_CACHE:
                 case 0x47:
                 case 0x48:
                     continue;
@@ -391,7 +385,7 @@ void newfunc_8004AD34_4B934(s32 arg0) {
         SetMp2MultigameMinigameString(entry->obj, D_800DF6C0_E02C0[i], -2, 4);
         //func_800890CC_89CCC(entry->obj, D_800DF6C0_E02C0[i] + 0x3D8, -2, 4);
 
-        func_80089C78_8A878(entry->obj, D_800CBD77_CC977[D_800DF6C0_E02C0[i]]);
+        func_80089C78_8A878(entry->obj, minigameTextColor[D_800DF6C0_E02C0[i]]);
         func_80089A48_8A648(entry->obj, 0);
     }
 
@@ -401,4 +395,13 @@ void newfunc_8004AD34_4B934(s32 arg0) {
     obj->trans.y = 0.0f;
     obj->rot.z = 0.0f;
     func_8004AB24_4B724();
+}
+
+void mp2_UnkCamThing(f32);
+
+void mp2_Unk_Camera_Function(f32 arg0) {
+    if (arg0 == 0.0f) {
+        arg0 = 1.0f;
+    }
+    mp2_UnkCamThing(arg0);
 }

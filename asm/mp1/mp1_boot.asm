@@ -1,5 +1,5 @@
 //mp1
-.orga 0xCB938 + 0x04000000
+.orga 0xCB938 + MP1_ROM_OFFSET
 .word new4PMinigameListNormalMp1
 .word new1v3MinigameListNormalMp1
 .word new2v2MinigameListNormalMp1

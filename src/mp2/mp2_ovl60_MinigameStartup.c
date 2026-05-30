@@ -26,15 +26,11 @@ void Mp2SwapGameIfNeeded(void) {
     if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp3
         //save necessary data, swap to mp3
         PushMp2BoardState();
-        PushMp2MinigamesPlayedList();
-        mp2_StoreBattleMinigameCoins();
         SaveMp2PlayerToMp2PlayerCopy();
         ComboSwitchGameToMp3();
     } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
         //save necessary data, swap to mp1
         PushMp2BoardState();
-        PushMp2MinigamesPlayedList();
-        mp2_StoreBattleMinigameCoins();
         SaveMp2PlayerToMp2PlayerCopy();
         ComboSwitchGameToMp1();
     }

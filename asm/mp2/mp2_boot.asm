@@ -1,6 +1,6 @@
 //mp2
 //rom 0x020D3300 ram pointer to 4p minigames
-.orga 0xD3300 + 0x02000000
+.orga 0xD3300 + MP2_ROM_OFFSET
 .word new4PMinigameListNormalMp2
 .word new1v3MinigameListNormalMp2
 .word new2v2MinigameListNormalMp2
@@ -53,29 +53,16 @@
 
 
 //when swapping to a game (mp2 in this instance) stuff would draw for a few frames when it shouldn't
-//this makes it so that the game is a black screen 12 frames longer on boot, fixing the problem
+//this makes it so that the game is a black screen 10 frames longer on boot, fixing the problem
+//TODO: decomp this function and implement it like mp3 does (specific overlays have 10 frames of black screen on boot. This fixes the issue in a better way than just always 10 frames of black)
 .org 0x8001CF74
     LW	V0, 0xFD14 (S4)
-    SLTI v1, v0, 0x000C
+    SLTI v1, v0, 0x000A
     BNEZ v1, 0x8001CFC8
 
 .org 0x80018AFC
     J rand8_Shared
      NOP
-
-//this fixes a crash with the camera. normally, this gets initialized to 1.0f on -
-//board load, but since we skip some of that, it's 0.0f and divides by zero, causing a crash
-//manually set it to 1.0f
-.org 0x800654C8
-    LUI at, 0x800E
-    JAL mp2_Unk_Camera_Function
-     LWC1 f12, 0x1F84 (at)
-
-//same thing again here
-.org 0x80066DA8
-    LUI at, 0x800E
-    JAL mp2_Unk_Camera_Function
-     LWC1 f12, 0x1F84 (at)
 
 //.org 0x80079128
     //J mp2_func_80079128_79D28_Hook
@@ -96,4 +83,22 @@
 
 .org 0x8006642C
     J newItemMinigameLoadCode
+    NOP
+
+//this fixes a crash with the camera. normally, this gets initialized to 1.0f on -
+//board load, but since we skip some of that, it's 0.0f and divides by zero, causing a crash
+//manually set it to 1.0f
+.org 0x800654C8
+    LUI at, 0x800E
+    JAL mp2_Unk_Camera_Function
+    LWC1 f12, 0x1F84 (at)
+
+//same thing again here
+.org 0x80066DA8
+    LUI at, 0x800E
+    JAL mp2_Unk_Camera_Function
+    LWC1 f12, 0x1F84 (at)
+
+.org 0x800775F0
+    J mp2_drawDebugASM
     NOP
