@@ -68,9 +68,10 @@
     J mp3_setForeignMinigameIndex
      NOP
 
-.org 0x8000EBEC
-    J func_8000EBEC_F7EC
-    NOP
+//fix pop in bug when loading minigames from boot
+// .org 0x8000EBEC
+//     J func_8000EBEC_F7EC
+//     NOP
 
 .org 0x80048710
     J mp3_drawDebugASM

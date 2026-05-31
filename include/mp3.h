@@ -7,7 +7,7 @@
 #include "mp3/malloc.h"
 
 //TODO: these need same naming scheme as block below
-#define OVL_RESULTS_SCENE 0x47
+#define boardcall 0x47
 #define OVL_GAME_END_SCENE 0x4F
 #define OVL_LAST_5_TURNS 0x51
 
@@ -126,7 +126,7 @@ typedef struct mp3_GW_PLAYER {
 /* 0x04 */ u8 stat;
 /* 0x05 */ char unk_05;
 /* 0x06 */ s16 gameCoin; //coins from bonus minigame
-/* 0x08 */ s16 bonusCoin;
+/* 0x08 */ s16 bonusCoin; //also includes placements in battle minigames
 /* 0x0A */ s16 coin;
 /* 0x0C */ s16 checkCoin;
 /* 0x0E */ s8 star;

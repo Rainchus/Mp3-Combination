@@ -53,7 +53,8 @@ extern Vec mp3_D_8010D45C_4E661C_name_70;
 extern Vec mp3_D_8010D48C_4E664C_name_70;
 
 void Mp3SwapGameIfNeeded(void) {
-    s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    //we use mp3_GwSystem.minigame_index here because ForeignMinigameIndexToLoad could be -1 at this point
+    s32 localOverlayID = ForeignMinigameIDToGame(mp3_GwSystem.minigame_index);
 
     //determine if we are loading a mp2 or mp1 minigame
     if (ForeignMinigameIndexToLoad >= BOWSER_SLOTS && ForeignMinigameIndexToLoad <= DEEP_SEA_SALVAGE) { //mp2
@@ -103,11 +104,12 @@ void mp3_MinigameEntryFunc(void) {
     //we are entering a minigame from another base game. Load playercopy from that game to mp3's GwPlayers
     if (CurBaseGame == MP1_BASE) {
         LoadMp1PlayerCopyToMp3();
+        mp3_HuPrcSleep(10); //sleep 10 frames so wipe inits (fixes pop in bugs on minigame loads from boot)
     } else if (CurBaseGame == MP2_BASE) {
         LoadMp2PlayerCopyToMp3();
+        mp3_HuPrcSleep(10); //sleep 10 frames so wipe inits (fixes pop in bugs on minigame loads from boot)
     }
 
-    //is mp3 minigame, load it
     mp3_D_8010D40A_4E65CA_name_70 = mp3_D_800A6D44_A7944[mp3_D_8010D40B_4E65CB_name_70].minigameType;
     
     if (mp3__CheckFlag(0xF) != 0) {
@@ -221,7 +223,12 @@ void func_801061EC_4DF3AC_inst(void) {
             }
             break;
         case 3:
-            mp3_omOvlHisChg(1, mgresultbattle, 0, 0x12);
+            if (CurBaseGame == MP3_BASE) {
+                mp3_omOvlHisChg(1, mgresultbattle, 0, 0x12); //original code; push battle results scene to history
+            } else {
+                mp3_omOvlHisChg(1, boot, 0, 0x12); //push boot logos overlay (has logic for returning to original game)
+            }
+            
             break;
         case 5:
         case 7:
@@ -253,43 +260,43 @@ extern u8 mp3_D_8010D40B_4E65CB_inst;
 extern s32 D_8010D4A4_4E6664_inst;
 u8 rand8_Shared(void);
 
-// void func_80107308_4E04C8_inst(void) {
-//     s32 useDefault;
-//     s32 instrIndex;
-//     u32 entry;
+void func_80107308_4E04C8_inst(void) {
+    s32 useDefault;
+    s32 instrIndex;
+    u32 entry;
 
-//     useDefault = 1;
-//     instrIndex = 0;
+    useDefault = 1;
+    instrIndex = 0;
 
-//     if (D_8010D407_4E65C7_inst == (COCONUT_CONK -1) &&
-//        (mp3_D_8010D40B_4E65CB_inst == (PICTURE_IMPERFECT -1) || mp3_D_8010D40B_4E65CB_inst == (CROWD_COVER -1))) {
-//         instrIndex = (D_800A6D46[mp3_D_8010D40B_4E65CB_inst].data & 0x7FF) + (D_800CE20A * 2);
-//         useDefault = 0;
-//     }
+    if (D_8010D407_4E65C7_inst == (COCONUT_CONK -1) &&
+       (mp3_D_8010D40B_4E65CB_inst == (PICTURE_IMPERFECT -1) || mp3_D_8010D40B_4E65CB_inst == (CROWD_COVER -1))) {
+        instrIndex = (D_800A6D46[mp3_D_8010D40B_4E65CB_inst].data & 0x7FF) + (D_800CE20A * 2);
+        useDefault = 0;
+    }
 
-//     if (useDefault == 1) {
-//         entry = D_800A6D46[mp3_D_8010D40B_4E65CB_inst].data;
-//         instrIndex = entry & 0x7FF;
+    if (useDefault == 1) {
+        entry = D_800A6D46[mp3_D_8010D40B_4E65CB_inst].data;
+        instrIndex = entry & 0x7FF;
 
-//         if (entry & 0x4000) {
-//             /* This page has character-specific variants (e.g. different text per character) */
-//             if (mp3_D_8010D40B_4E65CB_inst == 0x46) {
-//                 instrIndex += D_800CE20A * 2;
-//             } else {
-//                  /* Pick a random variant within the allowed count */
-//                 entry &= 0x3800; //? tf
-//                 entry >>= 11; //? tf
-//                 D_800CE20A = (rand8_Shared()) % entry;
-//                 instrIndex += D_800CE20A * 2;               
-//             }
-//         } else if (mp3_D_8010D40B_4E65CB_inst == 0x47) {
-//             D_800CE20A = 2;
-//         } else if (mp3_D_8010D40B_4E65CB_inst == 0x1E && mp3__CheckFlag(0x1C)) {
-//             D_800CE20A = 1;
-//         } else {
-//             D_800CE20A = 0;
-//         }
-//     }
+        if (entry & 0x4000) {
+            /* This page has character-specific variants (e.g. different text per character) */
+            if (mp3_D_8010D40B_4E65CB_inst == 0x46) {
+                instrIndex += D_800CE20A * 2;
+            } else {
+                 /* Pick a random variant within the allowed count */
+                entry &= 0x3800; //? tf
+                entry >>= 11; //? tf
+                D_800CE20A = (rand8_Shared()) % entry;
+                instrIndex += D_800CE20A * 2;               
+            }
+        } else if (mp3_D_8010D40B_4E65CB_inst == 0x47) {
+            D_800CE20A = 2;
+        } else if (mp3_D_8010D40B_4E65CB_inst == 0x1E && mp3__CheckFlag(0x1C)) {
+            D_800CE20A = 1;
+        } else {
+            D_800CE20A = 0;
+        }
+    }
 
-//     D_8010D4A4_4E6664_inst = instrIndex;
-// }
+    D_8010D4A4_4E6664_inst = instrIndex;
+}

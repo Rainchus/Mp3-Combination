@@ -161,6 +161,15 @@
 .definelabel mp2_omOvlGotoEx, 0x800771EC
 .definelabel mp2_D_800F8D18, 0x800f8d18
 .definelabel mp2_GwCommon, 0x800F8C60
+.definelabel mp2_D_800F8CD8, 0x800F8CD8
+
+.definelabel D_80105A58_40ED58_BattleResults, 0x80105A58
+.definelabel D_80105A68_40ED68_BattleResults, 0x80105A68
+.definelabel D_80105A6C_40ED6C_BattleResults, 0x80105A6C
+.definelabel D_800F9208_F9E08, 0x800F9208
+
+.definelabel mp2_D_800FD8A8_FE4A8, 0x800FD8A8
+.definelabel mp2_D_800FD420_FE020, 0x800FD420
 
 .definelabel mp2_D_801148F0_3D0050_name_60, 0x801148F0
 .definelabel mp2_D_801148F2_3D0052_name_60, 0x801148F2

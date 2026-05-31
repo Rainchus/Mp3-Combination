@@ -49,7 +49,8 @@ extern Vec3f mp1_CRot;
 extern Vec3f mp1_Center;
 
 void Mp1SwapGameIfNeeded(void) {
-    s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    //we use mp1_GwSystem.curMinigame here because ForeignMinigameIndexToLoad could be -1 at this point
+    s32 localOverlayID = ForeignMinigameIDToGame(mp1_GwSystem.curMinigame);
 
     //determine if we are loading a mp2 or mp3 minigame
     if (ForeignMinigameIndexToLoad >= BOWSER_SLOTS && ForeignMinigameIndexToLoad <= DEEP_SEA_SALVAGE) { //mp2

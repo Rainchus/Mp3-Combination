@@ -20,7 +20,8 @@ void newfunc_80067E6C_68A6C(s16 minigameIndex) {
 
 
 void Mp2SwapGameIfNeeded(void) {
-    s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
+    //we use mp2_GwSystem.chosenMinigameIndex here because ForeignMinigameIndexToLoad could be -1 at this point
+    s32 localOverlayID = ForeignMinigameIDToGame(mp2_GwSystem.chosenMinigameIndex);
 
     //determine if we are loading a mp3 or mp1 minigame
     if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp3

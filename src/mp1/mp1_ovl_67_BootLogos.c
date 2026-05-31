@@ -81,6 +81,7 @@ void mp1_BootLogosSetup(void) {
     if ((mp1_D_800F6AF0_LogosSequence != 0) && (mp1_D_800C572F == 0)) {
         mp1_omAddObj(0xA, 0, 0, -1, func_800F67E0_LogosSequence);
     }
+    mp1_HuPrcSleep(10); //sleep 10 frames so wipe inits (fixes pop in bugs on minigame loads from boot)
 }
 
 void mp1_LoadIntoResultsScene(void) {

@@ -97,17 +97,27 @@ void mp2_LoadIntoResultsScene(void) {
     //if game should end, make overlay results scene returns to the ending game scene
     //otherwise, go to board
     if (mp2_GwSystem.current_turn > mp2_GwSystem.total_turns) {
-        //mp2_omovlhis[3].overlayID
-        mp2_D_800E1F50_E2B50 = 0; //required for credits to correctly go back to game select
         mp2_omovlhisidx = 3;
-        mp2_omOvlHisChg(1, 0x3D, 0x0001, 0x192);
+        mp2_D_800E1F50_E2B50 = 0; //required for credits to correctly go back to game select
+        mp2_omovlhisidx++;
+        mp2_omOvlHisChg(0, 0x3D, 0x0001, 0x192);
+        mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
+    } else if (mp2_GwSystem.current_turn + 4 == mp2_GwSystem.total_turns) {
+        mp2_D_800E1F50_E2B50 = 1; //required for credits to correctly go back to game select
+        mp2_omovlhisidx = 3;
+        mp2_omovlhisidx++; //add 1 to push last 5 turns event to ovl history
+        mp2_omOvlHisChg(0, 0x40, 0, 0x192); //last 5 turns event
+        mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
+        return;
     } else { //set overlay ID for board
         mp2_D_800E1F50_E2B50 = 1; //required for credits to correctly go back to game select
         mp2_omovlhisidx = 3;
-        mp2_omOvlHisChg(1, mp2_boardOverlays[mp2_GwSystem.current_board_index], 0x0001, 0x192);
+        //mp2_omOvlHisChg(1, mp2_boardOverlays[mp2_GwSystem.current_board_index], 0x0001, 0x192);
     }
 
     if (mp2_BattleMinigameCoins != 0) {
+        //func_8010299C_40BC9C_BattleResults(mp2_GwPlayerCopy[0].checkCoin, mp2_GwPlayerCopy[1].checkCoin, mp2_GwPlayerCopy[2].checkCoin, mp2_GwPlayerCopy[3].checkCoin);
+        //mp2_GwPlayerCopy[0].checkCoin = mp2_GwPlayerCopy[1].checkCoin = mp2_GwPlayerCopy[2].checkCoin = mp2_GwPlayerCopy[3].checkCoin = 0;
         mp2_omOvlCallEx(0x6F, 0x0000, 0x14); //load battle results scene
     } else {
         mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
@@ -140,11 +150,13 @@ void mp2_BootLogosSetup(void) {
         mp2_omAddObj(1000, 0, 0, -1, mp2_func_80102950_36DAF0_BootLogos);
         mp2_omAddObj(10, 0, 0, -1, mp2_func_80102A6C_36DC0C_BootLogos);
     }
+    mp2_HuPrcSleep(10); //sleep 10 frames so wipe inits (fixes pop in bugs on minigame loads from boot)
 }
 
 void mp2_BootLogosEntryFunc(void) {
     mp2_crash_screen_init();
     mp2_LoadMinigameList();
+    mp2_func_80068410_69010(); //set pad data so title screen functions correctly after game swaps
 
     if (CurBaseGame == MP3_BASE) {
         mp2_GwSystem.minigameExplanations = GetMp3ExplanationSetting();
@@ -185,6 +197,7 @@ void mp2_BootLogosEntryFunc(void) {
 void mp2_BootLogosEntryFunc2(void) {
     mp2_crash_screen_init();
     mp2_LoadMinigameList();
+    mp2_func_80068410_69010(); //set pad data so title screen functions correctly after game swaps
 
     if (CurBaseGame == MP3_BASE) {
         mp2_GwSystem.minigameExplanations = GetMp3ExplanationSetting();

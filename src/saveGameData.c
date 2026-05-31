@@ -163,9 +163,9 @@ void SaveMp3PlayerToMp2PlayerCopy(void) {
         mp2_GwPlayerCopy[i].pad = mp3_GwPlayer[i].pad;
         mp2_GwPlayerCopy[i].stat = mp3_GwPlayer[i].stat;
         mp2_GwPlayerCopy[i].chr = mp3_GwPlayer[i].chr;
-        mp2_GwPlayerCopy[i].checkCoin = mp3_GwPlayer[i].checkCoin; //TODO: are we sure about these 3 lines
-        mp2_GwPlayerCopy[i].checkCoin += mp3_GwPlayer[i].bonusCoin;
-        mp2_GwPlayerCopy[i].checkCoin += mp3_GwPlayer[i].gameCoin;
+        mp2_GwPlayerCopy[i].bonusCoin = mp3_GwPlayer[i].checkCoin; //TODO: are we sure about these 3 lines
+        mp2_GwPlayerCopy[i].bonusCoin += mp3_GwPlayer[i].bonusCoin;
+        mp2_GwPlayerCopy[i].bonusCoin += mp3_GwPlayer[i].gameCoin;
     }
 }
 
@@ -227,9 +227,6 @@ void SaveMp1PlayerToMp3PlayerCopy(void) {
 
 extern u8 mp3_D_800B23B0;
 extern u8 mp3_D_800B23B1;
-extern u8 mp3_D_800D030A;
-extern u8 mp3_D_800D0308; //mp3 story progress byte
-extern u8 mp3_D_800D0309;
 
 s16 mp3_hidden_block_item_space_copy = 0;
 s16 mp3_hidden_block_coins_space_copy = 0;
@@ -264,13 +261,40 @@ typedef struct MP1_BoardBackupData {
     MP1_GW_SYSTEM mp1_GwSystemCopy;
 } MP1_BoardBackupData;
 
+typedef struct Data {
+    char unk_00[0x12];
+} Data;
+
+extern Data mp2_D_800FD8A8_FE4A8;
+extern Data mp2_D_800FD420_FE020;
+extern u8 mp2_D_800F8CD8[8]; //flags
+
+
+typedef struct mp3_GW_STORY {
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ u8 unk1;
+    /* 0x02 */ u8 unk2;
+    /* 0x03 */ u8 unk3[12];
+    /* 0x0F */ u8 unkF;
+    /* 0x10 */ u8 unk10[6][12];
+    /* 0x58 */ u8 unk58[6];
+    /* 0x5E */ u8 unk5E[6];
+    /* 0x64 */ char unk_64[0x10];
+} mp3_GW_STORY; /* size = 0x74 */
+
+extern mp3_GW_STORY mp3_GwStory;
+
 typedef struct MP2_BoardBackupData {
     UnkData_E0290 D_800DF690_E0290_Backup;
     mp2_GW_SYSTEM mp2_GwSystemCopy;
+    mp2_GW_COMMON mp2_GwCommonCopy;
     Unk800DF6B6 D_800DF6B6_E02B6_backup;
     s16 mp2_battleMinigameCoinsCopy;
     u16 mp2_BankCoinsCopy;
     MP2_HiddenBlocks mp2_HiddenBlocks;
+    Data D_800FD8A8_FE4A8Copy;
+    Data D_800FD420_FE020Copy;
+    u8 mp2_D_800F8CD8Copy[8]; //flags
 } MP2_BoardBackupData;
 
 typedef struct MP3_BoardBackupData {
@@ -279,14 +303,12 @@ typedef struct MP3_BoardBackupData {
     Unk800CC3DC D_800CC3DC_CCFDC_backup;
     u8 mp3_ModeCopy;
     u8 mp3_ModeCopy2;
-    u8 mp3_StoryDifficultyCopy;
-    u8 mp3_StoryProgressCopy;
-    u8 mp3_StorychrIDCopy;
     s16 mp3_battleMinigameCoinsCopy;
     MP3_HiddenBlocks mp3_HiddenBlocks;
     s16 mp3_hidden_block_item_space_index_old_copy[PREV_SPACE_INDEXES_COUNT];
     s16 mp3_hidden_block_coin_space_index_old_copy[PREV_SPACE_INDEXES_COUNT];
     s16 mp3_hidden_block_star_space_index_old_copy[PREV_SPACE_INDEXES_COUNT];
+    mp3_GW_STORY mp3_GwStoryCopy;
 } MP3_BoardBackupData;
 
 MP1_BoardBackupData mp1_storedData = {0};
@@ -327,14 +349,13 @@ void PushMp3BoardState(void) {
     mp3_storedData.D_800CC3DC_CCFDC_backup = mp3_D_800CC3DC_CCFDC;
     mp3_storedData.mp3_ModeCopy = mp3_D_800B23B0;
     mp3_storedData.mp3_ModeCopy2 = mp3_D_800B23B1;
-    mp3_storedData.mp3_StoryDifficultyCopy = mp3_D_800D030A;
-    mp3_storedData.mp3_StoryProgressCopy = mp3_D_800D0308;
-    mp3_storedData.mp3_StorychrIDCopy = mp3_D_800D0309;
     mp3_storedData.mp3_battleMinigameCoinsCopy = mp3_BattleMinigameCoins;
 
     mp3_storedData.mp3_HiddenBlocks.hidden_item_block_copy = mp3_hidden_block_item_space_index;
     mp3_storedData.mp3_HiddenBlocks.hidden_coin_block_copy = mp3_hidden_block_coins_space_index;
     mp3_storedData.mp3_HiddenBlocks.hidden_star_block_copy = mp3_hidden_block_star_space_index;
+
+    mp3_storedData.mp3_GwStoryCopy = mp3_GwStory;
 
     //store previous hidden block placements list
     for (int i = 0; i < PREV_SPACE_INDEXES_COUNT; i++) {
@@ -351,14 +372,13 @@ void PopMp3BoardState(void) {
     mp3_D_800CC3DC_CCFDC = mp3_storedData.D_800CC3DC_CCFDC_backup;
     mp3_D_800B23B0 = mp3_storedData.mp3_ModeCopy;
     mp3_D_800B23B1 = mp3_storedData.mp3_ModeCopy2;
-    mp3_D_800D030A = mp3_storedData.mp3_StoryDifficultyCopy;
-    mp3_D_800D0308 = mp3_storedData.mp3_StoryProgressCopy;
-    mp3_D_800D0309 = mp3_storedData.mp3_StorychrIDCopy;
     mp3_BattleMinigameCoins = mp3_storedData.mp3_battleMinigameCoinsCopy;
 
     mp3_hidden_block_item_space_index = mp3_storedData.mp3_HiddenBlocks.hidden_item_block_copy;
     mp3_hidden_block_coins_space_index = mp3_storedData.mp3_HiddenBlocks.hidden_coin_block_copy;
     mp3_hidden_block_star_space_index = mp3_storedData.mp3_HiddenBlocks.hidden_star_block_copy;
+
+    mp3_GwStory = mp3_storedData.mp3_GwStoryCopy;
 
     //restore previous hidden block placements list
     for (int i = 0; i < PREV_SPACE_INDEXES_COUNT; i++) {
@@ -366,27 +386,40 @@ void PopMp3BoardState(void) {
         mp3_hidden_block_star_space_index_old[i] = mp3_storedData.mp3_hidden_block_star_space_index_old_copy[i];
         mp3_hidden_block_coin_space_index_old[i] = mp3_storedData.mp3_hidden_block_coin_space_index_old_copy[i];
     }
+
 }
 
 //TODO: make proper struct to store all of the mp2 needed data
 extern u16 mp2_BankCoins;
 
-//unsure how much of this is actually relevant
-#define MP2_BOARD_DATA_SIZE 0x20
-#define MP2_PREV_MINIGAMES_PLAYED_SIZE 0x1E //TODO:make sure this works
+//func_80067D90_68990 clears these along with GwCommon on board start
+    // bzero(D_800FD8A8_FE4A8, 0x12);
+    // bzero(D_800FD420_FE020, 0x12);
+    // store them too
 
 void PushMp2BoardState(void) {
     mp2_storedData.D_800DF690_E0290_Backup = D_800DF690_E0290;
     mp2_storedData.mp2_GwSystemCopy = mp2_GwSystem;
+    mp2_storedData.mp2_GwCommonCopy = mp2_GwCommon;
     mp2_storedData.D_800DF6B6_E02B6_backup = D_800DF6B6_E02B6;
     mp2_storedData.mp2_battleMinigameCoinsCopy = mp2_BattleMinigameCoins;
     mp2_storedData.mp2_BankCoinsCopy = mp2_BankCoins;
+    mp2_storedData.D_800FD8A8_FE4A8Copy = mp2_D_800FD8A8_FE4A8;
+    mp2_storedData.D_800FD420_FE020Copy = mp2_D_800FD420_FE020;
+
+    //store previous hidden block placements list
+    for (int i = 0; i < ARRAY_COUNT(mp2_D_800F8CD8); i++) {
+        mp2_storedData.mp2_D_800F8CD8Copy[i] = mp2_D_800F8CD8[i];
+    }
 }
 
 void PopMp2BoardState(void) {
     D_800DF690_E0290 = mp2_storedData.D_800DF690_E0290_Backup;
     mp2_GwSystem = mp2_storedData.mp2_GwSystemCopy;
+    mp2_GwCommon = mp2_storedData.mp2_GwCommonCopy;
     D_800DF6B6_E02B6 = mp2_storedData.D_800DF6B6_E02B6_backup;
     mp2_BattleMinigameCoins = mp2_storedData.mp2_battleMinigameCoinsCopy;
     mp2_BankCoins = mp2_storedData.mp2_BankCoinsCopy;
+    mp2_D_800FD8A8_FE4A8 = mp2_storedData.D_800FD8A8_FE4A8Copy;
+    mp2_D_800FD420_FE020 = mp2_storedData.D_800FD420_FE020Copy;
 }

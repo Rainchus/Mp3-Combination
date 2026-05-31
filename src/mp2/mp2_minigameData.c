@@ -14,8 +14,8 @@ void mp2_UnkCamThing(f32);
 u8 new4PMinigameListNormalMp2[MP2_4P_MINIGAME_MAX] = {0};
 u8 new1v3MinigameListNormalMp2[MP2_1V3_MINIGAME_MAX] = {0};
 u8 new2v2MinigameListNormalMp2[MP2_2V2_MINIGAME_MAX] = {0};
-u8 newBattleMinigameListNormalMp2[MP2_BATTLE_MINIGAME_MAX] = {0};
 u8 newItemMinigameListNormalMp2[MP2_ITEM_MINIGAME_MAX] = {0};
+u8 newBattleMinigameListNormalMp2[MP2_BATTLE_MINIGAME_MAX] = {0};
 u8 newDuelMinigameListNormalMp2[MP2_DUEL_MINIGAME_MAX] = {0};
 u8 newCategoryAmountsNormalMp2[MP2_TOTAL_CATEGORIES] = {0};
 
@@ -23,8 +23,8 @@ u8* mp2_minigameLists[] = {
     new4PMinigameListNormalMp2,
     new1v3MinigameListNormalMp2,
     new2v2MinigameListNormalMp2,
-    newBattleMinigameListNormalMp2,
     newItemMinigameListNormalMp2,
+    newBattleMinigameListNormalMp2,
     newDuelMinigameListNormalMp2,
     newCategoryAmountsNormalMp2,
 };
@@ -65,12 +65,12 @@ void mp2_ClearMinigameList(void) {
         new2v2MinigameListNormalMp2[i] = 0;
     }
 
-    for (i = 0; i < MP2_BATTLE_MINIGAME_MAX; i++) {
-        newBattleMinigameListNormalMp2[i] = 0;
-    }
-
     for (i = 0; i < MP2_ITEM_MINIGAME_MAX; i++) {
         newItemMinigameListNormalMp2[i] = 0;
+    }
+
+    for (i = 0; i < MP2_BATTLE_MINIGAME_MAX; i++) {
+        newBattleMinigameListNormalMp2[i] = 0;
     }
 
     for (i = 0; i < MP2_DUEL_MINIGAME_MAX; i++) {

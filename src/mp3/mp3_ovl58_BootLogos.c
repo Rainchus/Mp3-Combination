@@ -25,13 +25,6 @@ s32 D_80105F04_3D76B4_name_58 = 0;
 extern s8 mp3_D_800D6A58_D7658;
 extern s16 mp3_omovlevtno;
 
-static omOvlHisData LoadIntoResultsSceneHis[] = {
-    0x0000007A, 0x0002, 0x0092,
-    0x0000007A, 0x0002, 0x0092,
-    0x00000077, 0x0000, 0x0091,
-    OVL_RESULTS_SCENE, 0x0001, 0x0192, 
-};
-
 //overlay table for function to run (loads function index 0 on boot, 1 otherwise)
 OvlEntrypoint mp3BootLogosOvlEntry[] = {
     {0, mp3_BootLogosEntryFunc},
@@ -44,20 +37,20 @@ void mp3BootLogoMain(void) {
     mp3_ovlEventCall(mp3BootLogosOvlEntry, mp3_omovlevtno);
 }
 
+omOvlHisData baseOverlays[] = {
+    {0x7A, 0x0002, 0x0092},
+    {0x7A, 0x0002, 0x0092},
+    {0x77, 0x0000, 0x0091},
+    {boardcall, 0x0001, 0x0192},
+};
+
 void mp3_LoadMinigameFromBoot(void) {
     s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
 
     mp3_GwSystem.minigame_index = localOverlayID;
 
-    omOvlHisData ovlHisMinigameExplanation[] = {
-        {0x7A, 0x0002, 0x0092},
-        {0x7A, 0x0002, 0x0092},
-        {0x77, 0x0000, 0x0091},
-        {OVL_RESULTS_SCENE, 0x0001, 0x0192},
-    };
-
-    for (int i = 0; i < ARRAY_COUNT(ovlHisMinigameExplanation); i++) {
-        mp3_omovlhis[i] = ovlHisMinigameExplanation[i];
+    for (int i = 0; i < ARRAY_COUNT(baseOverlays); i++) {
+        mp3_omovlhis[i] = baseOverlays[i];
     }
 
     mp3_omovlhisidx = 3;
@@ -71,8 +64,8 @@ void mp3_LoadIntoResultsScene(void) {
         mp3_BattleMinigameCoins = GetMp3BattleMinigameCoins();
     }
 
-    for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
-        mp3_omovlhis[i] = LoadIntoResultsSceneHis[i];
+    for (int i = 0; i < ARRAY_COUNT(baseOverlays); i++) {
+        mp3_omovlhis[i] = baseOverlays[i];
     }
 
     PopMp3BoardState();
@@ -80,41 +73,20 @@ void mp3_LoadIntoResultsScene(void) {
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
 
     if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns && mp3_BattleMinigameCoins == 0) {
-        //set up credits scene
-        omOvlHisData CreditsSceneOvlHis[] = {
-            {0x7A, 0x0002, 0x0092},
-            {0x7A, 0x0002, 0x0092},
-            {0x77, 0x0000, 0x0091},
-            {OVL_RESULTS_SCENE, 0x0001, 0x0192}, //board call; loads into board correctly?
-        };
-
-        for (int i = 0; i < ARRAY_COUNT(CreditsSceneOvlHis); i++) {
-            mp3_omovlhis[i] = CreditsSceneOvlHis[i];
-        }
         mp3_omovlhisidx = 3;
         mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
-        mp3_omOvlHisChg(1, 0x4F, 0, 0x4190); //put credits in history
+        mp3_omovlhisidx++; //increment to put end game scene in ovl history
+        mp3_omOvlHisChg(0, 0x4F, 0, 0x4190); //put end agme scene in history
         mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
         return;
     } else if (mp3_GwSystem.current_turn + 4 == mp3_GwSystem.total_turns) {
-        //set up last 5 turns
-        omOvlHisData last5Turns[] = {
-            {0x7A, 0x0002, 0x0092},
-            {0x7A, 0x0002, 0x0092},
-            {0x77, 0x0000, 0x0091},
-            {OVL_RESULTS_SCENE, 0x0001, 0x0192}, //board call; loads into board correctly?
-        };
-        //set last 5 turns event
-        for (int i = 0; i < ARRAY_COUNT(last5Turns); i++) {
-            mp3_omovlhis[i] = last5Turns[i];
-        }
         mp3_omovlhisidx = 3;
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
-        mp3_omOvlHisChg(1, OVL_LAST_5_TURNS, 2, 0x192); //put last 5 turns in history
+        mp3_omovlhisidx++; //increment to put end game scene in ovl history
+        mp3_omOvlHisChg(0, OVL_LAST_5_TURNS, 2, 0x192); //put last 5 turns in history
         mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
         return;        
     } else { //else normal board load
-        mp3_omovlhis[3].overlayID = OVL_RESULTS_SCENE;
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
         mp3_omovlhisidx = 3;
     }
@@ -156,6 +128,7 @@ void mp3_BootLogosSetup(void) {
         mp3_omAddObj(0x3E8, 0, 0, -1, func_80105AF0_3D72A0_name_58);
         mp3_omAddObj(0xA, 0, 0, -1, func_80105C14_3D73C4_name_58);
     }
+    mp3_HuPrcSleep(10); //sleep 10 frames so wipe inits (fixes pop in bugs on minigame loads from boot)
 }
 
 u8 GetMp1ExplanationSetting(void);
