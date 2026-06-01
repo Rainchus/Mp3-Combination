@@ -77,6 +77,9 @@
     J mp3_drawDebugASM
     NOP
 
+//default text speed to fast instead of normal
+.org 0x800A12C0
+    .word 5, 5
 /*
 .org 0x8005FBF8
     J checkSetWindowRGBArgs
