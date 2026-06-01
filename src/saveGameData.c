@@ -228,13 +228,6 @@ void SaveMp1PlayerToMp3PlayerCopy(void) {
 extern u8 mp3_D_800B23B0;
 extern u8 mp3_D_800B23B1;
 
-s16 mp3_hidden_block_item_space_copy = 0;
-s16 mp3_hidden_block_coins_space_copy = 0;
-s16 mp3_hidden_block_star_space_copy = 0;
-
-s16 mp2_hidden_block_coins_space_index_copy = 0;
-s16 mp2_hidden_block_star_space_index_copy = 0;
-
 extern s16 mp3_hidden_block_item_space_index; //hidden_block_item_space
 extern s16 mp3_hidden_block_coins_space_index; //hidden_block_coins_space
 extern s16 mp3_hidden_block_star_space_index; //hidden_block_star_space
@@ -246,7 +239,6 @@ extern s16 mp3_hidden_block_star_space_index_old[10];
 #define PREV_SPACE_INDEXES_COUNT 10
 
 typedef struct MP2_HiddenBlocks {
-    s16 hidden_item_block_copy;
     s16 hidden_coin_block_copy;
     s16 hidden_star_block_copy;
 } MP2_HiddenBlocks;
@@ -295,6 +287,9 @@ typedef struct MP2_BoardBackupData {
     Data D_800FD8A8_FE4A8Copy;
     Data D_800FD420_FE020Copy;
     u8 mp2_D_800F8CD8Copy[8]; //flags
+    s16 mp2_hidden_block_item_space_index_old_copy[PREV_SPACE_INDEXES_COUNT];
+    s16 mp2_hidden_block_coin_space_index_old_copy[PREV_SPACE_INDEXES_COUNT];
+    s16 mp2_hidden_block_star_space_index_old_copy[PREV_SPACE_INDEXES_COUNT];
 } MP2_BoardBackupData;
 
 typedef struct MP3_BoardBackupData {
@@ -397,6 +392,11 @@ extern u16 mp2_BankCoins;
     // bzero(D_800FD420_FE020, 0x12);
     // store them too
 
+extern s16 mp2_coinBlockSpaceIndex;
+extern s16 mp2_starBlockSpaceIndex;
+extern s16 mp2_prevCoinBlockSpaceIndexes[10];
+extern s16 mp2_prevStarBlockSpaceIndexes[10];
+
 void PushMp2BoardState(void) {
     mp2_storedData.D_800DF690_E0290_Backup = D_800DF690_E0290;
     mp2_storedData.mp2_GwSystemCopy = mp2_GwSystem;
@@ -407,9 +407,14 @@ void PushMp2BoardState(void) {
     mp2_storedData.D_800FD8A8_FE4A8Copy = mp2_D_800FD8A8_FE4A8;
     mp2_storedData.D_800FD420_FE020Copy = mp2_D_800FD420_FE020;
 
+    mp2_storedData.mp2_HiddenBlocks.hidden_coin_block_copy = mp2_coinBlockSpaceIndex;
+    mp2_storedData.mp2_HiddenBlocks.hidden_star_block_copy = mp2_starBlockSpaceIndex;
+
     //store previous hidden block placements list
     for (int i = 0; i < ARRAY_COUNT(mp2_D_800F8CD8); i++) {
-        mp2_storedData.mp2_D_800F8CD8Copy[i] = mp2_D_800F8CD8[i];
+        // mp2_storedData.mp2_D_800F8CD8Copy[i] = mp2_D_800F8CD8[i];
+        mp2_storedData.mp2_hidden_block_star_space_index_old_copy[i] = mp2_prevStarBlockSpaceIndexes[i];
+        mp2_storedData.mp2_hidden_block_coin_space_index_old_copy[i] = mp2_prevCoinBlockSpaceIndexes[i];
     }
 }
 
@@ -422,4 +427,12 @@ void PopMp2BoardState(void) {
     mp2_BankCoins = mp2_storedData.mp2_BankCoinsCopy;
     mp2_D_800FD8A8_FE4A8 = mp2_storedData.D_800FD8A8_FE4A8Copy;
     mp2_D_800FD420_FE020 = mp2_storedData.D_800FD420_FE020Copy;
+
+    //pop previous hidden block placements list
+    for (int i = 0; i < ARRAY_COUNT(mp2_D_800F8CD8); i++) {
+        // mp2_D_800F8CD8[i] = mp2_storedData.mp2_D_800F8CD8Copy[i];
+        mp2_prevStarBlockSpaceIndexes[i] = mp2_storedData.mp2_hidden_block_star_space_index_old_copy[i];
+        mp2_prevCoinBlockSpaceIndexes[i] = mp2_storedData.mp2_hidden_block_coin_space_index_old_copy[i];
+    }
+
 }

@@ -36,6 +36,11 @@
 .definelabel mp2_D_80107848_413CA8_Results, 0x80107848;
 .definelabel mp2_D_80107860_413CC0_Results, 0x80107860;
 
+.definelabel mp2_coinBlockSpaceIndex, 0x800FA608;
+.definelabel mp2_starBlockSpaceIndex, 0x800FD418;
+.definelabel mp2_prevCoinBlockSpaceIndexes, 0x800E1FB8;
+.definelabel mp2_prevStarBlockSpaceIndexes, 0x800E1FD0;
+
 .definelabel mp2_hidden_block_coins_space_index, 0x800FA608
 .definelabel mp2_hidden_block_star_space_index, 0x800FD418
 .definelabel mp2_GwSystem, 0x800F93A8
