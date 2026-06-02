@@ -428,6 +428,9 @@ void PopMp2BoardState(void) {
     mp2_D_800FD8A8_FE4A8 = mp2_storedData.D_800FD8A8_FE4A8Copy;
     mp2_D_800FD420_FE020 = mp2_storedData.D_800FD420_FE020Copy;
 
+    mp2_coinBlockSpaceIndex = mp2_storedData.mp2_HiddenBlocks.hidden_coin_block_copy;
+    mp2_starBlockSpaceIndex = mp2_storedData.mp2_HiddenBlocks.hidden_star_block_copy;
+
     //pop previous hidden block placements list
     for (int i = 0; i < ARRAY_COUNT(mp2_D_800F8CD8); i++) {
         // mp2_D_800F8CD8[i] = mp2_storedData.mp2_D_800F8CD8Copy[i];
