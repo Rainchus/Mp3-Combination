@@ -62,12 +62,16 @@ void Mp3SwapGameIfNeeded(void) {
         PushMp3BoardState();
         SaveMp3PlayerToMp3PlayerCopy();
         ComboSwitchGameToMp2();
-    } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
+    }
+    #ifdef MP1
+    else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
         //save necessary data, swap to mp1
         PushMp3BoardState();
         SaveMp3PlayerToMp3PlayerCopy();
         ComboSwitchGameToMp1();
-    } else {
+    }
+    #endif
+    else {
         //is mp3 minigame
         mp3_GwSystem.minigame_index = localOverlayID;
         mp3_D_8010D40B_4E65CB_name_70 = mp3_GwSystem.minigame_index - 1;

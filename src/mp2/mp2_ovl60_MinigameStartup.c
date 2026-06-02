@@ -29,12 +29,15 @@ void Mp2SwapGameIfNeeded(void) {
         PushMp2BoardState();
         SaveMp2PlayerToMp2PlayerCopy();
         ComboSwitchGameToMp3();
-    } else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
+    }
+    #ifdef MP1
+    else if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
         //save necessary data, swap to mp1
         PushMp2BoardState();
         SaveMp2PlayerToMp2PlayerCopy();
         ComboSwitchGameToMp1();
     }
+    #endif
     //is mp2 minigame, load it
     mp2_GwSystem.chosenMinigameIndex = localOverlayID;
     ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;

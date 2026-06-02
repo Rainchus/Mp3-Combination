@@ -35,7 +35,7 @@ u8 mp2_boardOverlays[] = {
     0x49, //koopa land
 };
 
-static omOvlHisData LoadIntoResultsSceneHis[] = {
+static omOvlHisData mp2_baseOverlays[] = {
     0x00000062, 0x0000, 0x0192,
     0x00000062, 0x0000, 0x0192,
     0x0000005B, 0x0000, 0x1014,
@@ -87,8 +87,8 @@ void mp2_LoadIntoResultsScene(void) {
         mp2_BattleMinigameCoins = GetMp2BattleMinigameCoins();
     }
 
-    for (int i = 0; i < ARRAY_COUNT(LoadIntoResultsSceneHis); i++) {
-        mp2_omovlhis[i] = LoadIntoResultsSceneHis[i];
+    for (int i = 0; i < ARRAY_COUNT(mp2_baseOverlays); i++) {
+        mp2_omovlhis[i] = mp2_baseOverlays[i];
     }
 
     PopMp2BoardState();
@@ -98,26 +98,24 @@ void mp2_LoadIntoResultsScene(void) {
     //otherwise, go to board
     if (mp2_GwSystem.current_turn > mp2_GwSystem.total_turns) {
         mp2_omovlhisidx = 3;
-        mp2_D_800E1F50_E2B50 = 0; //required for credits to correctly go back to game select
+        mp2_D_800E1F50_E2B50 = 0; //related to overlay loading; needs to be 0 for end game
         mp2_omovlhisidx++;
-        mp2_omOvlHisChg(0, 0x3D, 0x0001, 0x192);
+        mp2_omOvlHisChg(0, 0x52, 0x0000, 0x192);
         mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
+        return;
     } else if (mp2_GwSystem.current_turn + 4 == mp2_GwSystem.total_turns) {
-        mp2_D_800E1F50_E2B50 = 1; //required for credits to correctly go back to game select
+        mp2_D_800E1F50_E2B50 = 1;  //related to overlay loading; needs to be 1 if not going into end game (where winner is decided)
         mp2_omovlhisidx = 3;
         mp2_omovlhisidx++; //add 1 to push last 5 turns event to ovl history
         mp2_omOvlHisChg(0, 0x40, 0, 0x192); //last 5 turns event
         mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
         return;
     } else { //set overlay ID for board
-        mp2_D_800E1F50_E2B50 = 1; //required for credits to correctly go back to game select
+        mp2_D_800E1F50_E2B50 = 1; //related to overlay loading; needs to be 1 if not going into end game (where winner is decided)
         mp2_omovlhisidx = 3;
-        //mp2_omOvlHisChg(1, mp2_boardOverlays[mp2_GwSystem.current_board_index], 0x0001, 0x192);
     }
 
     if (mp2_BattleMinigameCoins != 0) {
-        //func_8010299C_40BC9C_BattleResults(mp2_GwPlayerCopy[0].checkCoin, mp2_GwPlayerCopy[1].checkCoin, mp2_GwPlayerCopy[2].checkCoin, mp2_GwPlayerCopy[3].checkCoin);
-        //mp2_GwPlayerCopy[0].checkCoin = mp2_GwPlayerCopy[1].checkCoin = mp2_GwPlayerCopy[2].checkCoin = mp2_GwPlayerCopy[3].checkCoin = 0;
         mp2_omOvlCallEx(0x6F, 0x0000, 0x14); //load battle results scene
     } else {
         mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay

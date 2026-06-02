@@ -155,6 +155,12 @@ void mp3_LoadMinigameList(void) {
 
         //else, minigame is active
         u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
+        #ifndef MP1
+        if (curMinigameData->gameIndex == MP1_BASE) {
+            minigameActiveFlag = 0;
+        }
+        #endif
+
         if (minigameActiveFlag == 0) {
             continue;
         }

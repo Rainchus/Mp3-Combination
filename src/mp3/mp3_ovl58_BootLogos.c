@@ -72,11 +72,11 @@ void mp3_LoadIntoResultsScene(void) {
     SaveMp3PlayerCopyToMp3Player();
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
 
-    if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns && mp3_BattleMinigameCoins == 0) {
+    if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns) {
         mp3_omovlhisidx = 3;
         mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
         mp3_omovlhisidx++; //increment to put end game scene in ovl history
-        mp3_omOvlHisChg(0, 0x4F, 0, 0x4190); //put end agme scene in history
+        mp3_omOvlHisChg(0, 0x4F, 0, 0x4190); //put end game scene in history
         mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
         return;
     } else if (mp3_GwSystem.current_turn + 4 == mp3_GwSystem.total_turns) {

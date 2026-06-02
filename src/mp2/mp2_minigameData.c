@@ -112,7 +112,15 @@ void mp2_LoadMinigameList(void) {
         //else, minigame is active
         //TODO: reimplement the save file storing the minigames you chose
         //u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
-        u8 minigameActiveFlag = 1;
+
+        //else, minigame is active
+        u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
+        #ifndef MP1
+        if (curMinigameData->gameIndex == MP1_BASE) {
+            minigameActiveFlag = 0;
+        }
+        #endif
+
         if (minigameActiveFlag == 0) {
             continue;
         }
