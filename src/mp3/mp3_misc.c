@@ -230,7 +230,7 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     //i wanted to make this a choice textbox, but that's tricky
     //for now, it will say loading mario party 2 and then sleep for 1 second and load
 
-    char newMessage[] = {"\x0B""Loading Mario Party 2""\xFF"};
+    char newMessage[] = {"\x0B""Loading Mario Party 1""\xFF"};
     // char newMessage[] = {"\x0B""Huh""\xC3"" Do you want to swap to Mario Party 2""\xC3""\xFF"};
     // char newMessage[] = {"\x0B""Huh" "\xC3" " Do you want to swap to\nMario Party 2" "\xC3" "\x0C Yes\x0D   \x0C No\x0D"};
     u32 temp_v0; //pointer to message
@@ -239,9 +239,9 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     if (messageID == 0x3125) {
         mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, newMessage, -1, -1);
         ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INDEX_BOOT_VAL;
-        CurBaseGame = MP2_BASE;
+        CurBaseGame = MP1_BASE;
         mp3_HuPrcSleep(30);
-        ComboSwitchGameToMp2();
+        ComboSwitchGameToMp1();
         return;
     }
 
