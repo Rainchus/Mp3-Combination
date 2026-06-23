@@ -13,6 +13,7 @@ void SaveMp2PlayerCopyToMp2Player(void);
 void SaveMp2PlayerToMp1PlayerCopy(void);
 void SaveMp2PlayerToMp3PlayerCopy(void);
 void mp2_crash_screen_init(void);
+void SetMp2PlayerIndexToZero(void);
 
 //TODO: should be in a header file
 u8 GetMp3ExplanationSetting(void);
@@ -65,16 +66,9 @@ void mp2_LoadMinigameFromBoot(void) {
     }
 
     mp2_GwSystem.chosenMinigameIndex = localOverlayID;
-    
-    omOvlHisData ovlHisMinigameExplanation[] = {
-        0x00000062, 0x0000, 0x0192,
-        0x00000062, 0x0000, 0x0192,
-        0x0000005B, 0x0000, 0x1014,
-        0x0000003D, 0x0001, 0x0192,
-    };
 
-    for (int i = 0; i < ARRAY_COUNT(ovlHisMinigameExplanation); i++) {
-        mp2_omovlhis[i] = ovlHisMinigameExplanation[i];
+    for (int i = 0; i < ARRAY_COUNT(mp2_baseOverlays); i++) {
+        mp2_omovlhis[i] = mp2_baseOverlays[i];
     }
 
     mp2_omovlhisidx = 3;
@@ -83,6 +77,8 @@ void mp2_LoadMinigameFromBoot(void) {
 }
 
 void mp2_LoadIntoResultsScene(void) {
+    s32 prevPlayerIdx;
+
     if (GetMp2BattleMinigameCoins()) {
         mp2_BattleMinigameCoins = GetMp2BattleMinigameCoins();
     }
@@ -94,6 +90,11 @@ void mp2_LoadIntoResultsScene(void) {
     PopMp2BoardState();
     SaveMp2PlayerCopyToMp2Player();
 
+    prevPlayerIdx = mp2_GwSystem.current_player_index;
+    //bit of a hack, but we need to reset the player index back to zero since we delete the instruction for mid turn minigame tracking
+    //this allows us to check if it's an end turn minigame with prevPlayerIdx == 4
+    SetMp2PlayerIndexToZero();
+
     //if game should end, make overlay results scene returns to the ending game scene
     //otherwise, go to board
     if (mp2_GwSystem.current_turn > mp2_GwSystem.total_turns) {
@@ -103,7 +104,7 @@ void mp2_LoadIntoResultsScene(void) {
         mp2_omOvlHisChg(0, 0x52, 0x0000, 0x192);
         mp2_omOvlCallEx(0x70, 0x0000, 0x14); //load results scene overlay
         return;
-    } else if (mp2_GwSystem.current_turn + 4 == mp2_GwSystem.total_turns) {
+    } else if ((mp2_GwSystem.current_turn + 4 == mp2_GwSystem.total_turns) && (isMidTurnMinigame(prevPlayerIdx) == FALSE)) {
         mp2_D_800E1F50_E2B50 = 1;  //related to overlay loading; needs to be 1 if not going into end game (where winner is decided)
         mp2_omovlhisidx = 3;
         mp2_omovlhisidx++; //add 1 to push last 5 turns event to ovl history

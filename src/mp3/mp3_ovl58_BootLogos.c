@@ -17,6 +17,9 @@ void mp3_ovlEventCall(OvlEntrypoint*, s16);
 void SaveMp3PlayerToMp1PlayerCopy(void);
 void SaveMp3PlayerToMp2PlayerCopy(void);
 u8 GetMp3StoredMessageSpeed(void);
+s16 GetMp3BattleMinigameCoins(void);
+s32 isMidTurnMinigame(s32);
+void SetMp3PlayerIndexToZero(void);
 
 mp3_Process* mp3_D_80105F10_3D76C0_name_58 = 0;
 s32 D_80105F00_3D76B0_name_58 = 0; //if initial boot
@@ -57,12 +60,10 @@ void mp3_LoadMinigameFromBoot(void) {
     mp3_omOvlCallEx(0x70, 0, 0x0192); //load minigame explanation overlay
 }
 
-s16 GetMp3BattleMinigameCoins(void);
-
 void mp3_LoadIntoResultsScene(void) {
-    if (GetMp3BattleMinigameCoins()) {
-        mp3_BattleMinigameCoins = GetMp3BattleMinigameCoins();
-    }
+    s32 prevPlayerIdx;
+
+    mp3_BattleMinigameCoins = GetMp3BattleMinigameCoins();
 
     for (int i = 0; i < ARRAY_COUNT(baseOverlays); i++) {
         mp3_omovlhis[i] = baseOverlays[i];
@@ -70,6 +71,13 @@ void mp3_LoadIntoResultsScene(void) {
 
     PopMp3BoardState();
     SaveMp3PlayerCopyToMp3Player();
+
+    prevPlayerIdx = mp3_GwSystem.current_player_index;
+
+    //bit of a hack, but we need to reset the player index back to zero since we delete the instruction for mid turn minigame tracking
+    //this allows us to check if it's an end turn minigame with prevPlayerIdx == 4
+    SetMp3PlayerIndexToZero();
+
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
 
     if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns) {
@@ -79,7 +87,7 @@ void mp3_LoadIntoResultsScene(void) {
         mp3_omOvlHisChg(0, 0x4F, 0, 0x4190); //put end game scene in history
         mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
         return;
-    } else if (mp3_GwSystem.current_turn + 4 == mp3_GwSystem.total_turns) {
+    } else if ((mp3_GwSystem.current_turn + 4 == mp3_GwSystem.total_turns) && (isMidTurnMinigame(prevPlayerIdx) == FALSE)) {
         mp3_omovlhisidx = 3;
         mp3_D_800CD2A2 = 1; //required for board events to load back into the board correctly
         mp3_omovlhisidx++; //increment to put end game scene in ovl history

@@ -1,4 +1,11 @@
 .headersize 0x8010ACC0 - 0x4EC0E0
+//.org 0x80106A78
+    //J SetMp3PlayerIndexToZero
+
+.org 0x80106938
+    JAL mp3_resetBattleMinigameCoins
+    NOP
+
 // .org 0x80105B28
 //     LH v0, 0x1110 (v0) //was LHU (loads GwPlayer[i].bonusCoins)
 

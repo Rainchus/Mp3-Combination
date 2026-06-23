@@ -8,7 +8,7 @@
 void SaveMp3PlayerToMp3PlayerCopy(void) {
     //this is a bit odd, but im unsure how else to handle it;
     //the bonus coins in the player struct linger until you start the next minigame, in which case it's cleared
-    //however if you play a mp3 battle minigame, get bonus coins, then play a mp2 minigame, it will reaward you the bonus coins
+    //however, if you play a mp3 battle minigame, get bonus coins, then play a mp2 minigame, it will reward you the bonus coins again
     //so when we swap games (basically when "loading the minigame"), we clear the bonus coins
     for (int i = 0; i < 4; i++) {
         mp3_GwPlayer[i].gameCoin = 0;
@@ -163,7 +163,7 @@ void SaveMp3PlayerToMp2PlayerCopy(void) {
         mp2_GwPlayerCopy[i].pad = mp3_GwPlayer[i].pad;
         mp2_GwPlayerCopy[i].stat = mp3_GwPlayer[i].stat;
         mp2_GwPlayerCopy[i].chr = mp3_GwPlayer[i].chr;
-        mp2_GwPlayerCopy[i].bonusCoin = mp3_GwPlayer[i].checkCoin; //TODO: are we sure about these 3 lines
+        mp2_GwPlayerCopy[i].bonusCoin = mp3_GwPlayer[i].checkCoin;
         mp2_GwPlayerCopy[i].bonusCoin += mp3_GwPlayer[i].bonusCoin;
         mp2_GwPlayerCopy[i].bonusCoin += mp3_GwPlayer[i].gameCoin;
     }
@@ -251,6 +251,8 @@ typedef struct MP3_HiddenBlocks {
 
 typedef struct MP1_BoardBackupData {
     MP1_GW_SYSTEM mp1_GwSystemCopy;
+    MP1_GW_COMMON mp1_GwCommonCopy;
+    UnkData_800D6438 mp1_D_800D6438Copy;
 } MP1_BoardBackupData;
 
 typedef struct Data {
@@ -381,7 +383,6 @@ void PopMp3BoardState(void) {
         mp3_hidden_block_star_space_index_old[i] = mp3_storedData.mp3_hidden_block_star_space_index_old_copy[i];
         mp3_hidden_block_coin_space_index_old[i] = mp3_storedData.mp3_hidden_block_coin_space_index_old_copy[i];
     }
-
 }
 
 //TODO: make proper struct to store all of the mp2 needed data
@@ -438,4 +439,33 @@ void PopMp2BoardState(void) {
         mp2_prevCoinBlockSpaceIndexes[i] = mp2_storedData.mp2_hidden_block_coin_space_index_old_copy[i];
     }
 
+}
+
+// void PushMp1MinigamesPlayedList(void) {
+//     s32 i;
+
+//     for (i = 0; i < 0x14; i++) {
+//         mp1_prevMinigamesPlayedCopy[i] = mp1_prevMinigamesPlayed[i];
+//     }
+// }
+
+// void PopMp1MinigamesPlayedList(void) {
+//     s32 i;
+
+//     for (i = 0; i < 0x14; i++) {
+//         mp1_prevMinigamesPlayed[i] = mp1_prevMinigamesPlayedCopy[i];
+//     }
+// }
+
+void PushMp1BoardState(void) {
+    mp1_storedData.mp1_GwSystemCopy = mp1_GwSystem;
+    mp1_storedData.mp1_GwCommonCopy = mp1_GwCommon;
+    mp1_storedData.mp1_D_800D6438Copy = mp1_D_800D6438;
+}
+
+void PopMp1BoardState(void) {
+    mp1_GwSystem = mp1_storedData.mp1_GwSystemCopy;
+    mp1_GwCommon = mp1_storedData.mp1_GwCommonCopy;
+    mp1_D_800D6438 = mp1_storedData.mp1_D_800D6438Copy; //recently played minigames
+    //TODO: find how hidden block is placed
 }

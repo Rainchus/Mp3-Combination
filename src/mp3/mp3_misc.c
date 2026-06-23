@@ -10,6 +10,14 @@ extern u8 mp3_osAppNmiBuffer[osAppNmiBufferSize];
 extern u32 rnd_seed_shared;
 
 s32 AddToDisplayQueue(void* imageData, s32 imageType, s32 xPos, s32 yPos, s32 width, s32 height, f32 scaleX, f32 scaleY);
+void SetMp3PlayerIndexToZero(void);
+void mp3_HuAudSeqFadeOut(s16);
+
+void mp3_resetBattleMinigameCoins(void) {
+    mp3_BattleMinigameCoins = 0;
+    SetMp3PlayerIndexToZero(); //due to hack where we preserve player idx through minigames, this is needed
+    mp3_HuAudSeqFadeOut(0x1E); //restore from hook
+}
 
 void checkosAppNmiBufferReset(s32 resetType) {
     s32 i;
@@ -225,6 +233,15 @@ void newVoteSystem(void) {
 
 s32 mp3_func_80106B38_4F9028(s32);
 void mp3_func_8005D294_5DE94(s16);
+
+s32 isMidTurnMinigame(s32 playerIdx) {
+    //in mp2, bowser's turn with bowser bomb makes this go to 5, so check that
+    if (playerIdx == 4 || playerIdx == 5) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
 
 void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     //i wanted to make this a choice textbox, but that's tricky

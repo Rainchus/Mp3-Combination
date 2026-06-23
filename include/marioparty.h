@@ -653,9 +653,9 @@ extern EepData customEepromData;
 
 extern u8 mp2_debugMode;
 extern s32 eepromLoadFailed;
-extern s32 isMidTurnMinigame;
 extern u8 ForeignMinigameIndexToLoad;
 
+s32 isMidTurnMinigame(s32 playerIdx);
 s32 ForeignMinigameIsMidTurnMinigame(s32);
 u16 func_8000B838_C438(s32);
 s16 mp3_InitEspriteSlot(s16, s32, s32);                     /* extern */

@@ -4,6 +4,18 @@ extern s8 D_800DF6C5_E02C5;
 extern int mp2_sprintf(char *s, const char *fmt, ...);
 void mp2_DrawDebugText(s32 xPos, s32 yPos, char* str);
 void StringToUpper(char *str);
+void SetMp2PlayerIndexToZero(void);
+void mp2_func_800794A8_7A0A8(s32);
+
+void mp2_resetBattleMinigameCoins(void) {
+    mp2_BattleMinigameCoins = 0;
+    SetMp2PlayerIndexToZero(); //due to hack where we preserve player idx through minigames, this is needed
+    mp2_func_800794A8_7A0A8(0x28); //restore from hook
+}
+
+void SetMp2PlayerIndexToZero(void) {
+    mp2_GwSystem.current_player_index = 0;
+}
 
 char* Mp2MinigameCategoryStrings[] = {
     "PLAYERS_4P",

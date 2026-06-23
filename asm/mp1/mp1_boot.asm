@@ -1,10 +1,4 @@
 //mp1
-.orga 0xCB938 + MP1_ROM_OFFSET
-.word new4PMinigameListNormalMp1
-.word new1v3MinigameListNormalMp1
-.word new2v2MinigameListNormalMp1
-.word new1PMinigameListNormalMp1
-
 .headersize 0x7BFFF400
 .org 0x80090300
     J mp1_osEPiRawStartDmaHook
@@ -28,6 +22,15 @@
 .org 0x8001758C
     J rand8_Shared
      NOP
+
+//.org 0x8004388C
+    //J func_8004388C
+    //NOP
+
+.org 0x80059348
+    J SetMinigameExplanation
+    NOP
+    NOP //NOP the last instruction of the function for clarity
 
 //when swapping to a game (mp1 in this instance) stuff would draw for a few frames when it shouldn't
 //this makes it so that the game is a black screen 12 frames longer on boot, fixing the problem

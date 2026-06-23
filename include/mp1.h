@@ -22,7 +22,7 @@ typedef struct MP1_GW_SYSTEM {
 /* 0x25 */ char unk_25;
 } MP1_GW_SYSTEM; //sizeof 0x26
 
-typedef struct mp1_GwCommon_s {
+typedef struct MP1_GW_COMMON {
 /* 0x00 */ u8 unk0;
 /* 0x01 */ char unk_01[1];
 /* 0x02 */ s16 mgRecord[8];
@@ -35,7 +35,7 @@ typedef struct mp1_GwCommon_s {
 /* 0x47 */ s8 boardItem;
 /* 0x48 */ u8 flag[12];
 /* 0x54 */ s16 boardWork[32];
-} mp1_GWCOMMON; //sizeof 0x94
+} MP1_GW_COMMON; //sizeof 0x94
 
 typedef struct unk_Struct04 {
     /* 0x00 */ Vec3f pos;
@@ -97,6 +97,13 @@ typedef struct jump_buf
     void *func;
     u32 regs[21];
 } jmp_buf;
+
+typedef struct {
+    u8 recentMinigames[4][5]; /* recent minigames per player, up to 2 */
+    u8 categoryChosenAmounts[4];
+} UnkData_800D6438;
+
+extern UnkData_800D6438 mp1_D_800D6438;
 
 typedef void (*mp1_process_func)();
 typedef struct mp1_Process {
@@ -164,8 +171,8 @@ extern s16 mp1_omovlhisidx;
 extern mp1_GW_PLAYER mp1_GwPlayerCopy[4];
 extern MP1_GW_SYSTEM mp1_GwSystem;
 extern MP1_GW_SYSTEM mp1_GwSystemCopy;
-extern mp1_GWCOMMON mp1_GwCommon;
-extern mp1_GWCOMMON mp1_GwCommonCopy;
+extern MP1_GW_COMMON mp1_GwCommon;
+extern MP1_GW_COMMON mp1_GwCommonCopy;
 extern u8 mp1_D_800F64F2;
 extern s16 mp1_D_800C597A;
 #endif

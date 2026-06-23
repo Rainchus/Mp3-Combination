@@ -57,7 +57,7 @@ mp3_drawDebugASM:
     J 0x80048718
     NOP
 
-resetBattleCoinsAndSetState12:
+resetBattleCoinsSetCamAndSetState12:
     LI t0, mp3_BattleMinigameCoins
     SH r0, 0x0000 (t0) //reset coins back to zero after they have been read and are no longer needed (helps with combo logic)
     

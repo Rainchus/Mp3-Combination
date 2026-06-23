@@ -31,6 +31,13 @@ u8 newGameGuyMinigameListNormalMp1[MP1_GAME_GUY_MINIGAME_MAX] = {0};
 u8 new1PMinigameListNormalMp1[MP1_1P_MINIGAME_MAX] = {0};
 u8 newCategoryAmountsNormalMp1[MP1_TOTAL_CATEGORIES] = {0};
 
+u8* newMp1MinigameLists[] = {
+    new4PMinigameListNormalMp1,
+    new1v3MinigameListNormalMp1,
+    new2v2MinigameListNormalMp1,
+    new1PMinigameListNormalMp1
+};
+
 u8 mp1_minigame4PBlacklist[] = {
     #ifdef MP1
     YOSHIS_TONGUE_MEETING
@@ -77,7 +84,7 @@ void mp1_ClearMinigameList(void) {
 
 void mp1_ClearMinigameList(void);
 
-void Mp1_LoadMinigameList(void) {
+void mp1_LoadMinigameList(void) {
     MinigameIndexTable* curMinigameData;
     s32 i, j;
     s32 minigameIsBlacklisted;
@@ -105,10 +112,10 @@ void Mp1_LoadMinigameList(void) {
         }
 
         //else, minigame is active
-        u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
-        if (minigameActiveFlag == 0) {
-            continue;
-        }
+        // u8 minigameActiveFlag = GetMinigameFlag(curMinigameData->minigameIndex);
+        // if (minigameActiveFlag == 0) {
+        //     continue;
+        // }
 
         switch(curMinigameData->minigameType) {
         case PLAYERS_4P:

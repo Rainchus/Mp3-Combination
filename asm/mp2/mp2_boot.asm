@@ -102,3 +102,6 @@
 .org 0x800775F0
     J mp2_drawDebugASM
     NOP
+
+.org 0x80063888
+    NOP //SH r0, 0x93C6 (at) //reset player index to 0

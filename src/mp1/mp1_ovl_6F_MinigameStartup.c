@@ -48,6 +48,13 @@ extern f32 mp1_CZoom;
 extern Vec3f mp1_CRot;
 extern Vec3f mp1_Center;
 
+void SetMinigameExplanation(s16 arg0) {
+    u16 minigameID = arg0 & 0xFF;
+
+    mp1_GwSystem.curMinigame = minigameID;
+    ForeignMinigameIndexToLoad = minigameID;
+}
+
 void Mp1SwapGameIfNeeded(void) {
     //we use mp1_GwSystem.curMinigame here because ForeignMinigameIndexToLoad could be -1 at this point
     s32 localOverlayID = ForeignMinigameIDToGame(mp1_GwSystem.curMinigame);
@@ -55,18 +62,12 @@ void Mp1SwapGameIfNeeded(void) {
     //determine if we are loading a mp2 or mp3 minigame
     if (ForeignMinigameIndexToLoad >= BOWSER_SLOTS && ForeignMinigameIndexToLoad <= DEEP_SEA_SALVAGE) { //mp2
         //save necessary data, swap to mp2
-        //TODO: implement these functions
-        // PushMp1BoardState();
-        // PushMp1MinigamesPlayedList();
-        // mp1_StoreBattleMinigameCoins();
+        PushMp1BoardState();
         SaveMp1PlayerToMp1PlayerCopy();
         ComboSwitchGameToMp2();
     } else if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp3
         //save necessary data, swap to mp3
-        //TODO: implement these functions
-        // PushMp1BoardState();
-        // PushMp1MinigamesPlayedList();
-        // mp1_StoreBattleMinigameCoins();
+        PushMp1BoardState();
         SaveMp1PlayerToMp1PlayerCopy();
         ComboSwitchGameToMp3();
     }

@@ -88,3 +88,8 @@
 .org 0x800DFBA8
     J newfunc_800DFBA8_F37C8_shared_board
     NOP
+
+//this reset the player index back to zero. We want to leave it at 4 so we can tell if we -
+// are mid turn or not outside of the game. We reset it back to zero when loading back into the board
+.org 0x800F92D4
+    NOP //SB r0, 0xD067 (at) //reset current player index back to zero
