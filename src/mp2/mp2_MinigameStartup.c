@@ -115,7 +115,7 @@ void SetMp2MultigameMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             return;
         }
     }
-    func_800890CC_89CCC(arg0, (char*)((D_800DF6C0_E02C0[i] + 0x3D8)), arg2, arg3);
+    func_800890CC_89CCC(arg0, arg1 + 0x3D8, arg2, arg3);
 }
 
 void newfunc_80049FFC_4ABFC(mp2_omObjData* arg0) {

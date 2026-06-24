@@ -31,7 +31,6 @@ extern u8 mp1_D_800D6454[]; // selected minigame indices per slot
 //extern mp1_RecentMinigameTable mp1_D_800D6438; // recent minigames table (4 categories * 5 entries)
 extern s8 mp1_D_800D6459; // current category
 extern mp1_omObjData* mp1_D_800D6450; // manager object
-extern u8 mp1_D_800C4D3C[]; // slot count per category
 //extern u8 mp1_minigameCategoryCounts[]; // minigame pool size per category (hard mode)
 extern u8 mp1_D_800C4DCF[]; // minigame rotation/player count table
 extern u32 mp1_D_800ECE10; // current player index
@@ -62,20 +61,22 @@ extern u8 newCategoryAmountsNormalMp1[];
 extern u8 minigameTextColor[];
 
 void SetMp1MultigameMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 minigameCombinedIndex = arg1;
+    u8 minigameCombinedIndex = arg1;
 
     s32 i;
     for (i = 0; i < MINIGAME_END; i++) {
         if (minigameCombinedIndex == minigameLUT[i].minigameIndex) {
-            mp1_LoadStringIntoWindow(arg0, minigameLUT[i].minigameStr, arg2, arg3);
+            char* minigameString = minigameLUT[i].minigameStr;
+            //&minigameString[1] because we need to skip the 0xB at the beginning of each string for this game
+            mp1_LoadStringIntoWindow(arg0, &minigameString[1], arg2, arg3);
             return;
         }
     }
-    mp1_LoadStringIntoWindow(arg0, (void*)(mp1_D_800D6454[i] + 0x324), arg2, arg3);
+    mp1_LoadStringIntoWindow(arg0, arg1 + 0x324, arg2, arg3);
 }
 
 
-//infinite loop occurs if you turn the optimization up...wtf
+//infinite loop occurs if you turn the optimization up...wtf (even from matching code from decomp this happens)
 __attribute__((optimize("O0")))
 void func_8004388C(s32 arg0) {
     mp1_ItemSlotEntry* entry;
@@ -200,7 +201,7 @@ void func_8004388C(s32 arg0) {
         }
 
         mp1_func_8006EB80();
-        SetMp1MultigameMinigameString(entry->obj, mp1_D_800D6454[i], -2, 4);
+        SetMp1MultigameMinigameString(entry->obj, mp1_D_800D6454[i] - 1, -2, 4);
         //mp1_LoadStringIntoWindow(entry->obj, (void*)(mp1_D_800D6454[i] + 0x324), -2, 4);
         mp1_func_8006E288(entry->obj, minigameTextColor[mp1_D_800D6454[i]]);
         mp1_func_8006E070(entry->obj, 0);
@@ -212,4 +213,8 @@ void func_8004388C(s32 arg0) {
     obj->trans.y = 0.0f;
     obj->rot.z = 0.0f;
     mp1_func_8004367C();
+}
+
+void SetHighlightedMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    SetMp1MultigameMinigameString(arg0, (arg1 - 0x324) - 1, arg2, arg3);
 }

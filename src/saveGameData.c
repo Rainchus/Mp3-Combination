@@ -253,6 +253,7 @@ typedef struct MP1_BoardBackupData {
     MP1_GW_SYSTEM mp1_GwSystemCopy;
     MP1_GW_COMMON mp1_GwCommonCopy;
     UnkData_800D6438 mp1_D_800D6438Copy;
+    u8 mp1_D_800C4D3CCopy[4]; //category flags
 } MP1_BoardBackupData;
 
 typedef struct Data {
@@ -460,12 +461,18 @@ void PopMp2BoardState(void) {
 void PushMp1BoardState(void) {
     mp1_storedData.mp1_GwSystemCopy = mp1_GwSystem;
     mp1_storedData.mp1_GwCommonCopy = mp1_GwCommon;
-    mp1_storedData.mp1_D_800D6438Copy = mp1_D_800D6438;
+    mp1_storedData.mp1_D_800D6438Copy = mp1_D_800D6438; //previously played minigames
+    for (s32 i = 0; i < ARRAY_COUNT(mp1_D_800C4D3C); i++) {
+        mp1_storedData.mp1_D_800C4D3CCopy[i] = mp1_D_800C4D3C[i];
+    }
 }
 
 void PopMp1BoardState(void) {
     mp1_GwSystem = mp1_storedData.mp1_GwSystemCopy;
     mp1_GwCommon = mp1_storedData.mp1_GwCommonCopy;
     mp1_D_800D6438 = mp1_storedData.mp1_D_800D6438Copy; //recently played minigames
+    for (s32 i = 0; i < ARRAY_COUNT(mp1_D_800C4D3C); i++) {
+        mp1_D_800C4D3C[i] = mp1_storedData.mp1_D_800C4D3CCopy[i];
+    }
     //TODO: find how hidden block is placed
 }

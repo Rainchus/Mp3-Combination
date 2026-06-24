@@ -175,4 +175,6 @@ extern MP1_GW_COMMON mp1_GwCommon;
 extern MP1_GW_COMMON mp1_GwCommonCopy;
 extern u8 mp1_D_800F64F2;
 extern s16 mp1_D_800C597A;
+extern u8 mp1_D_800C4D3C[4]; // slot count per category
+
 #endif
