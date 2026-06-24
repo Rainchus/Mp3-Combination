@@ -172,14 +172,14 @@ void SaveMp3PlayerToMp2PlayerCopy(void) {
 //save mp2 to mp1PlayerCopy before swapping to mp1
 void SaveMp2PlayerToMp1PlayerCopy(void) {
     for (int i = 0; i < 4; i++) {
-        mp1_GwPlayerCopy[i].group = mp2_GwPlayerCopy[i].group;
-        mp1_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayerCopy[i].cpu_difficulty;
-        mp1_GwPlayerCopy[i].pad = mp2_GwPlayerCopy[i].pad;
-        mp1_GwPlayerCopy[i].stat = mp2_GwPlayerCopy[i].stat;
-        mp1_GwPlayerCopy[i].chr = mp2_GwPlayerCopy[i].chr;
-        mp1_GwPlayerCopy[i].coin = mp2_GwPlayerCopy[i].coin;
-        mp1_GwPlayerCopy[i].bonusCoin = mp2_GwPlayerCopy[i].bonusCoin;
-        mp1_GwPlayerCopy[i].star = mp2_GwPlayerCopy[i].star;
+        mp1_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
+        mp1_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;
+        mp1_GwPlayerCopy[i].pad = mp2_GwPlayer[i].pad;
+        mp1_GwPlayerCopy[i].stat = mp2_GwPlayer[i].stat;
+        mp1_GwPlayerCopy[i].chr = mp2_GwPlayer[i].chr;
+        mp1_GwPlayerCopy[i].coin = mp2_GwPlayer[i].coin;
+        mp1_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].bonusCoin;
+        mp1_GwPlayerCopy[i].star = mp2_GwPlayer[i].star;
     }
 }
 
