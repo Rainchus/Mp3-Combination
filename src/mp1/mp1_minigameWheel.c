@@ -74,6 +74,9 @@ void SetMp1MultigameMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     mp1_LoadStringIntoWindow(arg0, (void*)(mp1_D_800D6454[i] + 0x324), arg2, arg3);
 }
 
+
+//infinite loop occurs if you turn the optimization up...wtf
+__attribute__((optimize("O0")))
 void func_8004388C(s32 arg0) {
     mp1_ItemSlotEntry* entry;
     mp1_omObjData* obj;

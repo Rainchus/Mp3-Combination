@@ -23,9 +23,9 @@
     J rand8_Shared
      NOP
 
-//.org 0x8004388C
-    //J func_8004388C
-    //NOP
+.org 0x8004388C
+    J func_8004388C
+    NOP
 
 .org 0x80059348
     J SetMinigameExplanation
