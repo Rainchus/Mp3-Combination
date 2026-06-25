@@ -25,7 +25,7 @@ u8 new4PMinigameListNormalMp1[MP1_4P_MINIGAME_MAX] = {0};
 u8 new1v3MinigameListNormalMp1[MP1_1V3_MINIGAME_MAX] = {0};
 u8 new2v2MinigameListNormalMp1[MP1_2V2_MINIGAME_MAX] = {0};
 u8 newBattleMinigameListNormalMp1[MP1_BATTLE_MINIGAME_MAX] = {0};
-u8 newItemMinigameListNormalMp1[MP1_ITEM_MINIGAME_MAX] = {0};
+u8 newItemMinigameListNormalMp1[MP1_ITEM_MINIGAME_MAX] = {0}; //replaced by new1PMinigameListNormalMp1 in this game
 u8 newDuelMinigameListNormalMp1[MP1_DUEL_MINIGAME_MAX] = {0};
 u8 newGameGuyMinigameListNormalMp1[MP1_GAME_GUY_MINIGAME_MAX] = {0};
 u8 new1PMinigameListNormalMp1[MP1_1P_MINIGAME_MAX] = {0};
@@ -50,6 +50,13 @@ u8 mp1_minigame1PBlacklist[] = {
     #endif
 };
 
+//since 1p minigame in mp1 are ID 3 and clash with item minigames in mp2/mp3, blacklist the item minigames from mp1
+u8 mp1_itemMinigameBlacklist[] = {
+    ROLL_OUT_THE_BARRELS, GIVE_ME_A_BRAKE, HAMMER_SLAMMER, MALLET_GO_ROUND, COFFIN_CONGESTION,
+    BOWSER_SLOTS, WINNERS_WHEEL, HEY_BATTER_BATTER, BOBBING_BOW_LOONS, DORRIE_DIP, SWINGING_WITH_SHARKS,
+    SWING_N_SWIPE,
+};
+
 void mp1_ClearMinigameList(void) {
     s32 i;
     
@@ -70,7 +77,7 @@ void mp1_ClearMinigameList(void) {
     }
 
     for (i = 0; i < MP1_ITEM_MINIGAME_MAX; i++) {
-        newItemMinigameListNormalMp1[i] = 0;
+        new1PMinigameListNormalMp1[i] = 0;
     }
 
     for (i = 0; i < MP1_DUEL_MINIGAME_MAX; i++) {
@@ -151,11 +158,11 @@ void mp1_LoadMinigameList(void) {
             newCategoryAmountsNormalMp1[PLAYERS_2V2]++;
             break;
         case PLAYERS_ITEM:
-            minigameIsBlacklisted = 0;
-            if (minigameIsBlacklisted == 0) {
-                newItemMinigameListNormalMp1[minigameItemCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormalMp1[PLAYERS_ITEM]++;
-            }
+            // minigameIsBlacklisted = 0;
+            // if (minigameIsBlacklisted == 0) {
+            //     new1PMinigameListNormalMp1[minigameItemCount++] = curMinigameData->minigameIndex;
+            //     newCategoryAmountsNormalMp1[PLAYERS_ITEM]++;
+            // }
             
             break;
         case PLAYERS_BATTLE:
@@ -176,6 +183,19 @@ void mp1_LoadMinigameList(void) {
         case PLAYERS_GAME_GUY:
             break;
         case PLAYERS_1P:
+        
+            minigameIsBlacklisted = 0;
+            for (j = 0; j < ARRAY_COUNT(mp1_itemMinigameBlacklist); j++) {
+                if (curMinigameData->minigameIndex == mp1_itemMinigameBlacklist[j]) {
+                    minigameIsBlacklisted = 1;
+                    break;
+                }
+            }
+            if (minigameIsBlacklisted == 0) {
+                new1PMinigameListNormalMp1[minigameItemCount++] = curMinigameData->minigameIndex;
+                newCategoryAmountsNormalMp1[PLAYERS_ITEM]++; //Hack due to clash between 1p minigames and item minigames mentioned earlier
+            }
+            
             break;
         }
     }
