@@ -4,21 +4,21 @@
 #define MP1_1V3_MINIGAME_MAX 32
 #define MP1_2V2_MINIGAME_MAX 28
 #define MP1_BATTLE_MINIGAME_MAX 17
-#define MP1_1P_MINIGAME_MAX 10
+#define MP1_1P_MINIGAME_MAX 11
 #define MP1_ITEM_MINIGAME_MAX 7
 #define MP1_DUEL_MINIGAME_MAX 11
 #define MP1_GAME_GUY_MINIGAME_MAX 4
-#define MP1_TOTAL_CATEGORIES 8
+#define MP1_TOTAL_CATEGORIES 4
 
 #define MP1_PLAYERS_SPECIAL -1
 #define MP1_PLAYERS_4P 0
 #define MP1_PLAYERS_1V3 1
 #define MP1_PLAYERS_2V2 2
 #define MP1_PLAYERS_1P 3 //this clashes with the item minigames from other games...
-#define MP1_PLAYERS_ITEM 4
-#define MP1_PLAYERS_BATTLE 5
-#define MP1_PLAYERS_DUEL 6
-#define MP1_PLAYERS_GAME_GUY 7
+// #define MP1_PLAYERS_ITEM 4
+// #define MP1_PLAYERS_BATTLE 5
+// #define MP1_PLAYERS_DUEL 6
+// #define MP1_PLAYERS_GAME_GUY 7
 
 
 u8 new4PMinigameListNormalMp1[MP1_4P_MINIGAME_MAX] = {0};
@@ -76,7 +76,7 @@ void mp1_ClearMinigameList(void) {
         newBattleMinigameListNormalMp1[i] = 0;
     }
 
-    for (i = 0; i < MP1_ITEM_MINIGAME_MAX; i++) {
+    for (i = 0; i < MP1_1P_MINIGAME_MAX; i++) {
         new1PMinigameListNormalMp1[i] = 0;
     }
 
@@ -158,32 +158,7 @@ void mp1_LoadMinigameList(void) {
             newCategoryAmountsNormalMp1[PLAYERS_2V2]++;
             break;
         case PLAYERS_ITEM:
-            // minigameIsBlacklisted = 0;
-            // if (minigameIsBlacklisted == 0) {
-            //     new1PMinigameListNormalMp1[minigameItemCount++] = curMinigameData->minigameIndex;
-            //     newCategoryAmountsNormalMp1[PLAYERS_ITEM]++;
-            // }
-            
-            break;
-        case PLAYERS_BATTLE:
-            minigameIsBlacklisted = 0;
-            if (minigameIsBlacklisted == 0) {
-                newBattleMinigameListNormalMp1[minigameBattleCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormalMp1[PLAYERS_BATTLE]++;
-            }
-
-            break;
-        case PLAYERS_DUEL:
-            minigameIsBlacklisted = 0;
-            if (minigameIsBlacklisted == 0) {
-                newDuelMinigameListNormalMp1[minigameDuelCount++] = curMinigameData->minigameIndex;
-                newCategoryAmountsNormalMp1[PLAYERS_DUEL]++;
-            }
-            break;
-        case PLAYERS_GAME_GUY:
-            break;
         case PLAYERS_1P:
-        
             minigameIsBlacklisted = 0;
             for (j = 0; j < ARRAY_COUNT(mp1_itemMinigameBlacklist); j++) {
                 if (curMinigameData->minigameIndex == mp1_itemMinigameBlacklist[j]) {
@@ -194,9 +169,21 @@ void mp1_LoadMinigameList(void) {
             if (minigameIsBlacklisted == 0) {
                 new1PMinigameListNormalMp1[minigameItemCount++] = curMinigameData->minigameIndex;
                 newCategoryAmountsNormalMp1[PLAYERS_ITEM]++; //Hack due to clash between 1p minigames and item minigames mentioned earlier
-            }
-            
+            } 
             break;
         }
     }
 }
+
+
+// u8 minigames[] = {
+//     TREADMILL_GRILL, TOADSTOOL_TITAN, ACES_HIGH, BOUNCE_N_TROUNCE, ICE_RINK_RISK, CHIP_SHOT_CHALLENGE, PARASOL_PLUMMET, MESSY_MEMORY,
+//     PICTURE_IMPERFECT, MARIOS_PUZZLE_PARTY, THE_BEAT_GOES_ON, MPIQ, CURTAIN_CALL, WATER_WHIRLED, FRIGID_BRIDGES, AWFUL_TOWER,
+//     CHEEP_CHEEP_CHASE, PIPE_CLEANERS, SNOWBALL_SUMMIT, ROCKIN_RACEWAY, LAVA_TILE_ISLE, MP2_HOT_ROPE_JUMP, SHELL_SHOCKED, TOAD_IN_THE_BOX,
+//     MECHA_MARATHON, ROLL_CALL, ABANDON_SHIP, MP2_PLATFORM_PERIL, TOTEM_POLE_POUND, MP2_BUMPER_BALLS, MP2_BOMBS_AWAY, MP2_TIPSY_TOURNEY,
+//     HONEYCOMB_HAVOC, HEXAGON_HEAT, MP2_SKATEBOARD_SCAMPER, MP2_SLOT_CAR_DERBY, MP2_SHY_GUY_SAYS, SNEAK_N_SNORE, DIZZY_DANCING, TILE_DRIVER,
+//     DEEP_SEA_SALVAGE, BURIED_TREASURE, TREASURE_DIVERS, MP1_HOT_BOB_OMB, MUSICAL_MUSHROOM, MP1_CRAZY_CUTTER, MP1_FACE_LIFT, MP1_BALLOON_BURST,
+//     COIN_BLOCK_BLITZ, MP1_SKATEBOARD_SCAMPER, BOX_MOUNTAIN_MAYHEM, MP1_PLATFORM_PERIL, MUSHROOM_MIXUP, HAMMER_DROP, MP1_GRAB_BAG, MP1_BUMPER_BALLS,
+//     MP1_TIPSY_TOURNEY, MP1_BOMBS_AWAY, MP1_SLOT_CAR_DERBY, MARIO_BANDSTAND, MP1_SHY_GUY_SAYS, CAST_AWAYS, KEY_PA_WAY, RUNNING_OF_THE_BULB,
+//     MP1_HOT_ROPE_JUMP
+// };

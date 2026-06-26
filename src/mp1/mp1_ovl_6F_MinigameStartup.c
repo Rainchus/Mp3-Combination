@@ -57,16 +57,27 @@ void SetMinigameExplanation(s16 arg0) {
 
 void Mp1SwapGameIfNeeded(void) {
     //we use mp1_GwSystem.curMinigame here because ForeignMinigameIndexToLoad could be -1 at this point
-    s32 localOverlayID = ForeignMinigameIDToGame(mp1_GwSystem.curMinigame);
+
+    s32 localOverlayID = ForeignMinigameIDToGame(mp1_GwSystem.curMinigame + 1);
+    s32 adjustedIndex = ForeignMinigameIndexToLoad - 1;
+
+    //HACK: mp1 indexes minigames at zero, rest of the games dont
+    if (mp1_GwSystem.curMinigame == MEMORY_MATCH) {
+        mp1_GwSystem.curMinigame = localOverlayID;
+        ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
+        return;        
+    }
 
     //determine if we are loading a mp2 or mp3 minigame
-    if (ForeignMinigameIndexToLoad >= BOWSER_SLOTS && ForeignMinigameIndexToLoad <= DEEP_SEA_SALVAGE) { //mp2
+    if (adjustedIndex >= BOWSER_SLOTS && adjustedIndex <= DEEP_SEA_SALVAGE) { //mp2
         //save necessary data, swap to mp2
+        ForeignMinigameIndexToLoad++; //hack to fix mp1 indexing by zero while other games minigames start at 1
         PushMp1BoardState();
         SaveMp1PlayerToMp1PlayerCopy();
         ComboSwitchGameToMp2();
-    } else if (ForeignMinigameIndexToLoad >= HAND_LINE_AND_SINKER && ForeignMinigameIndexToLoad <= MARIO_PUZZLE_PARTY_PRO) { //mp3
+    } else if (adjustedIndex >= HAND_LINE_AND_SINKER && adjustedIndex <= MARIO_PUZZLE_PARTY_PRO) { //mp3
         //save necessary data, swap to mp3
+        ForeignMinigameIndexToLoad++; //hack to fix mp1 indexing by zero while other games minigames start at 1
         PushMp1BoardState();
         SaveMp1PlayerToMp1PlayerCopy();
         ComboSwitchGameToMp3();

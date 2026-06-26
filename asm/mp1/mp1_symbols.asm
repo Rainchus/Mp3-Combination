@@ -33,6 +33,7 @@
 .definelabel mp1_osMemSize, 0x80000318
 .definelabel mp1_memcpy, 0x8008C45C
 .definelabel mp1__Printf, 0x80095470
+.definelabel mp1_sprintf, 0x8008C490
 .definelabel mp1_osWritebackDCache, 0x80088570
 .definelabel mp1_osViBlack, 0x8008B6A0
 .definelabel mp1_osViSwapBuffer, 0x8008B650

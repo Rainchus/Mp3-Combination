@@ -1,5 +1,6 @@
 #include "marioparty.h"
 #include "mp3.h"
+#include "mp1.h"
 
 #define COLD_BOOT 0
 #define WARM_BOOT 1
@@ -9,6 +10,7 @@
 extern u8 mp3_osAppNmiBuffer[osAppNmiBufferSize];
 extern u32 rnd_seed_shared;
 
+extern int mp1_sprintf(char *s, const char *fmt, ...);
 s32 AddToDisplayQueue(void* imageData, s32 imageType, s32 xPos, s32 yPos, s32 width, s32 height, f32 scaleX, f32 scaleY);
 void SetMp3PlayerIndexToZero(void);
 void mp3_HuAudSeqFadeOut(s16);
@@ -491,6 +493,13 @@ char* Mp3MinigameCategoryStrings[] = {
     "PLAYERS_DUEL"
 };
 
+char* Mp1MinigameCategoryStrings[] = {
+    "PLAYERS_4P",
+    "PLAYERS_1V3",
+    "PLAYERS_2V2",
+    "PLAYERS_1P",
+};
+
 void StringToUpper(char *str) {
     while (*str) {
         if (*str >= 'a' && *str <= 'z') {
@@ -567,3 +576,53 @@ void mp3_drawDebug(void) {
         drawRecentMinigameListCategory();
     }
 }
+
+// void drawMinigameCategoryList(s32 x, s32 y, s32 categoryIdx) {
+//     s32 i, j;
+//     char buf[16];
+//     s32 y = 20;
+//     s8 category = mp1_D_800D6459;
+//     char buffer[64];
+//     u8* minigameList = newMp1MinigameLists[category];
+//     mp1_fontcolor = FONT_PURPLE;
+//     mp1_sprintf(buf, "%s", Mp1MinigameCategoryStrings[category]);
+//     mp1_DrawDebugText(20, y, buf);
+//     y += 15;
+
+//     for (minigameList = newMp1MinigameLists[category]; minigameList[i] != 0; i++) {
+
+//     }
+
+//     // while (minigameList != 0) {
+
+//     // }
+
+//     for (i = 0; i < 10; i++) {
+        
+//         if (D_800CC4A0_CD0A0.recentMinigames[category][i] == -1 || D_800CC4A0_CD0A0.recentMinigames[category][i] == 0xFF) {
+//             mp1_DrawDebugText(20, y, "NONE");
+//             y += 10;
+//         } else {
+//             u8 minigame = D_800CC4A0_CD0A0.recentMinigames[category][i];
+//             MinigameIndexTable* minigameRef = NULL;
+//             for (j = 0; j < MINIGAME_END; j++) {
+//                 if (minigame == minigameLUT[j].minigameIndex) {
+//                     minigameRef = &minigameLUT[j];
+//                     break;
+//                 }
+//             }
+
+//             if (minigameRef != NULL) {
+//                 //j+1 to skip \x0B byte. copy string to buffer
+//                 for (j = 0; minigameRef->minigameStr[j+1] != '\0'; j++) {
+//                     buffer[j] = minigameRef->minigameStr[j+1];
+//                 }
+//                 buffer[j] = '\0';
+//                 StringToUpper(buffer);
+//                 mp3_DrawDebugText(20, y, buffer);
+//                 y += 10;
+//             }
+//         }
+
+//     }
+// }

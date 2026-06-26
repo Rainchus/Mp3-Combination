@@ -201,7 +201,7 @@ void func_8004388C(s32 arg0) {
         }
 
         mp1_func_8006EB80();
-        SetMp1MultigameMinigameString(entry->obj, mp1_D_800D6454[i] - 1, -2, 4);
+        SetMp1MultigameMinigameString(entry->obj, mp1_D_800D6454[i], -2, 4);
         //mp1_LoadStringIntoWindow(entry->obj, (void*)(mp1_D_800D6454[i] + 0x324), -2, 4);
         mp1_func_8006E288(entry->obj, minigameTextColor[mp1_D_800D6454[i]]);
         mp1_func_8006E070(entry->obj, 0);
@@ -216,5 +216,5 @@ void func_8004388C(s32 arg0) {
 }
 
 void SetHighlightedMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    SetMp1MultigameMinigameString(arg0, (arg1 - 0x324) - 1, arg2, arg3);
+    SetMp1MultigameMinigameString(arg0, (arg1 - 0x324), arg2, arg3);
 }
