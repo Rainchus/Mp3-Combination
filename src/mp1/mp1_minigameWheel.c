@@ -160,10 +160,10 @@ void func_8004388C(s32 arg0) {
             // }
 
             switch (mp1_D_800D6454[i]) {
-                case YOSHIS_TONGUE_MEETING:
-                case MP1_BOBSLED_RUN:
-                case MP1_HANDCAR_HAVOC:
-                case MP1_HANDCAR_HAVOC + 2: //TODO: what? +2 over MP1_HANDCAR_HAVOC ? that doesn't exist in the list
+                case MP1_HOT_BOB_OMB:
+                case MP1_GRAB_BAG:
+                case MP1_HOT_ROPE_JUMP:
+                case PADDLE_BATTLE: //TODO: what? +2 over MP1_HANDCAR_HAVOC ? that doesn't exist in the list
                     for (k = 0; k < 4; k++) {
                         if (mp1_GwPlayer[k].coin < 15) {
                             break;
@@ -173,9 +173,9 @@ void func_8004388C(s32 arg0) {
                         continue;
                     }
                     break;
-                case MP1_BOWL_OVER:
-                case KNOCK_BLOCK_TOWER:
-                case PADDLE_BATTLE:
+                case BASH_N_CASH:
+                case TIGHTROPE_TREACHERY:
+                case TUG_O_WAR:
                     if (mp1_GwPlayer[mp1_GwSystem.curPlayerIndex].coin < 15) {
                         continue;
                     }
