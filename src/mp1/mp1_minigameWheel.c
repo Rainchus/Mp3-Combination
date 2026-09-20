@@ -218,3 +218,13 @@ void func_8004388C(s32 arg0) {
 void SetHighlightedMinigameString(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     SetMp1MultigameMinigameString(arg0, (arg1 - 0x324), arg2, arg3);
 }
+
+void mp1_func_80059348(s32);
+
+void minigameIndexFix(s16 arg0) {
+    s32 adjustedIndex = (arg0 + 1) & 0xFF;
+    if (adjustedIndex >= MEMORY_MATCH && adjustedIndex <= PADDLE_BATTLE) { //mp1
+        arg0 += 2; //?
+    }
+    mp1_func_80059348(arg0); //restore from hook
+}

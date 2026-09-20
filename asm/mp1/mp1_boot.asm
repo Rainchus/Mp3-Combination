@@ -48,6 +48,10 @@
     J	0x8001A430
     NOP
 
+.org 0x80043300
+    JAL minigameIndexFix
+    SRA a0, a0, 16
+
 //when swapping to a game (mp1 in this instance) stuff would draw for a few frames when it shouldn't
 //this makes it so that the game is a black screen 12 frames longer on boot, fixing the problem
 //.org 0x8001AA14

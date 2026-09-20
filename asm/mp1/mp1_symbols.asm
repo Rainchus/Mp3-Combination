@@ -171,3 +171,13 @@
 .definelabel mp1_func_800717C0, 0x800717C0
 .definelabel mp1_D_800F6AF0_LogosSequence, 0x800F6AF0
 .definelabel mp1_D_800F6AF4_LogosSequence, 0x800F6AF4
+
+.definelabel func_800F7754_UnknownResultsScreen, 0x800F7754
+.definelabel func_800F7A3C_UnknownResultsScreen, 0x800F7A3C
+.definelabel func_800F7A9C_UnknownResultsScreen, 0x800F7A9C
+.definelabel func_800F7F38_UnknownResultsScreen, 0x800F7F38
+.definelabel func_800F82C4_UnknownResultsScreen, 0x800F82C4
+.definelabel func_800F6688_UnknownResultsScreen, 0x800F6688
+.definelabel func_800F79C8_UnknownResultsScreen, 0x800F79C8
+.definelabel func_800F8194_UnknownResultsScreen, 0x800F8194
+.definelabel mp1_func_80060128, 0x80060128
