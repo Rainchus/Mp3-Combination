@@ -61,7 +61,12 @@ void Mp1SwapGameIfNeeded(void) {
 
     if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
         //is mp1 minigame, load it
-        mp1_GwSystem.curMinigame = localOverlayID - 1;
+        if (CurBaseGame == MP1_BASE) {
+            mp1_GwSystem.curMinigame = localOverlayID - 1;
+        } else {
+            mp1_GwSystem.curMinigame = localOverlayID;
+        }
+
         ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
     } else if (ForeignMinigameIndexToLoad >= BOWSER_SLOTS && ForeignMinigameIndexToLoad <= DEEP_SEA_SALVAGE) { //mp2
         //save necessary data, swap to mp2
