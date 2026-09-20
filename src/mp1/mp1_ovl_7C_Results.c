@@ -12,7 +12,6 @@ void mp1_func_80060128(s32);
 
 void newfunc_800F65E0_UnknownResultsScreen(void) {
     mp1_omInitObjMan(0x14, 0x14);
-    mp1_HuPrcSleep(10);
     func_800F7F38_UnknownResultsScreen();
     func_800F7A9C_UnknownResultsScreen();
     func_800F7A3C_UnknownResultsScreen();

@@ -163,7 +163,7 @@ void func_8004388C(s32 arg0) {
                 case MP1_HOT_BOB_OMB:
                 case MP1_GRAB_BAG:
                 case MP1_HOT_ROPE_JUMP:
-                case PADDLE_BATTLE: //TODO: what? +2 over MP1_HANDCAR_HAVOC ? that doesn't exist in the list
+                case PADDLE_BATTLE:
                     for (k = 0; k < 4; k++) {
                         if (mp1_GwPlayer[k].coin < 15) {
                             break;
@@ -175,12 +175,12 @@ void func_8004388C(s32 arg0) {
                     break;
                 case BASH_N_CASH:
                 case TIGHTROPE_TREACHERY:
-                case TUG_O_WAR:
+                case PIRANHA_PURSUIT:
                     if (mp1_GwPlayer[mp1_GwSystem.curPlayerIndex].coin < 15) {
                         continue;
                     }
                     break;
-                case 52:
+                case TUG_O_WAR:
                     for (k = 0; k < 4; k++) {
                         if (k == mp1_GwSystem.curPlayerIndex) {
                             if (mp1_GwPlayer[k].coin < 15) {
