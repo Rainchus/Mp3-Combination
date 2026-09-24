@@ -224,7 +224,7 @@ void mp1_func_80059348(s32);
 void minigameIndexFix(s16 arg0) {
     s32 adjustedIndex = (arg0 + 1) & 0xFF;
     if (adjustedIndex >= MEMORY_MATCH && adjustedIndex <= PADDLE_BATTLE) { //mp1
-        arg0 += 2; //?
+        arg0 += 2; 
     }
     mp1_func_80059348(arg0); //restore from hook
 }

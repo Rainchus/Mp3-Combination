@@ -47,6 +47,14 @@ omOvlHisData baseOverlays[] = {
     {boardcall, 0x0001, 0x0192},
 };
 
+omOvlHisData baseOverlaysStoryMode[] = {
+    {0x7A, 0x0002, 0x0092},
+    {0x7A, 0x0002, 0x0092},
+    {0x77, 0x0000, 0x0091},
+    {0x7D, 0x0000, 0x4090},
+    {boardcall, 0x0001, 0x0192},
+};
+
 void mp3_LoadMinigameFromBoot(void) {
     s32 localOverlayID = ForeignMinigameIDToGame(ForeignMinigameIndexToLoad);
 
@@ -81,11 +89,22 @@ void mp3_LoadIntoResultsScene(void) {
     mp3_D_800B1A30 = 1; //set that there is at least 1 controller active
 
     if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns) {
-        mp3_omovlhisidx = 3;
-        mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
-        mp3_omovlhisidx++; //increment to put end game scene in ovl history
-        mp3_omOvlHisChg(0, 0x4F, 0, 0x4190); //put end game scene in history
-        mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
+        if (mp3_GwSystem.playMode & 4) {
+            mp3_omovlhisidx = 4;
+            for (int i = 0; i < ARRAY_COUNT(baseOverlaysStoryMode); i++) {
+                mp3_omovlhis[i] = baseOverlaysStoryMode[i];
+            }
+            mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
+            mp3_omovlhisidx++; //increment to put end game scene in ovl history
+            mp3_omOvlHisChg(0, 0x4F, 0, 0x4190); //put end game scene in history
+            mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
+        } else {
+            mp3_omovlhisidx = 3;
+            mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
+            mp3_omovlhisidx++; //increment to put end game scene in ovl history
+            mp3_omOvlHisChg(0, 0x4F, 0, 0x4190); //put end game scene in history
+            mp3_omOvlCallEx(mgresultboard, 0x0000, 0x12); //load results scene overlay
+        }
         return;
     } else if ((mp3_GwSystem.current_turn + 4 == mp3_GwSystem.total_turns) && (isMidTurnMinigame(prevPlayerIdx) == FALSE)) {
         mp3_omovlhisidx = 3;
