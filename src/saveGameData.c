@@ -192,8 +192,9 @@ void SaveMp2PlayerToMp3PlayerCopy(void) {
         mp3_GwPlayerCopy[i].pad = mp2_GwPlayer[i].pad;
         mp3_GwPlayerCopy[i].stat = mp2_GwPlayer[i].stat;
         mp3_GwPlayerCopy[i].chr = mp2_GwPlayer[i].chr;
-        mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].checkCoin; //checkCoin isn't read by mp3? bonusCoin is, throw the extra coins into it
-        mp3_GwPlayerCopy[i].bonusCoin += mp2_GwPlayer[i].bonusCoin;
+        mp3_GwPlayerCopy[i].gameCoin = mp2_GwPlayer[i].checkCoin; //checkCoin isn't read by mp3? gameCoin is, throw the extra coins into it
+        mp3_GwPlayerCopy[i].gameCoin += mp2_GwPlayer[i].bonusCoin;
+        mp3_GwPlayerCopy[i].gamePrize += mp3_GwPlayerCopy[i].gameCoin;
     }
 }
 
@@ -220,7 +221,8 @@ void SaveMp1PlayerToMp3PlayerCopy(void) {
         mp3_GwPlayerCopy[i].stat = mp1_GwPlayer[i].stat;
         mp3_GwPlayerCopy[i].chr = mp1_GwPlayer[i].chr;
         mp3_GwPlayerCopy[i].coin = mp1_GwPlayer[i].coin;
-        mp3_GwPlayerCopy[i].bonusCoin = mp1_GwPlayer[i].bonusCoin;
+        mp3_GwPlayerCopy[i].gameCoin = mp1_GwPlayer[i].bonusCoin;
+        mp3_GwPlayerCopy[i].gamePrize += mp3_GwPlayerCopy[i].gameCoin;
         mp3_GwPlayerCopy[i].star = mp1_GwPlayer[i].star;
     }
 }
