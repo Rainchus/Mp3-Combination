@@ -153,6 +153,7 @@ void SaveMp3PlayerToMp1PlayerCopy(void) {
         mp1_GwPlayerCopy[i].stat = mp3_GwPlayer[i].stat;
         mp1_GwPlayerCopy[i].chr = mp3_GwPlayer[i].chr;
         mp1_GwPlayerCopy[i].bonusCoin = mp3_GwPlayer[i].bonusCoin;
+        mp1_GwPlayerCopy[i].bonusCoin += mp3_GwPlayer[i].checkCoin;
     }
 }
 
