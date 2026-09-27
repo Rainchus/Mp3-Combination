@@ -49,7 +49,14 @@ extern Vec3f mp1_CRot;
 extern Vec3f mp1_Center;
 
 void SetMinigameExplanation(s16 arg0) {
-    u16 minigameID = arg0 & 0xFF;
+    u16 minigameID;
+    //hack: if in minigame island, dont let the -1 and -2 get casted changed to 0xFF and 0xFE, stay as 0xFFFF and 0xFFFE
+    //this prevents the save spots in minigame island from crashing due to improper index
+    if (mp1_omovlhis[mp1_omovlhisidx-1].overlayID == 0x71) {
+        minigameID = arg0;
+    } else {
+        minigameID = arg0 & 0xFF;
+    }
 
     mp1_GwSystem.curMinigame = minigameID;
     ForeignMinigameIndexToLoad = minigameID;
@@ -58,6 +65,15 @@ void SetMinigameExplanation(s16 arg0) {
 void Mp1SwapGameIfNeeded(void) {
     //we use mp1_GwSystem.curMinigame here because ForeignMinigameIndexToLoad could be -1 at this point
     s32 localOverlayID = ForeignMinigameIDToGame(mp1_GwSystem.curMinigame);
+
+    //hack: if in minigame island, dont write anything and just exit
+    //(check previous overlay for MinigameIslandOverworld and MinigameIslandFinish as prev overlay)
+    if (CurBaseGame == MP1_BASE) {
+        if (mp1_omovlhis[mp1_omovlhisidx-1].overlayID == 0x71 || mp1_omovlhis[mp1_omovlhisidx-1].overlayID == 0x77) {
+            ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INVALID_ID;
+            return;
+        }
+    }
 
     if (ForeignMinigameIndexToLoad >= MEMORY_MATCH && ForeignMinigameIndexToLoad <= PADDLE_BATTLE) { //mp1
         //is mp1 minigame, load it

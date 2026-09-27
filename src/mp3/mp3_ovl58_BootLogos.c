@@ -40,14 +40,14 @@ void mp3BootLogoMain(void) {
     mp3_ovlEventCall(mp3BootLogosOvlEntry, mp3_omovlevtno);
 }
 
-omOvlHisData baseOverlays[] = {
+omOvlHisData mp3_baseOverlays[] = {
     {0x7A, 0x0002, 0x0092},
     {0x7A, 0x0002, 0x0092},
     {0x77, 0x0000, 0x0091},
     {boardcall, 0x0001, 0x0192},
 };
 
-omOvlHisData baseOverlaysStoryMode[] = {
+omOvlHisData mp3_baseOverlaysStoryMode[] = {
     {0x7A, 0x0002, 0x0092},
     {0x7A, 0x0002, 0x0092},
     {0x77, 0x0000, 0x0091},
@@ -60,8 +60,8 @@ void mp3_LoadMinigameFromBoot(void) {
 
     mp3_GwSystem.minigame_index = localOverlayID;
 
-    for (int i = 0; i < ARRAY_COUNT(baseOverlays); i++) {
-        mp3_omovlhis[i] = baseOverlays[i];
+    for (int i = 0; i < ARRAY_COUNT(mp3_baseOverlays); i++) {
+        mp3_omovlhis[i] = mp3_baseOverlays[i];
     }
 
     mp3_omovlhisidx = 3;
@@ -73,8 +73,8 @@ void mp3_LoadIntoResultsScene(void) {
 
     mp3_BattleMinigameCoins = GetMp3BattleMinigameCoins();
 
-    for (int i = 0; i < ARRAY_COUNT(baseOverlays); i++) {
-        mp3_omovlhis[i] = baseOverlays[i];
+    for (int i = 0; i < ARRAY_COUNT(mp3_baseOverlays); i++) {
+        mp3_omovlhis[i] = mp3_baseOverlays[i];
     }
 
     PopMp3BoardState();
@@ -91,8 +91,8 @@ void mp3_LoadIntoResultsScene(void) {
     if (mp3_GwSystem.current_turn > mp3_GwSystem.total_turns) {
         if (mp3_GwSystem.playMode & 4) {
             mp3_omovlhisidx = 4;
-            for (int i = 0; i < ARRAY_COUNT(baseOverlaysStoryMode); i++) {
-                mp3_omovlhis[i] = baseOverlaysStoryMode[i];
+            for (int i = 0; i < ARRAY_COUNT(mp3_baseOverlaysStoryMode); i++) {
+                mp3_omovlhis[i] = mp3_baseOverlaysStoryMode[i];
             }
             mp3_D_800CD2A2 = 0; //required for credits to correctly go back to game select
             mp3_omovlhisidx++; //increment to put end game scene in ovl history
