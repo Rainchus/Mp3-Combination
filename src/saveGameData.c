@@ -114,7 +114,7 @@ void LoadMp3PlayerCopyToMp1(void) {
     }
 }
 
-//already loaded back into mp2, get data from mp3GwPlayerCopy
+//already loaded back into mp2, get data from mp1GwPlayerCopy
 void LoadMp1PlayerCopyToMp2(void) {
     for (int i = 0; i < 4; i++) {
         mp2_GwPlayer[i].group = mp1_GwPlayerCopy[i].group;
@@ -138,6 +138,8 @@ void LoadMp2PlayerCopyToMp1(void) {
         mp1_GwPlayer[i].chr = mp2_GwPlayerCopy[i].chr;
         mp1_GwPlayer[i].coin = mp2_GwPlayerCopy[i].coin;
         mp1_GwPlayer[i].star = mp2_GwPlayerCopy[i].star;
+        mp1_GwPlayer[i].bonusCoin = mp2_GwPlayerCopy[i].bonusCoin;
+        mp1_GwPlayer[i].bonusCoin += mp2_GwPlayerCopy[i].checkCoin;
     }
 }
 
@@ -179,6 +181,7 @@ void SaveMp2PlayerToMp1PlayerCopy(void) {
         mp1_GwPlayerCopy[i].chr = mp2_GwPlayer[i].chr;
         mp1_GwPlayerCopy[i].coin = mp2_GwPlayer[i].coin;
         mp1_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].bonusCoin;
+        mp1_GwPlayerCopy[i].bonusCoin += mp2_GwPlayer[i].checkCoin;
         mp1_GwPlayerCopy[i].star = mp2_GwPlayer[i].star;
     }
 }
