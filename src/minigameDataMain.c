@@ -530,7 +530,7 @@ MinigameIndexTable minigameLUT[] = {
     {BASH_N_CASH, BashNCashStr, 16, PLAYERS_1V3, GAME_MP1}, //mp1 16
     {MP1_BOWL_OVER, mp1_BowlOverStr, 17, PLAYERS_1V3, GAME_MP1}, //mp1 17
     {COIN_BLOCK_BASH, CoinBlockBashStr, 21, PLAYERS_1V3, GAME_MP1}, //mp1 21
-    {COIN_SHOWER_FLOWER, CoinShowerFlowerStr, 54, PLAYERS_1V3, GAME_MP1}, //mp1 54
+    {COIN_SHOWER_FLOWER, CoinShowerFlowerStr, 36, PLAYERS_1V3, GAME_MP1}, //mp1 36
     {MP1_CRANE_GAME, mp1_CraneGameStr, 35, PLAYERS_1V3, GAME_MP1}, //mp1 35
     {PADDLE_BATTLE, PaddleBattleStr, 52, PLAYERS_1V3, GAME_MP1}, //mp1 52
     {PIPE_MAZE, PipeMazeStr, 9, PLAYERS_1V3, GAME_MP1}, //mp1 9
