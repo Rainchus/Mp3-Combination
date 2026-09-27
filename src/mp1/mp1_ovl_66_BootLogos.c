@@ -63,6 +63,7 @@ omOvlHisData mp1_baseOverlays[] = {
 omOvlHisData mp1_baseOverlaysMinigameStadium[] = {
     {0x81, 0x0000, 0x0091},
     {0x69, 0x0000, 0x0091}, //village
+    {0x6B, 0x0000, 0x0011}, //minigame house
     {0x35, 0x0001, 0x0092}, //handles loading into the board
 };
 
@@ -102,28 +103,27 @@ void mp1_LoadIntoResultsScene(void) {
 
         //if minigame stadium board
     if (mp1_GwSystem.curBoardIndex == 9) {
-
         for (int i = 0; i < ARRAY_COUNT(mp1_baseOverlaysMinigameStadium); i++) {
             mp1_omovlhis[i] = mp1_baseOverlaysMinigameStadium[i];
         }
         //if game should end, make overlay results scene returns to the ending game scene
         //otherwise, go to board
         if (mp1_GwSystem.currentTurn > mp1_GwSystem.maxTurns) {
-            mp1_omovlhisidx = 2;
+            mp1_omovlhisidx = 3;
             mp1_D_800D86B0 = 0; //related to overlay loading; needs to be 0 for end game
             mp1_omovlhisidx++;
-            mp1_omOvlHisChg(0, 0x43, 0, 0x92); //push end game scene event
+            mp1_omOvlHisChg(0, 0x80, 0, 0x92); //push end game scene event
             mp1_omOvlCallEx(0x7B, 0x0000, 0x92); //load results scene overlay (after minigame)
         } else if ((mp1_GwSystem.currentTurn + 4 == mp1_GwSystem.maxTurns)) { //TODO: has no midturn mingame check. Unsure if wanted but possibly in the future
             mp1_D_800D86B0 = 1;  //related to overlay loading; needs to be 1 if not going into end game (where winner is decided)
-            mp1_omovlhisidx = 2;
+            mp1_omovlhisidx = 3;
             //mp1_omovlhisidx++; //add 1 to push last 5 turns event to ovl history
             //mp1_omOvlHisChg(0, 0x3F, 0, 0x92); //push last 5 turns event
             mp1_omOvlCallEx(0x7B, 0x0000, 0x92); //load results scene overlay (after minigame)
             return;
         } else { //set overlay ID for board
             mp1_D_800D86B0 = 1; //related to overlay loading; needs to be 1 if not going into end game (where winner is decided)
-            mp1_omovlhisidx = 2;
+            mp1_omovlhisidx = 3;
             mp1_omOvlCallEx(0x7B, 0x0000, 0x92); //load results scene overlay (after minigame)
         }
         return;
