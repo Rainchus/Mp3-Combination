@@ -414,8 +414,8 @@ typedef struct mp2_GW_PLAYER {
 /* 0x05 */ char unk_05; //likely padding
 /* 0x06 */ s16 stat;
 /* 0x08 */ s16 coin;
-/* 0x0A */ s16 checkCoin; //extra coins collected in minigame
-/* 0x0C */ s16 bonusCoin; //coins for winning current minigame
+/* 0x0A */ s16 checkCoin; //extra coins collected in minigame (bonus coins, coin minigames)
+/* 0x0C */ s16 bonusCoin; //coins for winning current minigame (used for battle placements, also holds minigame winnings)
 /* 0x0E */ s16 star;
 /* 0x10 */ s16 cur_chain_index;
 /* 0x12 */ s16 cur_space_index;
@@ -674,6 +674,11 @@ enum {
     MP2_BASE = 1,
     MP3_BASE = 2,
 };
+
+//TODO: probably just get rid of this, this is pointless no?
+#define GAME_MP1 MP1_BASE
+#define GAME_MP2 MP2_BASE
+#define GAME_MP3 MP3_BASE
 
 NORETURN void ComboSwitchGameToMp3(void);
 void LoadMp3PlayerCopyToMp2(void);

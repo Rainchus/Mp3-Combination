@@ -187,8 +187,54 @@ void SaveMp2PlayerToMp1PlayerCopy(void) {
     }
 }
 
+s32 checkIfBattleWasPlayed(void) {
+    //HACK: im not really sure what else to do here....
+    //in mp2, checkCoin holds extra coins collected in minigames
+    //bonusCoin holds battle placements, but it can also hold minigame winnings in general
+    //so i guess check the game played, then set the player structs accordingly? Idk, this sucks
+    s32 i;
+    for (i = 0; i < MINIGAME_END; i++) {
+        if (minigameLUT[i].gameIndex != GAME_MP2) {
+            continue;
+        }
+
+        //is mp2 game, now find the minigame
+        if (mp2_GwSystem.chosenMinigameIndex != minigameLUT[i].gameOverlayID) {
+            continue;
+        }
+
+        //found the minigame in mp2, now check if it's a battle
+        if (minigameLUT[i].minigameIndex == MP2_GRAB_BAG ||
+            minigameLUT[i].minigameIndex == BUMPER_BALLOON_CARS ||
+            minigameLUT[i].minigameIndex == RAKIN_EM_IN ||
+            minigameLUT[i].minigameIndex == DAY_AT_THE_RACES ||
+            minigameLUT[i].minigameIndex == MP2_FACE_LIFT ||
+            minigameLUT[i].minigameIndex == MP2_CRAZY_CUTTERS ||
+            minigameLUT[i].minigameIndex == MP2_HOT_BOB_OMB ||
+            minigameLUT[i].minigameIndex == BOWSERS_BIG_BLAST) {
+            for (int i = 0; i < 4; i++) {
+                mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
+                mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;
+                mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty2;
+                mp3_GwPlayerCopy[i].pad = mp2_GwPlayer[i].pad;
+                mp3_GwPlayerCopy[i].stat = mp2_GwPlayer[i].stat;
+                mp3_GwPlayerCopy[i].chr = mp2_GwPlayer[i].chr;
+                mp3_GwPlayerCopy[i].bonusCoin = mp2_GwPlayer[i].bonusCoin;
+            }
+            return 1;
+        }
+    }
+    return 0;
+}
+
 //save mp2 to mp3PlayerCopy before swapping to mp3
 void SaveMp2PlayerToMp3PlayerCopy(void) {
+    s32 isBattle = checkIfBattleWasPlayed();
+
+    if (isBattle == 1) {
+        return;
+    }
+
     for (int i = 0; i < 4; i++) {
         mp3_GwPlayerCopy[i].group = mp2_GwPlayer[i].group;
         mp3_GwPlayerCopy[i].cpu_difficulty = mp2_GwPlayer[i].cpu_difficulty;

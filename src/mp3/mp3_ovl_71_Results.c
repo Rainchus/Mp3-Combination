@@ -42,7 +42,10 @@ extern PlayerResult D_8010B018_4EC438_mgresultboard[4];
 extern PlayerResult D_8010B048_4EC468_mgresultboard[4];
 
 void SetMp3PlayerIndexToZero(void) {
-    mp3_GwSystem.current_player_index = 0;
+
+    if (mp3_GwSystem.current_player_index == 4 || mp3_GwSystem.current_player_index == 5) {
+        mp3_GwSystem.current_player_index = 0;
+    }
 }
 
 void func_80105CE8_4E7108_mgresultboard(void) {

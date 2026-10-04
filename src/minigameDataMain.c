@@ -422,10 +422,6 @@ u8 minigameTextColor[] = {
     #endif
 };
 
-#define GAME_MP1 0
-#define GAME_MP2 1 
-#define GAME_MP3 2
-
 MinigameIndexTable minigameLUT[] = {
     {ACES_HIGH, AcesHighStr, 23, PLAYERS_4P, GAME_MP3},
     {AWFUL_TOWER, AwfulTowerStr, 37, PLAYERS_4P, GAME_MP3},
