@@ -160,7 +160,7 @@
 .definelabel mp3_D_80105630_119250_shared_board, 0x80105630
 .definelabel mp3_func_800F76A4_10B2C4_shared_board, 0x800F76A4
 .definelabel mp3_func_800F68E0_10A500_shared_board, 0x800F68E0
-\
+
 .definelabel mp3_func_80055140_55D40, 0x80055140
 .definelabel mp3_D_801055E8_119208_shared_board, 0x801055E8
 .definelabel mp3_func_800550B4_55CB4, 0x800550B4
@@ -617,3 +617,6 @@
 .definelabel mp3_MBMotionSet, 0x800D9CE8
 .definelabel mp3_MBNextPlayerTurn, 0x800F92A0
 .definelabel mp3_RNGPercentChance, 0x800ECE9C
+
+.definelabel mp3_func_8010788C_4F9D7C, 0x8010788C
+.definelabel mp3_func_80107838_4F9D28, 0x80107838

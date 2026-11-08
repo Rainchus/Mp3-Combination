@@ -245,30 +245,48 @@ s32 isMidTurnMinigame(s32 playerIdx) {
     }
 }
 
+void mp3_func_8010788C_4F9D7C(s32);
+s32 mp3_func_80107838_4F9D28(s32, s32, s32);
+
+char swapMessage[] = {
+    "\x0B"
+    "Huh" "\x82" " do you want to swap games" "\xC3" "\n    "
+    "\x0C" "MP2" "\x0D"
+    "     "
+    "\x0C" "MP1" "\x0D"
+};
+
 void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
-    //i wanted to make this a choice textbox, but that's tricky
-    //for now, it will say loading mario party 2 and then sleep for 1 second and load
+    // static so the window can still read it after this function returns
 
-    char newMessage[] = {"\x0B""Loading Mario Party 2""\xFF"};
-    // char newMessage[] = {"\x0B""Huh""\xC3"" Do you want to swap to Mario Party 2""\xC3""\xFF"};
-    // char newMessage[] = {"\x0B""Huh" "\xC3" " Do you want to swap to\nMario Party 2" "\xC3" "\x0C Yes\x0D   \x0C No\x0D"};
-    u32 temp_v0; //pointer to message
+    u32 temp_v0;
+    s32 sel;
 
-    //Huh? My suggestion? textbox
-    if (messageID == 0x3125) {
-        mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, newMessage, -1, -1);
-        ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INDEX_BOOT_VAL;
-        CurBaseGame = MP2_BASE;
-        mp3_HuPrcSleep(30);
-        ComboSwitchGameToMp2();
-        return;
-    }
-
+    //cleanup prev message
     mp3_func_8005D294_5DE94(mp3_D_80110998[arg0].unk_00);
 
     if (mp3_D_80110998[arg0].unk_04 != 0) {
         mp3_func_80019C00_1A800(mp3_D_80110998[arg0].unk_04);
         mp3_D_80110998[arg0].unk_04 = 0;
+    }
+
+    // "Huh? My suggestion?" textbox
+    if (messageID == 0x3125) {
+        mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, swapMessage, -1, -1);
+        mp3_func_8010788C_4F9D7C(arg0);
+        sel = mp3_func_80107838_4F9D28(arg0, 0, 0); //2nd arg sets the starting index for cursor
+
+        if (sel == 0) { // MP2
+            ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INDEX_BOOT_VAL;
+            CurBaseGame = MP2_BASE;
+            ComboSwitchGameToMp2();
+            return;
+        } else if (sel == 1) { // MP1
+            ForeignMinigameIndexToLoad = FOREIGN_MINIGAME_INDEX_BOOT_VAL;
+            CurBaseGame = MP1_BASE;
+            ComboSwitchGameToMp1();
+            return;
+        }
     }
 
     temp_v0 = mp3_func_80106B38_4F9028(messageID);
@@ -277,7 +295,6 @@ void func_80107730_4F9C20_Copy(s32 arg0, s32 messageID) {
     if (temp_v0 > 0x80000000U) {
         mp3_D_80110998[arg0].unk_04 = temp_v0;
     }
-
     mp3_func_8005B43C_5C03C(mp3_D_80110998[arg0].unk_00, (char*)temp_v0, -1, -1);
 }
 
