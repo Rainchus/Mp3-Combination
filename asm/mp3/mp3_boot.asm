@@ -90,3 +90,19 @@
 //.org 0x8001BC74
     //JAL drawFonts3
     //SW s0, 0x0004 (v0)
+
+.org 0x80009C10
+    J DataReadHook
+    NOP
+
+//.org 0x8000B0A0
+    //J func_8000B0A0_main_hook
+    //NOP
+
+//.org 0x8000B0D4
+    //J func_8000B0D4_main_hook
+    //NOP
+
+//.org 0x8000B108
+    //J func_8000B108_main_hook
+    //NOP

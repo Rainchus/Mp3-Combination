@@ -234,3 +234,6 @@
 .definelabel func_80089DA0_8A9A0, 0x80089DA0
 .definelabel mp2_SprPosSet, 0x80081AD0
 .definelabel mp2_func_800794A8_7A0A8, 0x800794A8
+
+.definelabel mp2_mainfs_ROM_START, 0x41DD30 + 0x2000000
+.definelabel mp2_hvq_data_ROM_START, 0x1164160 + 0x2000000

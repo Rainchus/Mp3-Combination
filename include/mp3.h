@@ -197,15 +197,16 @@ typedef struct {
     u8 recentMinigames[6][10];
 } UnkData_CD0A0;
 
-enum BoardIndices {
-    CHILLY_WATERS = 0,
-    DEEP_BLOOBER_SEA = 1,
-    SPINY_DESERT = 2,
-    WOODY_WOODS = 3,
-    CREEPY_CAVERN = 4,
-    WALUIGIS_ISLAND = 5
-};
+typedef struct UnkOvl81 {
+/* 0x00 */ void* unk0;
+/* 0x04 */ void* unk4;
+/* 0x08 */ void* unk8;
+/* 0x0C */ char unk_0C[0x14];
+/* 0x20 */ s16 unk_20;
+/* 0x22 */ char unk_22[2];
+} UnkOvl81;
 
+extern UnkOvl81 mp3_D_800D1360;
 extern UnkData_CD0A0 D_800CC4A0_CD0A0;
 extern mp3_GW_PLAYER mp3_GwPlayer[4];
 extern mp3_GW_PLAYER mp3_GwPlayerCopy[4];
@@ -232,6 +233,7 @@ extern Gfx* mp3_gMainGfxPos;
 extern u16 mp3_D_800D530C_D5F0C;
 extern u16 mp3_D_800D5558_D6158[4];
 
+mp3_GW_PLAYER* mp3_MBGetPlayerStruct(s32 playerIndex);
 void SaveMp3PlayerToMp3PlayerCopy(void);
 void SaveMp3PlayerCopyToMp3Player(void);
 void PopMp3BoardState(void);

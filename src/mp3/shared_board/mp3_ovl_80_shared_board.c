@@ -1,6 +1,7 @@
 #include "mp3.h"
 #include "ovl_80.h"
 #include "mp3/mp3_mod.h"
+#include "mp3/game/board.h"
 
 #define HUNDREDS 0
 #define TENS 1
@@ -1367,21 +1368,6 @@ void newfunc_800DFBA8_F37C8_shared_board(s32 arg0) {
 
 
 
-
-
-
-
-
-
-typedef struct UnkOvl81 {
-/* 0x00 */ void* unk0;
-/* 0x04 */ void* unk4;
-/* 0x08 */ void* unk8;
-/* 0x0C */ char unk_0C[0x14];
-/* 0x20 */ s16 unk_20;
-/* 0x22 */ char unk_22[2];
-} UnkOvl81;
-
 extern s32 mp3_D_800A12CC;
 extern s32 mp3_D_800A12D4;
 extern f32 mp3_D_800C9938_CA538;
@@ -1390,7 +1376,6 @@ extern s16 mp3_D_800CDD58_CE958;
 extern s16 mp3_D_800CDD64_CE964;
 extern s16 mp3_D_800D037C_D0F7C;
 extern s32 mp3_D_800D1240_D1E40;
-extern UnkOvl81 mp3_D_800D1360;
 extern s16 mp3_D_800D1380_D1F80;
 extern s16 mp3_D_800D1708_D2308;
 extern s16 mp3_D_800D1F7A_D2B7A;
@@ -1429,7 +1414,6 @@ void mp3_MBDlgWinClose(void);
 void mp3_MBDlgWinExec(s32, s32);
 void mp3_MBDlgWinInsertCreate(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void mp3_MBDlgWinKill(void);
-mp3_GW_PLAYER* mp3_MBGetPlayerStruct(s32 playerIndex);
 void mp3_MBItemKoopaNKinokoExec(void);
 void mp3_MBItemKoopaRKinokoExec(void);
 void mp3_MBKettouComResultSet(void);

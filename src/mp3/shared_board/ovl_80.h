@@ -1,58 +1,9 @@
 #include "mp3.h"
 #include "mp3/game/process.h"
+#include "mp3/game/board.h"
 
 // #define NORMAL_ITEM_COUNT 3
 // #define EXTENDED_ITEM_COUNT 5
-
-typedef struct BoardStatus {
-    /* 0x00 */ s8 uiUpdatePaused;
-    /* 0x01 */ s8 unk1;
-    /* 0x02 */ u8 unk2[2];
-    /* 0x04 */ u8 spaceType;
-    /* 0x04 */ u8 uiVisible;
-    /* 0x06 */ s8 prevStars;
-    /* 0x07 */ s8 prevRank;
-    /* 0x08 */ s16 prevCoins;
-    /* 0x0A */ s16 playerIndex;
-    /* 0x0C */ char unk_0C[2];
-    /* 0x0E */ s16 unkE;
-    /* 0x10 */ f32 xPos;
-    /* 0x14 */ f32 yPos;
-    /* 0x18 */ f32 unk_18;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ f32 unk_24;
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ f32 unk_2C;
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ char pad34[2];
-    /* 0x36 */ s16 unk_36;
-    /* 0x38 */ char unk_38[2];
-    /* 0x3A */ s16 unk_3A;
-    /* 0x3C */ char unk_3C[4];
-    /* 0x40 */ s16 unk_40[3];
-    /* 0x46 */ s16 unk_46;
-    /* 0x48 */ char pad48[0x1E];
-    /* 0x66 */ s16 counts[3]; //star count, coin count?
-} BoardStatus; //sizeof 0x6C
-
-typedef struct UnkBoard {
-/* 0x00 */ s16 unk_00;
-/* 0x02 */ s16 unk_02;
-/* 0x04 */ s32 unk_04;
-/* 0x08 */ mp3_omObjData* unk_08;
-} UnkBoard; //sizeof 0x0C
-
-typedef struct UnkBoard2 {
-/* 0x00 */ s16 unk_00;
-/* 0x04 */ mp3_Object* obj;
-} UnkBoard2;
-
-typedef struct UnkCoinThing {
-/* 0x00 */ u8 digits[3];
-/* 0x03 */ char unk_03[5];
-/* 0x08 */ s16 unk_08[2];
-} UnkCoinThing;
 
 void func_800DA790_EE3B0_shared_board(s32, u16, char*, s32, s32);
 mp3_Object* func_800D90C8_ECCE8_shared_board(u8, s32);

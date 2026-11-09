@@ -1,0 +1,14 @@
+#ifndef _ovl_80_EB2F0
+#define _ovl_80_EB2F0
+
+#include "common.h"
+#include "mp3/game/board.h"
+
+void func_800D76D0_shared_board(s32 arg0);
+void func_800D7714_shared_board(void);
+s32 func_800D771C_shared_board(s8 arg0, Object* arg1, s16 arg2, s16 arg3);
+void func_800D7790_shared_board(s8 arg0, Vec* arg1, s16 arg2, s16 arg3);
+mp3_Process* MBMapFullStarGlowCreate(s16 xPos, s16 yPos);
+void MBMapFullExec(s32 playerPadNo);
+
+#endif //_ovl_80_EB2F0

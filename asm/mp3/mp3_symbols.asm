@@ -620,3 +620,67 @@
 
 .definelabel mp3_func_8010788C_4F9D7C, 0x8010788C
 .definelabel mp3_func_80107838_4F9D28, 0x80107838
+
+.definelabel mp3_dmaRead, 0x8004DA40
+.definelabel mp3_DecodeData, 0x8000B000
+.definelabel mp3_HuMemMemoryAllocTemp, 0x80035934
+
+.definelabel D_801012C0_shared_board, 0x801012C0
+.definelabel D_80105212_shared_board, 0x80105212
+.definelabel D_80105214_shared_board, 0x80105214
+.definelabel D_80105218_shared_board, 0x80105218
+.definelabel D_80105262_shared_board, 0x80105262
+.definelabel D_80105278_shared_board, 0x80105278
+.definelabel D_8010527C_shared_board, 0x8010527C
+.definelabel D_80105280_shared_board, 0x80105280
+.definelabel D_80105284_shared_board, 0x80105284
+.definelabel D_801054B6_shared_board, 0x801054B6
+.definelabel D_801054F8_shared_board, 0x801054F8
+.definelabel func_800EAE00_shared_board, 0x800EAE00
+.definelabel func_8001F95C_main, 0x8001F95C
+.definelabel gTotalSpaces, 0x80105210
+.definelabel MBBackMdlScaleGet, 0x800E72DC
+.definelabel MBMasuDraw, 0x800EA6F4
+
+.definelabel mp3_hvq_data_ROM_START, 0x128CC60;
+
+
+
+.definelabel func_800E9EF4_shared_board, 0x800E9EF4
+.definelabel func_800E6630_shared_board, 0x800E6630
+.definelabel func_800EA60C_shared_board, 0x800EA60C
+.definelabel func_800D76D0_shared_board, 0x800D76D0
+.definelabel func_800F26E8_shared_board, 0x800F26E8
+.definelabel func_800F25D8_shared_board, 0x800F25D8
+.definelabel func_800F8908_shared_board, 0x800F8908
+.definelabel func_800F2A20_shared_board, 0x800F2A20
+.definelabel func_800DF854_shared_board, 0x800DF854
+.definelabel func_800F453C_shared_board, 0x800F453C
+.definelabel func_800DB5DC_shared_board, 0x800DB5DC
+.definelabel func_800ECAB4_shared_board, 0x800ECAB4
+.definelabel func_800F27D0_shared_board, 0x800F27D0
+.definelabel func_8001FDE8_main, 0x8001FDE8
+.definelabel func_8005A6B0_main, 0x8005A6B0
+.definelabel func_8004CF30_main, 0x8004CF30
+.definelabel D_80105664_shared_board, 0x80105664
+.definelabel D_80105666_shared_board, 0x80105666
+.definelabel D_80101B64_shared_board, 0x80101B64
+.definelabel D_80101B68_shared_board, 0x80101B68
+.definelabel D_80101B6C_shared_board, 0x80101B6C
+.definelabel MBMasuCreate, 0x800EAE10
+.definelabel MBBackLoad, 0x800E69BC
+.definelabel MBModelInit, 0x800D8F80
+.definelabel MBKSuitInit, 0x800E63F0
+.definelabel MBKSuitCreate, 0x800E6264
+.definelabel MBModelTempAllocFree, 0x800D9714
+.definelabel MBModelDispOn, 0x800D9AA4
+.definelabel MBModelDispOff, 0x800D9B24
+.definelabel MBCoinChangeInit, 0x800E17B0
+.definelabel MBTelopInit, 0x800E4B60
+.definelabel mp3_HuMemMemoryAlloc, 0x800360F0
+.definelabel mp3_omPrcSetStatBit, 0x80047B80
+.definelabel mp3_DataDirInit, 0x80009EAC
+.definelabel mp3_DataDecode, 0x80009D4C
+.definelabel mp3_DataDirMax, 0x800ABFC4;
+.definelabel mp3_DataFileMax, 0x800ABFD0;
+.definelabel mp3_Hu3DModelCreate, 0x8001A150

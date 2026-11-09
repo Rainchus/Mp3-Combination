@@ -20,6 +20,7 @@ u8 GetMp3StoredMessageSpeed(void);
 s16 GetMp3BattleMinigameCoins(void);
 s32 isMidTurnMinigame(s32);
 void SetMp3PlayerIndexToZero(void);
+s16 mp2_func_8000B838_main(s32 arg0);
 
 mp3_Process* mp3_D_80105F10_3D76C0_name_58 = 0;
 s32 D_80105F00_3D76B0_name_58 = 0; //if initial boot
@@ -138,6 +139,9 @@ void mp3_LoadOriginalGame(void) {
     //code should never get here
 }
 
+extern u32 mp2_mainfs_ROM_START;
+void Mp2DataInit(u32 fsRomAddr);
+
 void mp3_BootLogosSetup(void) {
     mp3_Hu3DCamInit(1);
     mp3_omInitObjMan(0x10, 4);
@@ -145,6 +149,8 @@ void mp3_BootLogosSetup(void) {
 
     InitializeInitialMinigameList();
     mp3_LoadMinigameList();
+
+    Mp2DataInit((u32)&mp2_mainfs_ROM_START);
     
     if (D_80105F00_3D76B0_name_58 == 0) {
         mp3_GWContErrorSet();
@@ -165,6 +171,8 @@ s16 GetMp2BattleMinigameCoins(void);
 void mp3_BootLogosEntryFunc(void) {
     mp3_crash_screen_init();
     mp3_LoadMinigameList();
+
+    Mp2DataInit((u32)&mp2_mainfs_ROM_START);
 
     if (CurBaseGame == MP1_BASE) {
         mp3_GwSystem.show_minigame_explanations = GetMp1ExplanationSetting();
@@ -351,10 +359,16 @@ void func_80105C80_3D7430_name_58(void) {
     // mp3_func_8000C184_CD84(temp_v0_4);
     // mp3_func_80055670_56270(temp_v0_3);
     // mp3_HuPrcSleep(9);
+
+
+
     mp3_HuPrcSleep(9);
     DoCustomLogos();
     //TODO: make this show a combined n64 logo, nintendo logo text, hudson logo text
     //just shows hudson logo text currently
+
+
+
     temp_s0_3 = mp3_InitEspriteSlot(mp3_func_8000B838_C438(0x110002), 0, 1);
     mp3_func_8000BBD4_C7D4(temp_s0_3, 0xA0, 0x78);
     mp3_func_8000BB54_C754(temp_s0_3);
@@ -364,6 +378,8 @@ void func_80105C80_3D7430_name_58(void) {
     while (mp3_WipeStatGet() != 0) {
         mp3_HuPrcVSleep();
     }
+
+    //drawMp2ImageExample();
     
     mp3_HuPrcSleep(37);
     mp3_D_800D530C_D5F0C = 1;
@@ -371,4 +387,18 @@ void func_80105C80_3D7430_name_58(void) {
     while (1) {
         mp3_HuPrcVSleep();
     }
+}
+
+void drawMp2ImageExample(void) {
+    // s32 temp_v0 = mp3_InitEspriteSlot(mp2_func_8000B838_main(0x00090023), 0, 1);
+
+    s32 temp_v0 = mp3_InitEspriteSlot(mp2_func_8000B838_main(0x000A017C), 0, 1);
+    mp3_func_8000BBD4_C7D4(temp_v0, 130/2, 60/2);
+    mp3_func_8000BB54_C754(temp_v0);
+    mp3_func_8000BCC8_C8C8(temp_v0, 0xFFFF);
+
+    s32 temp_v02 = mp3_InitEspriteSlot(mp2_func_8000B838_main(0x000A017D), 0, 1);
+    mp3_func_8000BBD4_C7D4(temp_v02, 200, 60/2);
+    mp3_func_8000BB54_C754(temp_v02);
+    mp3_func_8000BCC8_C8C8(temp_v02, 0xFFFF);
 }
